@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.outurnate.sargasso.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "BlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

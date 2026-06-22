@@ -1,0 +1,6 @@
+summon an item that's about to despawn
+/summon minecraft:item ~5 ~5 ~5 {Item:{id:"minecraft:coal",count:64},Age:5990}
+add lore
+/item modify entity panicnot42 weapon.mainhand {"function":"sargasso:flimflamlore"}
+explosion
+/summon fireball ~ ~1 ~ {ExplosionPower:25}
