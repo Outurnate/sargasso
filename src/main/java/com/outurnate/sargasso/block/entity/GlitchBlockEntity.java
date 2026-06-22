@@ -14,7 +14,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +27,14 @@ import net.minecraft.world.phys.Vec3;
 public class GlitchBlockEntity extends BlockEntity {
     private static final WeightedList<Function<Level, Entity>> entities = WeightedList.of(
         new Weighted<>((level) -> EntityType.ARROW.create(level, EntitySpawnReason.SPAWNER), 10),
-        new Weighted<>((level) -> EntityType.SPLASH_POTION.create(level, EntitySpawnReason.SPAWNER), 10),
+        new Weighted<>(
+            (level) -> new ThrownSplashPotion(
+                level,
+                0.0,
+                0.0,
+                0.0,
+                PotionContents.createItemStack(Items.POTION, Potions.FIRE_RESISTANCE)),
+            10),
         new Weighted<>(
             (level) -> new ItemEntity(level, 0.0, 0.0, 0.0, new ItemStack(LocalItems.JUNK.get(), 1)),
             1));
