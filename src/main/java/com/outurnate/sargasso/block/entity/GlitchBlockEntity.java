@@ -63,7 +63,7 @@ public class GlitchBlockEntity extends BlockEntity {
         }
         for (Weighted<Holder.Reference<Potion>> weightedPotion : potions) {
             list.add(weightedPotion.map((potion) -> (level, pos) -> {
-                Arrow arrow = new Arrow(level, pos.x, pos.y, pos.z, null, null);
+                Arrow arrow = new Arrow(level, pos.x, pos.y, pos.z, ItemStack.EMPTY, ItemStack.EMPTY);
                 for (MobEffectInstance effect : potion.value().getEffects()) {
                     arrow.addEffect(effect);
                 }
