@@ -4,19 +4,22 @@ package com.outurnate.sargasso.block.entity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 
-import java.util.function.Function;
+import java.util.List;
+import java.util.function.BiFunction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
@@ -25,19 +28,60 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class GlitchBlockEntity extends BlockEntity {
-    private static final WeightedList<Function<Level, Entity>> entities = WeightedList.of(
-        new Weighted<>((level) -> EntityType.ARROW.create(level, EntitySpawnReason.SPAWNER), 10),
-        new Weighted<>(
-            (level) -> new ThrownSplashPotion(
+    private static final WeightedList<BiFunction<Level, Vec3, Entity>> entities = buildWeights();
+
+    private static WeightedList<BiFunction<Level, Vec3, Entity>> buildWeights() {
+        WeightedList.Builder<BiFunction<Level, Vec3, Entity>> list = WeightedList.builder();
+        List<Weighted<Holder.Reference<Potion>>> potions = List.of(
+            new Weighted<>(Potions.FIRE_RESISTANCE, 1),
+            new Weighted<>(Potions.HARMING, 5),
+            new Weighted<>(Potions.HEALING, 1),
+            new Weighted<>(Potions.INFESTED, 2),
+            new Weighted<>(Potions.INVISIBILITY, 3),
+            new Weighted<>(Potions.LEAPING, 4),
+            new Weighted<>(Potions.NIGHT_VISION, 2),
+            new Weighted<>(Potions.OOZING, 9),
+            new Weighted<>(Potions.POISON, 4),
+            new Weighted<>(Potions.REGENERATION, 1),
+            new Weighted<>(Potions.SLOWNESS, 7),
+            new Weighted<>(Potions.SLOW_FALLING, 8),
+            new Weighted<>(Potions.STRENGTH, 1),
+            new Weighted<>(Potions.SWIFTNESS, 1),
+            new Weighted<>(Potions.WATER_BREATHING, 10),
+            new Weighted<>(Potions.WEAKNESS, 9),
+            new Weighted<>(Potions.WEAVING, 2),
+            new Weighted<>(Potions.WIND_CHARGED, 5));
+        for (Weighted<Holder.Reference<Potion>> weightedPotion : potions) {
+            list.add(weightedPotion.map((potion) -> (level, pos) -> {
+                return new ThrownSplashPotion(
+                    level,
+                    pos.x,
+                    pos.y,
+                    pos.z,
+                    PotionContents.createItemStack(Items.POTION, potion));
+            }));
+        }
+        for (Weighted<Holder.Reference<Potion>> weightedPotion : potions) {
+            list.add(weightedPotion.map((potion) -> (level, pos) -> {
+                Arrow arrow = new Arrow(level, pos.x, pos.y, pos.z, null, null);
+                for (MobEffectInstance effect : potion.value().getEffects()) {
+                    arrow.addEffect(effect);
+                }
+                return new ThrownSplashPotion(
+                    level,
+                    pos.x,
+                    pos.y,
+                    pos.z,
+                    PotionContents.createItemStack(Items.POTION, potion));
+            }));
+        }
+        list.add(
+            (
                 level,
-                0.0,
-                0.0,
-                0.0,
-                PotionContents.createItemStack(Items.POTION, Potions.FIRE_RESISTANCE)),
-            10),
-        new Weighted<>(
-            (level) -> new ItemEntity(level, 0.0, 0.0, 0.0, new ItemStack(LocalItems.JUNK.get(), 1)),
-            1));
+                pos) -> new ItemEntity(level, pos.x, pos.y, pos.z, new ItemStack(LocalItems.JUNK.get(), 1)),
+            20);
+        return list.build();
+    }
 
     public GlitchBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.GLITCH.get(), worldPosition, blockState);
@@ -45,7 +89,7 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        Entity proj = entities.getRandom(level.getRandom()).get().apply(level);
+        Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
         if (proj != null) {
             float speed = 1.0F;
             float yRot = rand.nextFloat() * 360.0F;
@@ -61,7 +105,6 @@ public class GlitchBlockEntity extends BlockEntity {
                 (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
             proj.yRotO = proj.getYRot();
             proj.xRotO = proj.getXRot();
-            proj.setPos(pos.getCenter());
             level.addFreshEntity(proj);
         }
     }
