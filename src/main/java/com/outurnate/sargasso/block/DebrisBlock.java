@@ -25,7 +25,8 @@ public class DebrisBlock extends Block {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos.below()).isSolidRender();
+        BlockState belowState = level.getBlockState(pos.below());
+        return belowState.isSolidRender() && belowState.isFaceSturdy(level, pos, Direction.UP);
     }
 
     @Override

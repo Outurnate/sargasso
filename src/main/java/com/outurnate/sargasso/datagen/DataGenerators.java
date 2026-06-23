@@ -6,10 +6,9 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
@@ -53,6 +52,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.DimensionType.Skybox;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -66,6 +66,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.heightproviders.ConstantHeight;
+import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
@@ -74,9 +76,14 @@ import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.Structure.StructureSettings;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
+import net.minecraft.world.level.levelgen.structure.structures.NetherFossilStructure;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 import net.minecraft.world.timeline.Timeline;
 import net.minecraft.world.timeline.Timelines;
@@ -123,13 +130,17 @@ public class DataGenerators {
                 Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "patch_debris"));
     }
 
+    public class LocalStructures {
+        public static final ResourceKey<Structure> FOSSIL = ResourceKey
+            .create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "fossil"));
+        public static final ResourceKey<Structure> LIBRARY = ResourceKey
+            .create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "library"));
+    }
+
     public class LocalStructureTemplatePools {
         public static final ResourceKey<StructureTemplatePool> LIBRARY = ResourceKey.create(
             Registries.TEMPLATE_POOL,
             Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "library"));
-        public static final ResourceKey<StructureTemplatePool> SHIPWRECKS = ResourceKey.create(
-            Registries.TEMPLATE_POOL,
-            Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "shipwrecks"));
     }
 
     public class LocalTimelines {
@@ -159,7 +170,9 @@ public class DataGenerators {
                 .add(Registries.CONFIGURED_FEATURE, DataGenerators::generateConfiguredFeatures)
                 .add(Registries.WORLD_CLOCK, DataGenerators::generateWorldClocks)
                 .add(Registries.TIMELINE, DataGenerators::generateTimelines)
-                .add(Registries.TEMPLATE_POOL, DataGenerators::generateStructureTemplatePools));
+                .add(Registries.TEMPLATE_POOL, DataGenerators::generateStructureTemplatePools)
+                .add(Registries.STRUCTURE_SET, DataGenerators::generateStructureSets)
+                .add(Registries.STRUCTURE, DataGenerators::generateStructures));
     }
 
     private static void generateBiomes(BootstrapContext<Biome> bootstrap) {
@@ -374,6 +387,35 @@ public class DataGenerators {
                             BlockPredicate.matchesTag(BlockTags.AIR)))));
     }
 
+    private static void generateStructures(BootstrapContext<Structure> bootstrap) {
+        HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
+        HolderGetter<StructureTemplatePool> structureTemplatePoolRegistry = bootstrap
+            .lookup(Registries.TEMPLATE_POOL);
+        bootstrap.register(
+            LocalStructures.FOSSIL,
+            new NetherFossilStructure(
+                new StructureSettings.Builder(HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomes.SEA)))
+                    .generationStep(Decoration.SURFACE_STRUCTURES)
+                    .terrainAdapation(TerrainAdjustment.NONE)
+                    .build(),
+                UniformHeight.of(VerticalAnchor.absolute(32), VerticalAnchor.belowTop(2))));
+        bootstrap.register(
+            LocalStructures.LIBRARY,
+            new JigsawStructure(
+                new StructureSettings.Builder(HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomes.SEA)))
+                    .generationStep(Decoration.SURFACE_STRUCTURES)
+                    .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                    .build(),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePools.LIBRARY),
+                1,
+                ConstantHeight.ZERO,
+                false,
+                Types.WORLD_SURFACE_WG));
+    }
+
+    private static void generateStructureSets(BootstrapContext<StructureSet> bootstrap) {
+    }
+
     private static void generateStructureTemplatePools(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
             .lookup(Registries.TEMPLATE_POOL);
@@ -385,38 +427,6 @@ public class DataGenerators {
                 empty,
                 List.of(
                     Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":bookshelf_test"), 1)),
-                StructureTemplatePool.Projection.RIGID));
-        List<String> shipwreckStructures = List.of(
-            "minecraft:shipwreck/rightsideup_backhalf",
-            "minecraft:shipwreck/rightsideup_backhalf_degraded",
-            "minecraft:shipwreck/rightsideup_fronthalf",
-            "minecraft:shipwreck/rightsideup_fronthalf_degraded",
-            "minecraft:shipwreck/rightsideup_full",
-            "minecraft:shipwreck/rightsideup_full_degraded",
-            "minecraft:shipwreck/sideways_backhalf",
-            "minecraft:shipwreck/sideways_backhalf_degraded",
-            "minecraft:shipwreck/sideways_fronthalf",
-            "minecraft:shipwreck/sideways_fronthalf_degraded",
-            "minecraft:shipwreck/sideways_full",
-            "minecraft:shipwreck/sideways_full_degraded",
-            "minecraft:shipwreck/upsidedown_backhalf",
-            "minecraft:shipwreck/upsidedown_backhalf_degraded",
-            "minecraft:shipwreck/upsidedown_fronthalf",
-            "minecraft:shipwreck/upsidedown_fronthalf_degraded",
-            "minecraft:shipwreck/upsidedown_full",
-            "minecraft:shipwreck/upsidedown_full_degraded",
-            "minecraft:shipwreck/with_mast",
-            "minecraft:shipwreck/with_mast_degraded");
-        bootstrap.register(
-            LocalStructureTemplatePools.SHIPWRECKS,
-            new StructureTemplatePool(
-                empty,
-                shipwreckStructures.stream().map(
-                    (
-                        loc) -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                            SinglePoolElement.single(loc),
-                            1))
-                    .toList(),
                 StructureTemplatePool.Projection.RIGID));
     }
 
