@@ -3,6 +3,7 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.item.BedrockCreamItem;
+import com.outurnate.sargasso.item.LightningBottleItem;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -19,29 +20,61 @@ public class LocalItems {
     public static final DeferredRegister.Items REGISTRY = DeferredRegister
         .createItems(SuperSargassoSea.MODID);
 
-    public static final DeferredItem<BlockItem> FLOTSAM = REGISTRY
-        .registerSimpleBlockItem("flotsam", LocalBlocks.FLOTSAM);
-    public static final DeferredItem<BlockItem> DEBRIS = REGISTRY
-        .registerSimpleBlockItem("debris", LocalBlocks.DEBRIS);
-    public static final DeferredItem<Item> JUNK = REGISTRY.registerSimpleItem("junk", p -> p);
+    public static final DeferredItem<BlockItem> FLOTSAM = REGISTRY.registerSimpleBlockItem(
+        "flotsam",
+        LocalBlocks.FLOTSAM);
+
+    public static final DeferredItem<BlockItem> DEBRIS = REGISTRY.registerSimpleBlockItem(
+        "debris",
+        LocalBlocks.DEBRIS);
+
+    public static final DeferredItem<Item> JUNK = REGISTRY.registerSimpleItem(
+        "junk",
+        p -> p);
+
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
         p -> p.food(
-            new FoodProperties.Builder().alwaysEdible().nutrition(1).saturationModifier(18.0F).build(),
+            new FoodProperties.Builder()
+                .alwaysEdible()
+                .nutrition(1)
+                .saturationModifier(18.0F)
+                .build(),
             Consumable.builder()
                 .onConsume(
-                    new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SLOWNESS, 1200, 1)))
+                    new ApplyStatusEffectsConsumeEffect(
+                        new MobEffectInstance(
+                            MobEffects.SLOWNESS,
+                            1200,
+                            1)))
                 .build()));
+
     public static final DeferredItem<Item> BREADROCK = REGISTRY.registerSimpleItem(
         "breadrock",
         p -> p.food(
-            new FoodProperties.Builder().alwaysEdible().nutrition(2).saturationModifier(0.2F).build(),
+            new FoodProperties.Builder()
+                .alwaysEdible()
+                .nutrition(2)
+                .saturationModifier(0.2F)
+                .build(),
             Consumable.builder()
                 .onConsume(
-                    new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SLOWNESS, 1200, 0)))
+                    new ApplyStatusEffectsConsumeEffect(
+                        new MobEffectInstance(
+                            MobEffects.SLOWNESS,
+                            1200,
+                            0)))
                 .build()));
-    public static final DeferredItem<Item> BEDROCK_CREAM = REGISTRY
-        .registerItem("bedrock_cream", BedrockCreamItem::new, p -> p);
+
+    public static final DeferredItem<Item> BEDROCK_CREAM = REGISTRY.registerItem(
+        "bedrock_cream",
+        BedrockCreamItem::new,
+        p -> p);
+
+    public static final DeferredItem<Item> LIGHTNING_BOTTLE = REGISTRY.registerItem(
+        "lightning_bottle",
+        LightningBottleItem::new,
+        p -> p);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

@@ -98,5 +98,6 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.LIGHTNING_BOTTLE.get(), ModelTemplates.FLAT_ITEM);
     }
 }
