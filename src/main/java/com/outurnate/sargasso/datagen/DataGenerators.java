@@ -274,7 +274,7 @@ public class DataGenerators {
         EnvironmentAttributeMap dimensionAttributes = EnvironmentAttributeMap.builder()
             .set(EnvironmentAttributes.FOG_COLOR, -4138753)
             .set(EnvironmentAttributes.SKY_COLOR, OverworldBiomes.calculateSkyColor(2.0F))
-            .set(EnvironmentAttributes.AMBIENT_LIGHT_COLOR, -16119286)
+            .set(EnvironmentAttributes.AMBIENT_LIGHT_COLOR, -16448251)
             .set(EnvironmentAttributes.CLOUD_COLOR, ARGB.white(0.8F))
             .set(EnvironmentAttributes.CLOUD_HEIGHT, 192.33F)
             .set(EnvironmentAttributes.BACKGROUND_MUSIC, BackgroundMusic.OVERWORLD)
