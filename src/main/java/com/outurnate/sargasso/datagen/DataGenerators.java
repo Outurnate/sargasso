@@ -401,7 +401,8 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.FOG_COLOR,
                     ColorModifier.MULTIPLY_RGB,
-                    track -> track.addKeyframe(133, -1)
+                    track -> track
+                        .addKeyframe(133, -1)
                         .addKeyframe(118670, -1)
                         .addKeyframe(136700, Timelines.NIGHT_FOG_COLOR_MULTIPLIER)
                         .addKeyframe(223300, Timelines.NIGHT_FOG_COLOR_MULTIPLIER))
@@ -424,8 +425,8 @@ public class DataGenerators {
                     EnvironmentAttributes.SKY_LIGHT_FACTOR,
                     FloatModifier.MULTIPLY,
                     track -> track
-                        .addKeyframe(7300, 1.0F)
-                        .addKeyframe(112700, 1.0F)
+                        .addKeyframe(7300, 0.5F)
+                        .addKeyframe(112700, 0.5F)
                         .addKeyframe(131400, 0.24F)
                         .addKeyframe(228600, 0.24F))
                 .addModifierTrack(
@@ -438,7 +439,8 @@ public class DataGenerators {
                         .addKeyframe(223300, 0.26666668F))
                 .addTrack(
                     EnvironmentAttributes.SUNRISE_SUNSET_COLOR,
-                    track -> track.addKeyframe(710, 1609540403)
+                    track -> track
+                        .addKeyframe(710, 1609540403)
                         .addKeyframe(3100, 703969843)
                         .addKeyframe(5650, 117167155)
                         .addKeyframe(7300, 16770355)

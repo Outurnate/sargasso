@@ -251,11 +251,11 @@
       "keyframes": [
         {
           "ticks": 7300,
-          "value": 1.0
+          "value": 0.5
         },
         {
           "ticks": 112700,
-          "value": 1.0
+          "value": 0.5
         },
         {
           "ticks": 131400,
