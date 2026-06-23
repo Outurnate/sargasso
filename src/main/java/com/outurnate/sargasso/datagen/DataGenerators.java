@@ -1,18 +1,20 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.function.Function;
+
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.Pools;
 import net.minecraft.data.worldgen.biome.OverworldBiomes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -72,8 +74,10 @@ import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.timeline.Timeline;
 import net.minecraft.world.timeline.Timelines;
 import net.neoforged.api.distmarker.Dist;
@@ -119,6 +123,15 @@ public class DataGenerators {
                 Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "patch_debris"));
     }
 
+    public class LocalStructureTemplatePools {
+        public static final ResourceKey<StructureTemplatePool> LIBRARY = ResourceKey.create(
+            Registries.TEMPLATE_POOL,
+            Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "library"));
+        public static final ResourceKey<StructureTemplatePool> SHIPWRECKS = ResourceKey.create(
+            Registries.TEMPLATE_POOL,
+            Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "shipwrecks"));
+    }
+
     public class LocalTimelines {
         public static final ResourceKey<Timeline> DAY = ResourceKey
             .create(Registries.TIMELINE, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "day"));
@@ -136,17 +149,7 @@ public class DataGenerators {
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
-        event
-            .createProvider(
-                (
-                    output,
-                    lookupProvider) -> new LootTableProvider(
-                        output,
-                        Set.of(),
-                        List.of(
-                            new SubProviderEntry(LocalBlockLootSubProvider::new, LootContextParamSets.BLOCK),
-                            new SubProviderEntry(LocalLootTableSubProvider::new, LootContextParamSets.CHEST)),
-                        lookupProvider));
+        event.createProvider(LocalLootTableProvider::new);
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.NOISE_SETTINGS, DataGenerators::generateNoiseSettings)
@@ -155,7 +158,8 @@ public class DataGenerators {
                 .add(Registries.PLACED_FEATURE, DataGenerators::generatePlacedFeatures)
                 .add(Registries.CONFIGURED_FEATURE, DataGenerators::generateConfiguredFeatures)
                 .add(Registries.WORLD_CLOCK, DataGenerators::generateWorldClocks)
-                .add(Registries.TIMELINE, DataGenerators::generateTimelines));
+                .add(Registries.TIMELINE, DataGenerators::generateTimelines)
+                .add(Registries.TEMPLATE_POOL, DataGenerators::generateStructureTemplatePools));
     }
 
     private static void generateBiomes(BootstrapContext<Biome> bootstrap) {
@@ -368,6 +372,52 @@ public class DataGenerators {
                     BlockPredicateFilter
                         .forPredicate(
                             BlockPredicate.matchesTag(BlockTags.AIR)))));
+    }
+
+    private static void generateStructureTemplatePools(BootstrapContext<StructureTemplatePool> bootstrap) {
+        HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
+            .lookup(Registries.TEMPLATE_POOL);
+        Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
+
+        bootstrap.register(
+            LocalStructureTemplatePools.LIBRARY,
+            new StructureTemplatePool(
+                empty,
+                List.of(
+                    Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":bookshelf_test"), 1)),
+                StructureTemplatePool.Projection.RIGID));
+        List<String> shipwreckStructures = List.of(
+            "minecraft:shipwreck/rightsideup_backhalf",
+            "minecraft:shipwreck/rightsideup_backhalf_degraded",
+            "minecraft:shipwreck/rightsideup_fronthalf",
+            "minecraft:shipwreck/rightsideup_fronthalf_degraded",
+            "minecraft:shipwreck/rightsideup_full",
+            "minecraft:shipwreck/rightsideup_full_degraded",
+            "minecraft:shipwreck/sideways_backhalf",
+            "minecraft:shipwreck/sideways_backhalf_degraded",
+            "minecraft:shipwreck/sideways_fronthalf",
+            "minecraft:shipwreck/sideways_fronthalf_degraded",
+            "minecraft:shipwreck/sideways_full",
+            "minecraft:shipwreck/sideways_full_degraded",
+            "minecraft:shipwreck/upsidedown_backhalf",
+            "minecraft:shipwreck/upsidedown_backhalf_degraded",
+            "minecraft:shipwreck/upsidedown_fronthalf",
+            "minecraft:shipwreck/upsidedown_fronthalf_degraded",
+            "minecraft:shipwreck/upsidedown_full",
+            "minecraft:shipwreck/upsidedown_full_degraded",
+            "minecraft:shipwreck/with_mast",
+            "minecraft:shipwreck/with_mast_degraded");
+        bootstrap.register(
+            LocalStructureTemplatePools.SHIPWRECKS,
+            new StructureTemplatePool(
+                empty,
+                shipwreckStructures.stream().map(
+                    (
+                        loc) -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                            SinglePoolElement.single(loc),
+                            1))
+                    .toList(),
+                StructureTemplatePool.Projection.RIGID));
     }
 
     private static void generateTimelines(BootstrapContext<Timeline> bootstrap) {
