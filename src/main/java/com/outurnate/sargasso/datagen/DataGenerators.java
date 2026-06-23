@@ -410,24 +410,24 @@ public class DataGenerators {
                     EnvironmentAttributes.FOG_COLOR,
                     ColorModifier.MULTIPLY_RGB,
                     track -> track
-                        .addKeyframe(133, -1)
-                        .addKeyframe(118670, -1)
+                        .addKeyframe(133, ARGB.color(0xFF, 0xFF, 0xFF))
+                        .addKeyframe(118670, ARGB.color(0xFF, 0xFF, 0xFF))
                         .addKeyframe(136700, Timelines.NIGHT_FOG_COLOR_MULTIPLIER)
                         .addKeyframe(223300, Timelines.NIGHT_FOG_COLOR_MULTIPLIER))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_COLOR,
                     ColorModifier.MULTIPLY_RGB,
                     track -> track
-                        .addKeyframe(1330, -1)
-                        .addKeyframe(118670, -1)
-                        .addKeyframe(136700, -16777216)
-                        .addKeyframe(223300, -16777216))
+                        .addKeyframe(1330, ARGB.color(0xAA, 0xAA, 0xAA))
+                        .addKeyframe(118670, ARGB.color(0xAA, 0xAA, 0xAA))
+                        .addKeyframe(136700, ARGB.color(0, 0, 0))
+                        .addKeyframe(223300, ARGB.color(0, 0, 0)))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_COLOR,
                     ColorModifier.MULTIPLY_RGB,
                     track -> track
-                        .addKeyframe(7300, -5592406)
-                        .addKeyframe(112700, -5592406)
+                        .addKeyframe(7300, ARGB.color(0xFF, 0xFF, 0xFF))
+                        .addKeyframe(112700, ARGB.color(0xFF, 0xFF, 0xFF))
                         .addKeyframe(131400, Timelines.NIGHT_SKY_LIGHT_COLOR)
                         .addKeyframe(228600, Timelines.NIGHT_SKY_LIGHT_COLOR))
                 .addModifierTrack(
@@ -501,8 +501,8 @@ public class DataGenerators {
                     EnvironmentAttributes.CLOUD_COLOR,
                     ColorModifier.MULTIPLY_ARGB,
                     track -> track
-                        .addKeyframe(1330, -1)
-                        .addKeyframe(118670, -1)
+                        .addKeyframe(1330, ARGB.color(0xFF, 0xFF, 0xFF))
+                        .addKeyframe(118670, ARGB.color(0xFF, 0xFF, 0xFF))
                         .addKeyframe(136700, Timelines.NIGHT_CLOUD_COLOR_MULTIPLIER)
                         .addKeyframe(223300, Timelines.NIGHT_CLOUD_COLOR_MULTIPLIER))
                 .addTrack(

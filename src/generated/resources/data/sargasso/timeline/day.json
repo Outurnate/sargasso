@@ -209,11 +209,11 @@
       "keyframes": [
         {
           "ticks": 1330,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 118670,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 136700,
@@ -230,11 +230,11 @@
       "keyframes": [
         {
           "ticks": 7300,
-          "value": "#aaaaaa"
+          "value": "#ffffff"
         },
         {
           "ticks": 112700,
-          "value": "#aaaaaa"
+          "value": "#ffffff"
         },
         {
           "ticks": 131400,
