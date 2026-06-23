@@ -27,6 +27,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -98,6 +99,9 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.LIGHTNING_BOTTLE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(
+            LocalItems.LIGHTNING_BOTTLE.get(),
+            Items.SPLASH_POTION,
+            ModelTemplates.FLAT_ITEM);
     }
 }

@@ -1,6 +1,9 @@
 /* (C)2026 */
 package com.outurnate.sargasso.entity;
 
+import com.outurnate.sargasso.registry.LocalEntities;
+import com.outurnate.sargasso.registry.LocalItems;
+
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -11,9 +14,7 @@ import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableIt
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class ThrownLightningBottle extends ThrowableItemProjectile {
@@ -22,16 +23,16 @@ public class ThrownLightningBottle extends ThrowableItemProjectile {
     }
 
     public ThrownLightningBottle(Level level, double x, double y, double z, ItemStack itemStack) {
-        super(EntityType.EGG, x, y, z, level, itemStack);
+        super(LocalEntities.LIGHTNING_BOTTLE.get(), x, y, z, level, itemStack);
     }
 
     public ThrownLightningBottle(Level level, LivingEntity mob, ItemStack itemStack) {
-        super(EntityType.EGG, mob, level, itemStack);
+        super(LocalEntities.LIGHTNING_BOTTLE.get(), mob, level, itemStack);
     }
 
     @Override
     protected Item getDefaultItem() {
-        return Items.EGG;
+        return LocalItems.LIGHTNING_BOTTLE.get();
     }
 
     @Override
@@ -72,11 +73,5 @@ public class ThrownLightningBottle extends ThrowableItemProjectile {
             this.level().broadcastEntityEvent(this, (byte) 3);
             this.discard();
         }
-    }
-
-    @Override
-    protected void onHitEntity(EntityHitResult hitResult) {
-        super.onHitEntity(hitResult);
-        hitResult.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 }

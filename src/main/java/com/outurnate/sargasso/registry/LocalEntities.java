@@ -16,7 +16,7 @@ public class LocalEntities {
     public static final DeferredRegister.Entities REGISTRY = DeferredRegister
         .createEntities(SuperSargassoSea.MODID);
 
-    public static final Supplier<EntityType<ThrownLightningBottle>> EGG = REGISTRY.register(
+    public static final Supplier<EntityType<ThrownLightningBottle>> LIGHTNING_BOTTLE = REGISTRY.register(
         "lightning_bottle",
         () -> EntityType.Builder.<ThrownLightningBottle>of(
             ThrownLightningBottle::new,
