@@ -223,8 +223,7 @@
           "ticks": 223300,
           "value": "#000000"
         }
-      ],
-      "modifier": "multiply"
+      ]
     },
     "minecraft:visual/sky_light_color": {
       "keyframes": [

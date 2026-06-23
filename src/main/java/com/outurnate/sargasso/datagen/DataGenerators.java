@@ -6,7 +6,6 @@ import com.outurnate.sargasso.registry.LocalBlocks;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -31,6 +30,7 @@ import net.minecraft.world.attribute.BackgroundMusic;
 import net.minecraft.world.attribute.BedRule;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.attribute.modifier.AttributeModifier;
 import net.minecraft.world.attribute.modifier.BooleanModifier;
 import net.minecraft.world.attribute.modifier.ColorModifier;
 import net.minecraft.world.attribute.modifier.FloatModifier;
@@ -416,7 +416,7 @@ public class DataGenerators {
                         .addKeyframe(223300, Timelines.NIGHT_FOG_COLOR_MULTIPLIER))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_COLOR,
-                    ColorModifier.MULTIPLY_RGB,
+                    AttributeModifier.override(),
                     track -> track
                         .addKeyframe(1330, ARGB.color(0xAA, 0xAA, 0xAA))
                         .addKeyframe(118670, ARGB.color(0xAA, 0xAA, 0xAA))
