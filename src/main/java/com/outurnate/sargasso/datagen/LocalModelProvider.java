@@ -37,8 +37,8 @@ public class LocalModelProvider extends ModelProvider {
     private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
         Identifier model = itemModels.generateLayeredItem(
             item,
-            TextureMapping.getItemTexture(item),
-            TextureMapping.getItemTexture(Items.SPLASH_POTION));
+            TextureMapping.getItemTexture(Items.SPLASH_POTION),
+            TextureMapping.getItemTexture(item));
         itemModels.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
     }
 

@@ -74,7 +74,8 @@ public class LocalItems {
     public static final DeferredItem<Item> LIGHTNING_BOTTLE = REGISTRY.registerItem(
         "lightning_bottle",
         LightningBottleItem::new,
-        p -> p);
+        p -> p
+            .useCooldown(2.0F));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

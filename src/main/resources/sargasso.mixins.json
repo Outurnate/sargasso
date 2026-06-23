@@ -3,7 +3,8 @@
   "package": "com.outurnate.sargasso.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "BlockEntityMixin"
+    "BlockEntityMixin",
+    "BaseFireBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
