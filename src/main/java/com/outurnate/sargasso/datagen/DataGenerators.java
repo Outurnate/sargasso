@@ -384,7 +384,9 @@ public class DataGenerators {
                 .addTimeMarker(ClockTimeMarkers.WAKE_UP_FROM_SLEEP, 0, false)
                 .addTrack(
                     EnvironmentAttributes.SUN_ANGLE,
-                    track -> track.setEasing(skyAngleEase).addKeyframe(6000, 360.0F)
+                    track -> track
+                        .setEasing(skyAngleEase)
+                        .addKeyframe(6000, 360.0F)
                         .addKeyframe(6000, 0.0F))
                 .addTrack(
                     EnvironmentAttributes.MOON_ANGLE,
@@ -425,16 +427,16 @@ public class DataGenerators {
                     EnvironmentAttributes.SKY_LIGHT_FACTOR,
                     FloatModifier.MULTIPLY,
                     track -> track
-                        .addKeyframe(7300, 0.5F)
-                        .addKeyframe(112700, 0.5F)
+                        .addKeyframe(7300, 0.25F)
+                        .addKeyframe(112700, 0.25F)
                         .addKeyframe(131400, 0.24F)
                         .addKeyframe(228600, 0.24F))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_LEVEL,
                     FloatModifier.MULTIPLY,
                     track -> track
-                        .addKeyframe(1330, 0.5F)
-                        .addKeyframe(118670, 0.5F)
+                        .addKeyframe(1330, 0.25F)
+                        .addKeyframe(118670, 0.25F)
                         .addKeyframe(136700, 0.26666668F)
                         .addKeyframe(223300, 0.26666668F))
                 .addTrack(
@@ -475,7 +477,8 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.STAR_BRIGHTNESS,
                     FloatModifier.MAXIMUM,
-                    track -> track.addKeyframe(920, 0.037F)
+                    track -> track
+                        .addKeyframe(920, 0.037F)
                         .addKeyframe(6270, 0.0F)
                         .addKeyframe(113730, 0.0F)
                         .addKeyframe(117320, 0.016F)
@@ -490,13 +493,15 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.CLOUD_COLOR,
                     ColorModifier.MULTIPLY_ARGB,
-                    track -> track.addKeyframe(1330, -1)
+                    track -> track
+                        .addKeyframe(1330, -1)
                         .addKeyframe(118670, -1)
                         .addKeyframe(136700, Timelines.NIGHT_CLOUD_COLOR_MULTIPLIER)
                         .addKeyframe(223300, Timelines.NIGHT_CLOUD_COLOR_MULTIPLIER))
                 .addTrack(
                     EnvironmentAttributes.EYEBLOSSOM_OPEN,
-                    track -> track.addKeyframe(126000, TriState.TRUE)
+                    track -> track
+                        .addKeyframe(126000, TriState.TRUE)
                         .addKeyframe(234010, TriState.FALSE))
                 .addModifierTrack(
                     EnvironmentAttributes.CREAKING_ACTIVE,
