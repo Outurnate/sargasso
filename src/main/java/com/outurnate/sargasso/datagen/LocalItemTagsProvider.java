@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -47,6 +48,7 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
             .add(Items.INFESTED_STONE_BRICKS)
             .add(Items.SPAWNER)
             .add(Items.TRIAL_SPAWNER)
-            .add(Items.VAULT);
+            .add(Items.VAULT)
+            .add(LocalItems.JUNK.get());
     }
 }

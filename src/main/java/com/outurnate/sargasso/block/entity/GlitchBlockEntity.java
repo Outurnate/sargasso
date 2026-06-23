@@ -75,6 +75,11 @@ public class GlitchBlockEntity extends BlockEntity {
                 level,
                 pos) -> new ItemEntity(level, pos.x, pos.y, pos.z, new ItemStack(LocalItems.JUNK.get(), 1)),
             20);
+        list.add(
+            (
+                level,
+                pos) -> new Arrow(level, pos.x, pos.y, pos.z, ItemStack.EMPTY, null),
+            100);
         return list.build();
     }
 
@@ -84,23 +89,28 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
-        if (proj != null) {
-            float speed = 1.0F;
-            float yRot = rand.nextFloat() * 360.0F;
-            float xRot = (rand.nextFloat() * 180.0F) + 180.0F;
-            float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-            float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-            float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-            Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
-            proj.setDeltaMovement(movement);
-            proj.needsSync = true;
-            proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));
-            proj.setXRot(
-                (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
-            proj.yRotO = proj.getYRot();
-            proj.xRotO = proj.getXRot();
-            level.addFreshEntity(proj);
+        if (rand.nextFloat() > 0.3) {
+            int things = rand.nextInt(1, 10);
+            for (int i = 0; i < things; ++i) {
+                Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
+                if (proj != null) {
+                    float speed = rand.nextFloat() + 1.0F;
+                    float yRot = rand.nextFloat() * 360.0F;
+                    float xRot = (rand.nextFloat() * 180.0F) + 180.0F;
+                    float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                    float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+                    float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                    Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+                    proj.setDeltaMovement(movement);
+                    proj.needsSync = true;
+                    proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));
+                    proj.setXRot(
+                        (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
+                    proj.yRotO = proj.getYRot();
+                    proj.xRotO = proj.getXRot();
+                    level.addFreshEntity(proj);
+                }
+            }
         }
     }
 }
