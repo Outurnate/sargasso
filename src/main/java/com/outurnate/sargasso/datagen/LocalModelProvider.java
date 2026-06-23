@@ -16,6 +16,7 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
@@ -27,11 +28,20 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 public class LocalModelProvider extends ModelProvider {
+    private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
+        Identifier model = itemModels.generateLayeredItem(
+            item,
+            TextureMapping.getItemTexture(item),
+            TextureMapping.getItemTexture(Items.SPLASH_POTION));
+        itemModels.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
+    }
+
     private static void createRotatedAndModelRandomizedBlock(
         BlockModelGenerators blockModels,
         Block block,
@@ -99,9 +109,6 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(
-            LocalItems.LIGHTNING_BOTTLE.get(),
-            Items.SPLASH_POTION,
-            ModelTemplates.FLAT_ITEM);
+        createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
     }
 }

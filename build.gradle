@@ -23,6 +23,7 @@ sourceSets.main.resources {
 
 	exclude("**/*.bbmodel") // BlockBench project files
 	exclude("**/*.xcf") // Gimp sources
+	exclude("**/*.aseprite") // Aseprite sources
 	exclude("src/generated/**/.cache") // datagen cache files
 }
 

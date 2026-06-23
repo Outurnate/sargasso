@@ -46,7 +46,7 @@ public class LightningBottleItem extends Item implements ProjectileItem {
                 itemStack,
                 player,
                 0.0F,
-                0.25F,
+                0.5F,
                 1.0F);
         }
 
