@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:wheat",
+    "S": "sargasso:bedrock_slop"
+  },
+  "pattern": [
+    "###",
+    "SSS"
+  ],
+  "result": {
+    "id": "sargasso:breadrock"
+  }
+}

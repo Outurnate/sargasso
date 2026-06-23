@@ -135,6 +135,7 @@ public class DataGenerators {
         event.createProvider(EnglishLanguageProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
+        event.createProvider(LocalRecipeProvider.Runner::new);
         event
             .createProvider(
                 (
