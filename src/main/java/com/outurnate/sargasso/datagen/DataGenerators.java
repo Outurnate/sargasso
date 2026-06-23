@@ -372,6 +372,7 @@ public class DataGenerators {
     private static void generateTimelines(BootstrapContext<Timeline> bootstrap) {
         HolderGetter<WorldClock> worldClockRegistry = bootstrap.lookup(Registries.WORLD_CLOCK);
         EasingType skyAngleEase = EasingType.symmetricCubicBezier(0.362F, 0.241F);
+        int daySkyColor = ARGB.color(0xAA, 0xAA, 0xAA);
         bootstrap.register(
             LocalTimelines.DAY,
             Timeline.builder(worldClockRegistry.getOrThrow(LocalWorldClocks.SEA))
@@ -408,20 +409,20 @@ public class DataGenerators {
                         .addKeyframe(234010, false))
                 .addModifierTrack(
                     EnvironmentAttributes.FOG_COLOR,
-                    ColorModifier.MULTIPLY_RGB,
+                    AttributeModifier.override(),
                     track -> track
-                        .addKeyframe(133, ARGB.color(0xFF, 0xFF, 0xFF))
-                        .addKeyframe(118670, ARGB.color(0xFF, 0xFF, 0xFF))
-                        .addKeyframe(136700, Timelines.NIGHT_FOG_COLOR_MULTIPLIER)
-                        .addKeyframe(223300, Timelines.NIGHT_FOG_COLOR_MULTIPLIER))
+                        .addKeyframe(133, daySkyColor)
+                        .addKeyframe(118670, daySkyColor)
+                        .addKeyframe(136700, ARGB.color(0x00, 0x00, 0x00))
+                        .addKeyframe(223300, ARGB.color(0x00, 0x00, 0x00)))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_COLOR,
                     AttributeModifier.override(),
                     track -> track
-                        .addKeyframe(1330, ARGB.color(0xAA, 0xAA, 0xAA))
-                        .addKeyframe(118670, ARGB.color(0xAA, 0xAA, 0xAA))
-                        .addKeyframe(136700, ARGB.color(0, 0, 0))
-                        .addKeyframe(223300, ARGB.color(0, 0, 0)))
+                        .addKeyframe(1330, daySkyColor)
+                        .addKeyframe(118670, daySkyColor)
+                        .addKeyframe(136700, ARGB.color(0x00, 0x00, 0x00))
+                        .addKeyframe(223300, ARGB.color(0x00, 0x00, 0x00)))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_COLOR,
                     ColorModifier.MULTIPLY_RGB,

@@ -160,22 +160,21 @@
       "keyframes": [
         {
           "ticks": 133,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 118670,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 136700,
-          "value": "#0f0f16"
+          "value": "#000000"
         },
         {
           "ticks": 223300,
-          "value": "#0f0f16"
+          "value": "#000000"
         }
-      ],
-      "modifier": "multiply"
+      ]
     },
     "minecraft:visual/moon_angle": {
       "ease": {
