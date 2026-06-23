@@ -104,11 +104,11 @@
       "keyframes": [
         {
           "ticks": 1330,
-          "value": 0.25
+          "value": 0.45
         },
         {
           "ticks": 118670,
-          "value": 0.25
+          "value": 0.45
         },
         {
           "ticks": 136700,
@@ -230,11 +230,11 @@
       "keyframes": [
         {
           "ticks": 7300,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 112700,
-          "value": "#ffffff"
+          "value": "#aaaaaa"
         },
         {
           "ticks": 131400,
@@ -251,11 +251,11 @@
       "keyframes": [
         {
           "ticks": 7300,
-          "value": 0.25
+          "value": 0.45
         },
         {
           "ticks": 112700,
-          "value": 0.25
+          "value": 0.45
         },
         {
           "ticks": 131400,

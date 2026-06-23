@@ -390,16 +390,22 @@ public class DataGenerators {
                         .addKeyframe(6000, 0.0F))
                 .addTrack(
                     EnvironmentAttributes.MOON_ANGLE,
-                    track -> track.setEasing(skyAngleEase).addKeyframe(6000, 540.0F)
+                    track -> track
+                        .setEasing(skyAngleEase)
+                        .addKeyframe(6000, 540.0F)
                         .addKeyframe(6000, 180.0F))
                 .addTrack(
                     EnvironmentAttributes.STAR_ANGLE,
-                    track -> track.setEasing(skyAngleEase).addKeyframe(6000, 360.0F)
+                    track -> track
+                        .setEasing(skyAngleEase)
+                        .addKeyframe(6000, 360.0F)
                         .addKeyframe(6000, 0.0F))
                 .addModifierTrack(
                     EnvironmentAttributes.FIREFLY_BUSH_SOUNDS,
                     BooleanModifier.OR,
-                    track -> track.addKeyframe(126000, true).addKeyframe(234010, false))
+                    track -> track
+                        .addKeyframe(126000, true)
+                        .addKeyframe(234010, false))
                 .addModifierTrack(
                     EnvironmentAttributes.FOG_COLOR,
                     ColorModifier.MULTIPLY_RGB,
@@ -419,24 +425,25 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_COLOR,
                     ColorModifier.MULTIPLY_RGB,
-                    track -> track.addKeyframe(7300, -1)
-                        .addKeyframe(112700, -1)
+                    track -> track
+                        .addKeyframe(7300, -5592406)
+                        .addKeyframe(112700, -5592406)
                         .addKeyframe(131400, Timelines.NIGHT_SKY_LIGHT_COLOR)
                         .addKeyframe(228600, Timelines.NIGHT_SKY_LIGHT_COLOR))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_FACTOR,
                     FloatModifier.MULTIPLY,
                     track -> track
-                        .addKeyframe(7300, 0.25F)
-                        .addKeyframe(112700, 0.25F)
+                        .addKeyframe(7300, 0.45F)
+                        .addKeyframe(112700, 0.45F)
                         .addKeyframe(131400, 0.24F)
                         .addKeyframe(228600, 0.24F))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_LEVEL,
                     FloatModifier.MULTIPLY,
                     track -> track
-                        .addKeyframe(1330, 0.25F)
-                        .addKeyframe(118670, 0.25F)
+                        .addKeyframe(1330, 0.45F)
+                        .addKeyframe(118670, 0.45F)
                         .addKeyframe(136700, 0.26666668F)
                         .addKeyframe(223300, 0.26666668F))
                 .addTrack(
@@ -506,28 +513,39 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.CREAKING_ACTIVE,
                     BooleanModifier.OR,
-                    track -> track.addKeyframe(126000, true).addKeyframe(234010, false))
+                    track -> track
+                        .addKeyframe(126000, true)
+                        .addKeyframe(234010, false))
                 .addModifierTrack(
                     EnvironmentAttributes.TURTLE_EGG_HATCH_CHANCE,
                     FloatModifier.MAXIMUM,
-                    track -> track.setEasing(EasingType.CONSTANT).addKeyframe(210620, 1.0F)
+                    track -> track
+                        .setEasing(EasingType.CONSTANT)
+                        .addKeyframe(210620, 1.0F)
                         .addKeyframe(219050, 0.002F))
                 .addModifierTrack(
                     EnvironmentAttributes.CAT_WAKING_UP_GIFT_CHANCE,
                     FloatModifier.MAXIMUM,
-                    track -> track.setEasing(EasingType.CONSTANT).addKeyframe(3620, 0.0F)
+                    track -> track
+                        .setEasing(EasingType.CONSTANT)
+                        .addKeyframe(3620, 0.0F)
                         .addKeyframe(236670, 0.7F))
                 .addModifierTrack(
                     EnvironmentAttributes.BEES_STAY_IN_HIVE,
                     BooleanModifier.OR,
-                    track -> track.addKeyframe(125420, true).addKeyframe(234600, false))
+                    track -> track
+                        .addKeyframe(125420, true)
+                        .addKeyframe(234600, false))
                 .addModifierTrack(
                     EnvironmentAttributes.MONSTERS_BURN,
                     BooleanModifier.OR,
-                    track -> track.addKeyframe(125420, false).addKeyframe(234600, true))
-                .addTrack(EnvironmentAttributes.MOON_PHASE, track -> {
-                    track.addKeyframe(0, MoonPhase.FULL_MOON);
-                })
+                    track -> track
+                        .addKeyframe(125420, false)
+                        .addKeyframe(234600, true))
+                .addTrack(
+                    EnvironmentAttributes.MOON_PHASE,
+                    track -> track
+                        .addKeyframe(0, MoonPhase.FULL_MOON))
                 .build());
     }
 
