@@ -104,11 +104,11 @@
       "keyframes": [
         {
           "ticks": 1330,
-          "value": 1.0
+          "value": 0.5
         },
         {
           "ticks": 118670,
-          "value": 1.0
+          "value": 0.5
         },
         {
           "ticks": 136700,

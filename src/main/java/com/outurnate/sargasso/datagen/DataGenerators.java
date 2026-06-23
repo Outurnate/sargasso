@@ -408,8 +408,11 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_COLOR,
                     ColorModifier.MULTIPLY_RGB,
-                    track -> track.addKeyframe(1330, -1).addKeyframe(118670, -1)
-                        .addKeyframe(136700, -16777216).addKeyframe(223300, -16777216))
+                    track -> track
+                        .addKeyframe(1330, -1)
+                        .addKeyframe(118670, -1)
+                        .addKeyframe(136700, -16777216)
+                        .addKeyframe(223300, -16777216))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_COLOR,
                     ColorModifier.MULTIPLY_RGB,
@@ -420,13 +423,19 @@ public class DataGenerators {
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_FACTOR,
                     FloatModifier.MULTIPLY,
-                    track -> track.addKeyframe(7300, 1.0F).addKeyframe(112700, 1.0F)
-                        .addKeyframe(131400, 0.24F).addKeyframe(228600, 0.24F))
+                    track -> track
+                        .addKeyframe(7300, 1.0F)
+                        .addKeyframe(112700, 1.0F)
+                        .addKeyframe(131400, 0.24F)
+                        .addKeyframe(228600, 0.24F))
                 .addModifierTrack(
                     EnvironmentAttributes.SKY_LIGHT_LEVEL,
                     FloatModifier.MULTIPLY,
-                    track -> track.addKeyframe(1330, 1.0F).addKeyframe(118670, 1.0F)
-                        .addKeyframe(136700, 0.26666668F).addKeyframe(223300, 0.26666668F))
+                    track -> track
+                        .addKeyframe(1330, 0.5F)
+                        .addKeyframe(118670, 0.5F)
+                        .addKeyframe(136700, 0.26666668F)
+                        .addKeyframe(223300, 0.26666668F))
                 .addTrack(
                     EnvironmentAttributes.SUNRISE_SUNSET_COLOR,
                     track -> track.addKeyframe(710, 1609540403)
