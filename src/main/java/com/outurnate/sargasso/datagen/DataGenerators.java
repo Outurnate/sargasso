@@ -80,6 +80,8 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.Structure.StructureSettings;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
@@ -135,6 +137,17 @@ public class DataGenerators {
             .create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "fossil"));
         public static final ResourceKey<Structure> LIBRARY = ResourceKey
             .create(Registries.STRUCTURE, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "library"));
+    }
+
+    public class LocalStructureSets {
+        public static final ResourceKey<StructureSet> FOSSIL = ResourceKey
+            .create(
+                Registries.STRUCTURE_SET,
+                Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "fossil"));
+        public static final ResourceKey<StructureSet> LIBRARY = ResourceKey
+            .create(
+                Registries.STRUCTURE_SET,
+                Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "library"));
     }
 
     public class LocalStructureTemplatePools {
@@ -414,6 +427,25 @@ public class DataGenerators {
     }
 
     private static void generateStructureSets(BootstrapContext<StructureSet> bootstrap) {
+        HolderGetter<Structure> structureRegistry = bootstrap.lookup(Registries.STRUCTURE);
+        bootstrap.register(
+            LocalStructureSets.FOSSIL,
+            new StructureSet(
+                structureRegistry.getOrThrow(LocalStructures.FOSSIL),
+                new RandomSpreadStructurePlacement(
+                    20,
+                    8,
+                    RandomSpreadType.LINEAR,
+                    14353921)));
+        bootstrap.register(
+            LocalStructureSets.LIBRARY,
+            new StructureSet(
+                structureRegistry.getOrThrow(LocalStructures.LIBRARY),
+                new RandomSpreadStructurePlacement(
+                    5,
+                    2,
+                    RandomSpreadType.LINEAR,
+                    153270)));
     }
 
     private static void generateStructureTemplatePools(BootstrapContext<StructureTemplatePool> bootstrap) {
