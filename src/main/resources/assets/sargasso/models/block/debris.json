@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "debris",
-		"particle": "debris"
+		"0": "block/debris",
+		"particle": "block/debris"
 	},
 	"elements": [
 		{
