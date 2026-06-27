@@ -174,6 +174,7 @@ public class DataGenerators {
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
+        event.createProvider(LocalSoundDefinitionsProvider::new);
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.NOISE_SETTINGS, DataGenerators::generateNoiseSettings)

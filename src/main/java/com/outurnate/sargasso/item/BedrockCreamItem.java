@@ -2,9 +2,9 @@
 package com.outurnate.sargasso.item;
 
 import com.outurnate.sargasso.registry.LocalBlocks;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
@@ -31,7 +31,7 @@ public class BedrockCreamItem extends Item {
                 player.getX(),
                 player.getY(),
                 player.getZ(),
-                SoundEvents.SLIME_ATTACK,
+                LocalSoundEvents.CREAM_APPLY,
                 SoundSource.PLAYERS,
                 0.5F,
                 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));

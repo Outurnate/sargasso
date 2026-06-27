@@ -7,6 +7,7 @@ import com.outurnate.sargasso.registry.LocalCreativeTabs;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -24,6 +25,7 @@ public class SuperSargassoSea {
         LocalCreativeTabs.register(modEventBus);
         LocalBlockEntities.register(modEventBus);
         LocalEntities.register(modEventBus);
+        LocalSoundEvents.register(modEventBus);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }
