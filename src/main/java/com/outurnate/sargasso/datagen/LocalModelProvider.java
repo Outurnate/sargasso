@@ -100,7 +100,7 @@ public class LocalModelProvider extends ModelProvider {
             blockModels,
             LocalBlocks.DEBRIS.get(),
             Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "block/debris"),
-            2);
+            3);
 
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
