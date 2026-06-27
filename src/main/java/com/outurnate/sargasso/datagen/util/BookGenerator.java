@@ -1,5 +1,5 @@
 /* (C)2026 */
-package com.outurnate.sargasso.datagen;
+package com.outurnate.sargasso.datagen.util;
 
 import java.util.ArrayList;
 import java.util.List;
