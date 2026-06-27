@@ -9,6 +9,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -17,6 +18,10 @@ import net.neoforged.fml.config.ModConfig;
 @Mod(SuperSargassoSea.MODID)
 public class SuperSargassoSea {
     public static final String MODID = "sargasso";
+
+    public static Identifier ID(String id) {
+        return Identifier.fromNamespaceAndPath(MODID, id);
+    }
 
     public SuperSargassoSea(IEventBus modEventBus, ModContainer modContainer) {
         LocalBlocks.register(modEventBus);

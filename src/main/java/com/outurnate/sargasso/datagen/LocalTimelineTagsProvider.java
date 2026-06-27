@@ -2,6 +2,8 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.worldgen.LocalTimelinesProvider;
+
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -23,6 +25,6 @@ public class LocalTimelineTagsProvider extends TimelineTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
-        this.tag(IN_SEA).addTag(TimelineTags.UNIVERSAL).add(DataGenerators.LocalTimelines.DAY);
+        this.tag(IN_SEA).addTag(TimelineTags.UNIVERSAL).add(LocalTimelinesProvider.DAY);
     }
 }

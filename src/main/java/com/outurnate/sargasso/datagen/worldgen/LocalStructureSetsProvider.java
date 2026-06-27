@@ -1,0 +1,42 @@
+/* (C)2026 */
+package com.outurnate.sargasso.datagen.worldgen;
+
+import com.outurnate.sargasso.SuperSargassoSea;
+
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
+
+public class LocalStructureSetsProvider {
+    public static final ResourceKey<StructureSet> FOSSIL = ResourceKey
+        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fossil"));
+    public static final ResourceKey<StructureSet> LIBRARY = ResourceKey
+        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("library"));
+
+    public static void provide(BootstrapContext<StructureSet> bootstrap) {
+        HolderGetter<Structure> structureRegistry = bootstrap.lookup(Registries.STRUCTURE);
+        bootstrap.register(
+            FOSSIL,
+            new StructureSet(
+                structureRegistry.getOrThrow(LocalStructuresProvider.FOSSIL),
+                new RandomSpreadStructurePlacement(
+                    20,
+                    8,
+                    RandomSpreadType.LINEAR,
+                    14353921)));
+        bootstrap.register(
+            LIBRARY,
+            new StructureSet(
+                structureRegistry.getOrThrow(LocalStructuresProvider.LIBRARY),
+                new RandomSpreadStructurePlacement(
+                    5,
+                    2,
+                    RandomSpreadType.LINEAR,
+                    153270)));
+    }
+}
