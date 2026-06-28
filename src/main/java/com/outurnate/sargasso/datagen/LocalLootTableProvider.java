@@ -29,6 +29,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.component.DataComponents;
@@ -43,18 +44,33 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
+import net.minecraft.world.item.equipment.trim.TrimMaterial;
+import net.minecraft.world.item.equipment.trim.TrimMaterials;
+import net.minecraft.world.item.equipment.trim.TrimPattern;
+import net.minecraft.world.item.equipment.trim.TrimPatterns;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction;
+import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction.ModifierBuilder;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
+import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
+import net.minecraft.world.level.storage.loot.functions.SetNameFunction.Target;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -101,12 +117,97 @@ public class LocalLootTableProvider extends LootTableProvider {
 
         public static final Logger LOGGER = LogUtils.getLogger();
         private final EpubReader reader = new EpubReader();
+        private final HolderLookup.Provider lookupProvider;
 
         protected LocalLootTableSubProvider(HolderLookup.Provider lookupProvider) {
+            this.lookupProvider = lookupProvider;
         }
 
         @Override
         public void generate(BiConsumer<ResourceKey<LootTable>, Builder> consumer) {
+            consumer.accept(
+                ResourceKey.create(
+                    Registries.LOOT_TABLE,
+                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "books")),
+                LootTable.lootTable().withPool(generateLootPoolOfBooks()));
+            consumer.accept(
+                ResourceKey.create(
+                    Registries.LOOT_TABLE,
+                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "chests/curios")),
+                LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(3, 7))
+                            .setBonusRolls(ConstantValue.exactly(1))
+                            .add(
+                                generateLootItemCustomPotion(
+                                    "fizzy_lifting",
+                                    0,
+                                    0,
+                                    255,
+                                    new MobEffectInstance(
+                                        MobEffects.LEVITATION,
+                                        4000,
+                                        4)))
+                            .add(
+                                generateLootItemCustomPotion(
+                                    "bhj",
+                                    255,
+                                    60,
+                                    0,
+                                    new MobEffectInstance(
+                                        MobEffects.SPEED,
+                                        36000,
+                                        2),
+                                    new MobEffectInstance(
+                                        MobEffects.STRENGTH,
+                                        36000,
+                                        3),
+                                    new MobEffectInstance(
+                                        MobEffects.REGENERATION,
+                                        36000,
+                                        2),
+                                    new MobEffectInstance(
+                                        MobEffects.SLOWNESS,
+                                        36000,
+                                        3),
+                                    new MobEffectInstance(
+                                        MobEffects.WEAKNESS,
+                                        36000,
+                                        2),
+                                    new MobEffectInstance(
+                                        MobEffects.POISON,
+                                        36000,
+                                        1)))
+                            .add(generateShrinkingHelm())));
+        }
+
+        private LootItem.Builder<?> generateLootItemCustomPotion(
+            String name,
+            int red,
+            int green,
+            int blue,
+            MobEffectInstance... effects) {
+            return LootItem.lootTableItem(Items.POTION)
+                .apply(
+                    SetComponentsFunction.setComponent(
+                        DataComponents.POTION_CONTENTS,
+                        new PotionContents(
+                            Optional.empty(),
+                            Optional.of(ARGB.color(red, green, blue)),
+                            Arrays.asList(effects),
+                            Optional.of(name))))
+                .apply(
+                    SetLoreFunction.setLore()
+                        .addLine(Component.translatable("sargasso.lore." + name)))
+                .apply(
+                    SetComponentsFunction.setComponent(
+                        DataComponents.TOOLTIP_DISPLAY,
+                        TooltipDisplay.DEFAULT
+                            .withHidden(DataComponents.POTION_CONTENTS, true)));
+        }
+
+        private LootPool.Builder generateLootPoolOfBooks() {
             LootPool.Builder lootPool = LootPool.lootPool();
             lootPool.setRolls(new UniformGenerator(new ConstantValue(1), new ConstantValue(6)));
             BookConfiguration[] books = new BookConfiguration[] {
@@ -173,80 +274,71 @@ public class LocalLootTableProvider extends LootTableProvider {
                     LOGGER.error(e.toString());
                 }
             }
-            consumer.accept(
-                ResourceKey.create(
-                    Registries.LOOT_TABLE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "books")),
-                LootTable.lootTable().withPool(lootPool));
-            var hiddenPotionContents = SetComponentsFunction.setComponent(
-                DataComponents.TOOLTIP_DISPLAY,
-                TooltipDisplay.DEFAULT
-                    .withHidden(DataComponents.POTION_CONTENTS, true));
-            consumer.accept(
-                ResourceKey.create(
-                    Registries.LOOT_TABLE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "chests/curios")),
-                LootTable.lootTable()
-                    .withPool(
-                        LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(3, 7))
-                            .setBonusRolls(ConstantValue.exactly(1))
-                            .add(
-                                LootItem.lootTableItem(Items.POTION)
-                                    .apply(
-                                        SetComponentsFunction.setComponent(
-                                            DataComponents.POTION_CONTENTS,
-                                            new PotionContents(
-                                                Optional.empty(),
-                                                Optional.of(ARGB.color(0, 0, 255)),
-                                                List.of(
-                                                    new MobEffectInstance(
-                                                        MobEffects.LEVITATION,
-                                                        4000,
-                                                        4)),
-                                                Optional.of("fizzy_lifting"))))
-                                    .apply(
-                                        SetLoreFunction.setLore()
-                                            .addLine(Component.translatable("sargasso.lore.fizzy_lifting")))
-                                    .apply(hiddenPotionContents))
-                            .add(
-                                LootItem.lootTableItem(Items.POTION)
-                                    .apply(
-                                        SetComponentsFunction.setComponent(
-                                            DataComponents.POTION_CONTENTS,
-                                            new PotionContents(
-                                                Optional.empty(),
-                                                Optional.of(ARGB.color(255, 30, 0)),
-                                                List.of(
-                                                    new MobEffectInstance(
-                                                        MobEffects.SPEED,
-                                                        36000,
-                                                        2),
-                                                    new MobEffectInstance(
-                                                        MobEffects.STRENGTH,
-                                                        36000,
-                                                        3),
-                                                    new MobEffectInstance(
-                                                        MobEffects.REGENERATION,
-                                                        36000,
-                                                        2),
-                                                    new MobEffectInstance(
-                                                        MobEffects.SLOWNESS,
-                                                        36000,
-                                                        3),
-                                                    new MobEffectInstance(
-                                                        MobEffects.WEAKNESS,
-                                                        36000,
-                                                        2),
-                                                    new MobEffectInstance(
-                                                        MobEffects.POISON,
-                                                        36000,
-                                                        1)),
-                                                Optional.of("bhj"))))
-                                    .apply(
-                                        SetLoreFunction.setLore()
-                                            .addLine(Component.translatable("sargasso.lore.bhj")))
-                                    .apply(hiddenPotionContents))));
+            return lootPool;
+        }
+
+        private LootItem.Builder<?> generateShrinkingHelm() {
+            HolderGetter<Enchantment> enchantmentProvider = this.lookupProvider.lookup(Registries.ENCHANTMENT)
+                .get();
+            HolderGetter<TrimMaterial> trimMaterialProvider = this.lookupProvider
+                .lookup(Registries.TRIM_MATERIAL).get();
+            HolderGetter<TrimPattern> trimPatternProvider = this.lookupProvider
+                .lookup(Registries.TRIM_PATTERN).get();
+
+            ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.PROTECTION), 4);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.RESPIRATION), 3);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.AQUA_AFFINITY), 1);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.THORNS), 3);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.BINDING_CURSE), 1);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.UNBREAKING), 3);
+            enchantments.set(enchantmentProvider.getOrThrow(Enchantments.MENDING), 1);
+
+            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "george");
+            return LootItem.lootTableItem(Items.DIAMOND_HELMET)
+                .apply(
+                    SetComponentsFunction
+                        .setComponent(DataComponents.ENCHANTMENTS, enchantments.toImmutable()))
+                .apply(
+                    SetComponentsFunction.setComponent(
+                        DataComponents.TOOLTIP_DISPLAY,
+                        TooltipDisplay.DEFAULT.withHidden(DataComponents.ATTRIBUTE_MODIFIERS, true)))
+                .apply(
+                    SetComponentsFunction.setComponent(
+                        DataComponents.TRIM,
+                        new ArmorTrim(
+                            trimMaterialProvider.getOrThrow(TrimMaterials.NETHERITE),
+                            trimPatternProvider.getOrThrow(TrimPatterns.SILENCE))))
+                .apply(SetLoreFunction.setLore().addLine(Component.translatable("sargasso.lore.george")))
+                .apply(
+                    SetNameFunction
+                        .setName(Component.translatable("sargasso.lore.george_name"), Target.ITEM_NAME))
+                .apply(
+                    SetAttributesFunction.setAttributes()
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.MAX_HEALTH,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(-0.95F)).forSlot(EquipmentSlotGroup.ARMOR))
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.SCALE,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(-0.9F)).forSlot(EquipmentSlotGroup.ARMOR))
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.MOVEMENT_SPEED,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(-0.9F)).forSlot(EquipmentSlotGroup.ARMOR))
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.JUMP_STRENGTH,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(-0.5F)).forSlot(EquipmentSlotGroup.ARMOR)));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {

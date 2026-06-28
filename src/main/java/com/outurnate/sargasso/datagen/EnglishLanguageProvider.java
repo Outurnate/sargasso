@@ -26,6 +26,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("item.minecraft.potion.effect.bhj", "Bone Hurting Juice");
         this.add("sargasso.lore.bhj", "oof ouch my bones");
 
+        this.add("sargasso.lore.george", "The helm of Sire George the shrunk, a legendary knight");
+        this.add("sargasso.lore.george_name", "Sir George's Helm");
+
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
