@@ -67,9 +67,11 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction.ModifierBuilder;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemDamageFunction;
 import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction.Target;
@@ -402,7 +404,11 @@ public class LocalLootTableProvider extends LootTableProvider {
 
         private LootItem.Builder<?> generateTerribleTool(ItemLike item) {
             return LootItem.lootTableItem(item)
-                .apply(FlimFlamLoreFunction.setFlimFlam());
+                .apply(FlimFlamLoreFunction.setFlimFlam())
+                .apply(
+                    EnchantWithLevelsFunction
+                        .enchantWithLevels(this.lookupProvider, ConstantValue.exactly(1.0F)))
+                .apply(SetItemDamageFunction.setDamage(UniformGenerator.between(0.1F, 0.2F)));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {
