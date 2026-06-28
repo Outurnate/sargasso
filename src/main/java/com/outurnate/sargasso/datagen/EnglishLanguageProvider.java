@@ -29,6 +29,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("sargasso.lore.george", "The helm of Sire George the shrunk, a legendary knight");
         this.add("sargasso.lore.george_name", "Sir George's Helm");
 
+        this.add("sargasso.lore.liar_pants", "Liar's Pants");
+
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");

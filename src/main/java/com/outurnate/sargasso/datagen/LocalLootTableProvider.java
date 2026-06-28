@@ -179,7 +179,26 @@ public class LocalLootTableProvider extends LootTableProvider {
                                         MobEffects.POISON,
                                         36000,
                                         1)))
-                            .add(generateShrinkingHelm())));
+                            .add(generateShrinkingHelm())
+                            .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM))
+                            .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE))
+                    /* .add(generateLiarsPants()) */));
+        }
+
+        private LootItem.Builder<?> generateLiarsPants() {
+            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "liar");
+            return LootItem.lootTableItem(Items.LEATHER_LEGGINGS)
+                .apply(
+                    SetNameFunction
+                        .setName(Component.translatable("sargasso.lore.liar_pants"), Target.ITEM_NAME))
+                .apply(
+                    SetAttributesFunction.setAttributes()
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.BURNING_TIME,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(100.0F))));
         }
 
         private LootItem.Builder<?> generateLootItemCustomPotion(
