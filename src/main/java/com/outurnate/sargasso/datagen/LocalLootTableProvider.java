@@ -37,6 +37,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ARGB;
@@ -45,6 +46,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -52,6 +54,7 @@ import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -196,10 +199,16 @@ public class LocalLootTableProvider extends LootTableProvider {
                                                     new MobEffectInstance(
                                                         MobEffects.LEVITATION,
                                                         4000,
-                                                        4,
-                                                        false,
-                                                        false)),
-                                                Optional.of("fizzy_lifting")))))));
+                                                        4)),
+                                                Optional.of("fizzy_lifting"))))
+                                    .apply(
+                                        SetLoreFunction.setLore()
+                                            .addLine(Component.translatable("sargasso.lore.fizzy_lifting")))
+                                    .apply(
+                                        SetComponentsFunction.setComponent(
+                                            DataComponents.TOOLTIP_DISPLAY,
+                                            TooltipDisplay.DEFAULT
+                                                .withHidden(DataComponents.POTION_CONTENTS, true))))));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {
