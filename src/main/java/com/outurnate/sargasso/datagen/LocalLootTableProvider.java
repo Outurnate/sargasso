@@ -40,6 +40,8 @@ import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ARGB;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -190,8 +192,14 @@ public class LocalLootTableProvider extends LootTableProvider {
                                             new PotionContents(
                                                 Optional.empty(),
                                                 Optional.of(ARGB.color(0, 0, 255)),
-                                                List.of(),
-                                                Optional.of("asdf")))))));
+                                                List.of(
+                                                    new MobEffectInstance(
+                                                        MobEffects.LEVITATION,
+                                                        4000,
+                                                        4,
+                                                        false,
+                                                        false)),
+                                                Optional.of("fizzy_lifting")))))));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {
