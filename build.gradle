@@ -190,15 +190,15 @@ idea {
 }
 
 spotless {
-java {
-	importOrder()
-	removeUnusedImports()
-	forbidWildcardImports()
+	java {
+		importOrder()
+		removeUnusedImports()
+		forbidWildcardImports()
 
-	eclipse()
-		.configFile("eclipse-formatter.xml")
-		.sortMembersEnabled(true)
-	formatAnnotations()
-	licenseHeader '/* (C)$YEAR */'
-}
+		eclipse()
+			.configFile("eclipse-formatter.xml")
+			.sortMembersEnabled(true)
+		formatAnnotations()
+		licenseHeader '/* (C)$YEAR */'
+	}
 }

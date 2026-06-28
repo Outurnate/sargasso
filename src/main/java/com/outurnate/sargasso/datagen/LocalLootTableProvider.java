@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -30,6 +31,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -37,13 +39,17 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -167,6 +173,25 @@ public class LocalLootTableProvider extends LootTableProvider {
                     Registries.LOOT_TABLE,
                     Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "books")),
                 LootTable.lootTable().withPool(lootPool));
+            consumer.accept(
+                ResourceKey.create(
+                    Registries.LOOT_TABLE,
+                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "chests/curios")),
+                LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(3, 7))
+                            .setBonusRolls(ConstantValue.exactly(1))
+                            .add(
+                                LootItem.lootTableItem(Items.POTION)
+                                    .apply(
+                                        SetComponentsFunction.setComponent(
+                                            DataComponents.POTION_CONTENTS,
+                                            new PotionContents(
+                                                Optional.empty(),
+                                                Optional.of(ARGB.color(0, 0, 255)),
+                                                List.of(),
+                                                Optional.of("asdf")))))));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {
