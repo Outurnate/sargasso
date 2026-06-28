@@ -118,9 +118,13 @@ public class LocalLootTableProvider extends LootTableProvider {
         public static final Logger LOGGER = LogUtils.getLogger();
         private final EpubReader reader = new EpubReader();
         private final HolderLookup.Provider lookupProvider;
+        private final HolderGetter<TrimMaterial> trimMaterialProvider;
+        private final HolderGetter<TrimPattern> trimPatternProvider;
 
         protected LocalLootTableSubProvider(HolderLookup.Provider lookupProvider) {
             this.lookupProvider = lookupProvider;
+            this.trimMaterialProvider = this.lookupProvider.lookup(Registries.TRIM_MATERIAL).get();
+            this.trimPatternProvider = this.lookupProvider.lookup(Registries.TRIM_PATTERN).get();
         }
 
         @Override
@@ -182,7 +186,8 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(generateShrinkingHelm())
                             .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM))
                             .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE))
-                            .add(generateLiarsPants())));
+                            .add(generateLiarsPants())
+                            .add(generateRocketBoots())));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
@@ -297,13 +302,39 @@ public class LocalLootTableProvider extends LootTableProvider {
             return lootPool;
         }
 
+        private LootItem.Builder<?> generateRocketBoots() {
+            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "liar");
+            return LootItem.lootTableItem(Items.GOLDEN_BOOTS)
+                .apply(
+                    SetNameFunction
+                        .setName(Component.translatable("sargasso.lore.rocket_boots"), Target.ITEM_NAME))
+                .apply(
+                    SetComponentsFunction.setComponent(
+                        DataComponents.TRIM,
+                        new ArmorTrim(
+                            trimMaterialProvider.getOrThrow(TrimMaterials.NETHERITE),
+                            trimPatternProvider.getOrThrow(TrimPatterns.SILENCE))))
+                .apply(
+                    SetAttributesFunction.setAttributes()
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.JUMP_STRENGTH,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+                                ConstantValue.exactly(10.0F))
+                                    .forSlot(EquipmentSlotGroup.ARMOR))
+                        .withModifier(
+                            new ModifierBuilder(
+                                modifierIdentifier,
+                                Attributes.FALL_DAMAGE_MULTIPLIER,
+                                AttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                ConstantValue.exactly(.2F))
+                                    .forSlot(EquipmentSlotGroup.ARMOR)));
+        }
+
         private LootItem.Builder<?> generateShrinkingHelm() {
             HolderGetter<Enchantment> enchantmentProvider = this.lookupProvider.lookup(Registries.ENCHANTMENT)
                 .get();
-            HolderGetter<TrimMaterial> trimMaterialProvider = this.lookupProvider
-                .lookup(Registries.TRIM_MATERIAL).get();
-            HolderGetter<TrimPattern> trimPatternProvider = this.lookupProvider
-                .lookup(Registries.TRIM_PATTERN).get();
 
             ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             enchantments.set(enchantmentProvider.getOrThrow(Enchantments.PROTECTION), 4);

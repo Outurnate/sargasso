@@ -31,6 +31,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("sargasso.lore.liar_pants", "Liar's Pants");
 
+        this.add("sargasso.lore.rocket_boots", "Dwarven Rocket Boots");
+
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
