@@ -408,6 +408,10 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
         return IGenerator.flatten(generator.generate(random, params));
     }
 
+    public static <T> LootItemConditionalFunction.Builder<?> setFlimFlam() {
+        return simpleBuilder(conditions -> new FlimFlamLoreFunction(conditions, Optional.empty()));
+    }
+
     private final Optional<LootContext.EntityTarget> resolutionContext;
 
     protected FlimFlamLoreFunction(

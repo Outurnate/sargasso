@@ -4,6 +4,7 @@ package com.outurnate.sargasso.datagen;
 import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.util.BookGenerator;
+import com.outurnate.sargasso.loot.FlimFlamLoreFunction;
 import com.outurnate.sargasso.loot.LostItemFunction;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
@@ -59,6 +60,7 @@ import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimMaterials;
 import net.minecraft.world.item.equipment.trim.TrimPattern;
 import net.minecraft.world.item.equipment.trim.TrimPatterns;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -187,7 +189,13 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM))
                             .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE))
                             .add(generateLiarsPants())
-                            .add(generateRocketBoots())));
+                            .add(generateRocketBoots())
+                            .add(generateTerribleTool(Items.WOODEN_AXE))
+                            .add(generateTerribleTool(Items.WOODEN_HOE))
+                            .add(generateTerribleTool(Items.WOODEN_PICKAXE))
+                            .add(generateTerribleTool(Items.WOODEN_SHOVEL))
+                            .add(generateTerribleTool(Items.WOODEN_SPEAR))
+                            .add(generateTerribleTool(Items.WOODEN_SWORD))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
@@ -312,8 +320,8 @@ public class LocalLootTableProvider extends LootTableProvider {
                     SetComponentsFunction.setComponent(
                         DataComponents.TRIM,
                         new ArmorTrim(
-                            trimMaterialProvider.getOrThrow(TrimMaterials.NETHERITE),
-                            trimPatternProvider.getOrThrow(TrimPatterns.SILENCE))))
+                            trimMaterialProvider.getOrThrow(TrimMaterials.REDSTONE),
+                            trimPatternProvider.getOrThrow(TrimPatterns.SNOUT))))
                 .apply(
                     SetAttributesFunction.setAttributes()
                         .withModifier(
@@ -390,6 +398,11 @@ public class LocalLootTableProvider extends LootTableProvider {
                                 Attributes.JUMP_STRENGTH,
                                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
                                 ConstantValue.exactly(-0.5F)).forSlot(EquipmentSlotGroup.ARMOR)));
+        }
+
+        private LootItem.Builder<?> generateTerribleTool(ItemLike item) {
+            return LootItem.lootTableItem(item)
+                .apply(FlimFlamLoreFunction.setFlimFlam());
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {
