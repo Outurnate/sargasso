@@ -178,6 +178,10 @@ public class LocalLootTableProvider extends LootTableProvider {
                     Registries.LOOT_TABLE,
                     Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "books")),
                 LootTable.lootTable().withPool(lootPool));
+            var hiddenPotionContents = SetComponentsFunction.setComponent(
+                DataComponents.TOOLTIP_DISPLAY,
+                TooltipDisplay.DEFAULT
+                    .withHidden(DataComponents.POTION_CONTENTS, true));
             consumer.accept(
                 ResourceKey.create(
                     Registries.LOOT_TABLE,
@@ -204,11 +208,45 @@ public class LocalLootTableProvider extends LootTableProvider {
                                     .apply(
                                         SetLoreFunction.setLore()
                                             .addLine(Component.translatable("sargasso.lore.fizzy_lifting")))
+                                    .apply(hiddenPotionContents))
+                            .add(
+                                LootItem.lootTableItem(Items.POTION)
                                     .apply(
                                         SetComponentsFunction.setComponent(
-                                            DataComponents.TOOLTIP_DISPLAY,
-                                            TooltipDisplay.DEFAULT
-                                                .withHidden(DataComponents.POTION_CONTENTS, true))))));
+                                            DataComponents.POTION_CONTENTS,
+                                            new PotionContents(
+                                                Optional.empty(),
+                                                Optional.of(ARGB.color(255, 30, 0)),
+                                                List.of(
+                                                    new MobEffectInstance(
+                                                        MobEffects.SPEED,
+                                                        36000,
+                                                        2),
+                                                    new MobEffectInstance(
+                                                        MobEffects.STRENGTH,
+                                                        36000,
+                                                        3),
+                                                    new MobEffectInstance(
+                                                        MobEffects.REGENERATION,
+                                                        36000,
+                                                        2),
+                                                    new MobEffectInstance(
+                                                        MobEffects.SLOWNESS,
+                                                        36000,
+                                                        3),
+                                                    new MobEffectInstance(
+                                                        MobEffects.WEAKNESS,
+                                                        36000,
+                                                        2),
+                                                    new MobEffectInstance(
+                                                        MobEffects.POISON,
+                                                        36000,
+                                                        1)),
+                                                Optional.of("bhj"))))
+                                    .apply(
+                                        SetLoreFunction.setLore()
+                                            .addLine(Component.translatable("sargasso.lore.bhj")))
+                                    .apply(hiddenPotionContents))));
         }
 
         private Book retrieveBook(String urlText) throws MalformedURLException, IOException {

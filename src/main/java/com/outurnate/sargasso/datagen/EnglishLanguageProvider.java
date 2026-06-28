@@ -19,8 +19,13 @@ public class EnglishLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         this.add("itemGroup.sargasso", "Super Sargasso Sea");
         this.add("sound.sargasso.cream_apply", "Bedrock cream applied");
+
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
+
+        this.add("item.minecraft.potion.effect.bhj", "Bone Hurting Juice");
+        this.add("sargasso.lore.bhj", "oof ouch my bones");
+
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
