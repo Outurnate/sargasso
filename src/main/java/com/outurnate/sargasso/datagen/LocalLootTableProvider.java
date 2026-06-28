@@ -182,7 +182,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(generateShrinkingHelm())
                             .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM))
                             .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE))
-                    /* .add(generateLiarsPants()) */));
+                            .add(generateLiarsPants())));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
@@ -191,14 +191,12 @@ public class LocalLootTableProvider extends LootTableProvider {
                 .apply(
                     SetNameFunction
                         .setName(Component.translatable("sargasso.lore.liar_pants"), Target.ITEM_NAME))
-                .apply(
-                    SetAttributesFunction.setAttributes()
-                        .withModifier(
-                            new ModifierBuilder(
-                                modifierIdentifier,
-                                Attributes.BURNING_TIME,
-                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
-                                ConstantValue.exactly(100.0F))));
+            /*
+             * .apply( SetAttributesFunction.setAttributes() .withModifier( new
+             * ModifierBuilder( modifierIdentifier, Attributes.BURNING_TIME,
+             * AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+             * ConstantValue.exactly(100.0F))));
+             */;
         }
 
         private LootItem.Builder<?> generateLootItemCustomPotion(
