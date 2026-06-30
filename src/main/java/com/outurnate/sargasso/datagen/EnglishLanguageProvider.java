@@ -6,15 +6,30 @@ import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
-
+import com.outurnate.sargasso.registry.LocalPotions;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.alchemy.Potion;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class EnglishLanguageProvider extends LanguageProvider {
     public EnglishLanguageProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, SuperSargassoSea.MODID, "en_us");
+    }
+
+    private void addPotion(String name, List<Holder<Potion>> potions) {
+        for (Holder<Potion> potion : potions) {
+            String key = potion.value().name();
+            this.add("item.minecraft.potion.effect." + key, name);
+            this.add("item.minecraft.splash_potion.effect." + key, "Splash Potion of " + name.toLowerCase());
+            this.add(
+                "item.minecraft.lingering_potion.effect." + key,
+                "Lingering Potion of " + name.toLowerCase());
+            this.add("item.minecraft.tipped_arrow.effect." + key, "Tipped Arrow of " + name.toLowerCase());
+        }
     }
 
     @Override
@@ -47,5 +62,13 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
+
+        this.addPotion(
+            "Juice that makes your head explode",
+            List.of(
+                LocalPotions.HEAD_EXPLOSION,
+                LocalPotions.STRONG_HEAD_EXPLOSION,
+                LocalPotions.EXTRA_STRONG_HEAD_EXPLOSION,
+                LocalPotions.LONG_HEAD_EXPLOSION));
     }
 }

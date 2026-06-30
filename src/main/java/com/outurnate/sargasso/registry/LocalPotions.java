@@ -61,11 +61,19 @@ public class LocalPotions {
             LONG_HEAD_EXPLOSION);
         builder.addMix(
             HEAD_EXPLOSION,
-            Items.GLOWSTONE,
+            Items.GLOWSTONE_DUST,
             STRONG_HEAD_EXPLOSION);
         builder.addMix(
             STRONG_HEAD_EXPLOSION,
-            Items.GLOWSTONE,
+            Items.GLOWSTONE_DUST,
             EXTRA_STRONG_HEAD_EXPLOSION);
+        builder.addMix(
+            Potions.MUNDANE,
+            Items.TNT,
+            LONG_HEAD_EXPLOSION);
+        builder.addMix(
+            Potions.THICK,
+            Items.TNT,
+            STRONG_HEAD_EXPLOSION);
     }
 }
