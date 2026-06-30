@@ -18,7 +18,7 @@ public class LocalMobEffects {
         "head_explosion",
         () -> new HeadExplosionEffect(
             MobEffectCategory.HARMFUL,
-            0xffffff));
+            0xff0000));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

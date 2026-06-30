@@ -5,6 +5,8 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.registry.LocalMobEffects;
+
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -43,5 +45,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.BREADROCK, "Breadrock");
         this.addItem(LocalItems.LIGHTNING_BOTTLE, "Lightning in a Bottle");
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
+
+        this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
     }
 }
