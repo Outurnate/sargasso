@@ -36,7 +36,12 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
         RandomSource random,
         IGenerator generator,
         Map<String, Component> params) {
-        return IGenerator.flatten(generator.generate(random, params));
+        try {
+            return IGenerator.flatten(generator.generate(random, params));
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+            throw e;
+        }
     }
 
     public static <T> LootItemConditionalFunction.Builder<?> setFlimFlam() {
