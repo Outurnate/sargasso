@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -14,8 +15,8 @@ public class LocalDamageTypesProvider {
         bootstrap.register(
             LocalDamageTypes.HEAD_EXPLOSION,
             new DamageType(
-                "death.attack.sargasso.head_explosion",
-                DamageScaling.ALWAYS,
+                SuperSargassoSea.MODID + ".head_explosion",
+                DamageScaling.NEVER,
                 0.1F,
                 DamageEffects.HURT,
                 DeathMessageType.DEFAULT));
