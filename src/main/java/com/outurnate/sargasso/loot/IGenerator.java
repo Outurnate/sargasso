@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso.loot;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,35 +8,20 @@ import java.util.Map;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.RandomSource;
 
 public interface IGenerator {
-    public static IGenerator alt(Object... obj) {
+    public static IGenerator alt(IGenerator... alts) {
         return new IGenerator() {
-            private final List<IGenerator> alts = ImmutableList.copyOf(convert(obj));
-
             @Override
             public Component generate(RandomSource random, Map<String, Component> params) {
-                if (alts.isEmpty())
+                if (alts.length == 0)
                     return Component.empty();
-                int choice = random.nextInt(alts.size());
-                return alts.get(choice).generate(random, params);
+                int choice = random.nextInt(alts.length);
+                return alts[choice].generate(random, params);
             }
         };
-    }
-
-    private static IGenerator[] convert(Object... args) {
-        IGenerator[] result = new IGenerator[args.length];
-        for (int i = 0; i < args.length; i++) {
-            Object arg = args[i];
-            if (arg instanceof IGenerator)
-                result[i] = (IGenerator) arg;
-            else if (arg instanceof Component)
-                result[i] = terminal((Component) arg);
-            else
-                result[i] = terminal(Component.literal(arg.toString()));
-        }
-        return result;
     }
 
     public static Component flatten(Component component) {
@@ -107,10 +91,8 @@ public interface IGenerator {
         };
     }
 
-    public static IGenerator seq(Object... obj) {
+    public static IGenerator seq(IGenerator... parts) {
         return new IGenerator() {
-            private final List<IGenerator> parts = ImmutableList.copyOf(convert(obj));
-
             @Override
             public Component generate(RandomSource random, Map<String, Component> params) {
                 List<Component> results = new ArrayList<Component>();
@@ -130,14 +112,14 @@ public interface IGenerator {
         return sub(key, null);
     }
 
-    public static IGenerator sub(String key, Component defaultValue) {
+    public static IGenerator sub(String key, TranslatableContents defaultValue) {
         return new IGenerator() {
             @Override
             public Component generate(RandomSource random, Map<String, Component> params) {
                 if (params.get(key) != null)
                     return params.get(key);
                 else if (defaultValue != null)
-                    return defaultValue;
+                    return MutableComponent.create(defaultValue);
                 return Component.empty();
             }
         };
@@ -152,10 +134,12 @@ public interface IGenerator {
         };
     }
 
-    public static IGenerator word(Object... obj) {
-        return new IGenerator() {
-            private final List<IGenerator> parts = ImmutableList.copyOf(convert(obj));
+    public static IGenerator terminal(String object) {
+        return terminal(Component.literal(object));
+    }
 
+    public static IGenerator word(IGenerator... parts) {
+        return new IGenerator() {
             @Override
             public Component generate(RandomSource random, Map<String, Component> params) {
                 List<Component> results = Lists.newArrayList();
