@@ -8,6 +8,7 @@ import com.outurnate.sargasso.loot.FlimFlamLoreFunction;
 import com.outurnate.sargasso.loot.LostItemFunction;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.registry.LocalPotions;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,6 +76,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemDamageFunction;
 import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction.Target;
+import net.minecraft.world.level.storage.loot.functions.SetPotionFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -197,7 +199,10 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(generateTerribleTool(Items.WOODEN_PICKAXE))
                             .add(generateTerribleTool(Items.WOODEN_SHOVEL))
                             .add(generateTerribleTool(Items.WOODEN_SPEAR))
-                            .add(generateTerribleTool(Items.WOODEN_SWORD))));
+                            .add(generateTerribleTool(Items.WOODEN_SWORD))
+                            .add(
+                                LootItem.lootTableItem(Items.POTION)
+                                    .apply(SetPotionFunction.setPotion(LocalPotions.HEAD_EXPLOSION)))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {

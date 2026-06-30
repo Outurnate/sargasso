@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
-import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 
 import net.minecraft.core.registries.Registries;
@@ -14,11 +13,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
 
-import org.slf4j.Logger;
-
 public class HeadExplosionEffect extends MobEffect {
-    public static final Logger LOGGER = LogUtils.getLogger();
-
     public HeadExplosionEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
@@ -29,7 +24,6 @@ public class HeadExplosionEffect extends MobEffect {
             level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
                 .getOrThrow(LocalDamageTypes.HEAD_EXPLOSION));
         mob.hurtServer(level, damageSource, (float) Math.pow(10.0, amplification + 1));
-        LOGGER.debug(String.valueOf((float) Math.pow(10.0, amplification + 1)));
         if (level.getGameRules().get(GameRules.MOB_GRIEFING)) {
             level
                 .explode(

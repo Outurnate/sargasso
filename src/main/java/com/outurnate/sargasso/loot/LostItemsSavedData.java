@@ -61,6 +61,20 @@ public class LostItemsSavedData extends SavedData {
         }
     };
 
+    public static void AddLostItem(ItemStack lostStack) {
+        LostItemsSavedData self = instance();
+
+        if (lostStack == null || lostStack.count() <= 0 || lostStack.is(Items.AIR)
+            || lostStack.is(LocalTags.ALWAYS_LOST)) {
+            return;
+        }
+
+        int originalCount = lostStack.getCount();
+        lostStack.setCount(1);
+        self.lostStacks.addTo(lostStack, originalCount);
+        self.setDirty();
+    }
+
     public static ItemStack GetLostItem(RandomSource random) {
         LostItemsSavedData instance = instance();
 
@@ -108,7 +122,7 @@ public class LostItemsSavedData extends SavedData {
 
     @SubscribeEvent
     public static void onItemExpire(ItemExpireEvent event) {
-        instance().addLostItem(event.getEntity().getItem());
+        AddLostItem(event.getEntity().getItem());
     }
 
     private final Object2LongOpenCustomHashMap<ItemStack> lostStacks;
@@ -123,17 +137,5 @@ public class LostItemsSavedData extends SavedData {
             counts.stream().mapToLong(Long::longValue).toArray(),
             Hash.DEFAULT_LOAD_FACTOR,
             STRATEGY);
-    }
-
-    private void addLostItem(ItemStack lostStack) {
-        if (lostStack == null || lostStack.count() <= 0 || lostStack.is(Items.AIR)
-            || lostStack.is(LocalTags.ALWAYS_LOST)) {
-            return;
-        }
-
-        int originalCount = lostStack.getCount();
-        lostStack.setCount(1);
-        this.lostStacks.addTo(lostStack, originalCount);
-        this.setDirty();
     }
 }
