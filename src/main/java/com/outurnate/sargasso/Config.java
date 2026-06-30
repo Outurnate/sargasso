@@ -14,6 +14,10 @@ public class Config {
         .comment(
             "Maximum number of despawned items of a given type to preserve before excess items are ignored.")
         .defineInRange("maxLostItemsOfType", Long.MAX_VALUE, 0, Long.MAX_VALUE);
+    public static final ModConfigSpec.BooleanValue VOID_SENDS_TO_SEA = BUILDER
+        .comment(
+            "Do players who fall out of the world end up in the Super Sargasso Sea?")
+        .define("voidSendsToSea", true);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
