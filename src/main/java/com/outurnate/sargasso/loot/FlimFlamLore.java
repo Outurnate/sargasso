@@ -15,6 +15,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import javax.management.RuntimeErrorException;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import org.slf4j.Logger;
@@ -574,6 +575,8 @@ public class FlimFlamLore {
     private static IGenerator[] gen(List<TranslatableContents> def) {
         LOGGER.error(String.valueOf(def == null));
         LOGGER.error(String.valueOf(def));
+        if (def == null)
+            throw new RuntimeErrorException(null);
         return def.stream().map(FlimFlamLore::gen).toArray(IGenerator[]::new);
     }
 
