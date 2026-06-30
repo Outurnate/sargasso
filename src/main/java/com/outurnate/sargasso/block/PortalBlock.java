@@ -20,9 +20,10 @@ public class PortalBlock extends Block {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(5) == 0) {
+        // if (random.nextInt(5) == 0) {
+        if (true) {
             Vec3 randPos = pos.getCenter()
-                .add(random.nextGaussian() - 0.5, random.nextGaussian() - 0.5, random.nextGaussian() - 0.5);
+                .add(random.nextGaussian() / 2.0, random.nextGaussian() / 2.0, random.nextGaussian() / 2.0);
             level.addParticle(
                 ParticleTypes.END_ROD,
                 randPos.x,
