@@ -39,7 +39,7 @@ public class Utils {
                 true)
             .getHeight(Types.WORLD_SURFACE, x, z);
 
-        player.teleportTo(sea, x + 0.5, y, z + 0.5, Set.of(), 0, 0, false);
+        player.teleportTo(sea, x + 0.5, y + 1.0, z + 0.5, Set.of(), 0, 0, false);
         sea.playSound(null, player, SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 }

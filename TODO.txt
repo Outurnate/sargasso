@@ -2,8 +2,9 @@
 - Finish curios loot table - should have 0-1 "good" items, plus a whole lot of junk
 - structures, structures, structures
 - Structure processor list for adding glitches
-- Create a method for entering the dimension (1/2)
 - time markers might be in the wrong spot?
+- finish textures :)
 
 DONE
 - Juice that makes your head explode
+- Create a method for entering the dimension (2/2)
