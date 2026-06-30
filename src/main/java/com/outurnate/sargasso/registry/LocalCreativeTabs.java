@@ -19,7 +19,7 @@ public class LocalCreativeTabs {
         "tab",
         () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.sargasso"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> LocalItems.JUNK.get().getDefaultInstance())
+            .icon(() -> LocalItems.LIGHTNING_BOTTLE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 for (DeferredHolder<Item, ? extends Item> item : LocalItems.REGISTRY.getEntries()) {
                     output.accept(item.get());
