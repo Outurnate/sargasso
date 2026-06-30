@@ -18,10 +18,10 @@ public class LocalDamageTypesTagsProvider extends DamageTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
-        this.tag(DamageTypeTags.BYPASSES_ARMOR).add(LocalDamageTypes.HEAD_EXPLOSION);
-        this.tag(DamageTypeTags.BYPASSES_COOLDOWN).add(LocalDamageTypes.HEAD_EXPLOSION);
-        this.tag(DamageTypeTags.BYPASSES_INVULNERABILITY).add(LocalDamageTypes.HEAD_EXPLOSION);
-        this.tag(DamageTypeTags.BYPASSES_SHIELD).add(LocalDamageTypes.HEAD_EXPLOSION);
-        this.tag(DamageTypeTags.IS_EXPLOSION).add(LocalDamageTypes.HEAD_EXPLOSION);
+        this.tag(DamageTypeTags.BYPASSES_ARMOR).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
+        this.tag(DamageTypeTags.BYPASSES_COOLDOWN).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
+        this.tag(DamageTypeTags.BYPASSES_INVULNERABILITY).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
+        this.tag(DamageTypeTags.BYPASSES_SHIELD).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
+        this.tag(DamageTypeTags.IS_EXPLOSION).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
     }
 }
