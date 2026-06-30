@@ -35,6 +35,7 @@ public class DataGenerators {
             new RegistrySetBuilder()
                 .add(Registries.BIOME, LocalBiomesProvider::provide)
                 .add(Registries.CONFIGURED_FEATURE, LocalConfiguredFeaturesProvider::provide)
+                .add(Registries.DAMAGE_TYPE, LocalDamageTypesProvider::provide)
                 .add(Registries.DIMENSION_TYPE, LocalDimensionTypesProvider::provide)
                 .add(Registries.NOISE_SETTINGS, LocalNoiseSettingsProvider::provide)
                 .add(Registries.PLACED_FEATURE, LocalPlacedFeaturesProvider::provide)

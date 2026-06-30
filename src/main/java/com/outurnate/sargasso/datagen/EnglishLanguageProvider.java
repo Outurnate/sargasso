@@ -70,5 +70,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
                 LocalPotions.STRONG_HEAD_EXPLOSION,
                 LocalPotions.EXTRA_STRONG_HEAD_EXPLOSION,
                 LocalPotions.LONG_HEAD_EXPLOSION));
+
+        this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
     }
 }

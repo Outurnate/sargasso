@@ -2,7 +2,11 @@
 package com.outurnate.sargasso;
 
 import com.mojang.logging.LogUtils;
+import com.outurnate.sargasso.registry.LocalDamageTypes;
+
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +25,13 @@ public class HeadExplosionEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity mob, int amplification) {
-        mob.hurtServer(level, mob.damageSources().magic(), 100000000.0F);
+        DamageSource damageSource = new DamageSource(
+            level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(LocalDamageTypes.HEAD_EXPLOSION),
+            mob,
+            mob,
+            null);
+        mob.hurtServer(level, damageSource, (float) Math.pow(10.0, amplification + 1));
         if (level.getGameRules().get(GameRules.MOB_GRIEFING)) {
             level
                 .explode(
