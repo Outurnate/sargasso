@@ -49,6 +49,6 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
             .add(Items.SPAWNER)
             .add(Items.TRIAL_SPAWNER)
             .add(Items.VAULT)
-            .add(LocalItems.JUNK.get());
+            .add(LocalItems.DEBRIS.get());
     }
 }

@@ -106,7 +106,7 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
 
-        itemModels.generateFlatItem(LocalItems.JUNK.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);

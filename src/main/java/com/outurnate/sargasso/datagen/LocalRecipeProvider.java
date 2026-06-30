@@ -45,10 +45,10 @@ public class LocalRecipeProvider extends RecipeProvider {
             .save(this.output);
         this
             .shaped(RecipeCategory.BUILDING_BLOCKS, LocalItems.FLOTSAM)
-            .define('J', LocalItems.JUNK.get())
+            .define('J', LocalItems.DEBRIS.get())
             .pattern("JJ")
             .pattern("JJ")
-            .unlockedBy("has_junk", this.has(LocalItems.JUNK.get()))
+            .unlockedBy("has_junk", this.has(LocalItems.DEBRIS.get()))
             .save(this.output);
     }
 }

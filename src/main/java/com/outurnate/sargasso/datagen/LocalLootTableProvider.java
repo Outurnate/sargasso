@@ -97,7 +97,7 @@ public class LocalLootTableProvider extends LootTableProvider {
 
         @Override
         protected void generate() {
-            this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.JUNK.get()));
+            this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.DEBRIS.get()));
             this.add(
                 LocalBlocks.CREAMY_BEDROCK.get(),
                 this.createSingleItemTable(
@@ -107,7 +107,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                 LocalBlocks.FLOTSAM.get(),
                 this.createSilkTouchDispatchTable(
                     LocalBlocks.FLOTSAM.get(),
-                    LootItem.lootTableItem(LocalItems.JUNK.get())
+                    LootItem.lootTableItem(LocalItems.DEBRIS.get())
                         .apply(LostItemFunction.createBuilder())));
         }
 

@@ -73,7 +73,7 @@ public class GlitchBlockEntity extends BlockEntity {
         list.add(
             (
                 level,
-                pos) -> new ItemEntity(level, pos.x, pos.y, pos.z, new ItemStack(LocalItems.JUNK.get(), 1)),
+                pos) -> new ItemEntity(level, pos.x, pos.y, pos.z, new ItemStack(LocalItems.DEBRIS.get(), 1)),
             20);
         list.add(
             (
