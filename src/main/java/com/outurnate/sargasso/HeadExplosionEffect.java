@@ -31,7 +31,7 @@ public class HeadExplosionEffect extends MobEffect {
                     mob.getX(),
                     mob.getY(0.0625),
                     mob.getZ(),
-                    4.0F, // TODO amplification
+                    Math.min(4.0F * amplification, 8.0F), // TODO amplification
                     false,
                     Level.ExplosionInteraction.TNT);
         }
