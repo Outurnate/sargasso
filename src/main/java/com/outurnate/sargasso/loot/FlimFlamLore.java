@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import javax.management.RuntimeErrorException;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import org.slf4j.Logger;
@@ -498,30 +496,30 @@ public class FlimFlamLore {
     public static final IGenerator INSTANCE;
 
     private static IGenerator createHeroGenerator() {
-        IGenerator heroesPrefix = alt(gen(heroesPrefixEntries));
-        IGenerator heroesPostfix = alt(gen(heroesPostfixEntries));
+        IGenerator heroesPrefix = alt(terminal(heroesPrefixEntries));
+        IGenerator heroesPostfix = alt(terminal(heroesPostfixEntries));
         IGenerator heroName = word(heroesPrefix, opt(0.6f, heroesPostfix));
-        IGenerator heroOptional = alt(gen(heroOptionalEntries));
-        IGenerator heroAdj = alt(gen(heroAdjEntries));
-        IGenerator heroClass = alt(gen(heroClassEntries));
+        IGenerator heroOptional = alt(terminal(heroOptionalEntries));
+        IGenerator heroAdj = alt(terminal(heroAdjEntries));
+        IGenerator heroClass = alt(terminal(heroClassEntries));
         IGenerator classicHeroes = seq(
             heroName,
-            gen(classicHeroesThe),
+            terminal(classicHeroesThe),
             seq(
                 opt(0.2f, heroOptional),
                 heroAdj,
                 heroClass,
-                opt(0.2f, word(gen(levelPrefix), range(1, 11), gen(levelSuffix)))));
+                opt(0.2f, word(terminal(levelPrefix), range(1, 11), terminal(levelSuffix)))));
 
-        IGenerator firstName = alt(gen(firstNameEntries));
-        IGenerator lastNameComponent = alt(gen(lastNameEntries));
+        IGenerator firstName = alt(terminal(firstNameEntries));
+        IGenerator lastNameComponent = alt(terminal(lastNameEntries));
         IGenerator lastName = alt(
             lastNameComponent,
             word(lastNameComponent, terminal("-"), lastNameComponent));
-        IGenerator pseudonym = alt(gen(pseudonymEntries));
-        IGenerator namePrefix = alt(gen(namePrefixEntries));
-        IGenerator middleName = alt(gen(middleNameEntries));
-        IGenerator nameSuffix = alt(gen(nameSuffixEntries));
+        IGenerator pseudonym = alt(terminal(pseudonymEntries));
+        IGenerator namePrefix = alt(terminal(namePrefixEntries));
+        IGenerator middleName = alt(terminal(middleNameEntries));
+        IGenerator nameSuffix = alt(terminal(nameSuffixEntries));
 
         final IGenerator middleStuff = seq(
             opt(0.1f, middleName),
@@ -530,7 +528,7 @@ public class FlimFlamLore {
             opt(0.4f, namePrefix),
             firstName,
             middleStuff,
-            opt(0.3f, alt(gen(nameInfixEntries))),
+            opt(0.3f, alt(terminal(nameInfixEntries))),
             lastName,
             opt(0.2f, word(terminal(" "), nameSuffix)));
 
@@ -538,92 +536,92 @@ public class FlimFlamLore {
     }
 
     private static IGenerator createLoreGenerator() {
-        IGenerator adj1lc = alt(gen(adjective1LowercaseEntries));
-        IGenerator adj1uc = alt(gen(adjective1UppercaseEntries));
-        IGenerator adj2uc = alt(gen(adjective2UppercaseEntries));
+        IGenerator adj1lc = alt(terminal(adjective1LowercaseEntries));
+        IGenerator adj1uc = alt(terminal(adjective1UppercaseEntries));
+        IGenerator adj2uc = alt(terminal(adjective2UppercaseEntries));
         IGenerator adjs = opt(0.7f, seq(adj2uc, adj1lc), adj1uc);
-        IGenerator parts = alt(gen(partsEntries));
+        IGenerator parts = alt(terminal(partsEntries));
 
-        IGenerator placeAdj = alt(gen(placeAdjectiveEntries));
-        IGenerator kingdomAdjective = alt(gen(kingdomAdjectiveEntries));
+        IGenerator placeAdj = alt(terminal(placeAdjectiveEntries));
+        IGenerator kingdomAdjective = alt(terminal(kingdomAdjectiveEntries));
         IGenerator kingdomish = seq(
             opt(0.4f, placeAdj),
-            alt(gen(kingdomishEntries)));
+            alt(terminal(kingdomishEntries)));
         IGenerator placeWithAdj = seq(
             kingdomish,
-            gen(kingdomOf),
+            terminal(kingdomOf),
             kingdomAdjective,
-            opt(0.2f, seq(gen(kingdomAnd), kingdomAdjective)));
-        IGenerator mountainName = alt(gen(mountainNameEntries));
-        IGenerator mountain = seq(opt(0.6f, placeAdj), gen(mountainPrefix), mountainName);
-        final IGenerator hardcodedPlaces = alt(gen(hardcodedPlacesEntries));
+            opt(0.2f, seq(terminal(kingdomAnd), kingdomAdjective)));
+        IGenerator mountainName = alt(terminal(mountainNameEntries));
+        IGenerator mountain = seq(opt(0.6f, placeAdj), terminal(mountainPrefix), mountainName);
+        final IGenerator hardcodedPlaces = alt(terminal(hardcodedPlacesEntries));
         IGenerator places = alt(placeWithAdj, mountain, hardcodedPlaces);
 
-        IGenerator otherPeople = alt(gen(otherPeopleEntries));
-        IGenerator actor = seq(alt(heroGenerator, seq(otherPeople, gen(actorOf), places)));
+        IGenerator otherPeople = alt(terminal(otherPeopleEntries));
+        IGenerator actor = seq(alt(heroGenerator, seq(otherPeople, terminal(actorOf), places)));
 
-        IGenerator story = alt(gen(noStory), seq(gen(storyIntro), actor));
+        IGenerator story = alt(terminal(noStory), seq(terminal(storyIntro), actor));
         IGenerator epicLoot = seq(opt(0.5f, adjs), parts, story);
 
         IGenerator created = seq(
-            alt(gen(createdEntries)),
+            alt(terminal(createdEntries)),
             epicLoot);
-        IGenerator loaned = seq(gen(loanedTo), actor);
-        IGenerator forgotten = seq(gen(forgottenIn), alt(gen(forgottenEntries)));
+        IGenerator loaned = seq(terminal(loanedTo), actor);
+        IGenerator forgotten = seq(terminal(forgottenIn), alt(terminal(forgottenEntries)));
         IGenerator origin = alt(
             created,
             seq(
                 alt(
                     Stream.concat(
-                        Arrays.stream(gen(originEntries)),
+                        Arrays.stream(terminal(originEntries)),
                         Stream.of(loaned, forgotten))
                         .toArray(IGenerator[]::new)),
-                gen(originBy),
+                terminal(originBy),
                 heroGenerator));
 
         IGenerator itemAction = alt(
             Stream.concat(
-                Arrays.stream(gen(itemActionEntries)),
-                Stream.of(word(sub("item", thing), gen(infinitiveSuffix)))).toArray(IGenerator[]::new));
+                Arrays.stream(terminal(itemActionEntries)),
+                Stream.of(word(sub("item", thing), terminal(infinitiveSuffix)))).toArray(IGenerator[]::new));
         IGenerator itemType = alt(
             sub("item", gizmo),
-            alt(gen(itemTypeEntries)));
-        IGenerator item = seq(opt(0.9f, adjs), itemType, opt(0.9f, seq(gen(itemOf), itemAction)));
+            alt(terminal(itemTypeEntries)));
+        IGenerator item = seq(opt(0.9f, adjs), itemType, opt(0.9f, seq(terminal(itemOf), itemAction)));
         IGenerator fullItem = seq(item, opt(0.05f, seq(terminal("™️"))));
 
-        IGenerator taunt = alt(gen(tauntEntries));
+        IGenerator taunt = alt(terminal(tauntEntries));
         IGenerator playerGet = seq(
-            alt(gen(playerGetEntries)),
+            alt(terminal(playerGetEntries)),
             places);
         IGenerator ownerInfo = seq(
             playerGet,
-            gen(ownerBy),
-            opt(0.3f, seq(taunt, gen(named))),
+            terminal(ownerBy),
+            opt(0.3f, seq(taunt, terminal(named))),
             sub("player", defaultPlayer));
 
         IGenerator randomItems = alt(
-            gen(randomItemsEntries));
+            terminal(randomItemsEntries));
         IGenerator organizationSpeciality = alt(
             randomItems,
-            seq(randomItems, gen(organizationSpecialityAnd), randomItems));
+            seq(randomItems, terminal(organizationSpecialityAnd), randomItems));
 
-        IGenerator university = seq(gen(universityOf), alt(hardcodedPlaces, organizationSpeciality));
+        IGenerator university = seq(terminal(universityOf), alt(hardcodedPlaces, organizationSpeciality));
 
-        IGenerator institutish = alt(gen(institutishEntries));
-        IGenerator institute = seq(institutish, gen(instituteOf), organizationSpeciality);
+        IGenerator institutish = alt(terminal(institutishEntries));
+        IGenerator institute = seq(institutish, terminal(instituteOf), organizationSpeciality);
 
-        IGenerator foundationFirst = alt(gen(foundationFirstEntries));
-        IGenerator foundationSecond = alt(gen(foundationSecondEntries));
+        IGenerator foundationFirst = alt(terminal(foundationFirstEntries));
+        IGenerator foundationSecond = alt(terminal(foundationSecondEntries));
         IGenerator foundation = seq(
-            word(foundationFirst, gen(foundationInfix), foundationSecond),
-            gen(foundationSuffix));
+            word(foundationFirst, terminal(foundationInfix), foundationSecond),
+            terminal(foundationSuffix));
 
         IGenerator organization = alt(university, foundation, institute);
 
-        IGenerator restoredInfo = seq(gen(restoredBy), organization);
-        IGenerator recent = seq(gen(recently), alt(ownerInfo, restoredInfo));
+        IGenerator restoredInfo = seq(terminal(restoredBy), organization);
+        IGenerator recent = seq(terminal(recently), alt(ownerInfo, restoredInfo));
 
-        IGenerator extra = alt(gen(extraEntries));
+        IGenerator extra = alt(terminal(extraEntries));
         return word(
             fullItem,
             opt(0.5f, seq(terminal(","), origin)),
@@ -697,18 +695,6 @@ public class FlimFlamLore {
             .flatMap(Function.identity()).forEach(entry -> {
                 prov.add(entry.getKey(), entry.getFallback());
             });
-    }
-
-    private static IGenerator[] gen(List<TranslatableContents> def) {
-        LOGGER.error(String.valueOf(def == null));
-        LOGGER.error(String.valueOf(def));
-        if (def == null)
-            throw new RuntimeErrorException(null);
-        return def.stream().map(FlimFlamLore::gen).toArray(IGenerator[]::new);
-    }
-
-    private static IGenerator gen(TranslatableContents def) {
-        return IGenerator.terminal(MutableComponent.create(def));
     }
 
     private static List<TranslatableContents> map(String setName, String... values) {

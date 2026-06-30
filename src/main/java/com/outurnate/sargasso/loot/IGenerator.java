@@ -1,12 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso.loot;
 
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.ComponentContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.RandomSource;
@@ -15,30 +14,28 @@ public interface IGenerator {
     public static IGenerator alt(IGenerator... alts) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
                 if (alts.length == 0)
-                    return Component.empty();
+                    return List.of(PlainTextContents.EMPTY);
                 int choice = random.nextInt(alts.length);
                 return alts[choice].generate(random, params);
             }
         };
     }
 
-    public static Component flatten(Component component) {
-        return flatten(component.toFlatList());
-    }
-
-    private static Component flatten(List<Component> components) {
-        MutableComponent result = Component.empty();
+    private static List<ComponentContents> flatten(List<ComponentContents> components) {
+        List<ComponentContents> result = new ArrayList<>();
         boolean previousWasSpace = false;
 
-        for (Component component : components) {
-            boolean isSpace = component.getContents() instanceof LiteralContents literal
+        for (ComponentContents component : components) {
+            boolean isSpace = component instanceof LiteralContents literal
                 && " ".equals(literal.text());
             if (isSpace && previousWasSpace) {
                 continue;
             }
-            result.append(component);
+            result.add(component);
             previousWasSpace = isSpace;
         }
 
@@ -62,18 +59,25 @@ public interface IGenerator {
         return result;
     }
 
-    private static boolean isEmpty(Component component) {
-        return component.equals(Component.empty());
+    // TODO maybe removee
+    private static boolean isEmpty(ComponentContents component) {
+        return component.equals(PlainTextContents.EMPTY);
+    }
+
+    private static boolean isEmpty(List<ComponentContents> component) {
+        return component.size() == 0 || component.stream().allMatch(PlainTextContents.EMPTY::equals);
     }
 
     public static IGenerator opt(float probability, IGenerator gen) {
-        return opt(probability, gen, terminal(Component.empty()));
+        return opt(probability, gen, terminal(PlainTextContents.EMPTY));
     }
 
     public static IGenerator opt(float probability, IGenerator left, IGenerator right) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
                 return (random.nextFloat() < probability) ? left.generate(random, params)
                     : right.generate(random, params);
             }
@@ -85,8 +89,10 @@ public interface IGenerator {
             private final int range = end - start;
 
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
-                return Component.literal(Integer.toString(start + random.nextInt(range)));
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
+                return List.of(PlainTextContents.create(Integer.toString(start + random.nextInt(range))));
             }
         };
     }
@@ -94,16 +100,18 @@ public interface IGenerator {
     public static IGenerator seq(IGenerator... parts) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
-                List<Component> results = new ArrayList<Component>();
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
+                List<ComponentContents> results = new ArrayList<>();
 
                 for (IGenerator part : parts) {
-                    Component result = part.generate(random, params);
+                    List<ComponentContents> result = part.generate(random, params);
                     if (!isEmpty(result))
-                        results.add(result);
+                        results.addAll(result);
                 }
 
-                return flatten(intersperse(results, Component.literal(" ")));
+                return flatten(intersperse(results, PlainTextContents.create(" ")));
             }
         };
     }
@@ -115,39 +123,49 @@ public interface IGenerator {
     public static IGenerator sub(String key, TranslatableContents defaultValue) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
                 if (params.get(key) != null)
-                    return params.get(key);
+                    return List.of(params.get(key));
                 else if (defaultValue != null)
-                    return MutableComponent.create(defaultValue);
-                return Component.empty();
+                    return List.of(defaultValue);
+                return List.of(PlainTextContents.EMPTY);
             }
         };
     }
 
-    public static IGenerator terminal(Component object) {
+    public static IGenerator terminal(ComponentContents object) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
-                return object;
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
+                return List.of(object);
             }
         };
+    }
+
+    public static IGenerator[] terminal(List<TranslatableContents> def) {
+        return def.stream().map(IGenerator::terminal).toArray(IGenerator[]::new);
     }
 
     public static IGenerator terminal(String object) {
-        return terminal(Component.literal(object));
+        return terminal(PlainTextContents.create(object));
     }
 
     public static IGenerator word(IGenerator... parts) {
         return new IGenerator() {
             @Override
-            public Component generate(RandomSource random, Map<String, Component> params) {
-                List<Component> results = Lists.newArrayList();
+            public List<ComponentContents> generate(
+                RandomSource random,
+                Map<String, ComponentContents> params) {
+                List<ComponentContents> results = new ArrayList<>();
 
                 for (IGenerator part : parts) {
-                    Component result = part.generate(random, params);
+                    List<ComponentContents> result = part.generate(random, params);
                     if (!isEmpty(result))
-                        results.add(result);
+                        results.addAll(result);
                 }
 
                 return flatten(results);
@@ -155,5 +173,5 @@ public interface IGenerator {
         };
     }
 
-    public Component generate(RandomSource random, Map<String, Component> params);
+    public List<ComponentContents> generate(RandomSource random, Map<String, ComponentContents> params);
 }

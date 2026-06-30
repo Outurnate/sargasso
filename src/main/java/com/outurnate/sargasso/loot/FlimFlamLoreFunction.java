@@ -1,11 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso.loot;
 
-import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +13,8 @@ import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentContents;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,9 +37,11 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
     private static Component generate(
         RandomSource random,
         IGenerator generator,
-        Map<String, Component> params) {
+        Map<String, ComponentContents> params) {
         try {
-            return IGenerator.flatten(generator.generate(random, params));
+            return generator.generate(random, params).stream()
+                .map(MutableComponent::create)
+                .reduce(Component.empty(), MutableComponent::append);
         } catch (Exception e) {
             LOGGER.error(e.toString());
             throw e;
@@ -65,11 +69,11 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
     @Override
     public ItemStack run(ItemStack itemStack, LootContext context) {
         try {
-            Map<String, Component> params = Maps.newHashMap();
+            Map<String, ComponentContents> params = new HashMap<>();
             if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player player) {
-                params.put("player", player.getName());
+                params.put("player", player.getName().getContents());
             }
-            params.put("item", itemStack.getItemName());
+            params.put("item", itemStack.getItemName().getContents());
             itemStack.update(
                 DataComponents.LORE,
                 ItemLore.EMPTY,
