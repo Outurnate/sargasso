@@ -1,0 +1,7 @@
+- Add localization to flim flam lore generator (maybe also split it into two classes)
+- Finish curios loot table - should have 0-1 "good" items, plus a whole lot of junk
+- structures, structures, structures
+- Juice that makes your head explode
+- Structure processor list for adding glitches
+- Create a method for entering the dimension
+- time markers might be in the wrong spot?

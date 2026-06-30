@@ -316,7 +316,6 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
             created,
             seq(alt("stolen", loaned, "imagined", forgotten, "found behind couch"), "by", heroGenerator));
 
-        IGenerator itemModifier = alt("replica of");
         IGenerator itemAction = alt(
             "beating",
             "bleeding",
@@ -332,7 +331,7 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
             sub("item", Component.literal("gizmo")),
             alt("gizmo", "thingmajig", "doodad", "tat", "thingie"));
         IGenerator item = seq(opt(0.9f, adjs), itemType, opt(0.9f, seq("of", itemAction)));
-        IGenerator fullItem = seq(opt(0.1f, itemModifier), item, opt(0.05f, seq("(TM)")));
+        IGenerator fullItem = seq(item, opt(0.05f, seq("(TM)")));
 
         IGenerator taunt = alt("wimp", "noob", "git", "fool", "that scoundrel", "scumbag");
         IGenerator playerGet = seq(
