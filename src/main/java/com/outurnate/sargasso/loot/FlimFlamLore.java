@@ -14,10 +14,12 @@ import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import javax.management.RuntimeErrorException;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 import org.slf4j.Logger;
 
 public class FlimFlamLore {
@@ -312,7 +314,7 @@ public class FlimFlamLore {
         kingdomAnd = map("kingdomAnd", "and");
         kingdomOf = map("kingdomOf", "of");
         mountainPrefix = map("mountainPrefix", "Mt.");
-        actorOf = map("kingdomOf", "of");
+        actorOf = map("actorOf", "of");
         storyIntro = map("storyIntro", "that previously belonged to");
         createdEntries = map(
             "created",
@@ -431,68 +433,67 @@ public class FlimFlamLore {
 
         heroGenerator = createHeroGenerator();
         INSTANCE = createLoreGenerator();
-
     }
-    public static final List<TranslatableContents> heroesPrefixEntries;
-    public static final List<TranslatableContents> heroesPostfixEntries;
-    public static final List<TranslatableContents> heroOptionalEntries;
-    public static final List<TranslatableContents> heroAdjEntries;
-    public static final List<TranslatableContents> heroClassEntries;
-    public static final List<TranslatableContents> firstNameEntries;
-    public static final List<TranslatableContents> lastNameEntries;
-    public static final List<TranslatableContents> pseudonymEntries;
-    public static final List<TranslatableContents> namePrefixEntries;
-    public static final List<TranslatableContents> middleNameEntries;
-    public static final List<TranslatableContents> nameSuffixEntries;
-    public static final List<TranslatableContents> nameInfixEntries;
-    public static final List<TranslatableContents> adjective1LowercaseEntries;
-    public static final List<TranslatableContents> adjective1UppercaseEntries;
-    public static final List<TranslatableContents> adjective2UppercaseEntries;
-    public static final List<TranslatableContents> partsEntries;
-    public static final List<TranslatableContents> placeAdjectiveEntries;
-    public static final List<TranslatableContents> kingdomAdjectiveEntries;
-    public static final List<TranslatableContents> kingdomishEntries;
-    public static final List<TranslatableContents> mountainNameEntries;
-    public static final List<TranslatableContents> hardcodedPlacesEntries;
-    public static final List<TranslatableContents> otherPeopleEntries;
-    public static final List<TranslatableContents> createdEntries;
-    public static final List<TranslatableContents> forgottenEntries;
-    public static final List<TranslatableContents> originEntries;
-    public static final List<TranslatableContents> itemActionEntries;
-    public static final List<TranslatableContents> itemTypeEntries;
-    public static final List<TranslatableContents> tauntEntries;
-    public static final List<TranslatableContents> playerGetEntries;
-    public static final List<TranslatableContents> randomItemsEntries;
-    public static final List<TranslatableContents> institutishEntries;
-    public static final List<TranslatableContents> foundationFirstEntries;
-    public static final List<TranslatableContents> foundationSecondEntries;
-    public static final List<TranslatableContents> extraEntries;
-    public static final TranslatableContents classicHeroesThe;
-    public static final TranslatableContents levelPrefix;
-    public static final TranslatableContents levelSuffix;
-    public static final TranslatableContents noStory;
-    public static final TranslatableContents kingdomAnd;
-    public static final TranslatableContents kingdomOf;
-    public static final TranslatableContents mountainPrefix;
-    public static final TranslatableContents actorOf;
-    public static final TranslatableContents storyIntro;
-    public static final TranslatableContents loanedTo;
-    public static final TranslatableContents forgottenIn;
-    public static final TranslatableContents originBy;
-    public static final TranslatableContents thing;
-    public static final TranslatableContents infinitiveSuffix;
-    public static final TranslatableContents gizmo;
-    public static final TranslatableContents itemOf;
-    public static final TranslatableContents defaultPlayer;
-    public static final TranslatableContents ownerBy;
-    public static final TranslatableContents named;
-    public static final TranslatableContents organizationSpecialityAnd;
-    public static final TranslatableContents universityOf;
-    public static final TranslatableContents instituteOf;
-    public static final TranslatableContents foundationInfix;
-    public static final TranslatableContents foundationSuffix;
-    public static final TranslatableContents restoredBy;
-    public static final TranslatableContents recently;
+    private static final List<TranslatableContents> heroesPrefixEntries;
+    private static final List<TranslatableContents> heroesPostfixEntries;
+    private static final List<TranslatableContents> heroOptionalEntries;
+    private static final List<TranslatableContents> heroAdjEntries;
+    private static final List<TranslatableContents> heroClassEntries;
+    private static final List<TranslatableContents> firstNameEntries;
+    private static final List<TranslatableContents> lastNameEntries;
+    private static final List<TranslatableContents> pseudonymEntries;
+    private static final List<TranslatableContents> namePrefixEntries;
+    private static final List<TranslatableContents> middleNameEntries;
+    private static final List<TranslatableContents> nameSuffixEntries;
+    private static final List<TranslatableContents> nameInfixEntries;
+    private static final List<TranslatableContents> adjective1LowercaseEntries;
+    private static final List<TranslatableContents> adjective1UppercaseEntries;
+    private static final List<TranslatableContents> adjective2UppercaseEntries;
+    private static final List<TranslatableContents> partsEntries;
+    private static final List<TranslatableContents> placeAdjectiveEntries;
+    private static final List<TranslatableContents> kingdomAdjectiveEntries;
+    private static final List<TranslatableContents> kingdomishEntries;
+    private static final List<TranslatableContents> mountainNameEntries;
+    private static final List<TranslatableContents> hardcodedPlacesEntries;
+    private static final List<TranslatableContents> otherPeopleEntries;
+    private static final List<TranslatableContents> createdEntries;
+    private static final List<TranslatableContents> forgottenEntries;
+    private static final List<TranslatableContents> originEntries;
+    private static final List<TranslatableContents> itemActionEntries;
+    private static final List<TranslatableContents> itemTypeEntries;
+    private static final List<TranslatableContents> tauntEntries;
+    private static final List<TranslatableContents> playerGetEntries;
+    private static final List<TranslatableContents> randomItemsEntries;
+    private static final List<TranslatableContents> institutishEntries;
+    private static final List<TranslatableContents> foundationFirstEntries;
+    private static final List<TranslatableContents> foundationSecondEntries;
+    private static final List<TranslatableContents> extraEntries;
+    private static final TranslatableContents classicHeroesThe;
+    private static final TranslatableContents levelPrefix;
+    private static final TranslatableContents levelSuffix;
+    private static final TranslatableContents noStory;
+    private static final TranslatableContents kingdomAnd;
+    private static final TranslatableContents kingdomOf;
+    private static final TranslatableContents mountainPrefix;
+    private static final TranslatableContents actorOf;
+    private static final TranslatableContents storyIntro;
+    private static final TranslatableContents loanedTo;
+    private static final TranslatableContents forgottenIn;
+    private static final TranslatableContents originBy;
+    private static final TranslatableContents thing;
+    private static final TranslatableContents infinitiveSuffix;
+    private static final TranslatableContents gizmo;
+    private static final TranslatableContents itemOf;
+    private static final TranslatableContents defaultPlayer;
+    private static final TranslatableContents ownerBy;
+    private static final TranslatableContents named;
+    private static final TranslatableContents organizationSpecialityAnd;
+    private static final TranslatableContents universityOf;
+    private static final TranslatableContents instituteOf;
+    private static final TranslatableContents foundationInfix;
+    private static final TranslatableContents foundationSuffix;
+    private static final TranslatableContents restoredBy;
+    private static final TranslatableContents recently;
     private static final IGenerator heroGenerator;
     public static final IGenerator INSTANCE;
 
@@ -628,6 +629,74 @@ public class FlimFlamLore {
             opt(0.5f, seq(terminal(","), origin)),
             opt(0.5f, seq(terminal("."), recent)),
             opt(0.2f, seq(terminal("."), extra)));
+    }
+
+    public static void dataGen(LanguageProvider prov) {
+        Stream.of(
+            heroesPrefixEntries.stream(),
+            heroesPostfixEntries.stream(),
+            heroOptionalEntries.stream(),
+            heroAdjEntries.stream(),
+            heroClassEntries.stream(),
+            firstNameEntries.stream(),
+            lastNameEntries.stream(),
+            pseudonymEntries.stream(),
+            namePrefixEntries.stream(),
+            middleNameEntries.stream(),
+            nameSuffixEntries.stream(),
+            nameInfixEntries.stream(),
+            adjective1LowercaseEntries.stream(),
+            adjective1UppercaseEntries.stream(),
+            adjective2UppercaseEntries.stream(),
+            partsEntries.stream(),
+            placeAdjectiveEntries.stream(),
+            kingdomAdjectiveEntries.stream(),
+            kingdomishEntries.stream(),
+            mountainNameEntries.stream(),
+            hardcodedPlacesEntries.stream(),
+            otherPeopleEntries.stream(),
+            createdEntries.stream(),
+            forgottenEntries.stream(),
+            originEntries.stream(),
+            itemActionEntries.stream(),
+            itemTypeEntries.stream(),
+            tauntEntries.stream(),
+            playerGetEntries.stream(),
+            randomItemsEntries.stream(),
+            institutishEntries.stream(),
+            foundationFirstEntries.stream(),
+            foundationSecondEntries.stream(),
+            extraEntries.stream(),
+            Stream.of(
+                classicHeroesThe,
+                levelPrefix,
+                levelSuffix,
+                noStory,
+                kingdomAnd,
+                kingdomOf,
+                mountainPrefix,
+                actorOf,
+                storyIntro,
+                loanedTo,
+                forgottenIn,
+                originBy,
+                thing,
+                infinitiveSuffix,
+                gizmo,
+                itemOf,
+                defaultPlayer,
+                ownerBy,
+                named,
+                organizationSpecialityAnd,
+                universityOf,
+                instituteOf,
+                foundationInfix,
+                foundationSuffix,
+                restoredBy,
+                recently))
+            .flatMap(Function.identity()).forEach(entry -> {
+                prov.add(entry.getKey(), entry.getFallback());
+            });
     }
 
     private static IGenerator[] gen(List<TranslatableContents> def) {

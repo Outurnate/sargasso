@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
@@ -71,5 +72,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
                 LocalPotions.LONG_HEAD_EXPLOSION));
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
+
+        FlimFlamLore.dataGen(this);
     }
 }
