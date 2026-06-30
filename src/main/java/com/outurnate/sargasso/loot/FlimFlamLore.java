@@ -10,14 +10,17 @@ import static com.outurnate.sargasso.loot.IGenerator.terminal;
 import static com.outurnate.sargasso.loot.IGenerator.word;
 
 import com.google.common.collect.Streams;
+import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import org.slf4j.Logger;
 
 public class FlimFlamLore {
+    public static final Logger LOGGER = LogUtils.getLogger();
     public static final List<TranslatableContents> heroesPrefixEntries = map(
         "heroesPrefix",
         "Grunnar",
@@ -569,6 +572,8 @@ public class FlimFlamLore {
     }
 
     private static IGenerator[] gen(List<TranslatableContents> def) {
+        LOGGER.error(String.valueOf(def == null));
+        LOGGER.error(String.valueOf(def));
         return def.stream().map(FlimFlamLore::gen).toArray(IGenerator[]::new);
     }
 
