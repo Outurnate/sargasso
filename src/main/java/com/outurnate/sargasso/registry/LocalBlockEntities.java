@@ -3,7 +3,6 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
-import com.outurnate.sargasso.block.entity.PortalBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,13 +20,6 @@ public class LocalBlockEntities {
                 GlitchBlockEntity::new,
                 false,
                 LocalBlocks.GLITCH.get()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PortalBlockEntity>> PORTAL = REGISTRY
-        .register(
-            "portal",
-            () -> new BlockEntityType<>(
-                PortalBlockEntity::new,
-                false,
-                LocalBlocks.PORTAL.get()));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
