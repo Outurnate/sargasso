@@ -26,8 +26,6 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent.Client event) {
         event.createProvider(LocalModelProvider::new);
         event.createProvider(EnglishLanguageProvider::new);
-        event.createProvider(LocalTimelineTagsProvider::new);
-        event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
         event.createProvider(LocalSoundDefinitionsProvider::new);
@@ -44,5 +42,8 @@ public class DataGenerators {
                 .add(Registries.TEMPLATE_POOL, LocalStructureTemplatePoolsProvider::provide)
                 .add(Registries.TIMELINE, LocalTimelinesProvider::provide)
                 .add(Registries.WORLD_CLOCK, LocalWorldClocksProvider::provide));
+        event.createProvider(LocalDamageTypesTagsProvider::new);
+        event.createProvider(LocalTimelineTagsProvider::new);
+        event.createProvider(LocalItemTagsProvider::new);
     }
 }
