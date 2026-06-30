@@ -3,6 +3,7 @@ package com.outurnate.sargasso.mixin;
 
 import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.registry.LocalDimensions;
+import java.util.Set;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +25,7 @@ public abstract class LivingEntityMixin {
         LOGGER.debug("ALIVE_PLAYER");
         if ((Object) this instanceof ServerPlayer self) {
             ServerLevel sea = self.level().getServer().getLevel(LocalDimensions.SEA);
-            self.teleportTo(sea, 0, 256, 0, null, 0, 0, false);
+            self.teleportTo(sea, 0, 256, 0, Set.of(), 0, 0, false);
         }
     }
 }
