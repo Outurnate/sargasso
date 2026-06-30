@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -20,8 +21,7 @@ public class PortalBlock extends Block {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        // if (random.nextInt(5) == 0) {
-        if (true) {
+        if (random.nextInt(2) == 0) {
             Vec3 randPos = pos.getCenter()
                 .add(random.nextGaussian() / 2.0, random.nextGaussian() / 2.0, random.nextGaussian() / 2.0);
             level.addParticle(
@@ -46,5 +46,10 @@ public class PortalBlock extends Block {
         if (entity instanceof ServerPlayer player && player.canUsePortal(false)) {
             Utils.sendToSea(player);
         }
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
     }
 }
