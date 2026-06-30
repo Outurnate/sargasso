@@ -6,6 +6,8 @@ import java.util.Set;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -38,5 +40,6 @@ public class Utils {
             .getHeight(Types.WORLD_SURFACE, x, z);
 
         player.teleportTo(sea, x + 0.5, y, z + 0.5, Set.of(), 0, 0, false);
+        sea.playSound(null, player, SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 }
