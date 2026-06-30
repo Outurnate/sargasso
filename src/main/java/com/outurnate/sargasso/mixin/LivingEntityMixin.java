@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,7 +35,11 @@ public abstract class LivingEntityMixin {
             int x = (int) (radius * Mth.cos(theta));
             int z = (int) (radius * Mth.sin(theta));
             int y = sea.getChunkSource()
-                .getChunkNow(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z))
+                .getChunk(
+                    SectionPos.blockToSectionCoord(x),
+                    SectionPos.blockToSectionCoord(z),
+                    ChunkStatus.FULL,
+                    true)
                 .getHeight(Types.WORLD_SURFACE, x, z);
 
             self.teleportTo(sea, x, y, z, Set.of(), 0, 0, false);
