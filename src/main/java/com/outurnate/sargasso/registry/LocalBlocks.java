@@ -4,6 +4,7 @@ package com.outurnate.sargasso.registry;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
+import com.outurnate.sargasso.block.PortalBlock;
 
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.Block;
@@ -56,6 +57,19 @@ public class LocalBlocks {
     public static final DeferredBlock<Block> GLITCH = REGISTRY.registerBlock(
         "glitch",
         p -> new GlitchBlock(p),
+        p -> p
+            .mapColor(MapColor.COLOR_BLACK)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .strength(-1.0F, 3600000.0F)
+            .noLootTable()
+            .isValidSpawn(Blocks::never)
+            .noCollision()
+            .noOcclusion()
+            .sound(SoundType.AMETHYST));
+
+    public static final DeferredBlock<Block> PORTAL = REGISTRY.registerBlock(
+        "portal",
+        p -> new PortalBlock(p),
         p -> p
             .mapColor(MapColor.COLOR_BLACK)
             .instrument(NoteBlockInstrument.BASEDRUM)

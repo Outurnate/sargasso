@@ -18,6 +18,10 @@ public class Config {
         .comment(
             "Do players who fall out of the world end up in the Super Sargasso Sea?")
         .define("voidSendsToSea", true);
+    public static final ModConfigSpec.DoubleValue VOID_SPAWN_RADIUS = BUILDER
+        .comment(
+            "Players entering the Super Sargasso Sea will spawn on a circle with this radius")
+        .defineInRange("spawnRadius", 1000.0, 0.0, 30_000_000.0);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

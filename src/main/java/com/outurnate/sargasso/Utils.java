@@ -1,7 +1,15 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.outurnate.sargasso.registry.LocalDimensions;
+import java.util.Set;
+import net.minecraft.core.SectionPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 
 public class Utils {
     public static long nextLong(RandomSource randomSource, long max) {
@@ -11,5 +19,24 @@ public class Utils {
             r = randomSource.nextLong() & Long.MAX_VALUE;
         } while (r >= limit);
         return r % max;
+    }
+
+    public static void sendToSea(ServerPlayer player) {
+        ServerLevel sea = player.level().getServer().getLevel(LocalDimensions.SEA);
+        RandomSource random = sea.getRandom();
+
+        float radius = (float) Config.VOID_SPAWN_RADIUS.getAsDouble();
+        float theta = random.nextFloat() * Mth.TWO_PI;
+        int x = (int) (radius * Mth.cos(theta));
+        int z = (int) (radius * Mth.sin(theta));
+        int y = sea.getChunkSource()
+            .getChunk(
+                SectionPos.blockToSectionCoord(x),
+                SectionPos.blockToSectionCoord(z),
+                ChunkStatus.FULL,
+                true)
+            .getHeight(Types.WORLD_SURFACE, x, z);
+
+        player.teleportTo(sea, x + 0.5, y, z + 0.5, Set.of(), 0, 0, false);
     }
 }
