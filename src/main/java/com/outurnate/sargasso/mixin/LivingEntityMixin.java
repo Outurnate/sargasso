@@ -33,9 +33,9 @@ public abstract class LivingEntityMixin {
             float theta = random.nextFloat() * Mth.TWO_PI;
             int x = (int) (radius * Mth.cos(theta));
             int z = (int) (radius * Mth.sin(theta));
-            sea.getChunkSource()
-                .getChunkNow(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z));
-            int y = sea.getHeight(Types.WORLD_SURFACE, x, z);
+            int y = sea.getChunkSource()
+                .getChunkNow(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z))
+                .getHeight(Types.WORLD_SURFACE, x, z);
 
             self.teleportTo(sea, x, y, z, Set.of(), 0, 0, false);
         }
