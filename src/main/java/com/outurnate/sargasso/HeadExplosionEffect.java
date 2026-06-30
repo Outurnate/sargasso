@@ -27,11 +27,9 @@ public class HeadExplosionEffect extends MobEffect {
     public boolean applyEffectTick(ServerLevel level, LivingEntity mob, int amplification) {
         DamageSource damageSource = new DamageSource(
             level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
-                .getOrThrow(LocalDamageTypes.HEAD_EXPLOSION),
-            mob,
-            mob,
-            null);
+                .getOrThrow(LocalDamageTypes.HEAD_EXPLOSION));
         mob.hurtServer(level, damageSource, (float) Math.pow(10.0, amplification + 1));
+        LOGGER.debug(String.valueOf((float) Math.pow(10.0, amplification + 1)));
         if (level.getGameRules().get(GameRules.MOB_GRIEFING)) {
             level
                 .explode(
