@@ -22,421 +22,479 @@ import org.slf4j.Logger;
 
 public class FlimFlamLore {
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final List<TranslatableContents> heroesPrefixEntries = map(
-        "heroesPrefix",
-        "Grunnar",
-        "Hermann",
-        "Sven",
-        "Grarg",
-        "Blarf",
-        "Hans",
-        "Nathan",
-        "Oglaf",
-        "Eric",
-        "Bob",
-        "Banan",
-        "Alaric");
-    public static final List<TranslatableContents> heroesPostfixEntries = map(
-        "heroesPostfix",
-        "ish",
-        "ilde",
-        "monkeybutt",
-        "son",
-        "shvili",
-        "berg",
-        "bert",
-        "us");
-    public static final List<TranslatableContents> heroOptionalEntries = map(
-        "heroOptional",
-        "slightly",
-        "sometimes",
-        "mistakenly",
-        "somehow",
-        "part-time");
-    public static final List<TranslatableContents> heroAdjEntries = map(
-        "heroAdj",
-        "insane",
-        "brave",
-        "smelly",
-        "philosophical",
-        "jumping",
-        "toothless",
-        "burning",
-        "heroic",
-        "shy",
-        "narcoleptic",
-        "manly",
-        "girly",
-        "non-euclidian",
-        "euphoric",
-        "misanthropic",
-        "ambivalent",
-        "fictional",
-        "fetishist");
-    public static final List<TranslatableContents> heroClassEntries = map(
-        "heroClass",
-        "babycrusher",
-        "wrestler",
-        "nitpicker",
-        "barber",
-        "anesthesiologist",
-        "sharpshooter",
-        "plumber",
-        "insurance salesman",
-        "clown",
-        "empiricist",
-        "defenestrator",
-        "visigoth",
-        "nipple twister");
-    public static final List<TranslatableContents> firstNameEntries = map(
-        "firstName",
-        "Bill",
-        "Juliet",
-        "Nigel",
-        "Steve",
-        "Parsnip",
-        "Cucumber",
-        "Ludwig",
-        "Markus",
-        "Sven",
-        "Clark",
-        "Carl",
-        "Throatwobbler",
-        "Raymond",
-        "Nancy",
-        "Brian",
-        "Brunhilda",
-        "Richard",
-        "Rupert");
-    public static final List<TranslatableContents> lastNameEntries = map(
-        "lastName",
-        "Smith",
-        "Weston",
-        "Banana",
-        "Drum",
-        "Forklift",
-        "Ampersand",
-        "Fruitbat",
-        "Fhtagn",
-        "Svenson",
-        "Stein",
-        "Gutenabend",
-        "Mangrove",
-        "Bigglesworth",
-        "Larch",
-        "Semicolon",
-        "Wurst",
-        "Nixon",
-        "Baden",
-        "Priapus");
-    public static final List<TranslatableContents> pseudonymEntries = map(
-        "pseudonym",
-        "Duckie",
-        "Nosepicker",
-        "Snort",
-        "Bomber",
-        "Ouch",
-        "Anvil",
-        "Halfslab",
-        "Radiator",
-        "Barbie",
-        "Biggles",
-        "Income Tax",
-        "Not In Face",
-        "Tea Time",
-        "Twerk",
-        "Mutalisk",
-        "Bueno",
-        "Sixpack",
-        "Yellow Snow");
-    public static final List<TranslatableContents> namePrefixEntries = map(
-        "namePrefix",
-        "Dr.",
-        "Rev.",
-        "Ms",
-        "Mr",
-        "Prof.",
-        "Hon.",
-        "Sgt.",
-        "Cmdr.",
-        "Sir",
-        "Lady",
-        "Comrade",
-        "His Magnificence",
-        "Her Holiness",
-        "The Right Honourable");
-    public static final List<TranslatableContents> middleNameEntries = map("middleName", "W.", "T.", "F.");
-    public static final List<TranslatableContents> nameSuffixEntries = map(
-        "nameSuffix",
-        "M.Sc",
-        "Ph.D",
-        "OBE",
-        "Jr.",
-        "Sr.",
-        "III",
-        "II",
-        "Esq.");
-    public static final List<TranslatableContents> nameInfixEntries = map(
-        "nameInfix",
-        "von",
-        "de",
-        "van",
-        "van de",
-        "de la");
 
-    private static final IGenerator heroGenerator = createHeroGenerator();
+    static {
+        heroesPrefixEntries = map(
+            "heroesPrefix",
+            "Grunnar",
+            "Hermann",
+            "Sven",
+            "Grarg",
+            "Blarf",
+            "Hans",
+            "Nathan",
+            "Oglaf",
+            "Eric",
+            "Bob",
+            "Banan",
+            "Alaric");
+        heroesPostfixEntries = map(
+            "heroesPostfix",
+            "ish",
+            "ilde",
+            "monkeybutt",
+            "son",
+            "shvili",
+            "berg",
+            "bert",
+            "us");
+        heroOptionalEntries = map(
+            "heroOptional",
+            "slightly",
+            "sometimes",
+            "mistakenly",
+            "somehow",
+            "part-time");
+        heroAdjEntries = map(
+            "heroAdj",
+            "insane",
+            "brave",
+            "smelly",
+            "philosophical",
+            "jumping",
+            "toothless",
+            "burning",
+            "heroic",
+            "shy",
+            "narcoleptic",
+            "manly",
+            "girly",
+            "non-euclidian",
+            "euphoric",
+            "misanthropic",
+            "ambivalent",
+            "fictional",
+            "fetishist");
+        heroClassEntries = map(
+            "heroClass",
+            "babycrusher",
+            "wrestler",
+            "nitpicker",
+            "barber",
+            "anesthesiologist",
+            "sharpshooter",
+            "plumber",
+            "insurance salesman",
+            "clown",
+            "empiricist",
+            "defenestrator",
+            "visigoth",
+            "nipple twister");
+        firstNameEntries = map(
+            "firstName",
+            "Bill",
+            "Juliet",
+            "Nigel",
+            "Steve",
+            "Parsnip",
+            "Cucumber",
+            "Ludwig",
+            "Markus",
+            "Sven",
+            "Clark",
+            "Carl",
+            "Throatwobbler",
+            "Raymond",
+            "Nancy",
+            "Brian",
+            "Brunhilda",
+            "Richard",
+            "Rupert");
+        lastNameEntries = map(
+            "lastName",
+            "Smith",
+            "Weston",
+            "Banana",
+            "Drum",
+            "Forklift",
+            "Ampersand",
+            "Fruitbat",
+            "Fhtagn",
+            "Svenson",
+            "Stein",
+            "Gutenabend",
+            "Mangrove",
+            "Bigglesworth",
+            "Larch",
+            "Semicolon",
+            "Wurst",
+            "Nixon",
+            "Baden",
+            "Priapus");
+        pseudonymEntries = map(
+            "pseudonym",
+            "Duckie",
+            "Nosepicker",
+            "Snort",
+            "Bomber",
+            "Ouch",
+            "Anvil",
+            "Halfslab",
+            "Radiator",
+            "Barbie",
+            "Biggles",
+            "Income Tax",
+            "Not In Face",
+            "Tea Time",
+            "Twerk",
+            "Mutalisk",
+            "Bueno",
+            "Sixpack",
+            "Yellow Snow");
+        namePrefixEntries = map(
+            "namePrefix",
+            "Dr.",
+            "Rev.",
+            "Ms",
+            "Mr",
+            "Prof.",
+            "Hon.",
+            "Sgt.",
+            "Cmdr.",
+            "Sir",
+            "Lady",
+            "Comrade",
+            "His Magnificence",
+            "Her Holiness",
+            "The Right Honourable");
+        middleNameEntries = map("middleName", "W.", "T.", "F.");
+        nameSuffixEntries = map(
+            "nameSuffix",
+            "M.Sc",
+            "Ph.D",
+            "OBE",
+            "Jr.",
+            "Sr.",
+            "III",
+            "II",
+            "Esq.");
+        nameInfixEntries = map(
+            "nameInfix",
+            "von",
+            "de",
+            "van",
+            "van de",
+            "de la");
+        classicHeroesThe = map("classicHeroesThe", "the");
+        levelPrefix = map("levelPrefix", "(lvl. ");
+        levelSuffix = map("levelSuffix", ")");
+        adjective1LowercaseEntries = map(
+            "adj1lc",
+            "overpowered",
+            "misspelled",
+            "store-brand",
+            "unsettling",
+            "unremarkable",
+            "sleazy",
+            "boring",
+            "golden",
+            "junky",
+            "ergonomic",
+            "low voltage",
+            "many-angled");
+        adjective1UppercaseEntries = map(
+            "adj1uc",
+            "Overpowered",
+            "Misspelled",
+            "Store-brand",
+            "Unsettling",
+            "Unremarkable",
+            "Sleazy",
+            "Boring",
+            "Golden",
+            "Junky",
+            "Ergonomic",
+            "Low voltage",
+            "Many-angled");
+        adjective2UppercaseEntries = map(
+            "adj2uc",
+            "Cursed",
+            "Legendary",
+            "Unique",
+            "Penultimate",
+            "Awesome",
+            "Suboptimal",
+            "Mighty",
+            "Ridiculously",
+            "Slightly");
+        partsEntries = map(
+            "parts",
+            "codpiece",
+            "loincloth",
+            "toothbrush",
+            "dental floss",
+            "eggbeater",
+            "rubber chicken with a pulley in the middle",
+            "shovel",
+            "hammoc",
+            "panties",
+            "spatula",
+            "fedora");
+        placeAdjectiveEntries = map(
+            "placeAdjective",
+            "deadly",
+            "dreadful",
+            "boring",
+            "cheap",
+            "backwater",
+            "tax-free",
+            "gluten-free",
+            "dark",
+            "evil",
+            "misunderstood");
+        kingdomAdjectiveEntries = map(
+            "kingdomAdjective",
+            "loathing",
+            "meat",
+            "potatoes",
+            "hydrocarbonates",
+            "sweden",
+            "slighlty unpleasant things",
+            "herpaderp",
+            "sobbing",
+            "knitting");
+        kingdomishEntries = map(
+            "kingdomish",
+            "kingdom",
+            "cave",
+            "gorge",
+            "convention",
+            "pit",
+            "bazaar",
+            "land");
+        mountainNameEntries = map(
+            "mountainName",
+            "lard",
+            "butter",
+            "rotten eggs",
+            "brimstone",
+            "newts",
+            "doom",
+            "croc",
+            "flipflop");
+        hardcodedPlacesEntries = map(
+            "hardcodedPlaces",
+            "dalania",
+            "prussia",
+            "foobaria",
+            "hot dog stand",
+            "abyssinia",
+            "zanzibar",
+            "eastasia",
+            "freedonia",
+            "latveria",
+            "woolloomooloo",
+            "breslau",
+            "uzbekistan",
+            "north korea",
+            "lower intestine",
+            "hyperborea");
+        otherPeopleEntries = map(
+            "otherPeople",
+            "youtube personalities",
+            "dwarves",
+            "villagers",
+            "elves",
+            "tax collectors",
+            "quality testers",
+            "boring people");
+        noStory = map("noStory", "that nobody cares about");
+        kingdomAnd = map("kingdomAnd", "and");
+        kingdomOf = map("kingdomOf", "of");
+        mountainPrefix = map("mountainPrefix", "Mt.");
+        actorOf = map("kingdomOf", "of");
+        storyIntro = map("storyIntro", "that previously belonged to");
+        createdEntries = map(
+            "created",
+            "repurposed from",
+            "originally bundled with ",
+            "forged from",
+            "not to be mistaken with");
+        forgottenEntries = map(
+            "forgotten",
+            "post office",
+            "loo",
+            "deep hole",
+            "hurry");
+        loanedTo = map("loanedTo", "loaned to");
+        forgottenIn = map("forgottenIn", "forgotten in");
+        originEntries = map(
+            "origin",
+            "stolen",
+            "imagined",
+            "found behind couch");
+        originBy = map("originBy", "by");
+        itemActionEntries = map(
+            "itemAction",
+            "beating",
+            "bleeding",
+            "winds",
+            "things",
+            "cooking",
+            "looting",
+            "scrubing",
+            "backpain",
+            "hernia");
+        thing = map("thing", "thing");
+        infinitiveSuffix = map("infinitiveSuffix", "ing");
+        gizmo = map("gizmo", "gizmo");
+        itemTypeEntries = map(
+            "itemType",
+            "gizmo",
+            "thingmajig",
+            "doodad",
+            "tat",
+            "thingie");
+        itemOf = map("itemOf", "of");
+        tauntEntries = map(
+            "taunt",
+            "wimp",
+            "noob",
+            "git",
+            "fool",
+            "that scoundrel",
+            "scumbag");
+        playerGetEntries = map(
+            "playerGet",
+            "stolen from",
+            "found in",
+            "bought in",
+            "dug out in",
+            "smuggled from");
+        defaultPlayer = map("defaultPlayer", "Frank");
+        randomItemsEntries = map(
+            "randomItems",
+            "bananas",
+            "grapes",
+            "hairpins",
+            "corks",
+            "shuffling",
+            "squash",
+            "penguins");
+        ownerBy = map("ownerBy", "by");
+        named = map("named", "named");
+        organizationSpecialityAnd = map(
+            "organizationSpecialityAnd",
+            "and");
+        universityOf = map("universityOf", "university of");
+        institutishEntries = map(
+            "institutishEntries",
+            "institute",
+            "council",
+            "committee");
+        foundationFirstEntries = map(
+            "foundationFirst",
+            "lick",
+            "pick",
+            "poke",
+            "prod",
+            "smell",
+            "ring",
+            "steal",
+            "hug",
+            "kick",
+            "fwap");
+        foundationSecondEntries = map(
+            "foundationSecond",
+            "fish",
+            "sauce",
+            "leopard",
+            "pick",
+            "smell",
+            "mayonaise",
+            "steal",
+            "grave",
+            "derp");
+        instituteOf = map("instituteOf", "of");
+        foundationInfix = map("foundationInfix", "-a-");
+        foundationSuffix = map("foundationSuffix", "foundation");
+        restoredBy = map("restoredBy", "restored by");
+        recently = map("recently", "Recently");
+        extraEntries = map(
+            "extraEntries",
+            "$1.99 each",
+            "5 quids in plain wrapper",
+            "Accept no substitues",
+            "Made in China",
+            "Batteries not included",
+            "Patent pending");
 
-    public static final IGenerator INSTANCE = createLoreGenerator();
+        heroGenerator = createHeroGenerator();
+        INSTANCE = createLoreGenerator();
 
-    public static final TranslatableContents classicHeroesThe = map("classicHeroesThe", "the");
-
-    public static final TranslatableContents levelPrefix = map("levelPrefix", "(lvl. ");
-
-    public static final TranslatableContents levelSuffix = map("levelSuffix", ")");
-
-    public static final List<TranslatableContents> adjective1LowercaseEntries = map(
-        "adj1lc",
-        "overpowered",
-        "misspelled",
-        "store-brand",
-        "unsettling",
-        "unremarkable",
-        "sleazy",
-        "boring",
-        "golden",
-        "junky",
-        "ergonomic",
-        "low voltage",
-        "many-angled");
-
-    public static final List<TranslatableContents> adjective1UppercaseEntries = map(
-        "adj1uc",
-        "Overpowered",
-        "Misspelled",
-        "Store-brand",
-        "Unsettling",
-        "Unremarkable",
-        "Sleazy",
-        "Boring",
-        "Golden",
-        "Junky",
-        "Ergonomic",
-        "Low voltage",
-        "Many-angled");
-    public static final List<TranslatableContents> adjective2UppercaseEntries = map(
-        "adj2uc",
-        "Cursed",
-        "Legendary",
-        "Unique",
-        "Penultimate",
-        "Awesome",
-        "Suboptimal",
-        "Mighty",
-        "Ridiculously",
-        "Slightly");
-    public static final List<TranslatableContents> partsEntries = map(
-        "parts",
-        "codpiece",
-        "loincloth",
-        "toothbrush",
-        "dental floss",
-        "eggbeater",
-        "rubber chicken with a pulley in the middle",
-        "shovel",
-        "hammoc",
-        "panties",
-        "spatula",
-        "fedora");
-
-    public static final List<TranslatableContents> placeAdjectiveEntries = map(
-        "placeAdjective",
-        "deadly",
-        "dreadful",
-        "boring",
-        "cheap",
-        "backwater",
-        "tax-free",
-        "gluten-free",
-        "dark",
-        "evil",
-        "misunderstood");
-
-    public static final List<TranslatableContents> kingdomAdjectiveEntries = map(
-        "kingdomAdjective",
-        "loathing",
-        "meat",
-        "potatoes",
-        "hydrocarbonates",
-        "sweden",
-        "slighlty unpleasant things",
-        "herpaderp",
-        "sobbing",
-        "knitting");
-    public static final List<TranslatableContents> kingdomishEntries = map(
-        "kingdomish",
-        "kingdom",
-        "cave",
-        "gorge",
-        "convention",
-        "pit",
-        "bazaar",
-        "land");
-    public static final List<TranslatableContents> mountainNameEntries = map(
-        "mountainName",
-        "lard",
-        "butter",
-        "rotten eggs",
-        "brimstone",
-        "newts",
-        "doom",
-        "croc",
-        "flipflop");
-    public static final List<TranslatableContents> hardcodedPlacesEntries = map(
-        "hardcodedPlaces",
-        "dalania",
-        "prussia",
-        "foobaria",
-        "hot dog stand",
-        "abyssinia",
-        "zanzibar",
-        "eastasia",
-        "freedonia",
-        "latveria",
-        "woolloomooloo",
-        "breslau",
-        "uzbekistan",
-        "north korea",
-        "lower intestine",
-        "hyperborea");
-    public static final List<TranslatableContents> otherPeopleEntries = map(
-        "otherPeople",
-        "youtube personalities",
-        "dwarves",
-        "villagers",
-        "elves",
-        "tax collectors",
-        "quality testers",
-        "boring people");
-    public static final TranslatableContents noStory = map("noStory", "that nobody cares about");
-    public static final TranslatableContents kingdomAnd = map("kingdomAnd", "and");
-    public static final TranslatableContents kingdomOf = map("kingdomOf", "of");
-    public static final TranslatableContents mountainPrefix = map("mountainPrefix", "Mt.");
-    public static final TranslatableContents actorOf = map("kingdomOf", "of");
-    public static final TranslatableContents storyIntro = map("storyIntro", "that previously belonged to");
-    public static final List<TranslatableContents> createdEntries = map(
-        "created",
-        "repurposed from",
-        "originally bundled with ",
-        "forged from",
-        "not to be mistaken with");
-    public static final List<TranslatableContents> forgottenEntries = map(
-        "forgotten",
-        "post office",
-        "loo",
-        "deep hole",
-        "hurry");
-    public static final TranslatableContents loanedTo = map("loanedTo", "loaned to");
-    public static final TranslatableContents forgottenIn = map("forgottenIn", "forgotten in");
-    public static final List<TranslatableContents> originEntries = map(
-        "origin",
-        "stolen",
-        "imagined",
-        "found behind couch");
-    public static final TranslatableContents originBy = map("originBy", "by");
-    public static final List<TranslatableContents> itemActionEntries = map(
-        "itemAction",
-        "beating",
-        "bleeding",
-        "winds",
-        "things",
-        "cooking",
-        "looting",
-        "scrubing",
-        "backpain",
-        "hernia");
-    public static final TranslatableContents thing = map("thing", "thing");
-    public static final TranslatableContents infinitiveSuffix = map("infinitiveSuffix", "ing");
-    public static final TranslatableContents gizmo = map("gizmo", "gizmo");
-    public static final List<TranslatableContents> itemTypeEntries = map(
-        "itemType",
-        "gizmo",
-        "thingmajig",
-        "doodad",
-        "tat",
-        "thingie");
-    public static final TranslatableContents itemOf = map("itemOf", "of");
-    public static final List<TranslatableContents> tauntEntries = map(
-        "taunt",
-        "wimp",
-        "noob",
-        "git",
-        "fool",
-        "that scoundrel",
-        "scumbag");
-    public static final List<TranslatableContents> playerGetEntries = map(
-        "playerGet",
-        "stolen from",
-        "found in",
-        "bought in",
-        "dug out in",
-        "smuggled from");
-    public static final TranslatableContents defaultPlayer = map("defaultPlayer", "Frank");
-    public static final List<TranslatableContents> randomItemsEntries = map(
-        "randomItems",
-        "bananas",
-        "grapes",
-        "hairpins",
-        "corks",
-        "shuffling",
-        "squash",
-        "penguins");
-    public static final TranslatableContents ownerBy = map("ownerBy", "by");
-    public static final TranslatableContents named = map("named", "named");
-    public static final TranslatableContents organizationSpecialityAnd = map(
-        "organizationSpecialityAnd",
-        "and");
-    public static final TranslatableContents universityOf = map("universityOf", "university of");
-    public static final List<TranslatableContents> institutishEntries = map(
-        "institutishEntries",
-        "institute",
-        "council",
-        "committee");
-    public static final List<TranslatableContents> foundationFirstEntries = map(
-        "foundationFirst",
-        "lick",
-        "pick",
-        "poke",
-        "prod",
-        "smell",
-        "ring",
-        "steal",
-        "hug",
-        "kick",
-        "fwap");
-    public static final List<TranslatableContents> foundationSecondEntries = map(
-        "foundationSecond",
-        "fish",
-        "sauce",
-        "leopard",
-        "pick",
-        "smell",
-        "mayonaise",
-        "steal",
-        "grave",
-        "derp");
-    public static final TranslatableContents instituteOf = map("instituteOf", "of");
-    public static final TranslatableContents foundationInfix = map("foundationInfix", "-a-");
-    public static final TranslatableContents foundationSuffix = map("foundationSuffix", "foundation");
-    public static final TranslatableContents restoredBy = map("restoredBy", "restored by");
-    public static final TranslatableContents recently = map("recently", "Recently");
-    public static final List<TranslatableContents> extraEntries = map(
-        "extraEntries",
-        "$1.99 each",
-        "5 quids in plain wrapper",
-        "Accept no substitues",
-        "Made in China",
-        "Batteries not included",
-        "Patent pending");
+    }
+    public static final List<TranslatableContents> heroesPrefixEntries;
+    public static final List<TranslatableContents> heroesPostfixEntries;
+    public static final List<TranslatableContents> heroOptionalEntries;
+    public static final List<TranslatableContents> heroAdjEntries;
+    public static final List<TranslatableContents> heroClassEntries;
+    public static final List<TranslatableContents> firstNameEntries;
+    public static final List<TranslatableContents> lastNameEntries;
+    public static final List<TranslatableContents> pseudonymEntries;
+    public static final List<TranslatableContents> namePrefixEntries;
+    public static final List<TranslatableContents> middleNameEntries;
+    public static final List<TranslatableContents> nameSuffixEntries;
+    public static final List<TranslatableContents> nameInfixEntries;
+    public static final List<TranslatableContents> adjective1LowercaseEntries;
+    public static final List<TranslatableContents> adjective1UppercaseEntries;
+    public static final List<TranslatableContents> adjective2UppercaseEntries;
+    public static final List<TranslatableContents> partsEntries;
+    public static final List<TranslatableContents> placeAdjectiveEntries;
+    public static final List<TranslatableContents> kingdomAdjectiveEntries;
+    public static final List<TranslatableContents> kingdomishEntries;
+    public static final List<TranslatableContents> mountainNameEntries;
+    public static final List<TranslatableContents> hardcodedPlacesEntries;
+    public static final List<TranslatableContents> otherPeopleEntries;
+    public static final List<TranslatableContents> createdEntries;
+    public static final List<TranslatableContents> forgottenEntries;
+    public static final List<TranslatableContents> originEntries;
+    public static final List<TranslatableContents> itemActionEntries;
+    public static final List<TranslatableContents> itemTypeEntries;
+    public static final List<TranslatableContents> tauntEntries;
+    public static final List<TranslatableContents> playerGetEntries;
+    public static final List<TranslatableContents> randomItemsEntries;
+    public static final List<TranslatableContents> institutishEntries;
+    public static final List<TranslatableContents> foundationFirstEntries;
+    public static final List<TranslatableContents> foundationSecondEntries;
+    public static final List<TranslatableContents> extraEntries;
+    public static final TranslatableContents classicHeroesThe;
+    public static final TranslatableContents levelPrefix;
+    public static final TranslatableContents levelSuffix;
+    public static final TranslatableContents noStory;
+    public static final TranslatableContents kingdomAnd;
+    public static final TranslatableContents kingdomOf;
+    public static final TranslatableContents mountainPrefix;
+    public static final TranslatableContents actorOf;
+    public static final TranslatableContents storyIntro;
+    public static final TranslatableContents loanedTo;
+    public static final TranslatableContents forgottenIn;
+    public static final TranslatableContents originBy;
+    public static final TranslatableContents thing;
+    public static final TranslatableContents infinitiveSuffix;
+    public static final TranslatableContents gizmo;
+    public static final TranslatableContents itemOf;
+    public static final TranslatableContents defaultPlayer;
+    public static final TranslatableContents ownerBy;
+    public static final TranslatableContents named;
+    public static final TranslatableContents organizationSpecialityAnd;
+    public static final TranslatableContents universityOf;
+    public static final TranslatableContents instituteOf;
+    public static final TranslatableContents foundationInfix;
+    public static final TranslatableContents foundationSuffix;
+    public static final TranslatableContents restoredBy;
+    public static final TranslatableContents recently;
+    private static final IGenerator heroGenerator;
+    public static final IGenerator INSTANCE;
 
     private static IGenerator createHeroGenerator() {
         IGenerator heroesPrefix = alt(gen(heroesPrefixEntries));
