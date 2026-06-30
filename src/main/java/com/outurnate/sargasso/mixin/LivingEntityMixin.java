@@ -4,6 +4,8 @@ package com.outurnate.sargasso.mixin;
 import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.registry.LocalDimensions;
 import java.util.Set;
+
+import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -31,6 +33,8 @@ public abstract class LivingEntityMixin {
             float theta = random.nextFloat() * Mth.TWO_PI;
             int x = (int) (radius * Mth.cos(theta));
             int z = (int) (radius * Mth.sin(theta));
+            sea.getChunkSource()
+                .getChunkNow(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z));
             int y = sea.getHeight(Types.WORLD_SURFACE, x, z);
 
             self.teleportTo(sea, x, y, z, Set.of(), 0, 0, false);
