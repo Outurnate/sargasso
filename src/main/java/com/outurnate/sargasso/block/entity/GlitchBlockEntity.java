@@ -90,7 +90,7 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        if (rand.nextFloat() > 0.99
+        if (rand.nextFloat() > 0.999
             && (level.getBlockState(pos.above()).isFaceSturdy(level, pos.above(), Direction.DOWN) ||
                 level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP) ||
                 level.getBlockState(pos.east()).isFaceSturdy(level, pos.east(), Direction.WEST) ||

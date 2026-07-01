@@ -26,7 +26,7 @@ public class LocalStructureProcessorListProvider {
                     new RuleProcessor(
                         List.of(
                             new ProcessorRule(
-                                new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.5F),
+                                new RandomBlockMatchTest(Blocks.STONE_BRICKS, 0.4F),
                                 AlwaysTrueTest.INSTANCE,
                                 LocalBlocks.GLITCH.get().defaultBlockState()))))));
     }
