@@ -4,6 +4,7 @@ package com.outurnate.sargasso.block.entity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import net.minecraft.core.BlockPos;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -90,30 +92,48 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        if (rand.nextFloat() > 0.999
-            && (level.getBlockState(pos.above()).isFaceSturdy(level, pos.above(), Direction.DOWN) ||
-                level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP) ||
-                level.getBlockState(pos.east()).isFaceSturdy(level, pos.east(), Direction.WEST) ||
-                level.getBlockState(pos.west()).isFaceSturdy(level, pos.west(), Direction.EAST) ||
-                level.getBlockState(pos.north()).isFaceSturdy(level, pos.north(), Direction.SOUTH) ||
-                level.getBlockState(pos.south()).isFaceSturdy(level, pos.south(), Direction.NORTH))) {
-            Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
-            if (proj != null) {
-                float speed = rand.nextFloat() + 1.0F;
-                float yRot = rand.nextFloat() * 360.0F;
-                float xRot = (rand.nextFloat() * 180.0F) + 180.0F;
-                float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-                float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
-                proj.setDeltaMovement(movement);
-                proj.needsSync = true;
-                proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));
-                proj.setXRot(
-                    (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
-                proj.yRotO = proj.getYRot();
-                proj.xRotO = proj.getXRot();
-                level.addFreshEntity(proj);
+        if (rand.nextFloat() > 0.999) {
+            List<Direction> exposedDirections = new ArrayList<>();
+            if (level.getBlockState(pos.above()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.UP);
+            }
+            if (level.getBlockState(pos.below()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.DOWN);
+            }
+            if (level.getBlockState(pos.east()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.EAST);
+            }
+            if (level.getBlockState(pos.west()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.WEST);
+            }
+            if (level.getBlockState(pos.north()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.NORTH);
+            }
+            if (level.getBlockState(pos.south()).is(Blocks.AIR)) {
+                exposedDirections.add(Direction.SOUTH);
+            }
+            if (exposedDirections.size() != 0) {
+                Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
+                Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
+                if (proj != null) {
+                    float speed = rand.nextFloat() + 1.0F;
+                    // float yRot = rand.nextFloat() * 360.0F;
+                    // float xRot = (rand.nextFloat() * 180.0F) + 180.0F;
+                    float yRot = chosenDirection.toYRot();
+                    float xRot = chosenDirection.toYRot();
+                    float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                    float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+                    float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                    Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+                    proj.setDeltaMovement(movement);
+                    proj.needsSync = true;
+                    proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));
+                    proj.setXRot(
+                        (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
+                    proj.yRotO = proj.getYRot();
+                    proj.xRotO = proj.getXRot();
+                    level.addFreshEntity(proj);
+                }
             }
         }
     }
