@@ -69,6 +69,8 @@ public class LostItemsSavedData extends SavedData {
             return;
         }
 
+        LOGGER.debug("adding" + lostStack.toString() + " " + lostStack.getCount());
+
         int originalCount = lostStack.getCount();
         lostStack.setCount(1);
         self.lostStacks.addTo(lostStack, originalCount);
