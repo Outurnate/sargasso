@@ -5,11 +5,14 @@ import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 import com.outurnate.sargasso.registry.LocalTags;
 import java.time.Instant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -55,14 +58,23 @@ public class ToasterBlock extends Block {
         return SHAPE;
     }
 
-    private void timeTravelMakeToast(Player player) {
-        if (player instanceof ServerPlayer serverPlayer) {
+    private void timeTravelMakeToast(Player player, Level level) {
+        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
             Component message;
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
                 message = Component.translatable(
                     "sargasso.lore.toast",
                     LocalizedDurationContents
                         .localizedDate(serverPlayer.getData(LocalAttachmentTypes.BREAD_EATEN)));
+                serverLevel.playSound(
+                    null,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    LocalSoundEvents.TOASTER,
+                    SoundSource.PLAYERS,
+                    1.0F,
+                    1.0F);
                 serverPlayer.removeData(LocalAttachmentTypes.BREAD_EATEN);
             } else {
                 message = Component.translatable("sargasso.lore.no_toast");
@@ -80,7 +92,7 @@ public class ToasterBlock extends Block {
         Player player,
         InteractionHand hand,
         BlockHitResult hitResult) {
-        timeTravelMakeToast(player);
+        timeTravelMakeToast(player, level);
         return InteractionResult.SUCCESS_SERVER;
     }
 
@@ -91,7 +103,7 @@ public class ToasterBlock extends Block {
         BlockPos pos,
         Player player,
         BlockHitResult hitResult) {
-        timeTravelMakeToast(player);
+        timeTravelMakeToast(player, level);
         return InteractionResult.SUCCESS_SERVER;
     }
 }

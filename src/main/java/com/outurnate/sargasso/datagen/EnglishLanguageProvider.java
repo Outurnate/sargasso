@@ -39,6 +39,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("sound.sargasso.cream_apply", "Bedrock cream applied");
         this.add("sound.sargasso.glitch_teleport", "Glitched");
+        this.add("sound.sargasso.toaster", "Time travel happened");
 
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
@@ -56,7 +57,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("sargasso.lore.no_toast", "Nothing happens.");
         this.add(
             "sargasso.lore.toast",
-            "You have a strange feeling that the bread you ate %s ago was (and always has been) toast.");
+            "You have a strange feeling that the bread you ate %s was (and always has been) toast.");
 
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");

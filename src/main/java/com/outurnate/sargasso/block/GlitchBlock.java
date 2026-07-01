@@ -4,11 +4,12 @@ package com.outurnate.sargasso.block;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -73,7 +74,7 @@ public class GlitchBlock extends Block implements EntityBlock {
             if (livingEntity.randomTeleport(xx, yy, zz, false, ItemStack.EMPTY)) {
                 serverLevel.gameEvent(GameEvent.TELEPORT, oldPos, GameEvent.Context.of(livingEntity));
                 SoundSource soundSource;
-                SoundEvent soundEvent = SoundEvents.CHORUS_FRUIT_TELEPORT; // TODO CUSTOM
+                Holder<SoundEvent> soundEvent = LocalSoundEvents.GLITCH_TELEPORT;
                 if (livingEntity instanceof Player) {
                     soundSource = SoundSource.PLAYERS;
                 } else {
@@ -86,7 +87,9 @@ public class GlitchBlock extends Block implements EntityBlock {
                     livingEntity.getY(),
                     livingEntity.getZ(),
                     soundEvent,
-                    soundSource);
+                    soundSource,
+                    1.0F,
+                    1.0F);
                 livingEntity.resetFallDistance();
                 livingEntity.resetCurrentImpulseContext();
             }

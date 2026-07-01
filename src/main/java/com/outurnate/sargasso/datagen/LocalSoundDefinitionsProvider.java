@@ -31,10 +31,15 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             SoundDefinition.definition()
                 .with(
                     sound("minecraft:mob/endermen/portal"),
-                    sound("minecraft:mob/endermen/portal2"),
-                    sound("minecraft:mob/slime/big3"),
-                    sound("minecraft:mob/slime/big4"))
+                    sound("minecraft:mob/endermen/portal2"))
                 .subtitle("sound.sargasso.glitch_teleport")
+                .replace(true));
+        add(
+            LocalSoundEvents.TOASTER,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:toaster"))
+                .subtitle("sound.sargasso.toaster")
                 .replace(true));
     }
 }
