@@ -12,6 +12,7 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 public class LocalStructureTemplatePoolsProvider {
     public static final ResourceKey<StructureTemplatePool> LIBRARY = ResourceKey
@@ -26,7 +27,11 @@ public class LocalStructureTemplatePoolsProvider {
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
             .lookup(Registries.TEMPLATE_POOL);
+        HolderGetter<StructureProcessorList> structureProcessorListRegistry = bootstrap
+            .lookup(Registries.PROCESSOR_LIST);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
+        Holder<StructureProcessorList> glitch = structureProcessorListRegistry
+            .getOrThrow(LocalStructureProcessorListProvider.GLITCH);
 
         bootstrap.register(
             LIBRARY,
@@ -40,21 +45,27 @@ public class LocalStructureTemplatePoolsProvider {
             new StructureTemplatePool(
                 empty,
                 List.of(
-                    Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_left_end"), 1)),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_left_end", glitch),
+                        1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             FORTRESS_MIDDLE,
             new StructureTemplatePool(
                 empty,
                 List.of(
-                    Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_middle"), 1)),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_middle", glitch),
+                        1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             FORTRESS_RIGHT,
             new StructureTemplatePool(
                 empty,
                 List.of(
-                    Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_right_end"), 1)),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_right_end", glitch),
+                        1)),
                 StructureTemplatePool.Projection.RIGID));
     }
 }

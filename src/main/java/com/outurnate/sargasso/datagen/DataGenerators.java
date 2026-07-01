@@ -7,6 +7,7 @@ import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDimensionTypesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalNoiseSettingsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalPlacedFeaturesProvider;
+import com.outurnate.sargasso.datagen.worldgen.LocalStructureProcessorListProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalStructureSetsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalStructureTemplatePoolsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalStructuresProvider;
@@ -38,6 +39,7 @@ public class DataGenerators {
                 .add(Registries.NOISE_SETTINGS, LocalNoiseSettingsProvider::provide)
                 .add(Registries.PLACED_FEATURE, LocalPlacedFeaturesProvider::provide)
                 .add(Registries.STRUCTURE, LocalStructuresProvider::provide)
+                .add(Registries.PROCESSOR_LIST, LocalStructureProcessorListProvider::provide)
                 .add(Registries.STRUCTURE_SET, LocalStructureSetsProvider::provide)
                 .add(Registries.TEMPLATE_POOL, LocalStructureTemplatePoolsProvider::provide)
                 .add(Registries.TIMELINE, LocalTimelinesProvider::provide)

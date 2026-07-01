@@ -45,8 +45,8 @@ public class LocalStructureSetsProvider {
             new StructureSet(
                 structureRegistry.getOrThrow(LocalStructuresProvider.FORTRESS),
                 new RandomSpreadStructurePlacement(
-                    2,
-                    1,
+                    20,
+                    15,
                     RandomSpreadType.LINEAR,
                     5487487)));
     }
