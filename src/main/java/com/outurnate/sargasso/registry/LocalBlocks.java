@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
+import com.outurnate.sargasso.block.ToasterBlock;
 
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.Block;
@@ -82,12 +83,13 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> TOASTER = REGISTRY.registerBlock(
         "toaster",
-        p -> new Block(p),
+        p -> new ToasterBlock(p),
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.SNARE)
             .strength(1.0F)
-            .sound(SoundType.ANVIL));
+            .sound(SoundType.ANVIL)
+            .noOcclusion());
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
