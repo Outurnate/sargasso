@@ -111,7 +111,6 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
                 plainVariant(toaster)));
-        blockModels.registerSimpleItemModel(LocalBlocks.TOASTER.get(), toaster);
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);

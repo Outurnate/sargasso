@@ -5,6 +5,7 @@
 		"0": "sargasso:block/toaster",
 		"particle": "sargasso:block/toaster"
 	},
+	"parent": "minecraft:block/block",
 	"elements": [
 		{
 			"from": [4, 1, 5],

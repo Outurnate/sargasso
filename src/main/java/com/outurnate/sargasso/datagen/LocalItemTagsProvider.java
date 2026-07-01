@@ -50,5 +50,8 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
             .add(Items.TRIAL_SPAWNER)
             .add(Items.VAULT)
             .add(LocalItems.DEBRIS.get());
+        this.tag(LocalTags.BREAD)
+            .add(LocalItems.BREADROCK.get())
+            .replace(false);
     }
 }
