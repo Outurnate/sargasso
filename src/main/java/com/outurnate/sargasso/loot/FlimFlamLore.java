@@ -587,7 +587,7 @@ public class FlimFlamLore {
             sub("item", gizmo),
             alt(terminal(itemTypeEntries)));
         IGenerator item = seq(opt(0.9f, adjs), itemType, opt(0.9f, seq(terminal(itemOf), itemAction)));
-        IGenerator fullItem = seq(item, opt(0.05f, seq(terminal("™️"))));
+        IGenerator fullItem = seq(item, opt(0.05f, seq(terminal("™"))));
 
         IGenerator taunt = alt(terminal(tauntEntries));
         IGenerator playerGet = seq(

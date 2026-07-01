@@ -25,6 +25,8 @@ public class LocalStructuresProvider {
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("fossil"));
     public static final ResourceKey<Structure> LIBRARY = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("library"));
+    public static final ResourceKey<Structure> FORTRESS = ResourceKey
+        .create(Registries.STRUCTURE, SuperSargassoSea.ID("fortress"));
 
     public static void provide(BootstrapContext<Structure> bootstrap) {
         HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
@@ -49,6 +51,19 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.LIBRARY),
                 1,
+                ConstantHeight.ZERO,
+                false,
+                Types.WORLD_SURFACE_WG));
+        bootstrap.register(
+            FORTRESS,
+            new JigsawStructure(
+                new StructureSettings.Builder(
+                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
+                        .generationStep(Decoration.SURFACE_STRUCTURES)
+                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .build(),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS_MIDDLE),
+                7,
                 ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));

@@ -148,17 +148,32 @@ public class LocalLootTableProvider extends LootTableProvider {
                     .withPool(
                         LootPool.lootPool()
                             .setRolls(UniformGenerator.between(3, 7))
-                            .setBonusRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(Items.BONE).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
+                            .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.STICK).setWeight(15))
+                            .add(LootItem.lootTableItem(Items.DEAD_BUSH).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
+                            .add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
+                            .add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
+                            .add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))
+                            .add(generateTerribleTool(Items.WOODEN_AXE).setWeight(1))
+                            .add(generateTerribleTool(Items.WOODEN_HOE).setWeight(1))
+                            .add(generateTerribleTool(Items.WOODEN_PICKAXE).setWeight(1))
+                            .add(generateTerribleTool(Items.WOODEN_SHOVEL).setWeight(1))
+                            .add(generateTerribleTool(Items.WOODEN_SPEAR).setWeight(1))
+                            .add(generateTerribleTool(Items.WOODEN_SWORD).setWeight(1))
+                            .add(generateLiarsPants().setWeight(1)))
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(1, 2))
                             .add(
-                                generateLootItemCustomPotion(
-                                    "fizzy_lifting",
-                                    0,
-                                    0,
-                                    255,
-                                    new MobEffectInstance(
-                                        MobEffects.LEVITATION,
-                                        4000,
-                                        4)))
+                                LootItem.lootTableItem(Items.POTION)
+                                    .apply(SetPotionFunction.setPotion(LocalPotions.HEAD_EXPLOSION))
+                                    .setWeight(1))
+                            .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM).setWeight(10))
+                            .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE).setWeight(1))
                             .add(
                                 generateLootItemCustomPotion(
                                     "bhj",
@@ -188,21 +203,22 @@ public class LocalLootTableProvider extends LootTableProvider {
                                     new MobEffectInstance(
                                         MobEffects.POISON,
                                         36000,
-                                        1)))
-                            .add(generateShrinkingHelm())
-                            .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM))
-                            .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE))
-                            .add(generateLiarsPants())
-                            .add(generateRocketBoots())
-                            .add(generateTerribleTool(Items.WOODEN_AXE))
-                            .add(generateTerribleTool(Items.WOODEN_HOE))
-                            .add(generateTerribleTool(Items.WOODEN_PICKAXE))
-                            .add(generateTerribleTool(Items.WOODEN_SHOVEL))
-                            .add(generateTerribleTool(Items.WOODEN_SPEAR))
-                            .add(generateTerribleTool(Items.WOODEN_SWORD))
+                                        1)).setWeight(1)))
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(0, 1))
                             .add(
-                                LootItem.lootTableItem(Items.POTION)
-                                    .apply(SetPotionFunction.setPotion(LocalPotions.HEAD_EXPLOSION)))));
+                                generateLootItemCustomPotion(
+                                    "fizzy_lifting",
+                                    0,
+                                    0,
+                                    255,
+                                    new MobEffectInstance(
+                                        MobEffects.LEVITATION,
+                                        4000,
+                                        4)))
+                            .add(generateShrinkingHelm())
+                            .add(generateRocketBoots())));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {

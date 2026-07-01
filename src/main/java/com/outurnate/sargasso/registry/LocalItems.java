@@ -12,6 +12,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -72,6 +73,19 @@ public class LocalItems {
         LightningBottleItem::new,
         p -> p
             .useCooldown(2.0F));
+
+    public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
+        "studded_leather_helmet",
+        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.HELMET)));
+    public static final DeferredItem<Item> STUDDED_LEATHER_CHESTPLATE = REGISTRY.registerItem(
+        "studded_leather_chestplate",
+        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> STUDDED_LEATHER_LEGGINGS = REGISTRY.registerItem(
+        "studded_leather_leggings",
+        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> STUDDED_LEATHER_BOOTS = REGISTRY.registerItem(
+        "studded_leather_boots",
+        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

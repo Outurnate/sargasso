@@ -59,11 +59,6 @@ public interface IGenerator {
         return result;
     }
 
-    // TODO maybe removee
-    private static boolean isEmpty(ComponentContents component) {
-        return component.equals(PlainTextContents.EMPTY);
-    }
-
     private static boolean isEmpty(List<ComponentContents> component) {
         return component.size() == 0 || component.stream().allMatch(PlainTextContents.EMPTY::equals);
     }
