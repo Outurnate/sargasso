@@ -6,7 +6,8 @@
     "BlockEntityMixin",
     "BaseFireBlockMixin",
     "EntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ComponentSerializationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,7 +5,6 @@ import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalCreativeTabs;
-import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
@@ -38,7 +37,6 @@ public class SuperSargassoSea {
         LocalMobEffects.register(modEventBus);
         LocalPotions.register(modEventBus);
         LocalAttachmentTypes.register(modEventBus);
-        LocalDataComponentTypes.register(modEventBus);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }
