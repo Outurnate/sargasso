@@ -16,6 +16,9 @@ public class LocalSoundEvents {
     public static final Holder<SoundEvent> CREAM_APPLY = REGISTRY.register(
         "cream_apply",
         SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> GLITCH_TELEPORT = REGISTRY.register(
+        "glitch_teleport",
+        SoundEvent::createVariableRangeEvent);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

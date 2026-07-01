@@ -36,7 +36,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         this.add("itemGroup.sargasso", "Super Sargasso Sea");
+
         this.add("sound.sargasso.cream_apply", "Bedrock cream applied");
+        this.add("sound.sargasso.glitch_teleport", "Glitched");
 
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
@@ -55,6 +57,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
         this.addBlock(LocalBlocks.GLITCH, "Glitch in Reality");
+        this.addBlock(LocalBlocks.TOASTER, "Chronometric Flux Toaster");
         this.addItem(LocalItems.BEDROCK_CREAM, "Professor Murgatroyd's Miracle Bedrock Cream");
         this.addItem(LocalItems.BEDROCK_SLOP, "Bedrock Slop");
         this.addItem(LocalItems.BREADROCK, "Breadrock");

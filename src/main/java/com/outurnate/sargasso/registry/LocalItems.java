@@ -29,6 +29,10 @@ public class LocalItems {
         "debris",
         LocalBlocks.DEBRIS);
 
+    public static final DeferredItem<BlockItem> TOASTER = REGISTRY.registerSimpleBlockItem(
+        "toaster",
+        LocalBlocks.TOASTER);
+
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
         p -> p.food(

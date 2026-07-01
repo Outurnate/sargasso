@@ -6,6 +6,7 @@ import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainModel;
+import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
@@ -105,6 +106,10 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
+        blockModels.blockStateOutput.accept(
+            createSimpleBlock(
+                LocalBlocks.TOASTER.get(),
+                plainVariant(SuperSargassoSea.ID("models/block/toaster"))));
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);

@@ -26,5 +26,15 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                     sound("minecraft:mob/slime/big4"))
                 .subtitle("sound.sargasso.cream_apply")
                 .replace(true));
+        add(
+            LocalSoundEvents.GLITCH_TELEPORT,
+            SoundDefinition.definition()
+                .with(
+                    sound("minecraft:mob/endermen/portal"),
+                    sound("minecraft:mob/endermen/portal2"),
+                    sound("minecraft:mob/slime/big3"),
+                    sound("minecraft:mob/slime/big4"))
+                .subtitle("sound.sargasso.glitch_teleport")
+                .replace(true));
     }
 }

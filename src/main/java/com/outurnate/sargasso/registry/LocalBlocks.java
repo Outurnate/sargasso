@@ -80,6 +80,15 @@ public class LocalBlocks {
             .noOcclusion()
             .sound(SoundType.AMETHYST));
 
+    public static final DeferredBlock<Block> TOASTER = REGISTRY.registerBlock(
+        "toaster",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_GRAY)
+            .instrument(NoteBlockInstrument.SNARE)
+            .strength(1.0F)
+            .sound(SoundType.ANVIL));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

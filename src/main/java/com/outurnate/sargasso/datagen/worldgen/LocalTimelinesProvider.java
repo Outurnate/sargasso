@@ -32,10 +32,10 @@ public class LocalTimelinesProvider {
             DAY,
             Timeline.builder(worldClockRegistry.getOrThrow(LocalWorldClocksProvider.SEA))
                 .setPeriodTicks(240000)
-                .addTimeMarker(ClockTimeMarkers.DAY, 10000, true)
+                .addTimeMarker(ClockTimeMarkers.DAY, 60000, true)
                 .addTimeMarker(ClockTimeMarkers.MIDNIGHT, 180000, true)
                 .addTimeMarker(ClockTimeMarkers.NIGHT, 130000, true)
-                .addTimeMarker(ClockTimeMarkers.NOON, 60000, true)
+                .addTimeMarker(ClockTimeMarkers.NOON, 10000, true)
                 .addTimeMarker(ClockTimeMarkers.ROLL_VILLAGE_SIEGE, 180000, false)
                 .addTimeMarker(ClockTimeMarkers.WAKE_UP_FROM_SLEEP, 0, false)
                 .addTrack(
