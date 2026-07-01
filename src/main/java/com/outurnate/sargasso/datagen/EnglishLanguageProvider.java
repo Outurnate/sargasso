@@ -53,6 +53,11 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("sargasso.lore.rocket_boots", "Dwarven Rocket Boots");
 
+        this.add("sargasso.lore.no_toast", "Nothing happens.");
+        this.add(
+            "sargasso.lore.toast",
+            "You have a strange feeling that the bread you ate %s ago was (and always has been) toast.");
+
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");

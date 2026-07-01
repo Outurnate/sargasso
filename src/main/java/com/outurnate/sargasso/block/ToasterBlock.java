@@ -57,14 +57,17 @@ public class ToasterBlock extends Block {
 
     private void timeTravelMakeToast(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
+            Component message;
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
-                serverPlayer.sendSystemMessage(
+                message = Component.translatable(
+                    "sargasso.lore.toast",
                     LocalizedDurationContents
                         .localizedDate(serverPlayer.getData(LocalAttachmentTypes.BREAD_EATEN)));
                 serverPlayer.removeData(LocalAttachmentTypes.BREAD_EATEN);
             } else {
-                serverPlayer.sendSystemMessage(Component.literal("you haven't eaten bread"));
+                message = Component.translatable("sargasso.lore.no_toast");
             }
+            serverPlayer.sendSystemMessage(message);
         }
     }
 
