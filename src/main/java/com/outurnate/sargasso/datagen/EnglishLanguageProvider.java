@@ -60,6 +60,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.BREADROCK, "Breadrock");
         this.addItem(LocalItems.LIGHTNING_BOTTLE, "Lightning in a Bottle");
         this.addItem(LocalItems.STUDDED_LEATHER_BOOTS, "Studded Leather Boots");
+        this.addItem(LocalItems.STUDDED_LEATHER_CHESTPLATE, "Studded Leather Chestplate");
+        this.addItem(LocalItems.STUDDED_LEATHER_HELMET, "Studded Leather Helmet");
+        this.addItem(LocalItems.STUDDED_LEATHER_LEGGINGS, "Studded Leather Leggings");
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");

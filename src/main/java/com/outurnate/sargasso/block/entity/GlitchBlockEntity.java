@@ -117,10 +117,8 @@ public class GlitchBlockEntity extends BlockEntity {
                 Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
                 if (proj != null) {
                     float speed = rand.nextFloat() + 1.0F;
-                    // float yRot = rand.nextFloat() * 360.0F;
-                    // float xRot = (rand.nextFloat() * 180.0F) + 180.0F;
-                    float yRot = chosenDirection.toYRot();
-                    float xRot = chosenDirection.toYRot();
+                    float yRot = chosenDirection.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
+                    float xRot = chosenDirection.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
                     float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
                     float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
                     float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
