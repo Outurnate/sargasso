@@ -51,16 +51,16 @@ public class GlitchBlock extends Block implements EntityBlock {
         InsideBlockEffectApplier effectApplier,
         boolean isPrecise) {
 
-        if (entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof LivingEntity livingEntity && level instanceof ServerLevel serverLevel) {
             float diameter = 8.0F;
 
             double xx = livingEntity.getX() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
             double yy = Mth.clamp(
                 livingEntity.getY() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter,
-                (double) level.getMinY(),
-                (double) (level.getMinY() + ((ServerLevel) level).getLogicalHeight() - 1));
+                (double) serverLevel.getMinY(),
+                (double) (serverLevel.getMinY() + serverLevel.getLogicalHeight() - 1));
             double zz = livingEntity.getZ() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
-            if (level.getBlockState(new BlockPos((int) xx, (int) yy, (int) zz))
+            if (serverLevel.getBlockState(new BlockPos((int) xx, (int) yy, (int) zz))
                 .is(LocalBlocks.GLITCH.get())) {
                 return;
             }
@@ -71,7 +71,7 @@ public class GlitchBlock extends Block implements EntityBlock {
 
             Vec3 oldPos = livingEntity.position();
             if (livingEntity.randomTeleport(xx, yy, zz, false, ItemStack.EMPTY)) {
-                level.gameEvent(GameEvent.TELEPORT, oldPos, GameEvent.Context.of(livingEntity));
+                serverLevel.gameEvent(GameEvent.TELEPORT, oldPos, GameEvent.Context.of(livingEntity));
                 SoundSource soundSource;
                 SoundEvent soundEvent = SoundEvents.CHORUS_FRUIT_TELEPORT; // TODO CUSTOM
                 if (livingEntity instanceof Player) {
@@ -80,7 +80,7 @@ public class GlitchBlock extends Block implements EntityBlock {
                     soundSource = SoundSource.NEUTRAL;
                 }
 
-                level.playSound(
+                serverLevel.playSound(
                     null,
                     livingEntity.getX(),
                     livingEntity.getY(),
