@@ -9,7 +9,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ToasterBlock extends Block {
-    private static final VoxelShape SHAPE = Block.cube(8.0, 6.0, 5.0);
+    private static final VoxelShape SHAPE = Block.box(4.0, 0.0, 5.5, 12.0, 6.0, 10.5);
 
     public ToasterBlock(Properties properties) {
         super(properties);
