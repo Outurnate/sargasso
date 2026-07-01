@@ -106,10 +106,12 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
+        Identifier toaster = SuperSargassoSea.ID("block/toaster");
         blockModels.blockStateOutput.accept(
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
-                plainVariant(SuperSargassoSea.ID("block/toaster"))));
+                plainVariant(toaster)));
+        blockModels.registerSimpleItemModel(LocalBlocks.TOASTER.get(), toaster);
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);

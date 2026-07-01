@@ -50,5 +50,15 @@ public class LocalRecipeProvider extends RecipeProvider {
             .pattern("JJ")
             .unlockedBy("has_junk", this.has(LocalItems.DEBRIS.get()))
             .save(this.output);
+        this
+            .shaped(RecipeCategory.DECORATIONS, LocalItems.TOASTER)
+            .define('I', Items.IRON_INGOT)
+            .define('B', Items.IRON_BLOCK)
+            .define('L', Items.LAVA_BUCKET)
+            .pattern("I I")
+            .pattern("ILI")
+            .pattern("IBI")
+            .unlockedBy("has_lava_bucket", this.has(Items.LAVA_BUCKET))
+            .save(this.output);
     }
 }

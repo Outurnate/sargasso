@@ -11,4 +11,6 @@ import net.minecraft.world.item.Item;
 public class LocalTags {
     public static final TagKey<Item> ALWAYS_LOST = TagKey
         .create(Registries.ITEM, Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "always_lost"));
+    public static final TagKey<Item> BREAD = TagKey
+        .create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "bread"));
 }

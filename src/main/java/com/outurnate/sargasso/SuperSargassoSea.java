@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalCreativeTabs;
@@ -35,6 +36,7 @@ public class SuperSargassoSea {
         LocalSoundEvents.register(modEventBus);
         LocalMobEffects.register(modEventBus);
         LocalPotions.register(modEventBus);
+        LocalAttachmentTypes.register(modEventBus);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }
