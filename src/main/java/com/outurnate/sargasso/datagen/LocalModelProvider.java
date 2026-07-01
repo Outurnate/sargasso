@@ -109,7 +109,7 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
-                plainVariant(SuperSargassoSea.ID("models/block/toaster"))));
+                plainVariant(SuperSargassoSea.ID("block/toaster"))));
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
