@@ -2,8 +2,11 @@
 package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
+import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
-
+import com.outurnate.sargasso.registry.LocalTags;
+import java.time.Instant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,10 +21,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 
+@EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class ToasterBlock extends Block {
     public static final MapCodec<ToasterBlock> CODEC = simpleCodec(ToasterBlock::new);
     private static final VoxelShape SHAPE = Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
+
+    @SubscribeEvent
+    public static void onEntityFinishUsing(LivingEntityUseItemEvent.Finish event) {
+        if (event.getItem().is(LocalTags.BREAD) && event.getEntity() instanceof ServerPlayer player) {
+            player.setData(LocalAttachmentTypes.BREAD_EATEN, Instant.now());
+        }
+    }
 
     public ToasterBlock(Properties properties) {
         super(properties);
@@ -44,7 +58,9 @@ public class ToasterBlock extends Block {
     private void timeTravelMakeToast(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
-                serverPlayer.sendSystemMessage(Component.literal("you have eaten bread"));
+                serverPlayer.sendSystemMessage(
+                    LocalizedDurationContents
+                        .localizedDate(serverPlayer.getData(LocalAttachmentTypes.BREAD_EATEN)));
                 serverPlayer.removeData(LocalAttachmentTypes.BREAD_EATEN);
             } else {
                 serverPlayer.sendSystemMessage(Component.literal("you haven't eaten bread"));
