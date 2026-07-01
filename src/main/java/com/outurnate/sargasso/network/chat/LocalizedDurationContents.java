@@ -1,10 +1,15 @@
 /* (C)2026 */
 package com.outurnate.sargasso.network.chat;
 
+import com.ibm.icu.text.RelativeDateTimeFormatter;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.FormattedText;
@@ -27,7 +32,39 @@ public record LocalizedDurationContents(Instant since) implements ComponentConte
     }
 
     private String format() {
-        return "yabbadabbado";
+        RelativeDateTimeFormatter fmt = RelativeDateTimeFormatter
+            .getInstance(Minecraft.getInstance().getLocale());
+
+        long seconds = Duration.between(since, Instant.now()).getSeconds();
+
+        if (Math.abs(seconds) < 60) {
+            return fmt.format(
+                Math.round(seconds),
+                RelativeDateTimeFormatter.Direction.LAST,
+                RelativeDateTimeFormatter.RelativeUnit.SECONDS);
+        }
+
+        long minutes = seconds / 60;
+        if (Math.abs(minutes) < 60) {
+            return fmt.format(
+                minutes,
+                RelativeDateTimeFormatter.Direction.LAST,
+                RelativeDateTimeFormatter.RelativeUnit.MINUTES);
+        }
+
+        long hours = minutes / 60;
+        if (Math.abs(hours) < 24) {
+            return fmt.format(
+                hours,
+                RelativeDateTimeFormatter.Direction.LAST,
+                RelativeDateTimeFormatter.RelativeUnit.HOURS);
+        }
+
+        long days = hours / 24;
+        return fmt.format(
+            days,
+            RelativeDateTimeFormatter.Direction.LAST,
+            RelativeDateTimeFormatter.RelativeUnit.DAYS);
     }
 
     @Override
