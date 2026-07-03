@@ -110,7 +110,9 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
         throws NoSuchFieldException, IllegalAccessException {
         ObjectArrayList<ItemStack> result = new ObjectArrayList<>();
         getRandomItemsRaw(self, context, LootTable.createStackSplitter(context.getLevel(), result::add));
+        LOGGER.error("BEFORE" + result.size());
         result = net.neoforged.neoforge.common.CommonHooks.modifyLoot(self.getLootTableId(), result, context);
+        LOGGER.error("AFTER" + result.size());
         return result;
     }
 
@@ -132,6 +134,7 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
         Field poolsField = self.getClass().getDeclaredField("pools");
         poolsField.setAccessible(true);
         List<LootPool> pools = (List<LootPool>) poolsField.get(self);
+        LOGGER.error("POOLS" + pools.size());
 
         Field compositeFunctionField = self.getClass().getDeclaredField("compositeFunction");
         compositeFunctionField.setAccessible(true);
