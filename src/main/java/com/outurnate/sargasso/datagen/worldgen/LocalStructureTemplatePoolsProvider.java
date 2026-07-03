@@ -19,7 +19,7 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("library"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress"));
-    public static final ResourceKey<StructureTemplatePool> FORTRESS_END = ResourceKey
+    public static final ResourceKey<StructureTemplatePool> FORTRESS_SEGMENT = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_end"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
@@ -50,7 +50,7 @@ public class LocalStructureTemplatePoolsProvider {
                         1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
-            FORTRESS_END,
+            FORTRESS_SEGMENT,
             new StructureTemplatePool(
                 empty,
                 List.of(
