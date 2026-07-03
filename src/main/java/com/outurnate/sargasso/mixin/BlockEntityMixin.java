@@ -35,32 +35,22 @@ public abstract class BlockEntityMixin {
     // must inject to the parent class
     @Inject(method = "setLevel", at = @At("TAIL"))
     private void sargasso$setLevel(Level level, CallbackInfo callbackInfo) {
-        LOGGER.error("WHAT2");
-        LOGGER.error(String.valueOf((Object) this instanceof ChiseledBookShelfBlockEntity));
-        LOGGER.error(String.valueOf(level != null));
-        LOGGER.error(String.valueOf(level instanceof ServerLevel));
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
             try {
-                LOGGER.error("WHAT");
                 if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
                     return;
                 }
-                LOGGER.error("HAS LOOT COMPONENT");
 
                 SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
-                LOGGER.error("GOT LOOT COMPONENT");
 
                 LootTable lootTable = server.getServer().reloadableRegistries()
                     .getLootTable(containerLoot.lootTable());
-                LOGGER.error("FOUND LOOT TABLE");
                 LootParams params = new LootParams.Builder(server)
                     .withParameter(LootContextParams.ORIGIN, self.getBlockPos().getCenter())
                     .create(LootContextParamSets.CHEST);
-                LOGGER.error("BUILT PARAMS");
 
                 self.clearContent();
-                LOGGER.error("CLEARED SELF");
 
                 int slot = 0;
                 List<Integer> slotMixer = IntStream.range(0, 6).boxed().collect(Collectors.toList());
@@ -69,13 +59,13 @@ public abstract class BlockEntityMixin {
                     self.setItem(slotMixer.get(slot++), stack);
                     LOGGER.error("SET ITEM");
                 }
-                LOGGER.error("SET ITEMS");
 
                 self.applyComponents(
                     self.collectComponents(),
                     DataComponentPatch.builder().remove(DataComponents.CONTAINER_LOOT).build());
                 LOGGER.error("REMOVED COMPONENT");
-                self.setChanged();
+                // self.setChanged();
+                level.blockEntityChanged(self.getBlockPos());
                 LOGGER.error("MARKED DIRTY");
             } catch (Exception e) {
                 LOGGER.error(e.toString());
