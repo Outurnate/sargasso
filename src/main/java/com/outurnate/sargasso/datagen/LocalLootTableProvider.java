@@ -293,6 +293,45 @@ public class LocalLootTableProvider extends LootTableProvider {
                     new String[] {
                         "The Time Machine",
                         "CONTENTS",
+                        "THE FULL PROJECT GUTENBERG™ LICENSE" }),
+                new BookConfiguration(
+                    "https://www.gutenberg.org/cache/epub/83/pg83-images-3.epub",
+                    new String[] {
+                        "From the Earth to the Moon",
+                        "Contents: From the Earth to the Moon",
+                        "Contents: Round the Moon",
+                        "FROM THE EARTH TO THE MOON",
+                        "ROUND THE MOON",
+                        "PRELIMINARY CHAPTER THE FIRST PART OF THIS WORK, AND SERVING AS A PREFACE TO THE SECOND",
+                        "CHAPTER I. TWENTY MINUTES PAST TEN TO FORTY-SEVEN MINUTES PAST TEN P. M.",
+                        "CHAPTER II. THE FIRST HALF-HOUR",
+                        "CHAPTER III. THEIR PLACE OF SHELTER",
+                        "CHAPTER IV. A LITTLE ALGEBRA",
+                        "CHAPTER V. THE COLD OF SPACE",
+                        "CHAPTER VI. QUESTION AND ANSWER",
+                        "CHAPTER VII. A MOMENT OF INTOXICATION",
+                        "CHAPTER VIII. AT SEVENTY-EIGHT THOUSAND FIVE HUNDRED AND FOURTEEN LEAGUES",
+                        "CHAPTER IX. THE CONSEQUENCES OF A DEVIATION",
+                        "CHAPTER X. THE OBSERVERS OF THE MOON",
+                        "CHAPTER XI. FANCY AND REALITY",
+                        "CHAPTER XII. OROGRAPHIC DETAILS",
+                        "CHAPTER XIII. LUNAR LANDSCAPES",
+                        "CHAPTER XIV. THE NIGHT OF THREE HUNDRED AND FIFTY-FOUR HOURS AND A HALF",
+                        "CHAPTER XV. HYPERBOLA OR PARABOLA",
+                        "CHAPTER XVI. THE SOUTHERN HEMISPHERE",
+                        "CHAPTER XVII. TYCHO",
+                        "CHAPTER XVIII. GRAVE QUESTIONS",
+                        "CHAPTER XIX. A STRUGGLE AGAINST THE IMPOSSIBLE",
+                        "CHAPTER XX. THE SOUNDINGS OF THE SUSQUEHANNA",
+                        "CHAPTER XXI. J. T. MASTON RECALLED",
+                        "CHAPTER XXII. RECOVERED FROM THE SEA",
+                        "CHAPTER XXIII. THE END",
+                        "THE FULL PROJECT GUTENBERG™ LICENSE" }),
+                new BookConfiguration(
+                    "https://www.gutenberg.org/cache/epub/120/pg120-images-3.epub",
+                    new String[] {
+                        "TREASURE ISLAND",
+                        "Illustrated by Louis Rhead",
                         "THE FULL PROJECT GUTENBERG™ LICENSE" }), };
             for (BookConfiguration bookConfiguration : books) {
                 try {
@@ -303,10 +342,10 @@ public class LocalLootTableProvider extends LootTableProvider {
                         ", ",
                         book.getMetadata().getAuthors().stream()
                             .map(author -> author.getFirstname() + " " + author.getLastname()).toList());
-                    LOGGER.debug("Parsing book \n" + title + "\" by \"" + authors + "\"");
+                    LOGGER.debug("Parsing book \"" + title + "\" by \"" + authors + "\"");
                     for (TOCReference reference : book.getTableOfContents().getTocReferences()) {
                         String chapterTitle = reference.getTitle();
-                        LOGGER.debug("Parsing chapters \"" + chapterTitle + "\"");
+                        LOGGER.debug("Parsing chapter \"" + chapterTitle + "\"");
                         if (!Arrays.stream(bookConfiguration.blacklist).anyMatch(chapterTitle::contains)) {
                             BookGenerator generator = new BookGenerator(title, authors, chapterTitle);
                             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -325,6 +364,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                 } catch (IOException | SAXException | ParserConfigurationException
                     | XPathExpressionException e) {
                     LOGGER.error(e.toString());
+                    throw new RuntimeException(e);
                 }
             }
             return lootPool;
