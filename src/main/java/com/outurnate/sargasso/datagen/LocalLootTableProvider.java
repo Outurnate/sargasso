@@ -137,14 +137,10 @@ public class LocalLootTableProvider extends LootTableProvider {
         @Override
         public void generate(BiConsumer<ResourceKey<LootTable>, Builder> consumer) {
             consumer.accept(
-                ResourceKey.create(
-                    Registries.LOOT_TABLE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "books")),
+                BOOKS,
                 LootTable.lootTable().withPool(generateLootPoolOfBooks()));
             consumer.accept(
-                ResourceKey.create(
-                    Registries.LOOT_TABLE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "chests/curios")),
+                CURIOS,
                 LootTable.lootTable()
                     .withPool(
                         LootPool.lootPool()
@@ -448,6 +444,14 @@ public class LocalLootTableProvider extends LootTableProvider {
             }
         }
     }
+
+    public static final ResourceKey<LootTable> BOOKS = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("books"));
+
+    public static final ResourceKey<LootTable> CURIOS = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/curios"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(
