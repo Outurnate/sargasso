@@ -29,7 +29,6 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
     @Override
     // @Overwrite
     public void onLoad() {
-        LOGGER.error("THIS IS WORKING");
         requestModelDataUpdate();
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self) {
             Level level = self.getLevel();
@@ -52,13 +51,14 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
             LootParams params = new LootParams.Builder(server)
                 .withParameter(LootContextParams.ORIGIN, self.getBlockPos().getCenter())
                 .create(LootContextParamSets.CHEST);
+            List<ItemStack> loot = lootTable.getRandomItems(params, containerLoot.seed());
 
             self.clearContent();
 
             int slot = 0;
             List<Integer> slotMixer = IntStream.range(0, 6).boxed().collect(Collectors.toList());
             Collections.shuffle(slotMixer);
-            for (ItemStack stack : lootTable.getRandomItems(params, containerLoot.seed())) {
+            for (ItemStack stack : loot) {
                 self.setItem(slotMixer.get(slot++), stack);
                 LOGGER.error("SET ITEM");
             }
@@ -67,9 +67,7 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
                 self.collectComponents(),
                 DataComponentPatch.builder().remove(DataComponents.CONTAINER_LOOT).build());
             LOGGER.error("REMOVED COMPONENT");
-            // self.setChanged();
-            LOGGER.error(self.getBlockPos().toString());
-            server.blockEntityChanged(self.getBlockPos());
+            self.setChanged();
             LOGGER.error("MARKED DIRTY");
         } catch (Exception e) {
             LOGGER.error(e.toString());
