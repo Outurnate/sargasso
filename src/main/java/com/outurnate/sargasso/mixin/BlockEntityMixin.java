@@ -1,11 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso.mixin;
 
+import com.mojang.logging.LogUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +18,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockEntity.class)
 public abstract class BlockEntityMixin {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     // The injection site for this is strange for a reason
     // ChiseledBookShelfBlockEntity's loadAdditional is called before
     // level is set, so rolling the loot table is impossible there
@@ -37,9 +40,13 @@ public abstract class BlockEntityMixin {
                 return;
             }
 
+            LOGGER.debug("here2");
+
             if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
                 return;
             }
+
+            LOGGER.debug("here");
 
             SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
 
