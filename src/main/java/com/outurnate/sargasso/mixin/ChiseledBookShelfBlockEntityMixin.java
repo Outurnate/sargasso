@@ -144,12 +144,13 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
                 .decorate(compositeFunction, output, context);
 
             for (LootPool pool : pools) {
+                LOGGER.error("rolling pool");
                 addRandomItems(pool, decoratedOutput, context);
             }
 
             context.popVisitedElement(breadcrumb);
         } else {
-            LOGGER.warn("Detected infinite loop in loot tables");
+            LOGGER.error("Detected infinite loop in loot tables");
         }
     }
 
