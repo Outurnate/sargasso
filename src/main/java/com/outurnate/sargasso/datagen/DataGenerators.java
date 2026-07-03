@@ -47,5 +47,6 @@ public class DataGenerators {
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
+        event.createProvider(LocalBiomeTagsProvider::new);
     }
 }

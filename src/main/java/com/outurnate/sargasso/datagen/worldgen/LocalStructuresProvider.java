@@ -2,13 +2,14 @@
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.LocalBiomeTagsProvider;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -74,7 +75,7 @@ public class LocalStructuresProvider {
             APOTHECARY,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(Biomes.DARK_FOREST)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_APOTHECARY))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
