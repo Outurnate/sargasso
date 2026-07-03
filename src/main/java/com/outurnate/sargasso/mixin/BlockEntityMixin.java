@@ -35,6 +35,10 @@ public abstract class BlockEntityMixin {
     // must inject to the parent class
     @Inject(method = "setLevel", at = @At("TAIL"))
     private void sargasso$setLevel(Level level, CallbackInfo callbackInfo) {
+        LOGGER.debug("WHAT2");
+        LOGGER.debug(String.valueOf((Object) this instanceof ChiseledBookShelfBlockEntity));
+        LOGGER.debug(String.valueOf(level != null));
+        LOGGER.debug(String.valueOf(level instanceof ServerLevel));
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
             try {
