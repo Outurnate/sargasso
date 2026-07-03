@@ -34,8 +34,6 @@ public class LocalStructureTemplatePoolsProvider {
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
         Holder<StructureProcessorList> glitch = structureProcessorListRegistry
             .getOrThrow(LocalStructureProcessorListProvider.GLITCH);
-        Holder<StructureProcessorList> bookshelf_loot = structureProcessorListRegistry
-            .getOrThrow(LocalStructureProcessorListProvider.BOOKSHELF_LOOT);
 
         bootstrap.register(
             LIBRARY,
@@ -77,7 +75,7 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 List.of(
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":apothecary", bookshelf_loot),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":apothecary"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
     }
