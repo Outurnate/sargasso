@@ -65,7 +65,7 @@ public class LocalStructuresProvider {
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS_MIDDLE),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS),
                 7,
                 ConstantHeight.ZERO,
                 false,
