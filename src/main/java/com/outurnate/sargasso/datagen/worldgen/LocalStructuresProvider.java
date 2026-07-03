@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -27,6 +28,8 @@ public class LocalStructuresProvider {
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("library"));
     public static final ResourceKey<Structure> FORTRESS = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("fortress"));
+    public static final ResourceKey<Structure> APOTHECARY = ResourceKey
+        .create(Registries.STRUCTURE, SuperSargassoSea.ID("apothecary"));
 
     public static void provide(BootstrapContext<Structure> bootstrap) {
         HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
@@ -64,6 +67,19 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS_MIDDLE),
                 7,
+                ConstantHeight.ZERO,
+                false,
+                Types.WORLD_SURFACE_WG));
+        bootstrap.register(
+            APOTHECARY,
+            new JigsawStructure(
+                new StructureSettings.Builder(
+                    HolderSet.direct(biomeRegistry.getOrThrow(Biomes.DARK_FOREST)))
+                        .generationStep(Decoration.SURFACE_STRUCTURES)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .build(),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.APOTHECARY),
+                1,
                 ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));
