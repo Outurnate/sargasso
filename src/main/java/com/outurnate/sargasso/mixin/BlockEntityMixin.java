@@ -37,32 +37,36 @@ public abstract class BlockEntityMixin {
     private void sargasso$setLevel(Level level, CallbackInfo callbackInfo) {
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
+            try {
+                if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
+                    return;
+                }
 
-            if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
-                return;
+                SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
+
+                LootTable lootTable = server.getServer().reloadableRegistries()
+                    .getLootTable(containerLoot.lootTable());
+                LootParams params = new LootParams.Builder(server)
+                    .withParameter(LootContextParams.ORIGIN, self.getBlockPos().getCenter())
+                    .create(LootContextParamSets.CHEST);
+
+                self.clearContent();
+
+                int slot = 0;
+                List<Integer> slotMixer = IntStream.range(0, 6).boxed().collect(Collectors.toList());
+                Collections.shuffle(slotMixer);
+                for (ItemStack stack : lootTable.getRandomItems(params, containerLoot.seed())) {
+                    self.setItem(slotMixer.get(slot++), stack);
+                }
+
+                self.applyComponents(
+                    self.collectComponents(),
+                    DataComponentPatch.builder().remove(DataComponents.CONTAINER_LOOT).build());
+                self.setChanged();
+            } catch (Exception e) {
+                LOGGER.error(e.toString());
+                throw e;
             }
-
-            SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
-
-            LootTable lootTable = server.getServer().reloadableRegistries()
-                .getLootTable(containerLoot.lootTable());
-            LootParams params = new LootParams.Builder(server)
-                .withParameter(LootContextParams.ORIGIN, self.getBlockPos().getCenter())
-                .create(LootContextParamSets.CHEST);
-
-            self.clearContent();
-
-            int slot = 0;
-            List<Integer> slotMixer = IntStream.range(0, 6).boxed().collect(Collectors.toList());
-            Collections.shuffle(slotMixer);
-            for (ItemStack stack : lootTable.getRandomItems(params, containerLoot.seed())) {
-                self.setItem(slotMixer.get(slot++), stack);
-            }
-
-            self.applyComponents(
-                self.collectComponents(),
-                DataComponentPatch.builder().remove(DataComponents.CONTAINER_LOOT).build());
-            self.setChanged();
         }
     }
 }
