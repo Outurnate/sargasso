@@ -20,7 +20,7 @@ public class LocalStructureTemplatePoolsProvider {
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS_SEGMENT = ResourceKey
-        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_end"));
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_segment"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
 
