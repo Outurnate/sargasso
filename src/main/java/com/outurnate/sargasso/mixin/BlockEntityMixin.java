@@ -37,13 +37,10 @@ public abstract class BlockEntityMixin {
     private void sargasso$setLevel(Level level, CallbackInfo callbackInfo) {
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
-            LOGGER.error("here2");
 
             if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
                 return;
             }
-
-            LOGGER.error("here");
 
             SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
 
