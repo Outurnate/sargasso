@@ -35,48 +35,48 @@ public abstract class BlockEntityMixin {
     // must inject to the parent class
     @Inject(method = "setLevel", at = @At("TAIL"))
     private void sargasso$setLevel(Level level, CallbackInfo callbackInfo) {
-        LOGGER.debug("WHAT2");
-        LOGGER.debug(String.valueOf((Object) this instanceof ChiseledBookShelfBlockEntity));
-        LOGGER.debug(String.valueOf(level != null));
-        LOGGER.debug(String.valueOf(level instanceof ServerLevel));
+        LOGGER.error("WHAT2");
+        LOGGER.error(String.valueOf((Object) this instanceof ChiseledBookShelfBlockEntity));
+        LOGGER.error(String.valueOf(level != null));
+        LOGGER.error(String.valueOf(level instanceof ServerLevel));
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
             try {
-                LOGGER.debug("WHAT");
+                LOGGER.error("WHAT");
                 if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
                     return;
                 }
-                LOGGER.debug("HAS LOOT COMPONENT");
+                LOGGER.error("HAS LOOT COMPONENT");
 
                 SeededContainerLoot containerLoot = self.components().get(DataComponents.CONTAINER_LOOT);
-                LOGGER.debug("GOT LOOT COMPONENT");
+                LOGGER.error("GOT LOOT COMPONENT");
 
                 LootTable lootTable = server.getServer().reloadableRegistries()
                     .getLootTable(containerLoot.lootTable());
-                LOGGER.debug("FOUND LOOT TABLE");
+                LOGGER.error("FOUND LOOT TABLE");
                 LootParams params = new LootParams.Builder(server)
                     .withParameter(LootContextParams.ORIGIN, self.getBlockPos().getCenter())
                     .create(LootContextParamSets.CHEST);
-                LOGGER.debug("BUILT PARAMS");
+                LOGGER.error("BUILT PARAMS");
 
                 self.clearContent();
-                LOGGER.debug("CLEARED SELF");
+                LOGGER.error("CLEARED SELF");
 
                 int slot = 0;
                 List<Integer> slotMixer = IntStream.range(0, 6).boxed().collect(Collectors.toList());
                 Collections.shuffle(slotMixer);
                 for (ItemStack stack : lootTable.getRandomItems(params, containerLoot.seed())) {
                     self.setItem(slotMixer.get(slot++), stack);
-                    LOGGER.debug("SET ITEM");
+                    LOGGER.error("SET ITEM");
                 }
-                LOGGER.debug("SET ITEMS");
+                LOGGER.error("SET ITEMS");
 
                 self.applyComponents(
                     self.collectComponents(),
                     DataComponentPatch.builder().remove(DataComponents.CONTAINER_LOOT).build());
-                LOGGER.debug("REMOVED COMPONENT");
+                LOGGER.error("REMOVED COMPONENT");
                 self.setChanged();
-                LOGGER.debug("MARKED DIRTY");
+                LOGGER.error("MARKED DIRTY");
             } catch (Exception e) {
                 LOGGER.error(e.toString());
                 throw e;
