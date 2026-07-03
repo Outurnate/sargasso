@@ -179,17 +179,15 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
 
             LootTable lootTable = server.getServer().reloadableRegistries()
                 .getLootTable(containerLoot.lootTable());
+            LOGGER.error(containerLoot.lootTable().toString());
             LootParams params = new LootParams.Builder(server)
                 .create(LootContextParamSets.EMPTY);
             LOGGER.error(String.valueOf(containerLoot.seed()));
-            List<ItemStack> loot;
-            do {
-                loot = getRandomItems(
-                    lootTable,
-                    params,
-                    containerLoot.seed() == 0 ? server.getRandom().nextLong() : containerLoot.seed());
-                LOGGER.error(String.valueOf(loot.size()));
-            } while (loot.size() == 0);
+            List<ItemStack> loot = getRandomItems(
+                lootTable,
+                params,
+                containerLoot.seed() == 0 ? server.getRandom().nextLong() : containerLoot.seed());
+            LOGGER.error(String.valueOf(loot.size()));
 
             self.clearContent();
 
