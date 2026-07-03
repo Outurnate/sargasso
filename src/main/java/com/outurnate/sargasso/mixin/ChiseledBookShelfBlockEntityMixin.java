@@ -183,8 +183,7 @@ public abstract class ChiseledBookShelfBlockEntityMixin implements IBlockEntityE
             LootParams params = new LootParams.Builder(server)
                 .create(LootContextParamSets.EMPTY);
             LOGGER.error(String.valueOf(containerLoot.seed()));
-            List<ItemStack> loot = getRandomItems(
-                lootTable,
+            List<ItemStack> loot = lootTable.getRandomItems(
                 params,
                 containerLoot.seed() == 0 ? server.getRandom().nextLong() : containerLoot.seed());
             LOGGER.error(String.valueOf(loot.size()));
