@@ -3,7 +3,7 @@
   "package": "com.outurnate.sargasso.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "BlockEntityMixin",
+    "ChiseledBookShelfBlockEntityMixin",
     "BaseFireBlockMixin",
     "EntityMixin",
     "LivingEntityMixin",
