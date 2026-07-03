@@ -38,6 +38,7 @@ public abstract class BlockEntityMixin {
         if ((Object) this instanceof ChiseledBookShelfBlockEntity self
             && level != null && level instanceof ServerLevel server) {
             try {
+                LOGGER.debug("WHAT");
                 if (!self.components().has(DataComponents.CONTAINER_LOOT)) {
                     return;
                 }
