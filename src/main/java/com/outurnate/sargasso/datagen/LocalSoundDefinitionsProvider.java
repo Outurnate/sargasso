@@ -30,8 +30,9 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.GLITCH_TELEPORT,
             SoundDefinition.definition()
                 .with(
-                    sound("minecraft:mob/endermen/portal"),
-                    sound("minecraft:mob/endermen/portal2"))
+                    sound("sargasso:glitch1"),
+                    sound("sargasso:glitch2"),
+                    sound("sargasso:glitch2"))
                 .subtitle("sound.sargasso.glitch_teleport")
                 .replace(true));
         add(

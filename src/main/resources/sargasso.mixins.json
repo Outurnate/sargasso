@@ -5,7 +5,7 @@
   "mixins": [
     "ChiseledBookShelfBlockEntityMixin",
     "BaseFireBlockMixin",
-    "EntityMixin",
+    "ItemEntityMixin",
     "LivingEntityMixin",
     "ComponentSerializationMixin"
   ],

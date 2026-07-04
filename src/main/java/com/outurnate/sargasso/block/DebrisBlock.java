@@ -2,6 +2,8 @@
 package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
+import com.outurnate.sargasso.registry.LocalBlocks;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -17,7 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DebrisBlock extends Block {
     public static final MapCodec<DebrisBlock> CODEC = simpleCodec(DebrisBlock::new);
-    private static final VoxelShape SHAPE = Block.column(16.0, 0.0, 1.0);
+    private static final VoxelShape SHAPE = Block.column(8.0, 0.0, 4.0);
 
     public DebrisBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -25,8 +27,7 @@ public class DebrisBlock extends Block {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        BlockState belowState = level.getBlockState(pos.below());
-        return belowState.isSolidRender() && belowState.isFaceSturdy(level, pos, Direction.UP);
+        return level.getBlockState(pos.below()).is(LocalBlocks.FLOTSAM);
     }
 
     @Override
