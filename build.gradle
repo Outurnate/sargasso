@@ -6,12 +6,21 @@ plugins {
 	id 'com.diffplug.spotless' version '8.7.0'
 }
 
+import attribution.AttributionManifest
+
+tasks.register("verifyAttribution") {
+def yamlFile = file("assets.yml")
+    def resourcesDir = file("src/main/resources")
+
+    inputs.file(yamlFile)
+    inputs.dir(resourcesDir)
+
+    doLast {
+        AttributionManifest.verify(yamlFile, resourcesDir)
+    }
+}
+
 tasks.named('wrapper', Wrapper).configure {
-	// Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-	// Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-	// documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-	// file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-	// (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
 	distributionType = Wrapper.DistributionType.BIN
 }
 
@@ -141,9 +150,14 @@ dependencies {
 	implementation 'nl.siegmann.epublib:epublib-core:3.1'
 }
 
+def mod_credits = AttributionManifest.credits(file("assets.yml"))
+
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+	dependsOn verifyAttribution
+	inputs.property("mod_credits", mod_credits)
+
 	var replaceProperties = [
 			minecraft_version      : minecraft_version,
 			minecraft_version_range: minecraft_version_range,
@@ -152,6 +166,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 			mod_name               : mod_name,
 			mod_license            : mod_license,
 			mod_version            : mod_version,
+			mod_credits            : mod_credits,
 	]
 	inputs.properties replaceProperties
 	expand replaceProperties
@@ -200,6 +215,5 @@ spotless {
 			.configFile("eclipse-formatter.xml")
 			.sortMembersEnabled(true)
 		formatAnnotations()
-		licenseHeader '/* (C)$YEAR */'
 	}
 }

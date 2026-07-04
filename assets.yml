@@ -1,0 +1,34 @@
+rules:
+  - glob: assets/sargasso/sounds/toaster.ogg
+    source: Freesound
+    author: NHumphrey
+    license: CC0-1.0
+    attribution: 'Typewriter Ding.wav by NHumphrey'
+    url: https://freesound.org/s/204466/
+  - glob: assets/sargasso/sounds/glitch1.ogg
+    source: Freesound
+    author: CAL75
+    license: CC0-1.0
+    attribution: 'glitch.wav by CAL75'
+    url: https://freesound.org/s/393616/
+  - glob: assets/sargasso/sounds/glitch2.ogg
+    source: Freesound
+    author: Elnosos
+    license: CC0-1.0
+    attribution: 'glitched sound 1.wav by Elnosos'
+    url: https://freesound.org/s/424375/
+  - glob: assets/sargasso/sounds/glitch3.ogg
+    source: Freesound
+    author: tadaizm
+    license: CC0-1.0
+    attribution: 'Digital Glitch_v1.wav by tadaizm'
+    url: https://freesound.org/s/458065/
+  - glob: assets/sargasso/**
+    source: Self
+    license: MIT
+  - glob: data/sargasso/**
+    source: Self
+    license: MIT
+  - glob: sargasso.mixins.json
+    source: Self
+    license: MIT

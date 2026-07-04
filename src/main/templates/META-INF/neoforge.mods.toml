@@ -19,6 +19,8 @@ displayName="${mod_name}"
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Super Sargasso Sea mod - a dimension where lost things go
+
+${mod_credits}
 '''
 
 [[mixins]]
