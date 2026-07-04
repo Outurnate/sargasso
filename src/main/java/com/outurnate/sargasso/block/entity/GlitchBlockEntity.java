@@ -81,7 +81,7 @@ public class GlitchBlockEntity extends BlockEntity {
         list.add(
             (
                 level,
-                pos) -> new Arrow(level, pos.x, pos.y, pos.z, ItemStack.EMPTY, null),
+                pos) -> new Arrow(level, pos.x, pos.y, pos.z, new ItemStack(Items.ARROW, 1), null),
             100);
         return list.build();
     }
@@ -92,7 +92,7 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        if (rand.nextFloat() > 0.9995) {
+        if (rand.nextFloat() > 0.9999) {
             List<Direction> exposedDirections = new ArrayList<>();
             if (level.getBlockState(pos.above()).is(Blocks.AIR)) {
                 exposedDirections.add(Direction.UP);

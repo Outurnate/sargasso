@@ -30,8 +30,12 @@ public class LocalStructureTemplatePoolsProvider {
         HolderGetter<StructureProcessorList> structureProcessorListRegistry = bootstrap
             .lookup(Registries.PROCESSOR_LIST);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
-        Holder<StructureProcessorList> glitch = structureProcessorListRegistry
-            .getOrThrow(LocalStructureProcessorListProvider.GLITCH);
+        Holder<StructureProcessorList> heavy_glitch = structureProcessorListRegistry
+            .getOrThrow(LocalStructureProcessorListProvider.HEAVY_GLITCH);
+        Holder<StructureProcessorList> medium_glitch = structureProcessorListRegistry
+            .getOrThrow(LocalStructureProcessorListProvider.MEDIUM_GLITCH);
+        Holder<StructureProcessorList> mild_glitch = structureProcessorListRegistry
+            .getOrThrow(LocalStructureProcessorListProvider.MILD_GLITCH);
 
         bootstrap.register(
             LIBRARY,
@@ -46,7 +50,7 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 List.of(
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", heavy_glitch),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
@@ -55,10 +59,16 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 List.of(
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", medium_glitch),
                         1),
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end", glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end", medium_glitch),
+                        1),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", mild_glitch),
+                        1),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end", mild_glitch),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
