@@ -21,6 +21,8 @@ public class LocalStructureSetsProvider {
         .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureSet> APOTHECARY = ResourceKey
         .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("apothecary"));
+    public static final ResourceKey<StructureSet> OFFICE = ResourceKey
+        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("office"));
 
     public static void provide(BootstrapContext<StructureSet> bootstrap) {
         HolderGetter<Structure> structureRegistry = bootstrap.lookup(Registries.STRUCTURE);
@@ -60,5 +62,14 @@ public class LocalStructureSetsProvider {
                     15,
                     RandomSpreadType.LINEAR,
                     432488)));
+        bootstrap.register(
+            OFFICE,
+            new StructureSet(
+                structureRegistry.getOrThrow(LocalStructuresProvider.OFFICE),
+                new RandomSpreadStructurePlacement(
+                    20,
+                    15,
+                    RandomSpreadType.LINEAR,
+                    345789)));
     }
 }
