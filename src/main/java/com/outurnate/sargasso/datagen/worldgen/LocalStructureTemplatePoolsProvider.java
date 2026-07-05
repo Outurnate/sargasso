@@ -100,7 +100,7 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        1),
+                        10),
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
                         1)),

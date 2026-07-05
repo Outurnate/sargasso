@@ -92,10 +92,10 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .terrainAdapation(TerrainAdjustment.BEARD_BOX)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
-                7,
+                20,
                 ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));
