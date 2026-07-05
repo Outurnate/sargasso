@@ -16,7 +16,6 @@ displayName="${mod_name}"
 # The authors of the mod, displayed in the mod UI (optional)
 #authors=""
 
-# The description text for the mod (multi line!) (#mandatory)
 description='''
 Super Sargasso Sea mod - a dimension where lost things go
 

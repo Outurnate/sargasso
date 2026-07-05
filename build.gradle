@@ -8,18 +8,6 @@ plugins {
 
 import attribution.AttributionManifest
 
-tasks.register("verifyAttribution") {
-def yamlFile = file("assets.yml")
-    def resourcesDir = file("src/main/resources")
-
-    inputs.file(yamlFile)
-    inputs.dir(resourcesDir)
-
-    doLast {
-        AttributionManifest.verify(yamlFile, resourcesDir)
-    }
-}
-
 tasks.named('wrapper', Wrapper).configure {
 	distributionType = Wrapper.DistributionType.BIN
 }
@@ -151,11 +139,11 @@ dependencies {
 }
 
 def mod_credits = AttributionManifest.credits(file("assets.yml"))
+def mod_notices = AttributionManifest.thirdPartyNotices(file("assets.yml"), file("src/main/resources"))
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-	dependsOn verifyAttribution
 	inputs.property("mod_credits", mod_credits)
 
 	var replaceProperties = [
@@ -167,6 +155,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 			mod_license            : mod_license,
 			mod_version            : mod_version,
 			mod_credits            : mod_credits,
+			mod_notices            : mod_notices
 	]
 	inputs.properties replaceProperties
 	expand replaceProperties

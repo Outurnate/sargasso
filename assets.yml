@@ -23,12 +23,3 @@ rules:
     license: CC0-1.0
     attribution: 'Digital Glitch_v1.wav by tadaizm'
     url: https://freesound.org/s/458065/
-  - glob: assets/sargasso/**
-    source: Self
-    license: MIT
-  - glob: data/sargasso/**
-    source: Self
-    license: MIT
-  - glob: sargasso.mixins.json
-    source: Self
-    license: MIT
