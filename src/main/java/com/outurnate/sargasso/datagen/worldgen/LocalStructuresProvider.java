@@ -70,7 +70,7 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS),
                 7,
-                ConstantHeight.ZERO,
+                ConstantHeight.of(VerticalAnchor.belowTop(46)),
                 false,
                 Types.WORLD_SURFACE_WG));
         bootstrap.register(
@@ -92,7 +92,7 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
                 7,
