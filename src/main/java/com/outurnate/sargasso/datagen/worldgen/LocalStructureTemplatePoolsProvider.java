@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 public class LocalStructureTemplatePoolsProvider {
-    private static record CalculatedWeights(int segment, int end) {
+    public static record CalculatedWeights(int segment, int end, int maxDepth) {
         public CalculatedWeights(int maxDepth) {
             // first step, we need to figure out the probability of a segment vs an end
             // piece
@@ -34,7 +34,7 @@ public class LocalStructureTemplatePoolsProvider {
             // datagen does something silly - it allocates objects in a loop
             // "weight" times. this saves some memory during datagen
             int factor = gcd(endProbability, segmentProbability);
-            this(segmentProbability / factor, endProbability / factor);
+            this(segmentProbability / factor, endProbability / factor, maxDepth);
         }
 
         private static int gcd(int a, int b) {
@@ -59,9 +59,9 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_segment"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
+    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(20);
     public static final ResourceKey<StructureTemplatePool> OFFICE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
-
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_floors"));
 
@@ -130,7 +130,6 @@ public class LocalStructureTemplatePoolsProvider {
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_base"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
-        CalculatedWeights weights = new CalculatedWeights(20);
         bootstrap.register(
             OFFICE_FLOORS,
             new StructureTemplatePool(
@@ -138,10 +137,10 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        weights.segment),
+                        OFFICE_GENSETTINGS.segment),
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
-                        weights.end)),
+                        OFFICE_GENSETTINGS.end)),
                 StructureTemplatePool.Projection.RIGID));
     }
 }
