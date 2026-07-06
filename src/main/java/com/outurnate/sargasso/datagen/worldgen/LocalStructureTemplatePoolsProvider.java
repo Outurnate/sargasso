@@ -3,6 +3,7 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
+
 import java.util.List;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -15,6 +16,26 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 public class LocalStructureTemplatePoolsProvider {
+    private static record CalculatedWeights(int segment, int end) {
+        public CalculatedWeights(int maxDepth) {
+            // first step, we need to figure out the probability of a segment vs an end
+            // piece
+            // let t be the chance that we'll get an end piece comes up
+            double t = 0.99F;
+            // let p be the probability that we'll roll an end jigsaw piece
+            double p = 1.0 - Math.pow(1.0 - t, 1.0 / maxDepth);
+
+            // the max weight allowed
+            int totalWeight = 150;
+
+            int endProbability = (int) (p * totalWeight);
+            int segmentProbability = (int) totalWeight - endProbability;
+            System.out.println("s" + segmentProbability + "e" + endProbability + "p" + p);
+
+            this(segmentProbability, endProbability);
+        }
+    }
+
     public static final ResourceKey<StructureTemplatePool> LIBRARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("library"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
@@ -25,6 +46,7 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
     public static final ResourceKey<StructureTemplatePool> OFFICE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
+
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_floors"));
 
@@ -93,6 +115,7 @@ public class LocalStructureTemplatePoolsProvider {
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_base"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
+        CalculatedWeights weights = new CalculatedWeights(20);
         bootstrap.register(
             OFFICE_FLOORS,
             new StructureTemplatePool(
@@ -100,10 +123,10 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        10),
+                        weights.segment),
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
-                        1)),
+                        weights.end)),
                 StructureTemplatePool.Projection.RIGID));
     }
 }
