@@ -20,7 +20,7 @@ public class LocalStructureTemplatePoolsProvider {
         public CalculatedWeights(int maxDepth) {
             // first step, we need to figure out the probability of a segment vs an end
             // piece
-            // let t be the chance that we'll get an end piece comes up
+            // let t be the chance that we'll get an end piece before reaching max depth
             double t = 0.99F;
             // let p be the probability that we'll roll an end jigsaw piece
             double p = 1.0 - Math.pow(1.0 - t, 1.0 / maxDepth);
@@ -30,9 +30,24 @@ public class LocalStructureTemplatePoolsProvider {
 
             int endProbability = (int) (p * totalWeight);
             int segmentProbability = (int) totalWeight - endProbability;
-            System.out.println("s" + segmentProbability + "e" + endProbability + "p" + p);
 
-            this(segmentProbability, endProbability);
+            // datagen does something silly - it allocates objects in a loop
+            // "weight" times. this saves some memory during datagen
+            int factor = gcd(endProbability, segmentProbability);
+            this(segmentProbability / factor, endProbability / factor);
+        }
+
+        private static int gcd(int a, int b) {
+            a = Math.abs(a);
+            b = Math.abs(b);
+
+            while (b != 0) {
+                int t = b;
+                b = a % b;
+                a = t;
+            }
+
+            return a;
         }
     }
 
