@@ -64,6 +64,8 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_floors"));
+    public static final ResourceKey<StructureTemplatePool> OFFICE_FIRST_FLOOR = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_first_floor"));
 
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
@@ -141,6 +143,15 @@ public class LocalStructureTemplatePoolsProvider {
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
                         OFFICE_GENSETTINGS.end)),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            OFFICE_FIRST_FLOOR,
+            new StructureTemplatePool(
+                empty,
+                List.of(
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
+                        1)),
                 StructureTemplatePool.Projection.RIGID));
     }
 }

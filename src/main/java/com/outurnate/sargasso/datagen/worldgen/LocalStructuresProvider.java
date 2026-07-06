@@ -108,7 +108,7 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
                 LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth(),
-                ConstantHeight.of(VerticalAnchor.absolute(2)),
+                ConstantHeight.of(VerticalAnchor.aboveBottom(1)),
                 false,
                 Types.WORLD_SURFACE_WG));
     }
