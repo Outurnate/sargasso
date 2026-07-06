@@ -32,7 +32,7 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 .with(
                     sound("sargasso:glitch1"),
                     sound("sargasso:glitch2"),
-                    sound("sargasso:glitch2"))
+                    sound("sargasso:glitch3"))
                 .subtitle("sound.sargasso.glitch_teleport")
                 .replace(true));
         add(
