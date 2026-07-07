@@ -63,6 +63,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
         this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
         this.addBlock(LocalBlocks.GLITCH, "Glitch in Reality");
+        this.addBlock(LocalBlocks.PORTAL, "Portal");
         this.addBlock(LocalBlocks.TOASTER, "Chronometric Flux Toaster");
         this.addItem(LocalItems.BEDROCK_CREAM, "Professor Murgatroyd's Miracle Bedrock Cream");
         this.addItem(LocalItems.BEDROCK_SLOP, "Bedrock Slop");
