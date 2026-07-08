@@ -27,7 +27,7 @@ public class LocalDimensionsProvider {
         HolderGetter<Biome> biomeRegistry = bootstrap
             .lookup(Registries.BIOME);
         HolderGetter<NoiseGeneratorSettings> noiseGeneratorSettingsRegistry = bootstrap
-            .lookup(Registries.NOISE_SETTINGS); // TODO MAYBE NOT OVERWORLD
+            .lookup(Registries.NOISE_SETTINGS);
 
         bootstrap.register(
             SEA,
@@ -49,6 +49,6 @@ public class LocalDimensionsProvider {
                                 Pair.of(
                                     Climate.parameters(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
                                     biomeRegistry.getOrThrow(Biomes.PLAINS))))),
-                    noiseGeneratorSettingsRegistry.getOrThrow(NoiseGeneratorSettings.OVERWORLD))));
+                    noiseGeneratorSettingsRegistry.getOrThrow(LocalNoiseSettingsProvider.SEA))));
     }
 }
