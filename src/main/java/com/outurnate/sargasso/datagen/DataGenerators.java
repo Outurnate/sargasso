@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDimensionTypesProvider;
+import com.outurnate.sargasso.datagen.worldgen.LocalDimensionsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalNoiseSettingsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalPlacedFeaturesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalStructureProcessorListProvider;
@@ -36,6 +37,7 @@ public class DataGenerators {
                 .add(Registries.CONFIGURED_FEATURE, LocalConfiguredFeaturesProvider::provide)
                 .add(Registries.DAMAGE_TYPE, LocalDamageTypesProvider::provide)
                 .add(Registries.DIMENSION_TYPE, LocalDimensionTypesProvider::provide)
+                .add(Registries.LEVEL_STEM, LocalDimensionsProvider::provide)
                 .add(Registries.NOISE_SETTINGS, LocalNoiseSettingsProvider::provide)
                 .add(Registries.PLACED_FEATURE, LocalPlacedFeaturesProvider::provide)
                 .add(Registries.STRUCTURE, LocalStructuresProvider::provide)
