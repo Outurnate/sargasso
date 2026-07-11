@@ -9,6 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -25,13 +26,23 @@ public class LocalNoiseSettingsProvider {
     public static void provide(BootstrapContext<NoiseGeneratorSettings> bootstrap) {
         HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
             .lookup(Registries.NOISE);
+        DensityFunction shift_x = DensityFunctions.flatCache(
+            DensityFunctions
+                .cache2d(DensityFunctions.shiftA(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
+        DensityFunction shift_z = DensityFunctions.flatCache(
+            DensityFunctions
+                .cache2d(DensityFunctions.shiftB(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
         NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
+            DensityFunctions.shiftedNoise2d(
+                shift_x,
+                shift_z,
+                0.25,
+                noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE)),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.cache2d(DensityFunctions.endIslands(345789)),
