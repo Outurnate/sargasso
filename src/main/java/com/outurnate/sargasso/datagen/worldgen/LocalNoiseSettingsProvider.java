@@ -63,7 +63,14 @@ public class LocalNoiseSettingsProvider {
                             DensityFunctions.zero(),
                             50.0,
                             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
-                        DensityFunctions.constant(0.1)))),
+                        DensityFunctions.rangeChoice(
+                            new DensityFunctions.HolderHolder(
+                                densityFunctionsRegistry
+                                    .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
+                            0.5,
+                            1.1,
+                            DensityFunctions.constant(0.1),
+                            DensityFunctions.constant(0.01))))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
