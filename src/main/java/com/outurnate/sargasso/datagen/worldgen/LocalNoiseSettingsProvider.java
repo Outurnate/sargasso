@@ -28,6 +28,15 @@ public class LocalNoiseSettingsProvider {
         HolderGetter<DensityFunction> densityFunctionsRegistry = bootstrap
             .lookup(Registries.DENSITY_FUNCTION);
         NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
+        double minTemperatureForPeaks = 0.5;
+        double peakTransitionZoneWidth = 0.1;
+        double x = 1.0;
+        double a = minTemperatureForPeaks - peakTransitionZoneWidth;
+        double b = minTemperatureForPeaks + peakTransitionZoneWidth;
+        double z = Math.clamp(
+            (x - minTemperatureForPeaks - peakTransitionZoneWidth) * (1.0 / (2 * peakTransitionZoneWidth)),
+            0.0,
+            1.0);
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
@@ -63,14 +72,15 @@ public class LocalNoiseSettingsProvider {
                             DensityFunctions.zero(),
                             50.0,
                             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
-                        DensityFunctions.rangeChoice(
-                            new DensityFunctions.HolderHolder(
-                                densityFunctionsRegistry
-                                    .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
-                            0.5,
-                            1.1,
-                            DensityFunctions.constant(0.1),
-                            DensityFunctions.constant(0.01))))),
+                        DensityFunctions.mul(
+                            DensityFunctions.add(
+                                new DensityFunctions.HolderHolder(
+                                    densityFunctionsRegistry
+                                        .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
+                                DensityFunctions
+                                    .constant(-(minTemperatureForPeaks - peakTransitionZoneWidth))),
+                            DensityFunctions.constant(1.0 / (2 * peakTransitionZoneWidth)))
+                            .clamp(0.0, 1.0)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
