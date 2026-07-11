@@ -3,11 +3,14 @@ package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 import com.outurnate.sargasso.registry.LocalTags;
 import java.time.Instant;
+import java.util.Map;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -36,7 +39,16 @@ import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class ToasterBlock extends Block {
     public static final MapCodec<ToasterBlock> CODEC = simpleCodec(ToasterBlock::new);
-    private static final VoxelShape SHAPE = Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
+    private static final VoxelShape NORTH_SHAPE = Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
+    private static final Map<Direction, VoxelShape> SHAPES = Map.of(
+        Direction.NORTH,
+        Utils.rotateShape(Direction.NORTH, Direction.NORTH, NORTH_SHAPE),
+        Direction.EAST,
+        Utils.rotateShape(Direction.NORTH, Direction.EAST, NORTH_SHAPE),
+        Direction.SOUTH,
+        Utils.rotateShape(Direction.NORTH, Direction.SOUTH, NORTH_SHAPE),
+        Direction.WEST,
+        Utils.rotateShape(Direction.NORTH, Direction.WEST, NORTH_SHAPE));
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     @SubscribeEvent
@@ -69,7 +81,7 @@ public class ToasterBlock extends Block {
         BlockGetter level,
         BlockPos pos,
         CollisionContext context) {
-        return SHAPE;
+        return SHAPES.get(state.getValue(FACING));
     }
 
     @Override
