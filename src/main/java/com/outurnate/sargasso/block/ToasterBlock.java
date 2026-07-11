@@ -42,7 +42,7 @@ public class ToasterBlock extends Block {
         Direction.NORTH,
         Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0),
         Direction.EAST,
-        Block.box(5.0, 0.0, 4.0, 10.0, 6.0, 12.0),
+        Block.box(6.0, 0.0, 4.0, 11.0, 6.0, 12.0),
         Direction.SOUTH,
         Block.box(4.0, 0.0, 6.0, 12.0, 6.0, 11.0),
         Direction.WEST,
