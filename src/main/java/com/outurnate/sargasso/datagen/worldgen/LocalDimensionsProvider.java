@@ -8,7 +8,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.Climate.ParameterList;
 import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
@@ -39,16 +38,16 @@ public class LocalDimensionsProvider {
                             List.of(
                                 Pair.of(
                                     Climate.parameters(-0.3F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(Biomes.JUNGLE)),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.HILLS)),
                                 Pair.of(
                                     Climate.parameters(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)),
                                 Pair.of(
                                     Climate.parameters(-1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(Biomes.BEACH)),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS)),
                                 Pair.of(
                                     Climate.parameters(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(Biomes.PLAINS))))),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.RARE))))),
                     noiseGeneratorSettingsRegistry.getOrThrow(LocalNoiseSettingsProvider.SEA))));
     }
 }

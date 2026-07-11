@@ -23,10 +23,16 @@ import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class LocalBiomesProvider {
-    public static final ResourceKey<Biome> SEA = ResourceKey
-        .create(Registries.BIOME, SuperSargassoSea.ID("sea"));
+    public static final ResourceKey<Biome> LOWLANDS = ResourceKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("lowlands"));
+    public static final ResourceKey<Biome> HILLS = ResourceKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("hills"));
+    public static final ResourceKey<Biome> PEAKS = ResourceKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("peaks"));
+    public static final ResourceKey<Biome> RARE = ResourceKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("rare"));
 
-    public static void provide(BootstrapContext<Biome> bootstrap) {
+    private static Biome buildDefault(BootstrapContext<Biome> bootstrap) {
         HolderGetter<PlacedFeature> placedFeaturesRegistry = bootstrap
             .lookup(Registries.PLACED_FEATURE);
         HolderGetter<ConfiguredWorldCarver<?>> configuredCarverRegistry = bootstrap
@@ -89,7 +95,6 @@ public class LocalBiomesProvider {
             MobCategory.MONSTER,
             10,
             new MobSpawnSettings.SpawnerData(EntityType.BLAZE, 1, 1));
-
         BiomeGenerationSettings.Builder generation = new BiomeGenerationSettings.Builder(
             placedFeaturesRegistry,
             configuredCarverRegistry);
@@ -98,23 +103,36 @@ public class LocalBiomesProvider {
             GenerationStep.Decoration.VEGETAL_DECORATION,
             LocalPlacedFeaturesProvider.PATCH_DEBRIS);
 
+        return new Biome.BiomeBuilder()
+            .hasPrecipitation(true)
+            .temperature(2.0F)
+            .downfall(0.0F)
+            .setAttribute(
+                EnvironmentAttributes.SKY_COLOR,
+                OverworldBiomes.calculateSkyColor(2.0F))
+            .specialEffects(new BiomeSpecialEffects.Builder().waterColor(4159204).build())
+            .hasPrecipitation(false)
+            .setAttribute(
+                EnvironmentAttributes.BACKGROUND_MUSIC,
+                new BackgroundMusic(SoundEvents.MUSIC_BIOME_DESERT))
+            .setAttribute(EnvironmentAttributes.SNOW_GOLEM_MELTS, true)
+            .mobSpawnSettings(mobs.build())
+            .generationSettings(generation.build())
+            .build();
+    }
+
+    public static void provide(BootstrapContext<Biome> bootstrap) {
         bootstrap.register(
-            SEA,
-            new Biome.BiomeBuilder()
-                .hasPrecipitation(true)
-                .temperature(2.0F)
-                .downfall(0.0F)
-                .setAttribute(
-                    EnvironmentAttributes.SKY_COLOR,
-                    OverworldBiomes.calculateSkyColor(2.0F))
-                .specialEffects(new BiomeSpecialEffects.Builder().waterColor(4159204).build())
-                .hasPrecipitation(false)
-                .setAttribute(
-                    EnvironmentAttributes.BACKGROUND_MUSIC,
-                    new BackgroundMusic(SoundEvents.MUSIC_BIOME_DESERT))
-                .setAttribute(EnvironmentAttributes.SNOW_GOLEM_MELTS, true)
-                .mobSpawnSettings(mobs.build())
-                .generationSettings(generation.build())
-                .build());
+            LOWLANDS,
+            buildDefault(bootstrap));
+        bootstrap.register(
+            HILLS,
+            buildDefault(bootstrap));
+        bootstrap.register(
+            PEAKS,
+            buildDefault(bootstrap));
+        bootstrap.register(
+            RARE,
+            buildDefault(bootstrap));
     }
 }

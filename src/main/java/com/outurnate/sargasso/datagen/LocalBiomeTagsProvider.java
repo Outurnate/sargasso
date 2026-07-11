@@ -17,6 +17,8 @@ import net.minecraft.world.level.biome.Biomes;
 public class LocalBiomeTagsProvider extends BiomeTagsProvider {
     public static final TagKey<Biome> HAS_APOTHECARY = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/apothecary"));
+    public static final TagKey<Biome> SEA = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("sea"));
 
     public LocalBiomeTagsProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, lookupProvider, SuperSargassoSea.MODID);
@@ -26,11 +28,16 @@ public class LocalBiomeTagsProvider extends BiomeTagsProvider {
     protected void addTags(HolderLookup.Provider registries) {
         this.tag(HAS_APOTHECARY)
             .add(Biomes.SWAMP);
+        this.tag(SEA)
+            .add(LocalBiomesProvider.HILLS)
+            .add(LocalBiomesProvider.LOWLANDS)
+            .add(LocalBiomesProvider.PEAKS)
+            .add(LocalBiomesProvider.RARE);
         this.tag(BiomeTags.HAS_PILLAGER_OUTPOST)
-            .add(LocalBiomesProvider.SEA)
+            .addTag(SEA)
             .replace(false);
         this.tag(BiomeTags.HAS_RUINED_PORTAL_DESERT)
-            .add(LocalBiomesProvider.SEA)
+            .addTag(SEA)
             .replace(false);
     }
 }

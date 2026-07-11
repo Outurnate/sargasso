@@ -5,7 +5,6 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.LocalBiomeTagsProvider;
 import java.util.Map;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -47,7 +46,7 @@ public class LocalStructuresProvider {
             FOSSIL,
             new NetherFossilStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
@@ -56,7 +55,7 @@ public class LocalStructuresProvider {
             LIBRARY,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
@@ -69,7 +68,7 @@ public class LocalStructuresProvider {
             FORTRESS,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
@@ -95,7 +94,7 @@ public class LocalStructuresProvider {
             OFFICE,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.SEA)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_BOX)
                         .spawnOverrides(
