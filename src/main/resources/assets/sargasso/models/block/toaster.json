@@ -1,7 +1,6 @@
 {
 	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/block",
 	"textures": {
 		"0": "sargasso:block/toaster",
 		"1": "sargasso:block/flux",
@@ -94,9 +93,10 @@
 		},
 		{
 			"name": "flux",
-			"from": [7.5, 1, 10],
-			"to": [8.5, 3, 11],
-			"rotation": {"x": 0, "y": 0, "z": -180, "origin": [8, 2, 10.5]},
+			"from": [7.5, 1, 4],
+			"to": [8.5, 3, 5],
+			"light_emission": 15,
+			"rotation": {"x": 0, "y": 0, "z": -180, "origin": [8, 2, 4.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"east": {"uv": [0, 0, 8, 16], "texture": "#1"},
@@ -104,14 +104,14 @@
 				"west": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"up": {"uv": [0, 0, 8, 8], "texture": "#1"},
 				"down": {"uv": [0, 8, 8, 16], "texture": "#1"}
-			},
-			"light_emission": 15
+			}
 		},
 		{
 			"name": "flux",
-			"from": [6.25, 3.75, 10],
-			"to": [7.25, 5.75, 11],
-			"rotation": {"x": 0, "y": 0, "z": 45, "origin": [6.75, 4.75, 10.5]},
+			"from": [6.25, 3.75, 4],
+			"to": [7.25, 5.75, 5],
+			"light_emission": 15,
+			"rotation": {"x": 0, "y": 0, "z": 45, "origin": [6.75, 4.75, 4.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"east": {"uv": [0, 0, 8, 16], "texture": "#1"},
@@ -119,14 +119,14 @@
 				"west": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"up": {"uv": [0, 0, 8, 8], "texture": "#1"},
 				"down": {"uv": [0, 8, 8, 16], "texture": "#1"}
-			},
-			"light_emission": 15
+			}
 		},
 		{
 			"name": "flux",
-			"from": [8.75, 3.75, 10],
-			"to": [9.75, 5.75, 11],
-			"rotation": {"x": 0, "y": 0, "z": -45, "origin": [9.25, 4.75, 10.5]},
+			"from": [8.75, 3.75, 4],
+			"to": [9.75, 5.75, 5],
+			"light_emission": 15,
+			"rotation": {"x": 0, "y": 0, "z": -45, "origin": [9.25, 4.75, 4.5]},
 			"faces": {
 				"north": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"east": {"uv": [0, 0, 9, 16], "texture": "#1"},
@@ -134,8 +134,7 @@
 				"west": {"uv": [0, 0, 8, 16], "texture": "#1"},
 				"up": {"uv": [0, 0, 8, 8], "texture": "#1"},
 				"down": {"uv": [0, 8, 8, 16], "texture": "#1"}
-			},
-			"light_emission": 15
+			}
 		}
 	],
 	"display": {
@@ -158,6 +157,20 @@
 			"rotation": [0, -135, 0],
 			"translation": [0, 2.5, 0],
 			"scale": [0.8, 0.8, 0.8]
+		},
+		"ground": {
+			"translation": [0, 4.25, 0]
+		},
+		"gui": {
+			"rotation": [30, -135, 0],
+			"translation": [0, 5, 0],
+			"scale": [1.2, 1.2, 1.2]
+		},
+		"fixed": {
+			"translation": [0, 4.25, -1.25]
+		},
+		"on_shelf": {
+			"rotation": [0, 180, 0]
 		}
 	}
 }

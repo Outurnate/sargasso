@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_90;
@@ -110,7 +111,7 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
-                plainVariant(toaster)));
+                plainVariant(toaster)).with(ROTATION_HORIZONTAL_FACING));
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
