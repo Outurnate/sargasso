@@ -67,7 +67,7 @@ public class LocalNoiseSettingsProvider {
                         new DensityFunctions.HolderHolder(
                             densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE))
                                 .abs().square()),
-                    // roughness
+                    // peaks + transition zone
                     DensityFunctions.mul(
                         // noise
                         DensityFunctions.shiftedNoise2d(
@@ -76,19 +76,17 @@ public class LocalNoiseSettingsProvider {
                             50.0,
                             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
                         // scaling
-                        DensityFunctions.min(
-                            DensityFunctions.constant(roughnessAmplitude),
+                        DensityFunctions.mul(
                             DensityFunctions.mul(
-                                DensityFunctions.mul(
-                                    DensityFunctions.add(
-                                        new DensityFunctions.HolderHolder(
-                                            densityFunctionsRegistry
-                                                .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
-                                        DensityFunctions
-                                            .constant(-(minTemperatureForPeaks - peakTransitionZoneWidth))),
-                                    DensityFunctions.constant(1.0 / (2 * peakTransitionZoneWidth)))
-                                    .clamp(0.0, 1.0),
-                                DensityFunctions.constant(peakAmplitude)))))),
+                                DensityFunctions.add(
+                                    new DensityFunctions.HolderHolder(
+                                        densityFunctionsRegistry
+                                            .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
+                                    DensityFunctions
+                                        .constant(-(minTemperatureForPeaks - peakTransitionZoneWidth))),
+                                DensityFunctions.constant(1.0 / (2 * peakTransitionZoneWidth)))
+                                .clamp(0.0, 1.0),
+                            DensityFunctions.constant(peakAmplitude))))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
