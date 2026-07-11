@@ -38,10 +38,11 @@ public class LocalNoiseSettingsProvider {
                 densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
-            DensityFunctions.cache2d(DensityFunctions.endIslands(345789)),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
+            DensityFunctions.constant(0.0),
+            // final density
             DensityFunctions.add(
                 // base grad for y level
                 DensityFunctions.yClampedGradient(-64, 320, 1, -1),
@@ -62,7 +63,7 @@ public class LocalNoiseSettingsProvider {
                             DensityFunctions.zero(),
                             50.0,
                             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
-                        DensityFunctions.constant(1.0)))),
+                        DensityFunctions.constant(0.1)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
