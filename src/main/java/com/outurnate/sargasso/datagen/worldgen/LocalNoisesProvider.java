@@ -11,6 +11,8 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 public class LocalNoisesProvider {
     public static final ResourceKey<NoiseParameters> TEMPERATURE = ResourceKey
         .create(Registries.NOISE, SuperSargassoSea.ID("temperature"));
+    public static final ResourceKey<NoiseParameters> MAIN = ResourceKey
+        .create(Registries.NOISE, SuperSargassoSea.ID("main"));
 
     public static void provide(BootstrapContext<NoiseParameters> bootstrap) {
         bootstrap.register(
@@ -25,5 +27,15 @@ public class LocalNoisesProvider {
                         0.0,
                         0.0,
                         0.0 })));
+        bootstrap.register(
+            MAIN,
+            new NoiseParameters(
+                -8,
+                new DoubleArrayList(
+                    new double[] {
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0 })));
     }
 }

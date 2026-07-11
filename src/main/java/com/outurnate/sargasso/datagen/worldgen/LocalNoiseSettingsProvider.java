@@ -33,16 +33,17 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions
                 .cache2d(DensityFunctions.shiftB(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
         NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
+        DensityFunction temperature = DensityFunctions.shiftedNoise2d(
+            shift_x,
+            shift_z,
+            0.25,
+            noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE));
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
-            DensityFunctions.shiftedNoise2d(
-                shift_x,
-                shift_z,
-                0.25,
-                noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE)),
+            temperature,
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.cache2d(DensityFunctions.endIslands(345789)),
@@ -50,8 +51,11 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.add(
-                DensityFunctions.yClampedGradient(-64, 320, 1, -1),
-                DensityFunctions.noise(noiseParametersRegistry.getOrThrow(Noises.GRAVEL), 0.25, 0)),
+                DensityFunctions.mul(
+                    DensityFunctions.yClampedGradient(-64, 320, 1, -1),
+                    temperature),
+                DensityFunctions
+                    .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0)),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
