@@ -36,8 +36,9 @@ public class LocalNoiseSettingsProvider {
         DensityFunction temperature = DensityFunctions.shiftedNoise2d(
             shift_x,
             shift_z,
-            0.25,
+            0.125,
             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE));
+        double lowlandFlatness = 0.2; // lower is flatter
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
@@ -55,9 +56,7 @@ public class LocalNoiseSettingsProvider {
                 DensityFunctions.mul(
                     DensityFunctions
                         .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
-                    DensityFunctions.add(
-                        DensityFunctions.mul(temperature.abs(), DensityFunctions.constant(0.7)),
-                        DensityFunctions.constant(0.3)))),
+                    temperature.abs().square())),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
