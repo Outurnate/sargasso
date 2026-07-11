@@ -14,8 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class Utils {
     public static long nextLong(RandomSource randomSource, long max) {
@@ -25,24 +23,6 @@ public class Utils {
             r = randomSource.nextLong() & Long.MAX_VALUE;
         } while (r >= limit);
         return r % max;
-    }
-
-    public static VoxelShape rotateY(VoxelShape shape) {
-        VoxelShape[] buffer = new VoxelShape[] { Shapes.empty() };
-
-        shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            buffer[0] = Shapes.or(
-                buffer[0],
-                Shapes.box(
-                    16 - maxZ,
-                    minY,
-                    minX,
-                    16 - minZ,
-                    maxY,
-                    maxX));
-        });
-
-        return buffer[0].optimize();
     }
 
     public static void sendToSea(ServerPlayer player) {
