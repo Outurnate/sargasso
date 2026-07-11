@@ -13,6 +13,8 @@ public class LocalNoisesProvider {
         .create(Registries.NOISE, SuperSargassoSea.ID("temperature"));
     public static final ResourceKey<NoiseParameters> MAIN = ResourceKey
         .create(Registries.NOISE, SuperSargassoSea.ID("main"));
+    public static final ResourceKey<NoiseParameters> DETAIL = ResourceKey
+        .create(Registries.NOISE, SuperSargassoSea.ID("detail"));
 
     public static void provide(BootstrapContext<NoiseParameters> bootstrap) {
         bootstrap.register(
@@ -31,6 +33,16 @@ public class LocalNoisesProvider {
             MAIN,
             new NoiseParameters(
                 -8,
+                new DoubleArrayList(
+                    new double[] {
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0 })));
+        bootstrap.register(
+            DETAIL,
+            new NoiseParameters(
+                -10,
                 new DoubleArrayList(
                     new double[] {
                         1.0,

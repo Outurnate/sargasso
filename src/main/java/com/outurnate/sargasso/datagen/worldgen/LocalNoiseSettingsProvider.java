@@ -14,7 +14,6 @@ import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.NoiseSettings;
-import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
@@ -26,25 +25,16 @@ public class LocalNoiseSettingsProvider {
     public static void provide(BootstrapContext<NoiseGeneratorSettings> bootstrap) {
         HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
             .lookup(Registries.NOISE);
-        DensityFunction shift_x = DensityFunctions.flatCache(
-            DensityFunctions
-                .cache2d(DensityFunctions.shiftA(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
-        DensityFunction shift_z = DensityFunctions.flatCache(
-            DensityFunctions
-                .cache2d(DensityFunctions.shiftB(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
+        HolderGetter<DensityFunction> densityFunctionsRegistry = bootstrap
+            .lookup(Registries.DENSITY_FUNCTION);
         NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
-        DensityFunction temperature = DensityFunctions.shiftedNoise2d(
-            shift_x,
-            shift_z,
-            0.5,
-            noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE));
-        double lowlandFlatness = 0.2; // lower is flatter
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
-            temperature,
+            new DensityFunctions.HolderHolder(
+                densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.cache2d(DensityFunctions.endIslands(345789)),
@@ -52,11 +42,24 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.add(
+                // base grad for y level
                 DensityFunctions.yClampedGradient(-64, 320, 1, -1),
-                DensityFunctions.mul(
-                    DensityFunctions
-                        .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
-                    temperature.abs().square())),
+                // actual terrain
+                DensityFunctions.add(
+                    DensityFunctions.mul(
+                        // sample the noise
+                        DensityFunctions
+                            .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
+                        // scale it by temperature - our "flatness" var
+                        new DensityFunctions.HolderHolder(
+                            densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE))
+                                .abs().square()),
+                    // roughness
+                    DensityFunctions.shiftedNoise2d(
+                        DensityFunctions.zero(),
+                        DensityFunctions.zero(),
+                        2.0,
+                        noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));

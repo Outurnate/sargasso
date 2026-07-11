@@ -4,6 +4,7 @@ package com.outurnate.sargasso.datagen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
+import com.outurnate.sargasso.datagen.worldgen.LocalDensityFunctionProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDimensionTypesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDimensionsProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalNoiseSettingsProvider;
@@ -47,7 +48,8 @@ public class DataGenerators {
                 .add(Registries.TEMPLATE_POOL, LocalStructureTemplatePoolsProvider::provide)
                 .add(Registries.TIMELINE, LocalTimelinesProvider::provide)
                 .add(Registries.WORLD_CLOCK, LocalWorldClocksProvider::provide)
-                .add(Registries.NOISE, LocalNoisesProvider::provide));
+                .add(Registries.NOISE, LocalNoisesProvider::provide)
+                .add(Registries.DENSITY_FUNCTION, LocalDensityFunctionProvider::provide));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
