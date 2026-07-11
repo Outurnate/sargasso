@@ -33,6 +33,7 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
+            // temperature
             new DensityFunctions.HolderHolder(
                 densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
             DensityFunctions.constant(0.0),
@@ -59,9 +60,9 @@ public class LocalNoiseSettingsProvider {
                         DensityFunctions.shiftedNoise2d(
                             DensityFunctions.zero(),
                             DensityFunctions.zero(),
-                            2.0,
+                            50.0,
                             noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
-                        DensityFunctions.constant(0.1)))),
+                        DensityFunctions.constant(1.0)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
