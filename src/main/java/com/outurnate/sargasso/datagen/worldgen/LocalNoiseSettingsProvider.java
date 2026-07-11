@@ -55,11 +55,13 @@ public class LocalNoiseSettingsProvider {
                             densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE))
                                 .abs().square()),
                     // roughness
-                    DensityFunctions.shiftedNoise2d(
-                        DensityFunctions.zero(),
-                        DensityFunctions.zero(),
-                        2.0,
-                        noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)))),
+                    DensityFunctions.mul(
+                        DensityFunctions.shiftedNoise2d(
+                            DensityFunctions.zero(),
+                            DensityFunctions.zero(),
+                            2.0,
+                            noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
+                        DensityFunctions.constant(0.1)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));
