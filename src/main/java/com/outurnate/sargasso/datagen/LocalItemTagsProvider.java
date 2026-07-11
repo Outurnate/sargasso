@@ -8,6 +8,8 @@ import com.outurnate.sargasso.registry.LocalTags;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 
@@ -53,5 +55,8 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
         this.tag(LocalTags.BREAD)
             .add(LocalItems.BREADROCK.get())
             .replace(false);
+        this.tag(LocalTags.EQUIPMENT)
+            .addTag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "armors")))
+            .addTag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "tools")));
     }
 }

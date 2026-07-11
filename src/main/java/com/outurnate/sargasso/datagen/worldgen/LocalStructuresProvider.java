@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.LocalBiomeTagsProvider;
 import java.util.Map;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -68,13 +69,13 @@ public class LocalStructuresProvider {
             FORTRESS,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
+                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS),
                 7,
-                ConstantHeight.of(VerticalAnchor.absolute(-46)),
+                ConstantHeight.of(VerticalAnchor.absolute(-42)),
                 false,
                 Types.WORLD_SURFACE_WG));
         bootstrap.register(
@@ -94,7 +95,7 @@ public class LocalStructuresProvider {
             OFFICE,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
+                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_BOX)
                         .spawnOverrides(

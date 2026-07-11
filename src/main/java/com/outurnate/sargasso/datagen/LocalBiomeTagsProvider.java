@@ -3,6 +3,8 @@ package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
+import com.outurnate.sargasso.registry.LocalTags;
+
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -39,5 +41,12 @@ public class LocalBiomeTagsProvider extends BiomeTagsProvider {
         this.tag(BiomeTags.HAS_RUINED_PORTAL_DESERT)
             .addTag(SEA)
             .replace(false);
+        this.tag(LocalTags.LOST_EQUIPMENT)
+            .add(LocalBiomesProvider.RARE);
+        this.tag(LocalTags.LOST_BLOCKS)
+            .add(LocalBiomesProvider.PEAKS);
+        this.tag(LocalTags.LOST_ITEMS)
+            .add(LocalBiomesProvider.HILLS)
+            .add(LocalBiomesProvider.LOWLANDS);
     }
 }

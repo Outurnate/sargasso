@@ -21,7 +21,7 @@ public class LocalStructureTemplatePoolsProvider {
             // first step, we need to figure out the probability of a segment vs an end
             // piece
             // let t be the chance that we'll get an end piece before reaching max depth
-            double t = 0.99F;
+            double t = 0.999F;
             // let p be the probability that we'll roll an end jigsaw piece
             double p = 1.0 - Math.pow(1.0 - t, 1.0 / maxDepth);
 
