@@ -42,13 +42,13 @@ public class ToasterBlock extends Block {
     private static final VoxelShape NORTH_SHAPE = Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
     private static final Map<Direction, VoxelShape> SHAPES = Map.of(
         Direction.NORTH,
-        Utils.rotateShape(Direction.NORTH, Direction.NORTH, NORTH_SHAPE),
+        NORTH_SHAPE,
         Direction.EAST,
-        Utils.rotateShape(Direction.NORTH, Direction.EAST, NORTH_SHAPE),
+        Utils.rotateY(NORTH_SHAPE),
         Direction.SOUTH,
-        Utils.rotateShape(Direction.NORTH, Direction.SOUTH, NORTH_SHAPE),
+        Utils.rotateY(Utils.rotateY(NORTH_SHAPE)),
         Direction.WEST,
-        Utils.rotateShape(Direction.NORTH, Direction.WEST, NORTH_SHAPE));
+        Utils.rotateY(Utils.rotateY(Utils.rotateY(NORTH_SHAPE))));
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     @SubscribeEvent
