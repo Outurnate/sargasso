@@ -52,10 +52,12 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions.constant(0.0),
             DensityFunctions.add(
                 DensityFunctions.yClampedGradient(-64, 320, 1, -1),
-                DensityFunctions.add(
+                DensityFunctions.mul(
                     DensityFunctions
                         .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
-                    temperature)),
+                    DensityFunctions.add(
+                        DensityFunctions.mul(temperature.abs(), DensityFunctions.constant(0.7)),
+                        DensityFunctions.constant(0.3)))),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0));

@@ -44,10 +44,10 @@ public class LocalDimensionsProvider {
                                     biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)),
                                 Pair.of(
                                     Climate.parameters(-1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS)),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)),
                                 Pair.of(
                                     Climate.parameters(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.RARE))))),
+                                    biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS))))),
                     noiseGeneratorSettingsRegistry.getOrThrow(LocalNoiseSettingsProvider.SEA))));
     }
 }
