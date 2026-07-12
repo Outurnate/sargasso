@@ -105,6 +105,12 @@ public class LocalItems {
         p -> p
             .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
 
+    public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
+        "rechargable_aa_battery",
+        EnergyItem::new,
+        p -> p
+            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();
@@ -130,5 +136,14 @@ public class LocalItems {
                 0,
                 getBatteryCapacity()),
             AA_BATTERY.get());
+        event.registerItem(
+            Capabilities.Energy.ITEM,
+            (itemStack, itemAccess) -> new ItemAccessEnergyHandler(
+                itemAccess,
+                LocalDataComponentTypes.ENERGY.get(),
+                getBatteryCapacity(),
+                getBatteryCapacity(),
+                getBatteryCapacity()),
+            RECHARGABLE_AA_BATTERY.get());
     }
 }
