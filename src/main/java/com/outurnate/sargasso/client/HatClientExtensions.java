@@ -12,6 +12,7 @@ public class HatClientExtensions implements IClientItemExtensions {
         EquipmentClientInfo.LayerType layerType,
         Model original) {
         original.resetPose();
+        original.root().setRotation(90.0F, 3.15F, 1.0F);
         return original;
     }
 }
