@@ -10,6 +10,7 @@ import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalPotions;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -73,6 +74,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.STUDDED_LEATHER_CHESTPLATE, "Studded Leather Chestplate");
         this.addItem(LocalItems.STUDDED_LEATHER_HELMET, "Studded Leather Helmet");
         this.addItem(LocalItems.STUDDED_LEATHER_LEGGINGS, "Studded Leather Leggings");
+        this.addItem(LocalItems.AA_BATTERY, "Durable AA Battery Cell");
+        this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargable Durable AA Battery Cell");
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
