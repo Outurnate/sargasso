@@ -62,7 +62,7 @@ public class SuperSargassoSeaClient {
                 .simpleModelWrapper(
                     Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
                     new ComposedModelState(
-                        BlockModelRotation.get(OctahedralGroup.INVERT_Y),
+                        BlockModelRotation.get(OctahedralGroup.ROT_180_FACE_XY),
                         new Transformation(new Vector3f(0.0F, 1.0F, 0.0F), null, null, null))));
     }
 
