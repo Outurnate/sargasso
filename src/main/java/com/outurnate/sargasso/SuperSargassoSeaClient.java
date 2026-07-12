@@ -27,7 +27,7 @@ public class SuperSargassoSeaClient {
         for (PlayerModelType type : event.getSkins()) {
             AvatarRenderer<AbstractClientPlayer> playerRenderer = event.getPlayerRenderer(type);
             if (playerRenderer != null) {
-                playerRenderer.addLayer(new HeadGearRenderLayer(playerRenderer, event.getEntityModels()));
+                playerRenderer.addLayer(new HeadGearRenderLayer(playerRenderer));
             }
         }
     }
