@@ -1,6 +1,6 @@
 {
     "loader": "neoforge:obj",
-    "model": "sargasso:models/hats/fox_ears.obj",
+    "model": "sargasso:models/hat/fox_ears.obj",
     "textures": {
         "texture0": "sargasso:hat/black_ear",
         "particle": "sargasso:hat/black_ear"
