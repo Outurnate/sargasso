@@ -2,6 +2,7 @@ package com.outurnate.sargasso.registry;
 
 import com.mojang.serialization.Codec;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.data.ApproximateBatteryDataComponent;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -11,15 +12,20 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class LocalDataComponentTypes {
-    public static final DeferredRegister<DataComponentType<?>> REGISTRY = DeferredRegister
-        .create(Registries.DATA_COMPONENT_TYPE, SuperSargassoSea.MODID);
+    public static final DeferredRegister.DataComponents REGISTRY = DeferredRegister
+        .createDataComponents(Registries.DATA_COMPONENT_TYPE, SuperSargassoSea.MODID);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENERGY = REGISTRY
-        .register(
+        .registerComponentType(
             "energy",
-            () -> DataComponentType.<Integer>builder()
+            builder -> builder
                 .persistent(Codec.INT)
-                .networkSynchronized(ByteBufCodecs.INT)
-                .build());
+                .networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ApproximateBatteryDataComponent>> ENERGY_TOOLTIP = REGISTRY
+        .registerComponentType(
+            "energy_tooltip",
+            builder -> builder
+                .persistent(ApproximateBatteryDataComponent.CODEC)
+                .networkSynchronized(ApproximateBatteryDataComponent.STREAM_CODEC));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

@@ -28,6 +28,7 @@ public class SuperSargassoSea {
     }
 
     public SuperSargassoSea(IEventBus modEventBus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         LocalBlocks.register(modEventBus);
         LocalItems.register(modEventBus);
         LocalLootItemFunctions.register(modEventBus);
@@ -39,6 +40,5 @@ public class SuperSargassoSea {
         LocalPotions.register(modEventBus);
         LocalAttachmentTypes.register(modEventBus);
         LocalDataComponentTypes.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

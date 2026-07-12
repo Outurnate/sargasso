@@ -1,7 +1,9 @@
 /* (C)2026 */
 package com.outurnate.sargasso.registry;
 
+import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.data.ApproximateBatteryDataComponent;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 
@@ -97,11 +99,24 @@ public class LocalItems {
         "studded_leather_boots",
         props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
-    private static int BATTERY_CAPACITY = 10000;
     public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
         "aa_battery",
         Item::new,
-        p -> p.component(LocalDataComponentTypes.ENERGY.get(), BATTERY_CAPACITY));
+        p -> p
+            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity())
+            .component(
+                LocalDataComponentTypes.ENERGY_TOOLTIP.get(),
+                new ApproximateBatteryDataComponent(getBatteryCapacity())));
+
+    private static int getBatteryCapacity() {
+        try {
+            return Config.BATTERY_CAPACITY.getAsInt();
+        } catch (Exception e) {
+            // during datagen, our config won't be loaded
+            // so just return the default
+            return 10000;
+        }
+    }
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
@@ -114,9 +129,9 @@ public class LocalItems {
             (itemStack, itemAccess) -> new ItemAccessEnergyHandler(
                 itemAccess,
                 LocalDataComponentTypes.ENERGY.get(),
-                BATTERY_CAPACITY,
+                getBatteryCapacity(),
                 0,
-                BATTERY_CAPACITY),
+                getBatteryCapacity()),
             AA_BATTERY.get());
     }
 }

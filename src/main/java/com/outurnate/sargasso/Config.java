@@ -22,6 +22,10 @@ public class Config {
         .comment(
             "Players entering the Super Sargasso Sea will spawn on a circle with this radius")
         .defineInRange("spawnRadius", 1000.0, 0.0, 30_000_000.0);
+    public static final ModConfigSpec.IntValue BATTERY_CAPACITY = BUILDER
+        .comment(
+            "Capacity for rechargable and regular batteries")
+        .defineInRange("batteryCapacity", 10000, 0, Integer.MAX_VALUE);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }
