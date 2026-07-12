@@ -3,6 +3,9 @@ package com.outurnate.sargasso.datagen.util;
 
 import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalDataComponentTypes;
+import com.outurnate.sargasso.registry.LocalItems;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +15,7 @@ import java.util.Base64;
 import java.util.zip.GZIPOutputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -31,6 +35,11 @@ public class JavaClientCodegen {
 
     @SubscribeEvent
     public static void onLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+        ItemStack stack = LocalItems.AA_BATTERY.get().getDefaultInstance();
+
+        System.out.println(stack.getComponents());
+        System.out.println(stack.get(LocalDataComponentTypes.ENERGY_TOOLTIP.get()));
+
         Path outputPath = Paths
             .get(Minecraft.getInstance().gameDirectory.toPath().toString(), "FontWidths.java");
         if (Config.DO_CLIENT_CODEGEN.getAsBoolean() && !outputPath.toFile().exists()) {
