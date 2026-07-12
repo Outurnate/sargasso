@@ -12,9 +12,11 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalStandaloneModels;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -46,6 +48,12 @@ public class SuperSargassoSeaClient {
                 playerRenderer.addLayer(new HeadGearRenderLayer(playerRenderer));
             }
         }
+        for (EntityType<?> entityType : event.getEntityTypes()) {
+            EntityRenderer<?, ?> renderer = event.getRenderer(entityType);
+            if (renderer instanceof AvatarRenderer<?> avatarRenderer) {
+                avatarRenderer.addLayer(new HeadGearRenderLayer(avatarRenderer));
+            }
+        }
     }
 
     @SubscribeEvent
@@ -63,7 +71,7 @@ public class SuperSargassoSeaClient {
                     Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
                     new ComposedModelState(
                         BlockModelRotation.get(OctahedralGroup.ROT_180_FACE_XY),
-                        new Transformation(new Vector3f(0.0F, 0.0F, 0.0F), null, null, null))));
+                        new Transformation(new Vector3f(1.0F, 1.0F, 0.0F), null, null, null))));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
