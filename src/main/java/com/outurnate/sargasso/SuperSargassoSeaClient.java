@@ -1,12 +1,14 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.mojang.math.OctahedralGroup;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalStandaloneModels;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.resources.Identifier;
@@ -50,17 +52,12 @@ public class SuperSargassoSeaClient {
 
     @SubscribeEvent
     public static void registerStandaloneModels(ModelEvent.RegisterStandalone event) {
-        /*
-         * event.register( LocalStandaloneModels.FOX_EARS, SimpleUnbakedStandaloneModel
-         * .simpleModelWrapper(
-         * Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
-         * BlockModelRotation.get(OctahedralGroup.INVERT_Y)));
-         */
         event.register(
             LocalStandaloneModels.FOX_EARS,
             SimpleUnbakedStandaloneModel
                 .simpleModelWrapper(
-                    Identifier.parse(LocalStandaloneModels.FOX_EARS.getName())));
+                    Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
+                    BlockModelRotation.get(OctahedralGroup.INVERT_Y)));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
