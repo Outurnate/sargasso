@@ -25,6 +25,7 @@ public record ApproximateBatteryDataComponent(int capacity) implements TooltipPr
         Consumer<Component> consumer,
         TooltipFlag flag,
         DataComponentGetter components) {
+        consumer.accept(Component.literal("aaaaaaaaa"));
         Integer energy = components.get(LocalDataComponentTypes.ENERGY);
         if (energy != null) {
             consumer.accept(Component.literal(energy + " FE"));
