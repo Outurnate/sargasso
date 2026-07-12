@@ -15,8 +15,9 @@ public class HeadGearClientExtensions implements IClientItemExtensions {
         ItemStack itemStack,
         EquipmentClientInfo.LayerType layerType,
         Model original) {
-        HumanoidModel<?> playerModel = (HumanoidModel<?>) original;
-        playerModel.getHead().skipDraw = true;
+        if (original instanceof HumanoidModel<?> playerModel) {
+            playerModel.getHead().skipDraw = true;
+        }
         return original;
     }
 }
