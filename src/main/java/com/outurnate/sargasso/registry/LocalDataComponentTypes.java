@@ -2,7 +2,6 @@ package com.outurnate.sargasso.registry;
 
 import com.mojang.serialization.Codec;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.data.ApproximateBatteryDataComponent;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -20,12 +19,6 @@ public class LocalDataComponentTypes {
             builder -> builder
                 .persistent(Codec.INT)
                 .networkSynchronized(ByteBufCodecs.INT));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ApproximateBatteryDataComponent>> ENERGY_TOOLTIP = REGISTRY
-        .registerComponentType(
-            "energy_tooltip",
-            builder -> builder
-                .persistent(ApproximateBatteryDataComponent.CODEC)
-                .networkSynchronized(ApproximateBatteryDataComponent.STREAM_CODEC));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

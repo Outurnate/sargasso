@@ -3,8 +3,8 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.data.ApproximateBatteryDataComponent;
 import com.outurnate.sargasso.item.BedrockCreamItem;
+import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 
 import net.minecraft.world.effect.MobEffectInstance;
@@ -101,12 +101,9 @@ public class LocalItems {
 
     public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
         "aa_battery",
-        Item::new,
+        EnergyItem::new,
         p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity())
-            .component(
-                LocalDataComponentTypes.ENERGY_TOOLTIP.get(),
-                new ApproximateBatteryDataComponent(getBatteryCapacity())));
+            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
 
     private static int getBatteryCapacity() {
         try {
