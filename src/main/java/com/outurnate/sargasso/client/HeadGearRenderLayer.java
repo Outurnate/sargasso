@@ -14,7 +14,10 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class HeadGearRenderLayer
     extends RenderLayer<AvatarRenderState, PlayerModel> {
     public HeadGearRenderLayer(RenderLayerParent<AvatarRenderState, PlayerModel> renderer) {
