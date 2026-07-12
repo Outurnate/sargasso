@@ -1,0 +1,9 @@
+{
+    "loader": "neoforge:obj",
+    "model": "sargasso:models/hats/fox_ears.obj",
+    "textures": {
+        "texture0": "minecraft:block/cobblestone",
+        "particle": "minecraft:block/stone"
+    },
+    "automatic_culling": false
+}

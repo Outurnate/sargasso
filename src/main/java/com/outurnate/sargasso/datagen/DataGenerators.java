@@ -29,7 +29,6 @@ public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent.Client event) {
         event.createProvider(LocalModelProvider::new);
-        event.createProvider(LocalHatModelProvider::new);
         event.createProvider(EnglishLanguageProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
