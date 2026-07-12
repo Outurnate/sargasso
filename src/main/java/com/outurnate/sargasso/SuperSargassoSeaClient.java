@@ -29,6 +29,7 @@ public class SuperSargassoSeaClient {
      * playerRenderer.addLayer(new HeadGearRenderLayer(playerRenderer, null)); } } }
      */
 
+    @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new HatClientExtensions(), LocalItems.TEST_HAT);
     }
