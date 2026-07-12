@@ -1,22 +1,26 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.google.common.eventbus.Subscribe;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HatClientExtensions;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
-
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
@@ -38,6 +42,14 @@ public class SuperSargassoSeaClient {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(LocalBlockEntities.GLITCH.get(), GlitchBlockEntityRenderer::new);
         event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
+    }
+
+    @Subscribe
+    public static void registerStandaloneModels(ModelEvent.RegisterStandalone event) {
+        Identifier foxEars = SuperSargassoSea.ID("hats/fox_ears");
+        event.register(
+            new StandaloneModelKey<>(foxEars::toString),
+            SimpleUnbakedStandaloneModel.simpleModelWrapper(foxEars));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
