@@ -14,9 +14,15 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
 
+@EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalItems {
     public static final DeferredRegister.Items REGISTRY = DeferredRegister
         .createItems(SuperSargassoSea.MODID);
@@ -91,7 +97,26 @@ public class LocalItems {
         "studded_leather_boots",
         props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
+    private static int BATTERY_CAPACITY = 10000;
+    public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
+        "aa_battery",
+        Item::new,
+        p -> p.component(LocalDataComponentTypes.ENERGY.get(), BATTERY_CAPACITY));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
+    }
+
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerItem(
+            Capabilities.Energy.ITEM,
+            (itemStack, itemAccess) -> new ItemAccessEnergyHandler(
+                itemAccess,
+                LocalDataComponentTypes.ENERGY.get(),
+                BATTERY_CAPACITY,
+                0,
+                BATTERY_CAPACITY),
+            AA_BATTERY.get());
     }
 }

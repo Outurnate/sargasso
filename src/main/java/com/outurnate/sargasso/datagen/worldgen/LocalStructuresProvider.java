@@ -107,7 +107,8 @@ public class LocalStructuresProvider {
                                         .of(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 1, 1)))))
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
-                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth(),
+                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth() + 2, // for first floor, and
+                                                                                       // ground floor
                 ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));
