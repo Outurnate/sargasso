@@ -6,5 +6,6 @@
         "texture1": "sargasso:block/hat/black_ear",
         "particle": "sargasso:block/hat/black_ear"
     },
-    "automatic_culling": false
+    "automatic_culling": false,
+    "flip_v": true
 }

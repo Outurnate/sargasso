@@ -57,7 +57,7 @@ public class SuperSargassoSeaClient {
             SimpleUnbakedStandaloneModel
                 .simpleModelWrapper(
                     Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
-                    BlockModelRotation.get(OctahedralGroup.BLOCK_ROT_X_180)));
+                    BlockModelRotation.get(OctahedralGroup.INVERT_Y)));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
