@@ -6,6 +6,8 @@ import com.outurnate.sargasso.client.HatClientExtensions;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.registry.LocalStandaloneModels;
+
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
@@ -19,7 +21,6 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
-import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
@@ -45,10 +46,11 @@ public class SuperSargassoSeaClient {
 
     @SubscribeEvent
     public static void registerStandaloneModels(ModelEvent.RegisterStandalone event) {
-        Identifier foxEars = SuperSargassoSea.ID("hats/fox_ears");
         event.register(
-            new StandaloneModelKey<>(foxEars::toString),
-            SimpleUnbakedStandaloneModel.simpleModelWrapper(foxEars));
+            LocalStandaloneModels.FOX_EARS,
+            SimpleUnbakedStandaloneModel
+                .blockStateModel(Identifier.parse(LocalStandaloneModels.FOX_EARS.getName())));
+        System.out.println("Ass");
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
