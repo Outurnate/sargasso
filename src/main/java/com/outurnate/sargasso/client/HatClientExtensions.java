@@ -11,7 +11,7 @@ public class HatClientExtensions implements IClientItemExtensions {
         ItemStack itemStack,
         EquipmentClientInfo.LayerType layerType,
         Model original) {
-        System.out.println("Ass");
+        System.out.println(original.getClass().descriptorString());
         original.resetPose();
         original.root().setRotation(90.0F, 3.15F, 1.0F);
         return original;
