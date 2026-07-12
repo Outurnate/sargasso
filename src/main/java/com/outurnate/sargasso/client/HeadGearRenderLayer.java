@@ -36,6 +36,7 @@ public class HeadGearRenderLayer
             .getStandaloneModel(LocalStandaloneModels.FOX_EARS);
         if (model != null) {
             poseStack.pushPose();
+            this.getParentModel().hat.skipDraw = true;
             this.getParentModel().head.translateAndRotate(poseStack);
             submitNodeCollector.submitBlockModel(
                 poseStack,

@@ -1,8 +1,8 @@
 # Made in Blockbench 5.0.5
-newmtl m_7073a34b-502f-b117-9fc8-32257fd2f593
+newmtl m_11cec4e7-56f3-c6ab-322d-c43857003846
 # right ear
 map_Kd #texture0
-newmtl m_586f0e1e-20d9-fb23-610d-3f25eaa0ffd5
+newmtl m_8f69dd2f-f97c-af01-b220-9b4211ea2d64
 # left ear
 map_Kd #texture1
 newmtl none
