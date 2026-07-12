@@ -1,0 +1,10 @@
+{
+    "loader": "neoforge:obj",
+    "model": "sargasso:models/hats/fox_ears.obj",
+    "textures": {
+        "texture0": "sargasso:hat/black_ear",
+        "particle": "sargasso:hat/black_ear"
+    },
+    "automatic_culling": false,
+    "flip_v": true
+}

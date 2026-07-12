@@ -32,6 +32,8 @@ public class HeadGearRenderLayer
         BlockStateModelPart model = Minecraft.getInstance().getModelManager()
             .getStandaloneModel(LocalStandaloneModels.FOX_EARS);
         if (model != null) {
+            poseStack.pushPose();
+            this.getParentModel().head.translateAndRotate(poseStack);
             submitNodeCollector.submitBlockModel(
                 poseStack,
                 RenderTypes.entitySolid(TextureAtlas.LOCATION_BLOCKS),
@@ -40,6 +42,7 @@ public class HeadGearRenderLayer
                 lightCoords,
                 OverlayTexture.NO_OVERLAY,
                 0);
+            poseStack.popPose();
         }
     }
 }
