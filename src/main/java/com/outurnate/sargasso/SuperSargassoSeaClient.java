@@ -4,9 +4,11 @@ package com.outurnate.sargasso;
 import com.mojang.math.OctahedralGroup;
 import com.mojang.math.Transformation;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
+import com.outurnate.sargasso.client.HeadGearClientExtensions;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
+import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalStandaloneModels;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
@@ -21,6 +23,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.model.ComposedModelState;
@@ -31,6 +34,11 @@ import org.joml.Vector3f;
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
 public class SuperSargassoSeaClient {
     @SubscribeEvent
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new HeadGearClientExtensions(), LocalItems.TEST_HAT);
+    }
+
+    @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.AddLayers event) {
         for (PlayerModelType type : event.getSkins()) {
             AvatarRenderer<AbstractClientPlayer> playerRenderer = event.getPlayerRenderer(type);
@@ -39,12 +47,6 @@ public class SuperSargassoSeaClient {
             }
         }
     }
-
-    /*
-     * @SubscribeEvent public static void
-     * registerClientExtensions(RegisterClientExtensionsEvent event) {
-     * event.registerItem(new HatClientExtensions(), LocalItems.TEST_HAT); }
-     */
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
