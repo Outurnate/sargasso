@@ -12,6 +12,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalStandaloneModels;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
+import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
@@ -45,13 +46,16 @@ public class SuperSargassoSeaClient {
         for (PlayerModelType type : event.getSkins()) {
             AvatarRenderer<AbstractClientPlayer> playerRenderer = event.getPlayerRenderer(type);
             if (playerRenderer != null) {
-                playerRenderer.addLayer(new HeadGearRenderLayer(playerRenderer));
+                playerRenderer.addLayer(new HeadGearRenderLayer<>(playerRenderer));
             }
         }
         for (EntityType<?> entityType : event.getEntityTypes()) {
             EntityRenderer<?, ?> renderer = event.getRenderer(entityType);
             if (renderer instanceof AvatarRenderer<?> avatarRenderer) {
-                avatarRenderer.addLayer(new HeadGearRenderLayer(avatarRenderer));
+                avatarRenderer.addLayer(new HeadGearRenderLayer<>(avatarRenderer));
+            }
+            if (renderer instanceof ArmorStandRenderer armorStandRenderer) {
+                armorStandRenderer.addLayer(new HeadGearRenderLayer<>(armorStandRenderer));
             }
         }
     }

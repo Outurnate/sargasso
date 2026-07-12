@@ -4,13 +4,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.registry.LocalStandaloneModels;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.player.PlayerModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -18,9 +18,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class HeadGearRenderLayer
-    extends RenderLayer<AvatarRenderState, PlayerModel> {
-    public HeadGearRenderLayer(RenderLayerParent<AvatarRenderState, PlayerModel> renderer) {
+public class HeadGearRenderLayer<S extends HumanoidRenderState, M extends HumanoidModel<S>, A extends HumanoidModel<S>>
+    extends RenderLayer<S, M> {
+    public HeadGearRenderLayer(RenderLayerParent<S, M> renderer) {
         super(renderer);
     }
 
@@ -29,7 +29,7 @@ public class HeadGearRenderLayer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         int lightCoords,
-        AvatarRenderState state,
+        S state,
         float yRot,
         float xRot) {
         BlockStateModelPart model = Minecraft.getInstance().getModelManager()

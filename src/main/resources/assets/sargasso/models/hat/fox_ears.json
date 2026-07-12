@@ -3,7 +3,7 @@
     "model": "sargasso:models/hat/fox_ears.obj",
     "textures": {
         "texture0": "sargasso:block/hat/black_ear",
-        "texture1": "sargasso:block/hat/orange_ear",
+        "texture1": "sargasso:block/hat/black_ear",
         "particle": "sargasso:block/hat/black_ear"
     },
     "automatic_culling": false,
