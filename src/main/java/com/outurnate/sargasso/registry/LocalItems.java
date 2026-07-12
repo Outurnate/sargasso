@@ -14,6 +14,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -110,6 +111,10 @@ public class LocalItems {
         EnergyItem::new,
         p -> p
             .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+
+    public static final DeferredItem<Item> TEST_HAT = REGISTRY.registerItem(
+        "test_hat",
+        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
 
     private static int getBatteryCapacity() {
         try {
