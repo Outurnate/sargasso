@@ -2,6 +2,7 @@
 package com.outurnate.sargasso;
 
 import com.mojang.math.OctahedralGroup;
+import com.mojang.math.Transformation;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
@@ -22,7 +23,9 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.model.ComposedModelState;
 import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
+import org.joml.Vector3f;
 
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
@@ -57,7 +60,9 @@ public class SuperSargassoSeaClient {
             SimpleUnbakedStandaloneModel
                 .simpleModelWrapper(
                     Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
-                    BlockModelRotation.get(OctahedralGroup.INVERT_Y)));
+                    new ComposedModelState(
+                        BlockModelRotation.get(OctahedralGroup.INVERT_Y),
+                        new Transformation(new Vector3f(0.0F, 7.0F, 0.0F), null, null, null))));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
