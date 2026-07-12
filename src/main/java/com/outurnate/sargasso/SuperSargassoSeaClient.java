@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
-import com.google.common.eventbus.Subscribe;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HatClientExtensions;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
@@ -44,7 +43,7 @@ public class SuperSargassoSeaClient {
         event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
     }
 
-    @Subscribe
+    @SubscribeEvent
     public static void registerStandaloneModels(ModelEvent.RegisterStandalone event) {
         Identifier foxEars = SuperSargassoSea.ID("hats/fox_ears");
         event.register(
