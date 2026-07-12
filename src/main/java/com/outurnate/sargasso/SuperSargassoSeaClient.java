@@ -30,7 +30,6 @@ import org.joml.Vector3f;
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
 public class SuperSargassoSeaClient {
-
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.AddLayers event) {
         for (PlayerModelType type : event.getSkins()) {
@@ -62,7 +61,7 @@ public class SuperSargassoSeaClient {
                     Identifier.parse(LocalStandaloneModels.FOX_EARS.getName()),
                     new ComposedModelState(
                         BlockModelRotation.get(OctahedralGroup.INVERT_Y),
-                        new Transformation(new Vector3f(0.0F, 7.0F, 0.0F), null, null, null))));
+                        new Transformation(new Vector3f(0.0F, 1.0F, 0.0F), null, null, null))));
     }
 
     public SuperSargassoSeaClient(ModContainer container) {
