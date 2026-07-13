@@ -43,6 +43,8 @@ public class LocalStandaloneModels {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new HeadGearClientExtensions(), LocalItems.BLACK_FOX_EARS);
+        event.registerItem(new HeadGearClientExtensions(), LocalItems.TWO_COLOR_FOX_EARS);
+        event.registerItem(new HeadGearClientExtensions(), LocalItems.COMICALLY_TALL_FOX_EARS);
     }
 
     @SubscribeEvent
@@ -91,6 +93,6 @@ public class LocalStandaloneModels {
         registerSimpleModel(
             event,
             LocalStandaloneModels.COMICALLY_TALL_FOX_EARS,
-            new Vector3f(1.0F, 2.0F, 1.0F));
+            new Vector3f(1.0F, 3.0F, 1.0F));
     }
 }
