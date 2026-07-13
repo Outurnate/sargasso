@@ -30,6 +30,7 @@ public class HeadGearRenderLayer<S extends HumanoidRenderState, M extends Humano
         .<Item, StandaloneModelKey<BlockStateModelPart>>builder()
         .put(LocalItems.BLACK_FOX_EARS.get(), LocalStandaloneModels.BLACK_FOX_EARS)
         .put(LocalItems.TWO_COLOR_FOX_EARS.get(), LocalStandaloneModels.TWO_COLOR_FOX_EARS)
+        .put(LocalItems.COMICALLY_TALL_FOX_EARS.get(), LocalStandaloneModels.COMICALLY_TALL_FOX_EARS)
         .build();
 
     public HeadGearRenderLayer(RenderLayerParent<S, M> renderer) {

@@ -31,10 +31,13 @@ import org.joml.Vector3f;
 public class LocalStandaloneModels {
     public static final StandaloneModelKey<BlockStateModelPart> BLACK_FOX_EARS;
     public static final StandaloneModelKey<BlockStateModelPart> TWO_COLOR_FOX_EARS;
+    public static final StandaloneModelKey<BlockStateModelPart> COMICALLY_TALL_FOX_EARS;
     static {
         BLACK_FOX_EARS = new StandaloneModelKey<>(SuperSargassoSea.ID("hat/black_fox_ears")::toString);
         TWO_COLOR_FOX_EARS = new StandaloneModelKey<>(
             SuperSargassoSea.ID("hat/two_color_fox_ears")::toString);
+        COMICALLY_TALL_FOX_EARS = new StandaloneModelKey<>(
+            SuperSargassoSea.ID("hat/black_fox_ears")::toString);
     }
 
     @SubscribeEvent
@@ -64,6 +67,13 @@ public class LocalStandaloneModels {
     private static void registerSimpleModel(
         ModelEvent.RegisterStandalone event,
         StandaloneModelKey<BlockStateModelPart> key) {
+        registerSimpleModel(event, key, null);
+    }
+
+    private static void registerSimpleModel(
+        ModelEvent.RegisterStandalone event,
+        StandaloneModelKey<BlockStateModelPart> key,
+        Vector3f scale) {
         event.register(
             key,
             SimpleUnbakedStandaloneModel
@@ -71,19 +81,16 @@ public class LocalStandaloneModels {
                     Identifier.parse(key.getName()),
                     new ComposedModelState(
                         BlockModelRotation.get(OctahedralGroup.ROT_180_FACE_XY),
-                        new Transformation(new Vector3f(1.0F, 1.0F, 0.0F), null, null, null))));
+                        new Transformation(new Vector3f(1.0F, 1.0F, 0.0F), null, scale, null))));
     }
 
     @SubscribeEvent
     public static void registerStandaloneModels(ModelEvent.RegisterStandalone event) {
         registerSimpleModel(event, LocalStandaloneModels.BLACK_FOX_EARS);
-        event.register(
-            LocalStandaloneModels.BLACK_FOX_EARS,
-            SimpleUnbakedStandaloneModel
-                .simpleModelWrapper(
-                    Identifier.parse(LocalStandaloneModels.BLACK_FOX_EARS.getName()),
-                    new ComposedModelState(
-                        BlockModelRotation.get(OctahedralGroup.ROT_180_FACE_XY),
-                        new Transformation(new Vector3f(1.0F, 1.0F, 0.0F), null, null, null))));
+        registerSimpleModel(event, LocalStandaloneModels.TWO_COLOR_FOX_EARS);
+        registerSimpleModel(
+            event,
+            LocalStandaloneModels.COMICALLY_TALL_FOX_EARS,
+            new Vector3f(1.0F, 2.0F, 1.0F));
     }
 }

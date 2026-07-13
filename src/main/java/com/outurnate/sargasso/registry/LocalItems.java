@@ -118,6 +118,9 @@ public class LocalItems {
     public static final DeferredItem<Item> TWO_COLOR_FOX_EARS = REGISTRY.registerItem(
         "two_color_fox_ears",
         props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+    public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
+        "comically_tall_fox_ears",
+        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
 
     private static int getBatteryCapacity() {
         try {
