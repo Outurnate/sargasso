@@ -76,6 +76,10 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.STUDDED_LEATHER_LEGGINGS, "Studded Leather Leggings");
         this.addItem(LocalItems.AA_BATTERY, "Durable AA Battery Cell");
         this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargable Durable AA Battery Cell");
+        this.addItem(LocalItems.BLACK_FOX_EARS, "Fox Ears");
+        this.addItem(LocalItems.ORANGE_FOX_EARS, "Fox Ears");
+        this.addItem(LocalItems.TWO_COLOR_FOX_EARS, "Fox Ears");
+        this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");

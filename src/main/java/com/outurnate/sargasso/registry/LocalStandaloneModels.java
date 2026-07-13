@@ -32,12 +32,15 @@ public class LocalStandaloneModels {
     public static final StandaloneModelKey<BlockStateModelPart> BLACK_FOX_EARS;
     public static final StandaloneModelKey<BlockStateModelPart> TWO_COLOR_FOX_EARS;
     public static final StandaloneModelKey<BlockStateModelPart> COMICALLY_TALL_FOX_EARS;
+    public static final StandaloneModelKey<BlockStateModelPart> ORANGE_FOX_EARS;
     static {
         BLACK_FOX_EARS = new StandaloneModelKey<>(SuperSargassoSea.ID("hat/black_fox_ears")::toString);
         TWO_COLOR_FOX_EARS = new StandaloneModelKey<>(
             SuperSargassoSea.ID("hat/two_color_fox_ears")::toString);
         COMICALLY_TALL_FOX_EARS = new StandaloneModelKey<>(
             SuperSargassoSea.ID("hat/black_fox_ears")::toString);
+        ORANGE_FOX_EARS = new StandaloneModelKey<>(
+            SuperSargassoSea.ID("hat/orange_fox_ears")::toString);
     }
 
     @SubscribeEvent
@@ -45,6 +48,7 @@ public class LocalStandaloneModels {
         event.registerItem(new HeadGearClientExtensions(), LocalItems.BLACK_FOX_EARS);
         event.registerItem(new HeadGearClientExtensions(), LocalItems.TWO_COLOR_FOX_EARS);
         event.registerItem(new HeadGearClientExtensions(), LocalItems.COMICALLY_TALL_FOX_EARS);
+        event.registerItem(new HeadGearClientExtensions(), LocalItems.ORANGE_FOX_EARS);
     }
 
     @SubscribeEvent
@@ -94,5 +98,6 @@ public class LocalStandaloneModels {
             event,
             LocalStandaloneModels.COMICALLY_TALL_FOX_EARS,
             new Vector3f(1.0F, 3.0F, 1.0F));
+        registerSimpleModel(event, LocalStandaloneModels.ORANGE_FOX_EARS);
     }
 }
