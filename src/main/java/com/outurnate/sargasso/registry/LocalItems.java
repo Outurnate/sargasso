@@ -112,8 +112,11 @@ public class LocalItems {
         p -> p
             .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
 
-    public static final DeferredItem<Item> TEST_HAT = REGISTRY.registerItem(
-        "test_hat",
+    public static final DeferredItem<Item> BLACK_FOX_EARS = REGISTRY.registerItem(
+        "black_fox_ears",
+        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+    public static final DeferredItem<Item> TWO_COLOR_FOX_EARS = REGISTRY.registerItem(
+        "two_color_fox_ears",
         props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
 
     private static int getBatteryCapacity() {

@@ -28,7 +28,8 @@ public class HeadGearRenderLayer<S extends HumanoidRenderState, M extends Humano
     extends RenderLayer<S, M> {
     private static final Map<Item, StandaloneModelKey<BlockStateModelPart>> hats = ImmutableMap
         .<Item, StandaloneModelKey<BlockStateModelPart>>builder()
-        .put(LocalItems.TEST_HAT.get(), LocalStandaloneModels.FOX_EARS)
+        .put(LocalItems.BLACK_FOX_EARS.get(), LocalStandaloneModels.BLACK_FOX_EARS)
+        .put(LocalItems.TWO_COLOR_FOX_EARS.get(), LocalStandaloneModels.TWO_COLOR_FOX_EARS)
         .build();
 
     public HeadGearRenderLayer(RenderLayerParent<S, M> renderer) {

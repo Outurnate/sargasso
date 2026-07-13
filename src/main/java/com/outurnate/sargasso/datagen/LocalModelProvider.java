@@ -121,7 +121,8 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_HELMET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_LEGGINGS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.TEST_HAT.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.BLACK_FOX_EARS.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.TWO_COLOR_FOX_EARS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.RECHARGABLE_AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
