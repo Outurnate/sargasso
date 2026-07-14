@@ -112,7 +112,7 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
                 plainVariant(toaster)).with(ROTATION_HORIZONTAL_FACING));
-        Identifier pylon = SuperSargassoSea.ID("block/hat/pylon");
+        Identifier pylon = SuperSargassoSea.ID("hat/pylon");
         blockModels.blockStateOutput.accept(
             createSimpleBlock(
                 LocalBlocks.PYLON.get(),
