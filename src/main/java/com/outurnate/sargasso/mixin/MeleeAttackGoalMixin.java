@@ -22,9 +22,10 @@ public class MeleeAttackGoalMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void sargasso$tick(CallbackInfo callbackInfo) {
-        LOGGER.debug(this.getClass().descriptorString() + this.mob.hasItemInSlot(EquipmentSlot.HEAD));
+        LOGGER.error(this.getClass().descriptorString());
+        LOGGER.error(String.valueOf(this.mob.hasItemInSlot(EquipmentSlot.HEAD)));
         if ((Object) this instanceof MeleeAttackGoal self) {
-            LOGGER.debug(self.getClass().descriptorString() + this.mob.hasItemInSlot(EquipmentSlot.HEAD));
+            LOGGER.error(self.getClass().descriptorString() + this.mob.hasItemInSlot(EquipmentSlot.HEAD));
         }
     }
 }
