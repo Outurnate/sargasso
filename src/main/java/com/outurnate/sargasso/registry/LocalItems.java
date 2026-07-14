@@ -165,7 +165,12 @@ public class LocalItems {
                         .build())));
     public static final DeferredItem<Item> ORANGE_FOX_EARS = REGISTRY.registerItem(
         "orange_fox_ears",
-        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+        props -> new Item(
+            props
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
+                        .build())));
 
     public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
         "potato_battery",
@@ -227,7 +232,6 @@ public class LocalItems {
                 }
             }
         }
-
     }
 
     public static void register(IEventBus modEventBus) {
