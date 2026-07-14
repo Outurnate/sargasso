@@ -50,7 +50,8 @@ public class LocalItems {
         p -> p
             .component(
                 DataComponents.EQUIPPABLE,
-                Equippable.builder(ArmorType.HELMET.getSlot()).build()));
+                Equippable.builder(ArmorType.HELMET.getSlot())
+                    .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur")).build()));
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
