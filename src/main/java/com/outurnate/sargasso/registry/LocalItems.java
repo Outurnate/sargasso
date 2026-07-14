@@ -176,12 +176,14 @@ public class LocalItems {
                 generatedAmount);
             try (Transaction tx = Transaction.openRoot()) {
                 for (ItemStack itemStack : event.getEntity().getInventory()) {
-                    ItemAccess slot = ItemAccess.forStack(itemStack);
-                    EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
-                    EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
-                    if (generatedPower.getAmountAsInt() == 0) {
-                        tx.commit();
-                        break;
+                    if (!itemStack.isEmpty()) {
+                        ItemAccess slot = ItemAccess.forStack(itemStack);
+                        EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
+                        EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
+                        if (generatedPower.getAmountAsInt() == 0) {
+                            tx.commit();
+                            break;
+                        }
                     }
                 }
             }
