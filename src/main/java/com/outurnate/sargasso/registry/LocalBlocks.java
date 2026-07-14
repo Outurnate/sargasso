@@ -91,6 +91,16 @@ public class LocalBlocks {
             .sound(SoundType.ANVIL)
             .noOcclusion());
 
+    public static final DeferredBlock<Block> PYLON = REGISTRY.registerBlock(
+        "pylon",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_ORANGE)
+            .instrument(NoteBlockInstrument.DIDGERIDOO)
+            .strength(1.0F)
+            .sound(SoundType.WOOL)
+            .noOcclusion());
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

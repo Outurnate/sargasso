@@ -99,6 +99,7 @@ public class LocalLootTableProvider extends LootTableProvider {
         protected void generate() {
             this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.DEBRIS.get()));
             this.add(LocalBlocks.TOASTER.get(), this.createSingleItemTable(LocalItems.TOASTER.get()));
+            this.add(LocalBlocks.PYLON.get(), this.createSingleItemTable(LocalItems.PYLON.get()));
             this.add(
                 LocalBlocks.CREAMY_BEDROCK.get(),
                 this.createSingleItemTable(

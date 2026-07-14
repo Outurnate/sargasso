@@ -112,6 +112,11 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.TOASTER.get(),
                 plainVariant(toaster)).with(ROTATION_HORIZONTAL_FACING));
+        Identifier pylon = SuperSargassoSea.ID("block/hat/pylon");
+        blockModels.blockStateOutput.accept(
+            createSimpleBlock(
+                LocalBlocks.PYLON.get(),
+                plainVariant(pylon)));
 
         itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
