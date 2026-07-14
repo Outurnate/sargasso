@@ -22,6 +22,7 @@ public class MeleeAttackGoalMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void sargasso$tick(CallbackInfo callbackInfo) {
+        LOGGER.debug(this.getClass().descriptorString() + this.mob.hasItemInSlot(EquipmentSlot.HEAD));
         if ((Object) this instanceof MeleeAttackGoal self) {
             LOGGER.debug(self.getClass().descriptorString() + this.mob.hasItemInSlot(EquipmentSlot.HEAD));
         }
