@@ -1,7 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.registry;
 
-import com.mojang.serialization.Codec;
+import com.outurnate.sargasso.Rational;
 import com.outurnate.sargasso.SuperSargassoSea;
 import java.time.Instant;
 import java.util.function.Supplier;
@@ -22,10 +22,10 @@ public class LocalAttachmentTypes {
             .serialize(ExtraCodecs.INSTANT_ISO8601.fieldOf("bread_eaten"))
             .build());
 
-    public static final Supplier<AttachmentType<Integer>> GENERATOR_COUNT = REGISTRY.register(
+    public static final Supplier<AttachmentType<Rational>> GENERATOR_COUNT = REGISTRY.register(
         "generator_count",
-        () -> AttachmentType.builder(() -> 0)
-            .serialize(Codec.INT.fieldOf("generator_count"))
+        () -> AttachmentType.builder(() -> new Rational(0, 1))
+            .serialize(Rational.CODEC.fieldOf("generator_count"))
             .build());
 
     public static void register(IEventBus modEventBus) {

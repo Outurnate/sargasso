@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.Config;
+import com.outurnate.sargasso.Rational;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
@@ -150,6 +151,23 @@ public class LocalItems {
         "orange_fox_ears",
         props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
 
+    public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
+        "potato_battery",
+        p -> p.food(
+            new FoodProperties.Builder()
+                .alwaysEdible()
+                .nutrition(1)
+                .saturationModifier(0.2F)
+                .build(),
+            Consumable.builder()
+                .onConsume(
+                    new ApplyStatusEffectsConsumeEffect(
+                        new MobEffectInstance(
+                            MobEffects.SLOWNESS,
+                            1200,
+                            0)))
+                .build()));
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();
@@ -167,22 +185,31 @@ public class LocalItems {
 
     @SubscribeEvent
     public static void onPostPlayerTickEvent(PlayerTickEvent.Post event) {
-        if (event.getEntity() instanceof ServerPlayer) {
-            int generatedAmount = 5;
-            EnergyHandler generatedPower = new SimpleEnergyHandler(
-                generatedAmount,
-                0,
-                generatedAmount,
-                generatedAmount);
-            try (Transaction tx = Transaction.openRoot()) {
-                for (ItemStack itemStack : event.getEntity().getInventory()) {
-                    if (!itemStack.isEmpty()) {
-                        ItemAccess slot = ItemAccess.forStack(itemStack);
-                        EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
-                        EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
-                        if (generatedPower.getAmountAsInt() == 0) {
-                            tx.commit();
-                            break;
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            if (serverPlayer.hasData(LocalAttachmentTypes.GENERATOR_COUNT)) {
+                Rational generatorRatio = serverPlayer.getData(LocalAttachmentTypes.GENERATOR_COUNT);
+                if (generatorRatio.numerator() == 0
+                    && (serverPlayer.level().getGameTime() % generatorRatio.denominator()) != 0) {
+                    return;
+                }
+                int generatedAmount = generatorRatio.numerator();
+
+                // transfer power into inventory items
+                EnergyHandler generatedPower = new SimpleEnergyHandler(
+                    generatedAmount,
+                    0,
+                    generatedAmount,
+                    generatedAmount);
+                try (Transaction tx = Transaction.openRoot()) {
+                    for (ItemStack itemStack : serverPlayer.getInventory()) {
+                        if (!itemStack.isEmpty()) {
+                            ItemAccess slot = ItemAccess.forStack(itemStack);
+                            EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
+                            EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
+                            if (generatedPower.getAmountAsInt() == 0) {
+                                tx.commit();
+                                break;
+                            }
                         }
                     }
                 }

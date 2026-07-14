@@ -3,6 +3,7 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.Utils;
 
 import java.util.List;
 import net.minecraft.core.Holder;
@@ -33,21 +34,8 @@ public class LocalStructureTemplatePoolsProvider {
 
             // datagen does something silly - it allocates objects in a loop
             // "weight" times. this saves some memory during datagen
-            int factor = gcd(endProbability, segmentProbability);
+            int factor = Utils.gcd(endProbability, segmentProbability);
             this(segmentProbability / factor, endProbability / factor, maxDepth);
-        }
-
-        private static int gcd(int a, int b) {
-            a = Math.abs(a);
-            b = Math.abs(b);
-
-            while (b != 0) {
-                int t = b;
-                b = a % b;
-                a = t;
-            }
-
-            return a;
         }
     }
 

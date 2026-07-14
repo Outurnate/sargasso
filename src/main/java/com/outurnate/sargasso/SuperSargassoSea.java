@@ -5,6 +5,7 @@ import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
+import com.outurnate.sargasso.registry.LocalConsumeEffects;
 import com.outurnate.sargasso.registry.LocalCreativeTabs;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
@@ -42,5 +43,6 @@ public class SuperSargassoSea {
         LocalPotions.register(modEventBus);
         LocalAttachmentTypes.register(modEventBus);
         LocalDataComponentTypes.register(modEventBus);
+        LocalConsumeEffects.register(modEventBus);
     }
 }
