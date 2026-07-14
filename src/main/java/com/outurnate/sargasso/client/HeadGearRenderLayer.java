@@ -71,17 +71,5 @@ public class HeadGearRenderLayer<S extends HumanoidRenderState, M extends Humano
                 poseStack.popPose();
             }
         }
-        /*
-         * DeferredBlock<Block> blockModelKey =
-         * blockHats.get(state.headEquipment.getItem()); if (blockModelKey != null) {
-         * BlockStateModel model = Minecraft .getInstance() .getModelManager()
-         * .getBlockStateModelSet() .get(blockModelKey.get().defaultBlockState()); if
-         * (model != null) { poseStack.pushPose();
-         * this.getParentModel().head.translateAndRotate(poseStack);
-         * submitNodeCollector.submitBlockModel( poseStack,
-         * RenderTypes.entitySolid(TextureAtlas.LOCATION_BLOCKS), List.of(model),
-         * BlockModelRenderState.EMPTY_TINTS, lightCoords, OverlayTexture.NO_OVERLAY,
-         * 0); } }
-         */
     }
 }

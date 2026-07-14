@@ -136,6 +136,7 @@ public class LocalModelProvider extends ModelProvider {
             LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE.get(),
             ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.POTATO_BATTERY.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.PERSONAL_VOLTMETER.get(), ModelTemplates.FLAT_ITEM);
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
     }
 }

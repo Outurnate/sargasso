@@ -8,6 +8,7 @@ import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
+import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -109,6 +110,12 @@ public class LocalItems {
         LightningBottleItem::new,
         p -> p
             .useCooldown(2.0F));
+
+    public static final DeferredItem<Item> PERSONAL_VOLTMETER = REGISTRY.registerItem(
+        "personal_voltmeter",
+        PersonalVoltmeterItem::new,
+        p -> p
+            .useCooldown(1.0F));
 
     public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
         "studded_leather_helmet",
