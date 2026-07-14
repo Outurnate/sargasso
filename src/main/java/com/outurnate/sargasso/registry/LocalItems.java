@@ -116,6 +116,10 @@ public class LocalItems {
         "studded_leather_boots",
         props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
+    public static final DeferredItem<Item> STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE = REGISTRY
+        .registerSimpleItem(
+            "studded_leather_upgrade_smithing_template");
+
     public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
         "aa_battery",
         EnergyItem::new,

@@ -8,7 +8,7 @@
     "ItemEntityMixin",
     "LivingEntityMixin",
     "ComponentSerializationMixin",
-    "MeleeAttackGoalMixin"
+    "SensingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
