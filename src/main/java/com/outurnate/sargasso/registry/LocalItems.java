@@ -166,7 +166,7 @@ public class LocalItems {
     }
 
     @SubscribeEvent
-    public static void onPrePlayerTickEvent(PlayerTickEvent.Pre event) {
+    public static void onPostPlayerTickEvent(PlayerTickEvent.Post event) {
         if (event.getEntity() instanceof ServerPlayer) {
             int generatedAmount = 5;
             EnergyHandler generatedPower = new SimpleEnergyHandler(
