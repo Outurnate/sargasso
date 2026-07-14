@@ -12,10 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -30,6 +30,7 @@ import net.neoforged.neoforge.event.entity.living.EnderManAngerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
@@ -174,8 +175,10 @@ public class LocalItems {
                 generatedAmount,
                 generatedAmount);
             try (Transaction tx = Transaction.openRoot()) {
-                for (ItemStack stack : event.getEntity().getInventory()) {
-                    EnergyHandler chargableItem = stack.getCapability(Capabilities.Energy.ITEM, null);
+                Inventory inventory = event.getEntity().getInventory();
+                for (int slotIndex = 0; slotIndex < inventory.getContainerSize(); ++slotIndex) {
+                    ItemAccess slot = ItemAccess.forPlayerSlot(event.getEntity(), slotIndex);
+                    EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
                     EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
                     if (generatedPower.getAmountAsInt() == 0) {
                         tx.commit();
