@@ -3,6 +3,7 @@
 - something that uses power from your inventory
 - more worldgen changes
 - another art pass
+- zombies and other monsters should pick up and put on pylons
 
 DONE
 - Add localization to flim flam lore generator (maybe also split it into two classes)

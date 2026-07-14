@@ -145,7 +145,7 @@ public class LocalItems {
             props
                 .component(
                     DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot())
+                    Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
     public static final DeferredItem<Item> TWO_COLOR_FOX_EARS = REGISTRY.registerItem(
         "two_color_fox_ears",
@@ -153,7 +153,7 @@ public class LocalItems {
             props
                 .component(
                     DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot())
+                    Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
     public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
         "comically_tall_fox_ears",
@@ -161,7 +161,7 @@ public class LocalItems {
             props
                 .component(
                     DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot())
+                    Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
     public static final DeferredItem<Item> ORANGE_FOX_EARS = REGISTRY.registerItem(
         "orange_fox_ears",
