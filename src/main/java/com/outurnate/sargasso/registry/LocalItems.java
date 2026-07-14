@@ -12,10 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -175,9 +175,8 @@ public class LocalItems {
                 generatedAmount,
                 generatedAmount);
             try (Transaction tx = Transaction.openRoot()) {
-                Inventory inventory = event.getEntity().getInventory();
-                for (int slotIndex = 0; slotIndex < inventory.getContainerSize(); ++slotIndex) {
-                    ItemAccess slot = ItemAccess.forPlayerSlot(event.getEntity(), slotIndex);
+                for (ItemStack itemStack : event.getEntity().getInventory()) {
+                    ItemAccess slot = ItemAccess.forStack(itemStack);
                     EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
                     EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
                     if (generatedPower.getAmountAsInt() == 0) {
@@ -187,6 +186,7 @@ public class LocalItems {
                 }
             }
         }
+
     }
 
     public static void register(IEventBus modEventBus) {
