@@ -17,10 +17,10 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.ExtraCodecs;
 
-public record LocalizedDurationContents(Instant since) implements ComponentContents {
-    public static final MapCodec<LocalizedDurationContents> MAP_CODEC = RecordCodecBuilder.mapCodec(
-        i -> i.group(ExtraCodecs.INSTANT_ISO8601.fieldOf("since").forGetter(LocalizedDurationContents::since))
-            .apply(i, LocalizedDurationContents::new));
+public record DurationContents(Instant since) implements ComponentContents {
+    public static final MapCodec<DurationContents> MAP_CODEC = RecordCodecBuilder.mapCodec(
+        i -> i.group(ExtraCodecs.INSTANT_ISO8601.fieldOf("since").forGetter(DurationContents::since))
+            .apply(i, DurationContents::new));
 
     @Override
     public MapCodec<? extends ComponentContents> codec() {
@@ -28,7 +28,7 @@ public record LocalizedDurationContents(Instant since) implements ComponentConte
     }
 
     public static Component localizedDate(Instant since) {
-        return MutableComponent.create(new LocalizedDurationContents(since));
+        return MutableComponent.create(new DurationContents(since));
     }
 
     private String format() {

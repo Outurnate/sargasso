@@ -23,6 +23,17 @@ public record Rational(int numerator, int denominator) {
         return new Rational(newNumerator / gcd, newDenominator / gcd);
     }
 
+    public Rational clamp(int min, int max) {
+        int value = this.numerator / this.denominator;
+        if (value > max) {
+            return new Rational(max, 1);
+        }
+        if (value < min) {
+            return new Rational(min, 1);
+        }
+        return this;
+    }
+
     public Component toComponent(String format) {
         return RealContents
             .localizedReal((float) this.numerator / (float) this.denominator, format);

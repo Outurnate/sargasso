@@ -3,7 +3,7 @@ package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
+import com.outurnate.sargasso.network.chat.DurationContents;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 import com.outurnate.sargasso.registry.LocalTags;
@@ -94,7 +94,7 @@ public class ToasterBlock extends Block {
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
                 message = Component.translatable(
                     "sargasso.lore.toast",
-                    LocalizedDurationContents
+                    DurationContents
                         .localizedDate(serverPlayer.getData(LocalAttachmentTypes.BREAD_EATEN)));
                 serverLevel.playSound(
                     null,

@@ -2,7 +2,7 @@
 package com.outurnate.sargasso.mixin;
 
 import com.mojang.serialization.MapCodec;
-import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
+import com.outurnate.sargasso.network.chat.DurationContents;
 import com.outurnate.sargasso.network.chat.RealContents;
 
 import net.minecraft.network.chat.ComponentContents;
@@ -19,7 +19,7 @@ public abstract class ComponentSerializationMixin {
     private static void sargasso$bootstrap(
         ExtraCodecs.LateBoundIdMapper<String, MapCodec<? extends ComponentContents>> contentTypes,
         CallbackInfo callbackInfo) {
-        contentTypes.put("instant", LocalizedDurationContents.MAP_CODEC);
+        contentTypes.put("instant", DurationContents.MAP_CODEC);
         contentTypes.put("real", RealContents.MAP_CODEC);
     }
 }

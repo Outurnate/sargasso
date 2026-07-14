@@ -87,6 +87,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
+        this.add(
+            "chat." + SuperSargassoSea.MODID + ".voltmeter",
+            "The potatoes in your body current produce %s FE/t");
 
         this.addPotion(
             "Juice that makes your head explode",

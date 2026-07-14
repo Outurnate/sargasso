@@ -1,7 +1,9 @@
 package com.outurnate.sargasso.item;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,8 +20,10 @@ public class PersonalVoltmeterItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.sendSystemMessage(
-                serverPlayer
-                    .getData(LocalAttachmentTypes.GENERATOR_COUNT).toComponent("0.##"));
+                Component.translatable(
+                    "chat." + SuperSargassoSea.MODID + ".voltmeter",
+                    serverPlayer
+                        .getData(LocalAttachmentTypes.GENERATOR_COUNT).toComponent("0.##")));
         }
         return null;
     }

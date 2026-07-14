@@ -26,6 +26,10 @@ public class Config {
         .comment(
             "Capacity for rechargable and regular batteries")
         .defineInRange("batteryCapacity", 10000, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue MAX_POTATO_FET = BUILDER
+        .comment(
+            "Maximum FE/t the player can produce by eating potato batteries")
+        .defineInRange("potatoGenerationMax", 5, 0, 200);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

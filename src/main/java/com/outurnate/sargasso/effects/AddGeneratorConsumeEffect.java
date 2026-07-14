@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.effects;
 
 import com.mojang.serialization.MapCodec;
+import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.Rational;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalConsumeEffects;
@@ -28,7 +29,8 @@ public record AddGeneratorConsumeEffect() implements ConsumeEffect {
     public boolean apply(Level level, ItemStack stack, LivingEntity user) {
         Rational newGenerator = user
             .getData(LocalAttachmentTypes.GENERATOR_COUNT)
-            .add(new Rational(1, 5));
+            .add(new Rational(1, 5))
+            .clamp(0, Config.MAX_POTATO_FET.getAsInt());
         user.setData(LocalAttachmentTypes.GENERATOR_COUNT, newGenerator);
         return true;
     }
