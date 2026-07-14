@@ -50,9 +50,7 @@ public class LocalItems {
         p -> p
             .component(
                 DataComponents.EQUIPPABLE,
-                Equippable.builder(ArmorType.HELMET.getSlot())
-                    .setEquipSound(ArmorMaterials.LEATHER.equipSound())
-                    .setAsset(ArmorMaterials.LEATHER.assetId()).build()));
+                Equippable.builder(ArmorType.HELMET.getSlot()).build()));
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
