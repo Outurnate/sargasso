@@ -1,0 +1,11 @@
+{
+	"layers": {
+		"humanoid": [
+		{
+			"texture": "Sargasso:block/armor/studded_leather_armor_1"
+		}],
+		"humanoid_leggings": [
+		{
+			"texture": "Sargasso:block/armor/studded_leather_armor_2"
+		}]
+}}

@@ -4,6 +4,7 @@ package com.outurnate.sargasso.registry;
 import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.Rational;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
@@ -160,12 +161,7 @@ public class LocalItems {
                 .saturationModifier(0.2F)
                 .build(),
             Consumable.builder()
-                .onConsume(
-                    new ApplyStatusEffectsConsumeEffect(
-                        new MobEffectInstance(
-                            MobEffects.SLOWNESS,
-                            1200,
-                            0)))
+                .onConsume(new AddGeneratorConsumeEffect())
                 .build()));
 
     private static int getBatteryCapacity() {

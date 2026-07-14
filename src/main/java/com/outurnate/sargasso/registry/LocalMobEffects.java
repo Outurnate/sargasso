@@ -1,8 +1,9 @@
 /* (C)2026 */
 package com.outurnate.sargasso.registry;
 
-import com.outurnate.sargasso.HeadExplosionEffect;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.effects.HeadExplosionEffect;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;

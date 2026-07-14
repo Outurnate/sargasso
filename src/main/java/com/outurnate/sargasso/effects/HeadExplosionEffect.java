@@ -1,5 +1,5 @@
 /* (C)2026 */
-package com.outurnate.sargasso;
+package com.outurnate.sargasso.effects;
 
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 
