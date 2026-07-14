@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.registry;
 
+import com.mojang.serialization.Codec;
 import com.outurnate.sargasso.SuperSargassoSea;
 import java.time.Instant;
 import java.util.function.Supplier;
@@ -19,6 +20,12 @@ public class LocalAttachmentTypes {
         "bread_eaten",
         () -> AttachmentType.builder(() -> Instant.now())
             .serialize(ExtraCodecs.INSTANT_ISO8601.fieldOf("bread_eaten"))
+            .build());
+
+    public static final Supplier<AttachmentType<Integer>> GENERATOR_COUNT = REGISTRY.register(
+        "generator_count",
+        () -> AttachmentType.builder(() -> 0)
+            .serialize(Codec.INT.fieldOf("generator_count"))
             .build());
 
     public static void register(IEventBus modEventBus) {

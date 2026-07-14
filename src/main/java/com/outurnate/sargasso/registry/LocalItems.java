@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -25,9 +26,14 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.living.EnderManAngerEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalItems {
@@ -127,7 +133,7 @@ public class LocalItems {
         "rechargable_aa_battery",
         EnergyItem::new,
         p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+            .component(LocalDataComponentTypes.ENERGY.get(), 0));
 
     public static final DeferredItem<Item> BLACK_FOX_EARS = REGISTRY.registerItem(
         "black_fox_ears",
@@ -155,6 +161,26 @@ public class LocalItems {
     @SubscribeEvent
     public static void onEnderManAngerEvent(EnderManAngerEvent event) {
         event.setCanceled(event.getPlayer().getItemBySlot(EquipmentSlot.HEAD).is(PYLON));
+    }
+
+    @SubscribeEvent
+    public static void onPrePlayerTickEvent(PlayerTickEvent.Pre event) {
+        int generatedAmount = 5;
+        EnergyHandler generatedPower = new SimpleEnergyHandler(
+            generatedAmount,
+            0,
+            generatedAmount,
+            generatedAmount);
+        try (Transaction tx = Transaction.openRoot()) {
+            for (ItemStack stack : event.getEntity().getInventory()) {
+                EnergyHandler chargableItem = stack.getCapability(Capabilities.Energy.ITEM, null);
+                EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
+                if (generatedPower.getAmountAsInt() == 0) {
+                    tx.commit();
+                    break;
+                }
+            }
+        }
     }
 
     public static void register(IEventBus modEventBus) {

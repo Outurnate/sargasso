@@ -143,6 +143,7 @@ public class LocalLootTableProvider extends LootTableProvider {
             consumer.accept(
                 CURIOS,
                 LootTable.lootTable()
+                    // crap items pool
                     .withPool(
                         LootPool.lootPool()
                             .setRolls(UniformGenerator.between(3, 7))
@@ -163,6 +164,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(generateTerribleTool(Items.WOODEN_SPEAR).setWeight(1))
                             .add(generateTerribleTool(Items.WOODEN_SWORD).setWeight(1))
                             .add(generateLiarsPants().setWeight(1)))
+                    // good items pool
                     .withPool(
                         LootPool.lootPool()
                             .setRolls(UniformGenerator.between(1, 2))
@@ -172,6 +174,9 @@ public class LocalLootTableProvider extends LootTableProvider {
                                     .setWeight(1))
                             .add(LootItem.lootTableItem(LocalItems.BEDROCK_CREAM).setWeight(10))
                             .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE).setWeight(1))
+                            .add(
+                                LootItem.lootTableItem(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE)
+                                    .setWeight(5))
                             .add(
                                 generateLootItemCustomPotion(
                                     "bhj",
@@ -202,6 +207,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                                         MobEffects.POISON,
                                         36000,
                                         1)).setWeight(1)))
+                    // rare items pool
                     .withPool(
                         LootPool.lootPool()
                             .setRolls(UniformGenerator.between(0, 1))
