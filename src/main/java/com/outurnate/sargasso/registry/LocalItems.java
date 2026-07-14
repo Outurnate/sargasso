@@ -20,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
-import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.bus.api.IEventBus;
@@ -141,16 +140,36 @@ public class LocalItems {
 
     public static final DeferredItem<Item> BLACK_FOX_EARS = REGISTRY.registerItem(
         "black_fox_ears",
-        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+        props -> new Item(
+            props
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot())
+                        .build())));
     public static final DeferredItem<Item> TWO_COLOR_FOX_EARS = REGISTRY.registerItem(
         "two_color_fox_ears",
-        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+        props -> new Item(
+            props
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot())
+                        .build())));
     public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
         "comically_tall_fox_ears",
-        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+        props -> new Item(
+            props
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot())
+                        .build())));
     public static final DeferredItem<Item> ORANGE_FOX_EARS = REGISTRY.registerItem(
         "orange_fox_ears",
-        props -> new Item(props.humanoidArmor(ArmorMaterials.LEATHER, ArmorType.HELMET)));
+        props -> new Item(
+            props
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot())
+                        .build())));
 
     public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
         "potato_battery",

@@ -3,6 +3,8 @@ package com.outurnate.sargasso.mixin;
 
 import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.network.chat.LocalizedDurationContents;
+import com.outurnate.sargasso.network.chat.RealContents;
+
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.util.ExtraCodecs;
@@ -18,5 +20,6 @@ public abstract class ComponentSerializationMixin {
         ExtraCodecs.LateBoundIdMapper<String, MapCodec<? extends ComponentContents>> contentTypes,
         CallbackInfo callbackInfo) {
         contentTypes.put("instant", LocalizedDurationContents.MAP_CODEC);
+        contentTypes.put("real", RealContents.MAP_CODEC);
     }
 }
