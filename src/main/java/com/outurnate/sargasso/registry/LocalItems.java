@@ -8,6 +8,7 @@ import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -165,19 +166,21 @@ public class LocalItems {
 
     @SubscribeEvent
     public static void onPrePlayerTickEvent(PlayerTickEvent.Pre event) {
-        int generatedAmount = 5;
-        EnergyHandler generatedPower = new SimpleEnergyHandler(
-            generatedAmount,
-            0,
-            generatedAmount,
-            generatedAmount);
-        try (Transaction tx = Transaction.openRoot()) {
-            for (ItemStack stack : event.getEntity().getInventory()) {
-                EnergyHandler chargableItem = stack.getCapability(Capabilities.Energy.ITEM, null);
-                EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
-                if (generatedPower.getAmountAsInt() == 0) {
-                    tx.commit();
-                    break;
+        if (event.getEntity() instanceof ServerPlayer) {
+            int generatedAmount = 5;
+            EnergyHandler generatedPower = new SimpleEnergyHandler(
+                generatedAmount,
+                0,
+                generatedAmount,
+                generatedAmount);
+            try (Transaction tx = Transaction.openRoot()) {
+                for (ItemStack stack : event.getEntity().getInventory()) {
+                    EnergyHandler chargableItem = stack.getCapability(Capabilities.Energy.ITEM, null);
+                    EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
+                    if (generatedPower.getAmountAsInt() == 0) {
+                        tx.commit();
+                        break;
+                    }
                 }
             }
         }
