@@ -10,6 +10,11 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.SpearUseGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -152,6 +157,9 @@ public class LocalItems {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        SpearUseGoal<Zombie> g;
+        MeleeAttackGoal h;
+        NearestAttackableTargetGoal<AbstractSkeleton> i;
         event.registerItem(
             Capabilities.Energy.ITEM,
             (itemStack, itemAccess) -> new ItemAccessEnergyHandler(

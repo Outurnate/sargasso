@@ -14,3 +14,6 @@ employee mob spawner
 /setblock ~ ~ ~ spawner{SpawnData:{entity:{id:zombie,Silent:1,CanBreakDoors:1b,LeftHanded:1b,drop_chances:{head:0.0f,chest:0.0f,legs:0.0f,feet:0.0f},equipment:{head:{count:1,id:leather_helmet,components:{dyed_color:16701501}},chest:{count:1,id:iron_chestplate,components:{trim:{pattern:vex,material:netherite}}},legs:{count:1,id:iron_leggings,components:{trim:{pattern:vex,material:netherite}}},feet:{count:1,id:leather_boots,components:{dyed_color:1908001}}}}},SpawnRange:8,SpawnCount:6,MaxNearbyEntities:8,Delay:0,RequiredPlayerRange:16} replace
 
 ,drop_chances:{head:0.0f,chest:0.0f,legs:0.0f,feet:0.0f}
+
+
+

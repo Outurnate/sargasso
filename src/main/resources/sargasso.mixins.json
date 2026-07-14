@@ -7,7 +7,8 @@
     "BaseFireBlockMixin",
     "ItemEntityMixin",
     "LivingEntityMixin",
-    "ComponentSerializationMixin"
+    "ComponentSerializationMixin",
+    "MeleeAttackGoalMixin"
   ],
   "injectors": {
     "defaultRequire": 1
