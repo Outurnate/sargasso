@@ -22,4 +22,6 @@ public class LocalTags {
         .create(Registries.BIOME, SuperSargassoSea.ID("lost_blocks"));
     public static final TagKey<Biome> LOST_ITEMS = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("lost_items"));
+    public static final TagKey<Item> FOX_TRUST_HAT = TagKey
+        .create(Registries.ITEM, SuperSargassoSea.ID("fox_trust_hat"));
 }

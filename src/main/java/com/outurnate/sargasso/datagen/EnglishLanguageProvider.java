@@ -75,6 +75,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.STUDDED_LEATHER_CHESTPLATE, "Studded Leather Chestplate");
         this.addItem(LocalItems.STUDDED_LEATHER_HELMET, "Studded Leather Helmet");
         this.addItem(LocalItems.STUDDED_LEATHER_LEGGINGS, "Studded Leather Leggings");
+        this.addItem(
+            LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE,
+            "Studded Leather Upgrade Smithing Template");
         this.addItem(LocalItems.AA_BATTERY, "Durable AA Battery Cell");
         this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargable Durable AA Battery Cell");
         this.addItem(LocalItems.BLACK_FOX_EARS, "Fox Ears");
