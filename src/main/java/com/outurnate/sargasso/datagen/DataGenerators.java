@@ -33,6 +33,7 @@ public class DataGenerators {
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
         event.createProvider(LocalSoundDefinitionsProvider::new);
+        event.createProvider(LocalAdvancementProvider::new);
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.BIOME, LocalBiomesProvider::provide)
