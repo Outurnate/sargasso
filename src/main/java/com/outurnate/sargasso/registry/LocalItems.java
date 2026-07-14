@@ -10,11 +10,7 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.SpearUseGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
-import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -28,6 +24,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.living.EnderManAngerEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
@@ -155,15 +152,17 @@ public class LocalItems {
         }
     }
 
+    @SubscribeEvent
+    public static void onEnderManAngerEvent(EnderManAngerEvent event) {
+        event.setCanceled(event.getPlayer().getItemBySlot(EquipmentSlot.HEAD).is(PYLON));
+    }
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        SpearUseGoal<Zombie> g;
-        MeleeAttackGoal h;
-        NearestAttackableTargetGoal<AbstractSkeleton> i;
         event.registerItem(
             Capabilities.Energy.ITEM,
             (itemStack, itemAccess) -> new ItemAccessEnergyHandler(

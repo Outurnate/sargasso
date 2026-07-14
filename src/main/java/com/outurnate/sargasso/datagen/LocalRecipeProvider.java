@@ -9,7 +9,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class LocalRecipeProvider extends RecipeProvider {
 
@@ -56,5 +59,36 @@ public class LocalRecipeProvider extends RecipeProvider {
             .requires(LocalItems.BLACK_FOX_EARS)
             .unlockedBy("has_fox_ears", this.has(LocalItems.BLACK_FOX_EARS.get()))
             .save(this.output);
+        this
+            .studdedLeatherSmithing(
+                Items.LEATHER_HELMET,
+                RecipeCategory.COMBAT,
+                LocalItems.STUDDED_LEATHER_HELMET.get());
+        this
+            .studdedLeatherSmithing(
+                Items.LEATHER_CHESTPLATE,
+                RecipeCategory.COMBAT,
+                LocalItems.STUDDED_LEATHER_CHESTPLATE.get());
+        this
+            .studdedLeatherSmithing(
+                Items.LEATHER_LEGGINGS,
+                RecipeCategory.COMBAT,
+                LocalItems.STUDDED_LEATHER_LEGGINGS.get());
+        this
+            .studdedLeatherSmithing(
+                Items.LEATHER_BOOTS,
+                RecipeCategory.COMBAT,
+                LocalItems.STUDDED_LEATHER_BOOTS.get());
+    }
+
+    private void studdedLeatherSmithing(Item base, RecipeCategory category, Item result) {
+        SmithingTransformRecipeBuilder.smithing(
+            Ingredient.of(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE),
+            Ingredient.of(base),
+            Ingredient.of(Items.IRON_INGOT),
+            category,
+            result)
+            .unlocks("has_studded_upgrade", this.has(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE))
+            .save(this.output, getItemName(result) + "_smithing");
     }
 }
