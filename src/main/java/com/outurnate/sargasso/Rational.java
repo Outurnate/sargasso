@@ -23,8 +23,8 @@ public record Rational(int numerator, int denominator) {
         return new Rational(newNumerator / gcd, newDenominator / gcd);
     }
 
-    public Component toComponent(int places) {
+    public Component toComponent(String format) {
         return RealContents
-            .localizedReal((float) this.numerator / (float) this.denominator, "%." + places + "f");
+            .localizedReal((float) this.numerator / (float) this.denominator, format);
     }
 }

@@ -4,6 +4,7 @@
 - more worldgen changes
 - another art pass
 - zombies and other monsters should pick up and put on pylons
+- fix dupe bug
 
 DONE
 - Add localization to flim flam lore generator (maybe also split it into two classes)

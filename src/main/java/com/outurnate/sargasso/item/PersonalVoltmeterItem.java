@@ -19,7 +19,7 @@ public class PersonalVoltmeterItem extends Item {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.sendSystemMessage(
                 serverPlayer
-                    .getData(LocalAttachmentTypes.GENERATOR_COUNT).toComponent(2));
+                    .getData(LocalAttachmentTypes.GENERATOR_COUNT).toComponent("0.##"));
         }
         return null;
     }

@@ -3,6 +3,9 @@ package com.outurnate.sargasso.network.chat;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Optional;
 import net.minecraft.client.Minecraft;
@@ -31,7 +34,9 @@ public record RealContents(float value, String formatTemplate) implements Compon
 
     private String format() {
         Locale locale = Minecraft.getInstance().getLocale();
-        return String.format(locale, this.formatTemplate, this.value);
+        DecimalFormat df = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+        df.applyPattern(this.formatTemplate);
+        return df.format(this.value);
     }
 
     @Override

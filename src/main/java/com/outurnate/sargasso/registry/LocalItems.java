@@ -211,7 +211,6 @@ public class LocalItems {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             if (serverPlayer.hasData(LocalAttachmentTypes.GENERATOR_COUNT)) {
                 Rational generatorRatio = serverPlayer.getData(LocalAttachmentTypes.GENERATOR_COUNT);
-                SuperSargassoSea.LOGGER.error(generatorRatio.toString());
                 if (generatorRatio.numerator() == 0
                     && (serverPlayer.level().getGameTime() % generatorRatio.denominator()) != 0) {
                     return;
