@@ -19,7 +19,7 @@ public class SensingMixin {
     @Shadow
     private Mob mob;
 
-    @Inject(method = "hasLineOfSight", at = @At("HEAD"))
+    @Inject(method = "hasLineOfSight", at = @At("HEAD"), cancellable = true)
     private void sargasso$hasLineOfSight(Entity target, CallbackInfoReturnable<Boolean> callbackInfo) {
         ItemStack headItems = this.mob.getItemBySlot(EquipmentSlot.HEAD);
         if (headItems != null && headItems.is(LocalItems.PYLON)) {
