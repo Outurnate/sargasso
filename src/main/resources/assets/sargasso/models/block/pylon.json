@@ -4,8 +4,8 @@
 	"parent": "minecraft:block/block",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "sargasso:block/hat/pylon",
-		"particle": "sargasso:block/hat/pylon"
+		"0": "sargasso:block/pylon",
+		"particle": "sargasso:block/pylon"
 	},
 	"elements": [
 		{

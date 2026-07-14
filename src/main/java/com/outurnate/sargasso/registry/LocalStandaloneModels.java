@@ -34,13 +34,13 @@ public class LocalStandaloneModels {
     public static final StandaloneModelKey<BlockStateModelPart> COMICALLY_TALL_FOX_EARS;
     public static final StandaloneModelKey<BlockStateModelPart> ORANGE_FOX_EARS;
     static {
-        BLACK_FOX_EARS = new StandaloneModelKey<>(SuperSargassoSea.ID("block/hat/black_fox_ears")::toString);
+        BLACK_FOX_EARS = new StandaloneModelKey<>(SuperSargassoSea.ID("block/black_fox_ears")::toString);
         TWO_COLOR_FOX_EARS = new StandaloneModelKey<>(
-            SuperSargassoSea.ID("block/hat/two_color_fox_ears")::toString);
+            SuperSargassoSea.ID("block/two_color_fox_ears")::toString);
         COMICALLY_TALL_FOX_EARS = new StandaloneModelKey<>(
-            SuperSargassoSea.ID("block/hat/black_fox_ears")::toString);
+            SuperSargassoSea.ID("block/black_fox_ears")::toString);
         ORANGE_FOX_EARS = new StandaloneModelKey<>(
-            SuperSargassoSea.ID("block/hat/orange_fox_ears")::toString);
+            SuperSargassoSea.ID("block/orange_fox_ears")::toString);
     }
 
     @SubscribeEvent

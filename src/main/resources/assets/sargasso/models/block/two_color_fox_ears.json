@@ -1,0 +1,11 @@
+{
+    "loader": "neoforge:obj",
+    "model": "sargasso:models/block/fox_ears.obj",
+    "textures": {
+        "texture0": "sargasso:block/black_ear",
+        "texture1": "sargasso:block/orange_ear",
+        "particle": "sargasso:block/black_ear"
+    },
+    "automatic_culling": false,
+    "flip_v": true
+}
