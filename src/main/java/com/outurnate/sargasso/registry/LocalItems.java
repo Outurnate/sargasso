@@ -7,6 +7,7 @@ import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -44,7 +46,13 @@ public class LocalItems {
 
     public static final DeferredItem<BlockItem> PYLON = REGISTRY.registerSimpleBlockItem(
         "pylon",
-        LocalBlocks.PYLON);
+        LocalBlocks.PYLON,
+        p -> p
+            .component(
+                DataComponents.EQUIPPABLE,
+                Equippable.builder(ArmorType.HELMET.getSlot())
+                    .setEquipSound(ArmorMaterials.LEATHER.equipSound())
+                    .setAsset(ArmorMaterials.LEATHER.assetId()).build()));
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
