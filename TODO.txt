@@ -1,10 +1,11 @@
 - structures, structures, structures (2/3)
-- potato battery (edible)
 - something that uses power from your inventory
 - more worldgen changes
 - another art pass
 - zombies and other monsters should pick up and put on pylons
 - fix dupe bug
+- sun is in the wrong place
+- normalize translation keys and centralize them
 
 DONE
 - Add localization to flim flam lore generator (maybe also split it into two classes)
@@ -14,3 +15,4 @@ DONE
 - Structure processor list for adding glitches
 - time markers might be in the wrong spot?
 - give hats more use
+- potato battery (edible)

@@ -33,7 +33,8 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                     false)
                 .addCriterion(
                     "enter_sea",
-                    ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA));
+                    ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA))
+                .save(output, SuperSargassoSea.ID("enter"));
         }
     }
 
