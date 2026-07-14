@@ -2,9 +2,9 @@
     "loader": "neoforge:obj",
     "model": "sargasso:models/hat/fox_ears.obj",
     "textures": {
-        "texture0": "sargasso:hat/orange_ear",
-        "texture1": "sargasso:hat/orange_ear",
-        "particle": "sargasso:hat/orange_ear"
+        "texture0": "sargasso:block/hat/orange_ear",
+        "texture1": "sargasso:block/hat/orange_ear",
+        "particle": "sargasso:block/hat/orange_ear"
     },
     "automatic_culling": false,
     "flip_v": true
