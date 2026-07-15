@@ -9,6 +9,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalPotions;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.Holder;
@@ -101,6 +102,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
 
+        for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
+            this.add(entry.getKey(), entry.getValue());
+        }
         FlimFlamLore.dataGen(this);
     }
 }

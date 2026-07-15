@@ -29,7 +29,6 @@ public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent.Client event) {
         event.createProvider(LocalModelProvider::new);
-        event.createProvider(EnglishLanguageProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
         event.createProvider(LocalSoundDefinitionsProvider::new);
@@ -55,5 +54,8 @@ public class DataGenerators {
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalBiomeTagsProvider::new);
+
+        // CALL LAST, AS EARLIER STEPS POPULATE MAPS
+        event.createProvider(EnglishLanguageProvider::new);
     }
 }

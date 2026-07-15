@@ -3,9 +3,14 @@ package com.outurnate.sargasso.datagen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalDimensions;
 import com.outurnate.sargasso.registry.LocalItems;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.function.Function;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -19,23 +24,49 @@ import net.minecraft.world.item.ItemStackTemplate;
 
 public class LocalAdvancementProvider extends AdvancementProvider {
     private static class DefaultAdvancementSubProvider implements AdvancementSubProvider {
-        @Override
-        public void generate(Provider registries, Consumer<AdvancementHolder> output) {
-            Advancement.Builder.advancement()
+        private static final Map<String, String> englishTranslations = new HashMap<>();
+
+        private void builder(
+            Consumer<AdvancementHolder> output,
+            String name,
+            String title,
+            String description,
+            ItemStackTemplate icon,
+            Function<Advancement.Builder, Advancement.Builder> build) {
+            String titleKey = "advancements." + SuperSargassoSea.MODID + "." + name + ".title";
+            String descriptionKey = "advancements." + SuperSargassoSea.MODID + "." + name + ".description";
+            englishTranslations.put(titleKey, title);
+            englishTranslations.put(descriptionKey, description);
+            Advancement.Builder init = Advancement.Builder.advancement()
                 .display(
-                    new ItemStackTemplate(LocalItems.FLOTSAM),
-                    Component.translatable("advancements." + SuperSargassoSea.MODID + ".enter.title"),
-                    Component.translatable("advancements." + SuperSargassoSea.MODID + ".enter.description"),
+                    icon,
+                    Component.translatable(titleKey),
+                    Component.translatable(descriptionKey),
                     null,
                     AdvancementType.TASK,
                     true,
                     true,
-                    false)
-                .addCriterion(
-                    "enter_sea",
-                    ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA))
-                .save(output, SuperSargassoSea.ID("enter"));
+                    false);
+            build.apply(init).save(output, SuperSargassoSea.ID(name));
         }
+
+        @Override
+        public void generate(Provider registries, Consumer<AdvancementHolder> output) {
+            builder(
+                output,
+                "enter",
+                "Not all those who wander are lost...",
+                "...but you sure are",
+                new ItemStackTemplate(LocalItems.FLOTSAM),
+                b -> b
+                    .addCriterion(
+                        "enter_sea",
+                        ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA)));
+        }
+    }
+
+    public static Map<String, String> getEnglishTranslations() {
+        return DefaultAdvancementSubProvider.englishTranslations;
     }
 
     public LocalAdvancementProvider(PackOutput output, CompletableFuture<Provider> registries) {
