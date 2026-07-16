@@ -13,7 +13,7 @@
             "multiblock": {
                 "mapping": {
                     "O": "minecraft:obsidian",
-                    "P": "minecraft:portal"
+                    "P": "minecraft:nether_portal"
                 },
                 "pattern": [
                     [
