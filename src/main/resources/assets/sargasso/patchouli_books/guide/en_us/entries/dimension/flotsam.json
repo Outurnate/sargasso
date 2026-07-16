@@ -5,14 +5,10 @@
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "More often than not, the path to this dimension is found accidentally. Falling out of the world, or perhaps, encountering a space where reality is a bit thinner, can land you here."
+            "text": "Every item that's ever been lost ends up here. Destroyed items, like those tossed in lava, not so much. Digging through the mountains of flotsam, one can find anything - eventually. Different biomes seem to host different kinds of items."
         },
         {
-            "type": "patchouli:image",
-            "images": [
-                "sargasso:patchouli_books/guide/thinner"
-            ],
-            "border": true
+            "type": "patchouli:empty"
         }
     ]
 }

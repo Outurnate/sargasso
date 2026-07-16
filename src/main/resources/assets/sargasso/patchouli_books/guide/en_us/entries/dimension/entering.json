@@ -10,7 +10,7 @@
         {
             "type": "patchouli:image",
             "images": [
-                "sargasso:patchouli_books/guide/thinner"
+                "sargasso:textures/gui/thinner"
             ],
             "border": true
         }
