@@ -7,6 +7,7 @@ import com.outurnate.sargasso.network.chat.RealContents;
 import net.minecraft.network.chat.Component;
 
 public record Rational(int numerator, int denominator) {
+    @SuppressWarnings("null")
     public static final Codec<Rational> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
             Codec.INT.fieldOf("num").forGetter(Rational::numerator),

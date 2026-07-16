@@ -1,0 +1,53 @@
+{
+    "name": "Leaving",
+    "icon": "minecraft:obsidian",
+    "category": "sargasso:dimension",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Though there may be other ways out, this book only knows of one method. You must travel back to the Overworld via the Nether. Previous travellers have left behind ruined portals you may be able to repair."
+        },
+        {
+            "type": "patchouli:multiblock",
+            "name": "Nether Portal",
+            "multiblock": {
+                "mapping": {
+                    "O": "minecraft:obsidian",
+                    "P": "minecraft:portal"
+                },
+                "pattern": [
+                    [
+                        "O",
+                        "O",
+                        "O",
+                        "O"
+                    ],
+                    [
+                        "O",
+                        "P",
+                        "P",
+                        "O"
+                    ],
+                    [
+                        "O",
+                        "P",
+                        "P",
+                        "O"
+                    ],
+                    [
+                        "O",
+                        "P",
+                        "P",
+                        "O"
+                    ],
+                    [
+                        "O",
+                        "O",
+                        "O",
+                        "O"
+                    ]
+                ]
+            }
+        }
+    ]
+}

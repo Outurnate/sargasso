@@ -55,8 +55,8 @@ public class LocalAdvancementProvider extends AdvancementProvider {
             builder(
                 output,
                 "enter",
-                "Not all those who wander are lost...",
-                "...but you sure are",
+                "The Super Sargasso Sea",
+                "Not all those who wander are lost...but you sure are",
                 new ItemStackTemplate(LocalItems.FLOTSAM),
                 b -> b
                     .addCriterion(

@@ -16,6 +16,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 
 public record RealContents(float value, String formatTemplate) implements ComponentContents {
+    @SuppressWarnings("null")
     public static final MapCodec<RealContents> MAP_CODEC = RecordCodecBuilder.mapCodec(
         i -> i
             .group(

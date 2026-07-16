@@ -30,6 +30,7 @@ public class ExtraExtraCodecs {
         }
     };
 
+    @SuppressWarnings("null")
     private static final Codec<Entry> ENTRY_CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
             ItemStack.CODEC.fieldOf("item").forGetter(Entry::item),

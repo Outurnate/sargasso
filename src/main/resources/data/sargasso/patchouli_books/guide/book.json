@@ -1,6 +1,6 @@
 {
     "name": "The Atlas of Nowhere",
-    "landing_text": "Welcome, traveller. If you are reading this, you either seek to find the Super Sargasso Sea, or, more likely, you have unexpectedly become lost here. This guidebook will describe the things you may find here, how to get here, and, how to escape.",
+    "landing_text": "Welcome, traveller. This guidebook will describe the things you may find in this place, and, how to escape.",
     "version": 1,
     "creative_tab": "sargasso:tab",
     "use_resource_pack": true

@@ -35,6 +35,7 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
             .and(LootContext.EntityTarget.CODEC.optionalFieldOf("entity").forGetter(f -> f.resolutionContext))
             .apply(i, FlimFlamLoreFunction::new));
 
+    @SuppressWarnings("null")
     private static Component generate(
         RandomSource random,
         IGenerator generator,

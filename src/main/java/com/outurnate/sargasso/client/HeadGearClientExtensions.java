@@ -10,6 +10,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 @OnlyIn(Dist.CLIENT)
 public class HeadGearClientExtensions implements IClientItemExtensions {
+    @SuppressWarnings("rawtypes")
     @Override
     public Model getHumanoidArmorModel(
         ItemStack itemStack,

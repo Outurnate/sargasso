@@ -1,0 +1,18 @@
+{
+    "name": "Entering",
+    "icon": "minecraft:writable_book",
+    "category": "sargasso:dimension",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "More often than not, the path to this dimension is found accidentally. Falling out of the world, or perhaps, encountering a space where reality is a bit thinner, can land you here."
+        },
+        {
+            "type": "patchouli:image",
+            "images": [
+                "sargasso:patchouli_books/guide/thinner"
+            ],
+            "border": true
+        }
+    ]
+}

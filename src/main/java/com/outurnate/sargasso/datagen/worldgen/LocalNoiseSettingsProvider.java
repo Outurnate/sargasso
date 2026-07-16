@@ -31,14 +31,6 @@ public class LocalNoiseSettingsProvider {
         double minTemperatureForPeaks = 0.5;
         double peakTransitionZoneWidth = 0.1;
         double peakAmplitude = 0.1;
-        double roughnessAmplitude = 0.01;
-        double x = 1.0;
-        double a = minTemperatureForPeaks - peakTransitionZoneWidth;
-        double b = minTemperatureForPeaks + peakTransitionZoneWidth;
-        double z = Math.clamp(
-            (x - minTemperatureForPeaks - peakTransitionZoneWidth) * (1.0 / (2 * peakTransitionZoneWidth)),
-            0.0,
-            1.0);
         NoiseRouter noiseRouter = new NoiseRouter(
             DensityFunctions.constant(0.0),
             DensityFunctions.constant(0.0),
