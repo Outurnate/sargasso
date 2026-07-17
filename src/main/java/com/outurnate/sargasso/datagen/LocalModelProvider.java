@@ -9,6 +9,7 @@ import static net.minecraft.client.data.models.BlockModelGenerators.createSimple
 import static net.minecraft.client.data.models.BlockModelGenerators.plainModel;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
+import com.mojang.math.Transformation;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
@@ -39,6 +40,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
     private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
@@ -139,7 +141,7 @@ public class LocalModelProvider extends ModelProvider {
                         SuperSargassoSea.ID("block/debris2"),
                         Optional.empty(),
                         Collections.emptyList())),
-                Optional.empty()));
+                Optional.of(new Transformation(new Vector3f(0.0F, 0.5F, 0.0F), null, null, null))));
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);

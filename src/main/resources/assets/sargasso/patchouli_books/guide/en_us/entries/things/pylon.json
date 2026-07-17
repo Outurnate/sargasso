@@ -1,0 +1,15 @@
+{
+    "name": "Pylon",
+    "icon": "sargasso:pylon",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "This item makes pretty poor armour. Using it to obscure the eyes of a humanoid monster results in near total pacification."
+        },
+        {
+            "type": "patchouli:entity",
+            "item": "minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}"
+        }
+    ]
+}
