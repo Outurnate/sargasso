@@ -21,12 +21,13 @@ import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 
 public class LocalAdvancementProvider extends AdvancementProvider {
     private static class DefaultAdvancementSubProvider implements AdvancementSubProvider {
         private static final Map<String, String> englishTranslations = new HashMap<>();
 
-        private void builder(
+        private AdvancementHolder builder(
             Consumer<AdvancementHolder> output,
             String name,
             String title,
@@ -42,17 +43,21 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                     icon,
                     Component.translatable(titleKey),
                     Component.translatable(descriptionKey),
-                    null,
+                    SuperSargassoSea.ID("block/flotsam"),
                     AdvancementType.TASK,
                     true,
                     true,
                     false);
-            build.apply(init).save(output, SuperSargassoSea.ID(name));
+            build.apply(init);
+            AdvancementHolder advancementholder = init.build(SuperSargassoSea.ID(name));
+            output.accept(advancementholder);
+            return advancementholder;
+
         }
 
         @Override
         public void generate(Provider registries, Consumer<AdvancementHolder> output) {
-            builder(
+            AdvancementHolder enter = builder(
                 output,
                 "enter",
                 "The Super Sargasso Sea",
@@ -62,6 +67,17 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                     .addCriterion(
                         "enter_sea",
                         ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA)));
+            builder(
+                output,
+                "leave",
+                "Through the Nether",
+                "Twisting, turning...",
+                new ItemStackTemplate(Items.OBSIDIAN),
+                b -> b
+                    .parent(enter)
+                    .addCriterion(
+                        "enter_sea",
+                        ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA)));
         }
     }
 

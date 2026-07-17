@@ -13,6 +13,9 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -24,6 +27,8 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.item.CompositeModel;
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -118,7 +123,23 @@ public class LocalModelProvider extends ModelProvider {
                 LocalBlocks.PYLON.get(),
                 plainVariant(pylon)));
 
-        itemModels.generateFlatItem(LocalItems.DEBRIS.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.itemModelOutput.accept(
+            LocalItems.DEBRIS.get(),
+            new CompositeModel.Unbaked(
+                List.of(
+                    new CuboidItemModelWrapper.Unbaked(
+                        SuperSargassoSea.ID("block/debris"),
+                        Optional.empty(),
+                        Collections.emptyList()),
+                    new CuboidItemModelWrapper.Unbaked(
+                        SuperSargassoSea.ID("block/debris1"),
+                        Optional.empty(),
+                        Collections.emptyList()),
+                    new CuboidItemModelWrapper.Unbaked(
+                        SuperSargassoSea.ID("block/debris2"),
+                        Optional.empty(),
+                        Collections.emptyList())),
+                Optional.empty()));
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);

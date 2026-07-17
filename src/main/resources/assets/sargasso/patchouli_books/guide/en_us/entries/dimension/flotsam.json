@@ -8,7 +8,8 @@
             "text": "Every item that's ever been lost ends up here. Destroyed items, like those tossed in lava, not so much. Digging through the mountains of flotsam, one can find anything - eventually. Different biomes seem to host different kinds of items."
         },
         {
-            "type": "patchouli:empty"
+            "type": "patchouli:empty",
+            "draw_filler": true
         }
     ]
 }
