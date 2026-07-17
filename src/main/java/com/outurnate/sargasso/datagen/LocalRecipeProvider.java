@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -89,6 +90,6 @@ public class LocalRecipeProvider extends RecipeProvider {
             category,
             result)
             .unlocks("has_studded_upgrade", this.has(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE))
-            .save(this.output, getItemName(result) + "_smithing");
+            .save(this.output, SuperSargassoSea.ID(getItemName(result) + "_smithing").toString());
     }
 }

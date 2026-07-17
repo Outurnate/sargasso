@@ -14,28 +14,34 @@ import java.util.function.Function;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.criterion.ChangeDimensionTrigger;
+import net.minecraft.advancements.criterion.ImpossibleTrigger;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 
 public class LocalAdvancementProvider extends AdvancementProvider {
-    private static class DefaultAdvancementSubProvider implements AdvancementSubProvider {
+    public static class DefaultAdvancementSubProvider implements AdvancementSubProvider {
         private static final Map<String, String> englishTranslations = new HashMap<>();
+        public static final Identifier ENTER = SuperSargassoSea.ID("enter");
+        public static final Identifier LEAVE = SuperSargassoSea.ID("leave");
+        public static final Identifier TOAST = SuperSargassoSea.ID("toast");
 
         private AdvancementHolder builder(
-            Consumer<AdvancementHolder> output,
-            String name,
+            Identifier name,
             String title,
             String description,
             ItemStackTemplate icon,
             Function<Advancement.Builder, Advancement.Builder> build) {
-            String titleKey = "advancements." + SuperSargassoSea.MODID + "." + name + ".title";
-            String descriptionKey = "advancements." + SuperSargassoSea.MODID + "." + name + ".description";
+            String titleKey = "advancements." + SuperSargassoSea.MODID + "." + name.getPath() + ".title";
+            String descriptionKey = "advancements." + SuperSargassoSea.MODID + "." + name.getPath()
+                + ".description";
             englishTranslations.put(titleKey, title);
             englishTranslations.put(descriptionKey, description);
             Advancement.Builder init = Advancement.Builder.advancement()
@@ -49,8 +55,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                     true,
                     false);
             build.apply(init);
-            AdvancementHolder advancementholder = init.build(SuperSargassoSea.ID(name));
-            output.accept(advancementholder);
+            AdvancementHolder advancementholder = init.build(name);
             return advancementholder;
 
         }
@@ -58,8 +63,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
         @Override
         public void generate(Provider registries, Consumer<AdvancementHolder> output) {
             AdvancementHolder enter = builder(
-                output,
-                "enter",
+                ENTER,
                 "The Super Sargasso Sea",
                 "Not all those who wander are lost...but you sure are",
                 new ItemStackTemplate(LocalItems.FLOTSAM),
@@ -67,17 +71,30 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                     .addCriterion(
                         "enter_sea",
                         ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA)));
-            builder(
-                output,
-                "leave",
+            AdvancementHolder leave = builder(
+                LEAVE,
                 "Through the Nether",
                 "Twisting, turning...",
                 new ItemStackTemplate(Items.OBSIDIAN),
                 b -> b
                     .parent(enter)
                     .addCriterion(
-                        "enter_sea",
+                        "leave_sea",
                         ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA)));
+            AdvancementHolder toast = builder(
+                TOAST,
+                "Time Travel!",
+                "Experience a temporal anomaly",
+                new ItemStackTemplate(LocalItems.TOASTER.get()),
+                b -> b
+                    .parent(enter)
+                    .addCriterion(
+                        "impossible",
+                        CriteriaTriggers.IMPOSSIBLE
+                            .createCriterion(new ImpossibleTrigger.TriggerInstance())));
+            output.accept(enter);
+            output.accept(leave);
+            output.accept(toast);
         }
     }
 

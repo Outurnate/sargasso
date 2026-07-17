@@ -9,7 +9,8 @@
         },
         {
             "type": "patchouli:entity",
-            "entity": "minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}"
+            "entity": "minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}",
+            "name": "Example"
         }
     ]
 }
