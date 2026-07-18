@@ -9,7 +9,8 @@
     "LivingEntityMixin",
     "ComponentSerializationMixin",
     "SensingMixin",
-    "FoxMixin"
+    "FoxMixin",
+    "MonsterMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -15,7 +15,6 @@ public abstract class ItemEntityMixin extends Entity {
         super(type, level);
     }
 
-    // @Inject(method = "onBelowWorld", at = @At("HEAD"))
     @Override
     protected void onBelowWorld() {
         if ((Object) this instanceof ItemEntity self) {
