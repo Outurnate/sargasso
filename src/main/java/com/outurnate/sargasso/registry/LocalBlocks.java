@@ -100,7 +100,8 @@ public class LocalBlocks {
             .instrument(NoteBlockInstrument.DIDGERIDOO)
             .strength(1.0F)
             .sound(SoundType.WOOL)
-            .forceSolidOn());
+            .forceSolidOn()
+            .noOcclusion());
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

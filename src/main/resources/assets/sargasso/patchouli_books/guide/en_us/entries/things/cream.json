@@ -1,0 +1,18 @@
+{
+    "name": "Bedrock Cream",
+    "icon": "sargasso:bedrock_cream",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "sargasso:bedrock_cream",
+            "text": "This cream can be smeared on bedrock to make it softer. It's still hard to mine, but no longer impossible. The resulting slop can be made into a very hearty bread."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "sargasso:breadrock",
+            "title": "Breadrock",
+            "text": "The slop can be eaten raw, but it's better baked into bread"
+        }
+    ]
+}
