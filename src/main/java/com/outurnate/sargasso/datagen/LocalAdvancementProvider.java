@@ -1,16 +1,15 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalDimensions;
 import com.outurnate.sargasso.registry.LocalItems;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -29,9 +28,6 @@ import net.minecraft.world.item.Items;
 public class LocalAdvancementProvider extends AdvancementProvider {
     public static class DefaultAdvancementSubProvider implements AdvancementSubProvider {
         private static final Map<String, String> englishTranslations = new HashMap<>();
-        public static final Identifier ENTER = SuperSargassoSea.ID("enter");
-        public static final Identifier LEAVE = SuperSargassoSea.ID("leave");
-        public static final Identifier TOAST = SuperSargassoSea.ID("toast");
 
         private AdvancementHolder builder(
             Identifier name,
@@ -63,7 +59,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
         @Override
         public void generate(Provider registries, Consumer<AdvancementHolder> output) {
             AdvancementHolder enter = builder(
-                ENTER,
+                LocalAdvancements.ENTER,
                 "The Super Sargasso Sea",
                 "Not all those who wander are lost...but you sure are",
                 new ItemStackTemplate(LocalItems.FLOTSAM),
@@ -72,7 +68,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                         "enter_sea",
                         ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA)));
             AdvancementHolder leave = builder(
-                LEAVE,
+                LocalAdvancements.LEAVE,
                 "Through the Nether",
                 "Twisting, turning...",
                 new ItemStackTemplate(Items.OBSIDIAN),
@@ -82,7 +78,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                         "leave_sea",
                         ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA)));
             AdvancementHolder toast = builder(
-                TOAST,
+                LocalAdvancements.TOAST,
                 "Time Travel!",
                 "Experience a temporal anomaly",
                 new ItemStackTemplate(LocalItems.TOASTER.get()),

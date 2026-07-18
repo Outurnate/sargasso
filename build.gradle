@@ -206,3 +206,7 @@ spotless {
 		formatAnnotations()
 	}
 }
+
+jar {
+    exclude("**/datagen/**")
+}

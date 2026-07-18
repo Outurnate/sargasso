@@ -6,6 +6,8 @@
 - fix dupe bug
 - sun is in the wrong place
 - normalize translation keys and centralize them
+- debris dropped item model too big
+- make it easier to pylon mobs
 
 DONE
 - Add localization to flim flam lore generator (maybe also split it into two classes)

@@ -3,14 +3,13 @@ package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.datagen.LocalAdvancementProvider;
 import com.outurnate.sargasso.network.chat.DurationContents;
+import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 import com.outurnate.sargasso.registry.LocalTags;
 import java.time.Instant;
 import java.util.Map;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -95,7 +94,7 @@ public class ToasterBlock extends Block {
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
                 serverPlayer.getAdvancements().award(
                     serverLevel.getServer().getAdvancements()
-                        .get(LocalAdvancementProvider.DefaultAdvancementSubProvider.TOAST),
+                        .get(LocalAdvancements.TOAST),
                     "impossible");
                 message = Component.translatable(
                     "sargasso.lore.toast",
