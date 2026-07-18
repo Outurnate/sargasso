@@ -10,6 +10,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Monster.class)
@@ -21,7 +22,7 @@ public abstract class MonsterMixin extends PathfinderMob {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
-        if (heldItem.is(LocalItems.PYLON)) {
+        if (heldItem.is(LocalItems.PYLON) && this.canEquipWithDispenser(heldItem)) {
             heldItem.consume(1, this);
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(LocalItems.PYLON.get(), 1));
             return InteractionResult.CONSUME;

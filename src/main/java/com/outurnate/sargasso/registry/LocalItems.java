@@ -218,6 +218,7 @@ public class LocalItems {
                 int generatedAmount = generatorRatio.numerator();
 
                 // transfer power into inventory items
+                // SlotAccess?
                 EnergyHandler generatedPower = new SimpleEnergyHandler(
                     generatedAmount,
                     0,
