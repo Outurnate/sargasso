@@ -53,7 +53,6 @@ public class LocalAdvancementProvider extends AdvancementProvider {
             build.apply(init);
             AdvancementHolder advancementholder = init.build(name);
             return advancementholder;
-
         }
 
         @Override

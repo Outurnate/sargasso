@@ -99,10 +99,10 @@ public class LocalBlocks {
             .instrument(NoteBlockInstrument.DIDGERIDOO)
             .strength(1.0F)
             .sound(SoundType.WOOL)
-            .noOcclusion()
-            .lightLevel(state -> 0));
+            .forceSolidOn());
 
     public static void register(IEventBus modEventBus) {
+        var x = Blocks.OAK_FENCE;
         REGISTRY.register(modEventBus);
     }
 }

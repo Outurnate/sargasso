@@ -141,7 +141,12 @@ public class LocalModelProvider extends ModelProvider {
                         SuperSargassoSea.ID("block/debris2"),
                         Optional.empty(),
                         Collections.emptyList())),
-                Optional.of(new Transformation(new Vector3f(0.0F, 0.4F, 0.0F), null, null, null))));
+                Optional.of(
+                    new Transformation(
+                        new Vector3f(0.0F, 0.4F, 0.0F),
+                        null,
+                        new Vector3f(0.8F, 0.8F, 0.8F),
+                        null))));
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
