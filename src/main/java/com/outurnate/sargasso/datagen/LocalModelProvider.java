@@ -145,7 +145,7 @@ public class LocalModelProvider extends ModelProvider {
                     new Transformation(
                         new Vector3f(0.0F, 0.4F, 0.0F),
                         null,
-                        new Vector3f(0.8F, 0.8F, 0.8F),
+                        new Vector3f(0.5F, 0.5F, 0.5F),
                         null))));
         itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);

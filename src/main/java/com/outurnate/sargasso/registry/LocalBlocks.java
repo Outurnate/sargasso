@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -93,7 +94,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> PYLON = REGISTRY.registerBlock(
         "pylon",
-        p -> new Block(p),
+        p -> new TransparentBlock(p),
         p -> p
             .mapColor(MapColor.COLOR_ORANGE)
             .instrument(NoteBlockInstrument.DIDGERIDOO)
@@ -102,7 +103,6 @@ public class LocalBlocks {
             .forceSolidOn());
 
     public static void register(IEventBus modEventBus) {
-        var x = Blocks.OAK_FENCE;
         REGISTRY.register(modEventBus);
     }
 }
