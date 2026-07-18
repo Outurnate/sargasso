@@ -1,7 +1,9 @@
 package com.outurnate.sargasso.mixin;
 
+import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalItems;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -27,6 +29,9 @@ public abstract class MonsterMixin extends PathfinderMob {
             && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             heldItem.consume(1, this);
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(LocalItems.PYLON.get(), 1));
+            if (player instanceof ServerPlayer serverPlayer) {
+                LocalAdvancements.Award(serverPlayer, LocalAdvancements.PYLON, "impossible");
+            }
             return InteractionResult.CONSUME;
         }
         return super.mobInteract(player, hand);

@@ -87,9 +87,21 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                         "impossible",
                         CriteriaTriggers.IMPOSSIBLE
                             .createCriterion(new ImpossibleTrigger.TriggerInstance())));
+            AdvancementHolder pylon = builder(
+                LocalAdvancements.PYLON,
+                "Groove Crusader",
+                "Pacify a mob",
+                new ItemStackTemplate(LocalItems.PYLON.get()),
+                b -> b
+                    .parent(enter)
+                    .addCriterion(
+                        "impossible",
+                        CriteriaTriggers.IMPOSSIBLE
+                            .createCriterion(new ImpossibleTrigger.TriggerInstance())));
             output.accept(enter);
             output.accept(leave);
             output.accept(toast);
+            output.accept(pylon);
         }
     }
 

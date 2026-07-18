@@ -92,10 +92,7 @@ public class ToasterBlock extends Block {
         if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
             Component message;
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
-                serverPlayer.getAdvancements().award(
-                    serverLevel.getServer().getAdvancements()
-                        .get(LocalAdvancements.TOAST),
-                    "impossible");
+                LocalAdvancements.Award(serverPlayer, LocalAdvancements.TOAST, "impossible");
                 message = Component.translatable(
                     "sargasso.lore.toast",
                     DurationContents

@@ -10,7 +10,8 @@
         {
             "type": "patchouli:entity",
             "entity": "minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}",
-            "name": "Example"
+            "name": "Example",
+            "text": "You can slip it on a mob's head by using the item on them"
         }
     ]
 }
