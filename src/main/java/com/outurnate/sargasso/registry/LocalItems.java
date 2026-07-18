@@ -11,7 +11,6 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.dispenser.EquipmentDispenseItemBehavior;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,11 +24,9 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
-import net.minecraft.world.level.block.DispenserBlock;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.living.EnderManAngerEvent;
@@ -194,15 +191,6 @@ public class LocalItems {
             Consumable.builder()
                 .onConsume(new AddGeneratorConsumeEffect())
                 .build()));
-
-    @SubscribeEvent
-    public static void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            DispenserBlock.registerBehavior(
-                LocalItems.PYLON.get(),
-                EquipmentDispenseItemBehavior.INSTANCE);
-        });
-    }
 
     private static int getBatteryCapacity() {
         try {
