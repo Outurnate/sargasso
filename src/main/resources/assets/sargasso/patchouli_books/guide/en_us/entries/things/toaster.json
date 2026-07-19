@@ -4,7 +4,8 @@
     "category": "sargasso:things",
     "pages": [
         {
-            "type": "patchouli:text",
+            "type": "patchouli:spotlight",
+            "item": "sargasso:toaster",
             "text": "This device possesses a function that can't possibly be useful to anyone. Using the principals of chronometric science, it toasts bread after it's been eaten. It somehow does this despite having no discernable power source"
         }
     ],
