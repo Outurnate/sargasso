@@ -2,12 +2,9 @@
 - something that uses power from your inventory
 - more worldgen changes
 - another art pass
-- zombies and other monsters should pick up and put on pylons
 - fix dupe bug
 - sun is in the wrong place
 - normalize translation keys and centralize them
-- debris dropped item model too big
-- make it easier to pylon mobs
 
 DONE
 - Add localization to flim flam lore generator (maybe also split it into two classes)
@@ -18,3 +15,6 @@ DONE
 - time markers might be in the wrong spot?
 - give hats more use
 - potato battery (edible)
+- debris dropped item model too big
+- make it easier to pylon mobs
+- zombies and other monsters should pick up and put on pylons
