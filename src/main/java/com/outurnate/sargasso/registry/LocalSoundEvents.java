@@ -22,6 +22,9 @@ public class LocalSoundEvents {
     public static final Holder<SoundEvent> TOASTER = REGISTRY.register(
         "toaster",
         SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> PYLON = REGISTRY.register(
+        "pylon",
+        SoundEvent::createVariableRangeEvent);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

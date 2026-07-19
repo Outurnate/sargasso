@@ -143,7 +143,7 @@ public class LocalModelProvider extends ModelProvider {
                         Collections.emptyList())),
                 Optional.of(
                     new Transformation(
-                        new Vector3f(1.0F, 0.8F, 1.0F),
+                        new Vector3f(0.25F, 0.8F, 0.25F),
                         null,
                         new Vector3f(0.5F, 0.5F, 0.5F),
                         null))));

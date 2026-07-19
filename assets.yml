@@ -23,3 +23,9 @@ rules:
     license: CC0-1.0
     attribution: 'Digital Glitch_v1.wav by tadaizm'
     url: https://freesound.org/s/458065/
+  - glob: assets/sargasso/sounds/pylon.ogg
+    source: Freesound
+    author: hanasmusic
+    license: CC0-1.0
+    attribution: 'Jewellerybox_Open_1_Hit'
+    url: https://freesound.org/people/hanasmusic/sounds/841416/

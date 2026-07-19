@@ -42,6 +42,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("sound.sargasso.cream_apply", "Bedrock cream applied");
         this.add("sound.sargasso.glitch_teleport", "Glitched");
         this.add("sound.sargasso.toaster", "Time travel happened");
+        this.add("sound.sargasso.pylon", "Pylon equipped");
 
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
