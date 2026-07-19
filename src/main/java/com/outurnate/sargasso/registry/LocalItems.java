@@ -38,7 +38,6 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalItems {
@@ -226,16 +225,13 @@ public class LocalItems {
                     0,
                     generatedAmount,
                     generatedAmount);
-                try (Transaction tx = Transaction.openRoot()) {
-                    for (ItemStack itemStack : serverPlayer.getInventory()) {
-                        if (!itemStack.isEmpty()) {
-                            ItemAccess slot = ItemAccess.forStack(itemStack);
-                            EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
-                            EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, tx);
-                            if (generatedPower.getAmountAsInt() == 0) {
-                                tx.commit();
-                                break;
-                            }
+                for (ItemStack itemStack : serverPlayer.getInventory()) {
+                    if (!itemStack.isEmpty()) {
+                        ItemAccess slot = ItemAccess.forStack(itemStack);
+                        EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
+                        EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, null);
+                        if (generatedPower.getAmountAsInt() == 0) {
+                            break;
                         }
                     }
                 }
