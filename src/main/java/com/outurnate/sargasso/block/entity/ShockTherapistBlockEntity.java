@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class ShockTherapistBlockEntity extends BlockEntity {
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
@@ -20,13 +21,15 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         Entity electricMine = new ElectricMine(level);
         electricMine.setPos(pos.getCenter());
         RandomSource random = level.getRandom();
-        double pitchRad = Mth.TWO_PI * random.nextDouble();
-        double yawRad = 1.5D * Math.PI;
 
-        double x = -Math.sin(pitchRad) * Math.cos(yawRad);
-        double y = -Math.sin(yawRad);
-        double z = Math.cos(pitchRad) * Math.cos(yawRad);
-        electricMine.setDeltaMovement(x, y, z);
+        float yRot = random.nextFloat() * 360.0F;
+        float xRot = 45.0F;
+        float speed = 1.0F;
+        float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+        float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+        float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+        Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+        electricMine.setDeltaMovement(movement);
         level.addFreshEntity(electricMine);
     }
 }
