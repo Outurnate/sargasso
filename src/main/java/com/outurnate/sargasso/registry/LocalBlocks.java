@@ -103,6 +103,17 @@ public class LocalBlocks {
             .forceSolidOn()
             .noOcclusion());
 
+    public static final DeferredBlock<Block> SHOCK_THERAPIST = REGISTRY.registerBlock(
+        "shock_therapist",
+        p -> new TransparentBlock(p),
+        p -> p
+            .mapColor(MapColor.COLOR_YELLOW)
+            .instrument(NoteBlockInstrument.HARP)
+            .strength(1.0F)
+            .sound(SoundType.IRON)
+            .forceSolidOn()
+            .noOcclusion());
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

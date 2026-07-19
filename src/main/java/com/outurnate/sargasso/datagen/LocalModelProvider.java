@@ -124,6 +124,11 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.PYLON.get(),
                 plainVariant(pylon)));
+        Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
+        blockModels.blockStateOutput.accept(
+            createSimpleBlock(
+                LocalBlocks.SHOCK_THERAPIST.get(),
+                plainVariant(shock_therapist)));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),

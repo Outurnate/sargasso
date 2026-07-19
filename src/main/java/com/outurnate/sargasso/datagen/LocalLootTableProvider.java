@@ -101,6 +101,9 @@ public class LocalLootTableProvider extends LootTableProvider {
             this.add(LocalBlocks.TOASTER.get(), this.createSingleItemTable(LocalItems.TOASTER.get()));
             this.add(LocalBlocks.PYLON.get(), this.createSingleItemTable(LocalItems.PYLON.get()));
             this.add(
+                LocalBlocks.SHOCK_THERAPIST.get(),
+                this.createSingleItemTable(LocalItems.SHOCK_THERAPIST.get()));
+            this.add(
                 LocalBlocks.CREAMY_BEDROCK.get(),
                 this.createSingleItemTable(
                     LocalItems.BEDROCK_SLOP.get(),

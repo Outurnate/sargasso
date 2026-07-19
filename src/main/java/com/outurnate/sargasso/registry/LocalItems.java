@@ -48,6 +48,10 @@ public class LocalItems {
         "toaster",
         LocalBlocks.TOASTER);
 
+    public static final DeferredItem<BlockItem> SHOCK_THERAPIST = REGISTRY.registerSimpleBlockItem(
+        "shock_therapist",
+        LocalBlocks.SHOCK_THERAPIST);
+
     public static final DeferredItem<BlockItem> PYLON = REGISTRY.registerSimpleBlockItem(
         "pylon",
         LocalBlocks.PYLON,
