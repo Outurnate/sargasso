@@ -12,6 +12,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class ShockTherapistBlockEntity extends BlockEntity {
+    private static final double COS_FIXED_PITCH = Math.cos(1.5D * Math.PI);
+    private static final double SIN_FIXED_PITCH = Math.sin(1.5D * Math.PI);
+
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
     }
@@ -21,11 +24,10 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         electricMine.setPos(pos.getCenter());
         RandomSource random = level.getRandom();
         double yawRad = Mth.TWO_PI * random.nextDouble();
-        double pitchRad = 45 * (Math.PI / 180D);
 
-        double x = -Math.sin(yawRad) * Math.cos(pitchRad);
-        double y = -Math.sin(pitchRad);
-        double z = Math.cos(yawRad) * Math.cos(pitchRad);
+        double x = -Math.sin(yawRad) * COS_FIXED_PITCH;
+        double y = -SIN_FIXED_PITCH;
+        double z = Math.cos(yawRad) * COS_FIXED_PITCH;
         electricMine.setDeltaMovement(x, y, z);
         level.addFreshEntity(electricMine);
     }
