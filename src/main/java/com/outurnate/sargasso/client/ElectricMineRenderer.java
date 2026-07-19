@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.entity.ElectricMineRenderState;
 
@@ -11,7 +12,10 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.data.AtlasIds;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricMineRenderState> {
     private final ElectricMineModel model;
 
@@ -32,6 +36,7 @@ public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricM
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         super.submit(state, poseStack, submitNodeCollector, camera);
+        SuperSargassoSea.LOGGER.error("AAAAAAA");
         submitNodeCollector
             .order(1)
             .submitModel(
