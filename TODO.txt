@@ -2,12 +2,12 @@
 - something that uses power from your inventory
 - more worldgen changes
 - another art pass
-- fix dupe bug
 - sun is in the wrong place
 - normalize translation keys and centralize them
 - shock therapist
 
 DONE
+- fix dupe bug
 - Add localization to flim flam lore generator (maybe also split it into two classes)
 - Juice that makes your head explode
 - Create a method for entering the dimension (2/2)

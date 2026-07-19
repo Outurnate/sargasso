@@ -2,7 +2,6 @@
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.Config;
-import com.outurnate.sargasso.Rational;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
 import com.outurnate.sargasso.item.BedrockCreamItem;
@@ -11,15 +10,12 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -31,14 +27,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.living.EnderManAngerEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
-import net.neoforged.neoforge.transfer.energy.EnergyHandler;
-import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
-import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalItems {
@@ -206,41 +197,6 @@ public class LocalItems {
     @SubscribeEvent
     public static void onEnderManAngerEvent(EnderManAngerEvent event) {
         event.setCanceled(event.getPlayer().getItemBySlot(EquipmentSlot.HEAD).is(PYLON));
-    }
-
-    @SubscribeEvent
-    public static void onPostPlayerTickEvent(PlayerTickEvent.Post event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            if (serverPlayer.hasData(LocalAttachmentTypes.GENERATOR_COUNT)) {
-                Rational generatorRatio = serverPlayer.getData(LocalAttachmentTypes.GENERATOR_COUNT);
-                if (generatorRatio.numerator() == 0
-                    && (serverPlayer.level().getGameTime() % generatorRatio.denominator()) != 0) {
-                    return;
-                }
-                int generatedAmount = generatorRatio.numerator();
-
-                // transfer power into inventory items
-                // SlotAccess?
-                EnergyHandler generatedPower = new SimpleEnergyHandler(
-                    generatedAmount,
-                    0,
-                    generatedAmount,
-                    generatedAmount);
-                Inventory inventory = serverPlayer.getInventory();
-                for (ItemStack itemStack : inventory) {
-                    if (!itemStack.isEmpty()) {
-                        ItemAccess slot = ItemAccess.forStack(itemStack);
-                        EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
-                        EnergyHandlerUtil.move(generatedPower, chargableItem, generatedAmount, null);
-                        if (generatedPower.getAmountAsInt() == 0) {
-                            break;
-                        }
-                        inventory.setChanged();
-                        serverPlayer.containerMenu.broadcastChanges();
-                    }
-                }
-            }
-        }
     }
 
     public static void register(IEventBus modEventBus) {
