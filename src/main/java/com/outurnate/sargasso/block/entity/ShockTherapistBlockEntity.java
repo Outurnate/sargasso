@@ -23,7 +23,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         RandomSource random = level.getRandom();
 
         float yRot = random.nextFloat() * 360.0F;
-        float xRot = 45.0F;
+        float xRot = 135.0F;
         float speed = 1.0F;
         float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
         float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
