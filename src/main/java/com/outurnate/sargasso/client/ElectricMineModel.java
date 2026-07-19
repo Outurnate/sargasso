@@ -18,7 +18,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ElectricMineModel extends EntityModel<ElectricMineRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-        SuperSargassoSea.ID("electricminemodel"),
+        SuperSargassoSea.ID("electric_mine"),
         "main");
 
     public static LayerDefinition createBodyLayer() {
@@ -26,7 +26,7 @@ public class ElectricMineModel extends EntityModel<ElectricMineRenderState> {
         PartDefinition partdefinition = meshdefinition.getRoot();
 
         partdefinition.addOrReplaceChild(
-            "bb_main",
+            "main",
             CubeListBuilder.create().texOffs(0, 0)
                 .addBox(-1.0F, -2.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)),
             PartPose.offset(0.0F, 24.0F, 0.0F));

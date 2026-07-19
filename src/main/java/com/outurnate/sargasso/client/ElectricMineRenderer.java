@@ -8,15 +8,16 @@ import com.outurnate.sargasso.entity.ElectricMineRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.data.AtlasIds;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricMineRenderState> {
+    private static final Identifier ELECTRIC_MINE_LOCATION = SuperSargassoSea
+        .ID("textures/entity/electric_mine.png");
     private final ElectricMineModel model;
 
     public ElectricMineRenderer(Context context) {
@@ -36,17 +37,14 @@ public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricM
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         super.submit(state, poseStack, submitNodeCollector, camera);
-        SuperSargassoSea.LOGGER.error("AAAAAAA");
-        submitNodeCollector
-            .order(1)
-            .submitModel(
-                this.model,
-                state,
-                poseStack,
-                RenderTypes.entitySolid(AtlasIds.BLOCKS),
-                state.lightCoords,
-                OverlayTexture.NO_OVERLAY,
-                0,
-                null);
+        submitNodeCollector.submitModel(
+            this.model,
+            state,
+            poseStack,
+            ELECTRIC_MINE_LOCATION,
+            state.lightCoords,
+            OverlayTexture.NO_OVERLAY,
+            state.outlineColor,
+            null);
     }
 }
