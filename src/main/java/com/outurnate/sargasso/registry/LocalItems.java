@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -225,7 +226,8 @@ public class LocalItems {
                     0,
                     generatedAmount,
                     generatedAmount);
-                for (ItemStack itemStack : serverPlayer.getInventory()) {
+                Inventory inventory = serverPlayer.getInventory();
+                for (ItemStack itemStack : inventory) {
                     if (!itemStack.isEmpty()) {
                         ItemAccess slot = ItemAccess.forStack(itemStack);
                         EnergyHandler chargableItem = slot.getCapability(Capabilities.Energy.ITEM);
@@ -233,6 +235,8 @@ public class LocalItems {
                         if (generatedPower.getAmountAsInt() == 0) {
                             break;
                         }
+                        inventory.setChanged();
+                        serverPlayer.containerMenu.broadcastChanges();
                     }
                 }
             }
