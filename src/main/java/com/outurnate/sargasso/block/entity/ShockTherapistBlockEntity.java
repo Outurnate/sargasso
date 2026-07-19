@@ -20,8 +20,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         Entity electricMine = new ElectricMine(level);
         electricMine.setPos(pos.getCenter());
         RandomSource random = level.getRandom();
-        double pitchRad = 1.5D * Math.PI;
-        double yawRad = Mth.TWO_PI * random.nextDouble();
+        double pitchRad = Mth.TWO_PI * random.nextDouble();
+        double yawRad = 1.5D * Math.PI;
 
         double x = -Math.sin(pitchRad) * Math.cos(yawRad);
         double y = -Math.sin(yawRad);
