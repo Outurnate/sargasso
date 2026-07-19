@@ -19,7 +19,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         Entity electricMine = new ElectricMine(level);
-        electricMine.setPos(pos.getCenter());
+        electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
         RandomSource random = level.getRandom();
 
         float yRot = random.nextFloat() * 360.0F;
