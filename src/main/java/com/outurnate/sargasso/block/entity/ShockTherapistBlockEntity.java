@@ -1,8 +1,10 @@
 package com.outurnate.sargasso.block.entity;
 
+import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,6 +14,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
     }
 
-    public void tick(Level levelInner, BlockPos pos, BlockState stateInner) {
+    public void tick(Level level, BlockPos pos, BlockState state) {
+        Entity electricMine = new ElectricMine(level);
+        electricMine.setPos(pos.getCenter());
+        level.addFreshEntity(electricMine);
     }
 }

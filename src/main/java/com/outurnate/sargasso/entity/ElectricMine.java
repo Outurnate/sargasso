@@ -1,5 +1,7 @@
 package com.outurnate.sargasso.entity;
 
+import com.outurnate.sargasso.registry.LocalEntities;
+
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,6 +15,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 public class ElectricMine extends Entity {
     public ElectricMine(EntityType<?> type, Level level) {
         super(type, level);
+    }
+
+    public ElectricMine(Level level) {
+        super(LocalEntities.ELECTRIC_MINE.get(), level);
     }
 
     @Override
