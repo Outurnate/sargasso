@@ -31,7 +31,6 @@ public class EnergyItem extends Item {
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        Integer energy = stack.get(LocalDataComponentTypes.ENERGY);
-        return energy != null && energy > 0;
+        return true;
     }
 }
