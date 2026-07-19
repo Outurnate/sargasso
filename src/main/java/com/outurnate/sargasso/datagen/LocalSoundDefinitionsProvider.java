@@ -42,5 +42,12 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                     sound("sargasso:toaster"))
                 .subtitle("sound.sargasso.toaster")
                 .replace(true));
+        add(
+            LocalSoundEvents.PYLON,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:pylon"))
+                .subtitle("sound.sargasso.pylon")
+                .replace(true));
     }
 }
