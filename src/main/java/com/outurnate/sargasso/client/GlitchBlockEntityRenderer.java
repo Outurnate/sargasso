@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class GlitchBlockEntityRenderer
-    implements BlockEntityRenderer<GlitchBlockEntity, GlitchRenderState> {
+    implements BlockEntityRenderer<GlitchBlockEntity, GlitchBlockRenderState> {
     private static final Vector3fc FROM = new Vector3f(0.0F, 0.0F, 0.0F);
     private static final Vector3fc TO = new Vector3f(1.0F, 1.0F, 1.0F);
     private static final Map<Direction, List<Vector3fc>> FACES = Util.makeEnumMap(
@@ -71,13 +71,15 @@ public class GlitchBlockEntityRenderer
     public GlitchBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }
 
-    public GlitchRenderState createRenderState() {
-        return new GlitchRenderState();
+    @Override
+    public GlitchBlockRenderState createRenderState() {
+        return new GlitchBlockRenderState();
     }
 
+    @Override
     public void extractRenderState(
         GlitchBlockEntity blockEntity,
-        GlitchRenderState state,
+        GlitchBlockRenderState state,
         float partialTicks,
         Vec3 cameraPosition,
         ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
@@ -101,8 +103,9 @@ public class GlitchBlockEntityRenderer
         }
     }
 
+    @Override
     public void submit(
-        GlitchRenderState state,
+        GlitchBlockRenderState state,
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {

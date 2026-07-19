@@ -5,6 +5,7 @@ import com.outurnate.sargasso.client.ElectricMineModel;
 import com.outurnate.sargasso.client.ElectricMineRenderer;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
+import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 
@@ -54,6 +55,9 @@ public class SuperSargassoSeaClient {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(LocalBlockEntities.GLITCH.get(), GlitchBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(
+            LocalBlockEntities.SHOCK_THERAPIST.get(),
+            ShockTherapistEntityRenderer::new);
         event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
     }

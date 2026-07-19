@@ -56,7 +56,7 @@ public class ElectricMine extends Entity {
         this.applyGravity();
         Vec3 deltaMovement = this.getDeltaMovement();
         if (this.onGround()) {
-            // deltaMovement = deltaMovement.multiply(0.4, -0.4, 0.4);
+            deltaMovement = deltaMovement.multiply(0.4, 1.0, 0.4);
         }
         this.move(MoverType.SELF, deltaMovement);
         this.applyEffectsFromBlocks();

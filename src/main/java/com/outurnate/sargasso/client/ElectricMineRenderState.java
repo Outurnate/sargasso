@@ -1,4 +1,4 @@
-package com.outurnate.sargasso.entity;
+package com.outurnate.sargasso.client;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 

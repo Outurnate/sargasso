@@ -1,7 +1,6 @@
 package com.outurnate.sargasso.client;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.entity.ElectricMineRenderState;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

@@ -3,7 +3,6 @@ package com.outurnate.sargasso.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
-import com.outurnate.sargasso.entity.ElectricMineRenderState;
 
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;

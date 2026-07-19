@@ -18,18 +18,23 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        Entity electricMine = new ElectricMine(level);
-        electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
-        RandomSource random = level.getRandom();
+        if ((level.getGameTime() % (20 * 10)) == 0) {
+            RandomSource random = level.getRandom();
+            int num = random.nextInt(5, 10);
+            for (int i = 0; i < num; ++i) {
+                Entity electricMine = new ElectricMine(level);
+                electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
 
-        float yRot = random.nextFloat() * 360.0F;
-        float xRot = 225.0F;
-        float speed = 1.0F;
-        float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-        float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-        float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-        Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
-        electricMine.setDeltaMovement(movement);
-        level.addFreshEntity(electricMine);
+                float yRot = random.nextFloat() * 360.0F;
+                float xRot = 225.0F;
+                float speed = 1.0F;
+                float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+                float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+                electricMine.setDeltaMovement(movement);
+                level.addFreshEntity(electricMine);
+            }
+        }
     }
 }

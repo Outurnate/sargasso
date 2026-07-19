@@ -10,6 +10,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class GlitchRenderState extends BlockEntityRenderState {
+public class GlitchBlockRenderState extends BlockEntityRenderState {
     public final Set<Direction> facesToShow = EnumSet.noneOf(Direction.class);
 }
