@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
+import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ToasterBlock;
 
 import net.minecraft.util.ColorRGBA;
@@ -105,7 +106,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> SHOCK_THERAPIST = REGISTRY.registerBlock(
         "shock_therapist",
-        p -> new TransparentBlock(p),
+        p -> new ShockTherapistBlock(p),
         p -> p
             .mapColor(MapColor.COLOR_YELLOW)
             .instrument(NoteBlockInstrument.HARP)
