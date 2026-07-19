@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
-import com.outurnate.sargasso.client.ElectricMineModel;
 import com.outurnate.sargasso.client.ElectricMineRenderer;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
@@ -44,11 +43,6 @@ public class SuperSargassoSeaClient {
                 armorStandRenderer.addLayer(new HeadGearRenderLayer<>(armorStandRenderer));
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(ElectricMineModel.LAYER_LOCATION, ElectricMineModel::createBodyLayer);
     }
 
     @SubscribeEvent
