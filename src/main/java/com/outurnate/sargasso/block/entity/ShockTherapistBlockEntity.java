@@ -4,7 +4,6 @@ import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -20,9 +19,13 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         Entity electricMine = new ElectricMine(level);
         electricMine.setPos(pos.getCenter());
         RandomSource random = level.getRandom();
-        float theta = random.nextFloat() * Mth.TWO_PI;
-        float speed = random.nextFloat() + 0.5F;
-        electricMine.setDeltaMovement(speed + Mth.cos(theta), 0.5F, speed + Mth.sin(theta));
+        double yawRad = Math.toRadians(random.nextDouble() * 360.0F);
+        double pitchRad = Math.toRadians(random.nextDouble() * 360.0F);
+
+        double x = -Math.sin(yawRad) * Math.cos(pitchRad);
+        double y = -Math.sin(pitchRad);
+        double z = Math.cos(yawRad) * Math.cos(pitchRad);
+        electricMine.setDeltaMovement(x, y, z);
         level.addFreshEntity(electricMine);
     }
 }
