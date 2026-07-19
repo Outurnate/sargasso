@@ -24,6 +24,11 @@ public class ElectricMine extends Entity {
     }
 
     @Override
+    protected double getDefaultGravity() {
+        return 0.04;
+    }
+
+    @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
         return false;
     }
