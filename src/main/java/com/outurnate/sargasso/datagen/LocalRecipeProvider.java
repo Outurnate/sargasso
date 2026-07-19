@@ -80,6 +80,17 @@ public class LocalRecipeProvider extends RecipeProvider {
                 Items.LEATHER_BOOTS,
                 RecipeCategory.COMBAT,
                 LocalItems.STUDDED_LEATHER_BOOTS.get());
+        this
+            .shaped(RecipeCategory.TOOLS, LocalItems.PERSONAL_VOLTMETER)
+            .define('G', Items.GLASS_PANE)
+            .define('C', Items.COPPER_NUGGET)
+            .define('R', Items.REDSTONE)
+            .define('I', Items.IRON_NUGGET)
+            .pattern("IGI")
+            .pattern("III")
+            .pattern("CRC")
+            .unlockedBy("has_potato_battery", this.has(LocalItems.POTATO_BATTERY.get()))
+            .save(this.output);
     }
 
     private void studdedLeatherSmithing(Item base, RecipeCategory category, Item result) {

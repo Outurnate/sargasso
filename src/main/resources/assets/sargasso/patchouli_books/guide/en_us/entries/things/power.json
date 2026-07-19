@@ -1,0 +1,21 @@
+{
+    "name": "Potato Battery",
+    "icon": "sargasso:potato_battery",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "sargasso:potato_battery",
+            "text": "Not particularly appetizing, and tastes strongly of copper. Eating it allows the body to produce a small amount of electrical energy. Items in the player's inventory will be recharged."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "sargasso:personal_voltmeter",
+            "title": "Personal Voltmeter",
+            "text": "This tool can measure the current energy generation rate of a player."
+        }
+    ],
+    "extra_recipe_mappings": {
+        "sargasso:potato_battery": 0
+    }
+}

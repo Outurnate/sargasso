@@ -113,11 +113,35 @@ public class LocalItems {
         p -> p
             .useCooldown(2.0F));
 
+    public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
+        "potato_battery",
+        p -> p.food(
+            new FoodProperties.Builder()
+                .alwaysEdible()
+                .nutrition(1)
+                .saturationModifier(0.2F)
+                .build(),
+            Consumable.builder()
+                .onConsume(new AddGeneratorConsumeEffect())
+                .build()));
+
     public static final DeferredItem<Item> PERSONAL_VOLTMETER = REGISTRY.registerItem(
         "personal_voltmeter",
         PersonalVoltmeterItem::new,
         p -> p
             .useCooldown(1.0F));
+
+    public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
+        "aa_battery",
+        EnergyItem::new,
+        p -> p
+            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+
+    public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
+        "rechargable_aa_battery",
+        EnergyItem::new,
+        p -> p
+            .component(LocalDataComponentTypes.ENERGY.get(), 0));
 
     public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
         "studded_leather_helmet",
@@ -135,18 +159,6 @@ public class LocalItems {
     public static final DeferredItem<Item> STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE = REGISTRY
         .registerSimpleItem(
             "studded_leather_upgrade_smithing_template");
-
-    public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
-        "aa_battery",
-        EnergyItem::new,
-        p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
-
-    public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
-        "rechargable_aa_battery",
-        EnergyItem::new,
-        p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), 0));
 
     public static final DeferredItem<Item> BLACK_FOX_EARS = REGISTRY.registerItem(
         "black_fox_ears",
@@ -180,18 +192,6 @@ public class LocalItems {
                     DataComponents.EQUIPPABLE,
                     Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
-
-    public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
-        "potato_battery",
-        p -> p.food(
-            new FoodProperties.Builder()
-                .alwaysEdible()
-                .nutrition(1)
-                .saturationModifier(0.2F)
-                .build(),
-            Consumable.builder()
-                .onConsume(new AddGeneratorConsumeEffect())
-                .build()));
 
     private static int getBatteryCapacity() {
         try {
