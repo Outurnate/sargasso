@@ -13,5 +13,8 @@
             "name": "Example",
             "text": "You can slip it on a mob's head by using the item on them"
         }
-    ]
+    ],
+    "extra_recipe_mappings": {
+        "sargasso:pylon": 0
+    }
 }

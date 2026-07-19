@@ -11,5 +11,9 @@
             "type": "patchouli:empty",
             "draw_filler": true
         }
-    ]
+    ],
+    "extra_recipe_mappings": {
+        "sargasso:flotsam": 0,
+        "sargasso:debris": 0
+    }
 }

@@ -15,5 +15,10 @@
             "title": "Breadrock",
             "text": "The slop can be eaten raw, but it's better baked into bread"
         }
-    ]
+    ],
+    "extra_recipe_mappings": {
+        "sargasso:creamy_bedrock": 0,
+        "sargasso:bedrock_cream": 0,
+        "sargasso:bedrock_slop": 0
+    }
 }
