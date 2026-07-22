@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
@@ -83,20 +82,12 @@ public class ShockTherapistEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         int lightCoords) {
-        float horizontalLength = Mth.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-        float length = Mth.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
         poseStack.pushPose();
-        // poseStack.mulPose(Axis.YP.rotation((float)(-Math.atan2(deltaZ, deltaX)) -
-        // (float) (Math.PI / 2)));
-        // poseStack.mulPose(Axis.XP.rotation((float)(-Math.atan2(horizontalLength,
-        // deltaY)) - (float) (Math.PI / 2)));
-        float v0 = 0.0F;
-        float v1 = length / 32.0F;
         submitNodeCollector.submitCustomGeometry(
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                drawBeam(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1);
+                drawBeam(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, 0.0F, 1.0F);
             });
         poseStack.popPose();
     }
