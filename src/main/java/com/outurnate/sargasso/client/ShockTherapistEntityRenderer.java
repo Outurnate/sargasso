@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
@@ -22,6 +23,59 @@ public class ShockTherapistEntityRenderer
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
     private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
 
+    private static void drawBeam(
+        VertexConsumer buffer,
+        PoseStack.Pose pose,
+        int lightCoords,
+        float deltaX,
+        float deltaY,
+        float deltaZ,
+        float v0,
+        float v1) {
+        drawBeamQuad(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1, 0.1F, 0.0F);
+        drawBeamQuad(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1, 0.0F, 0.1F);
+    }
+
+    private static void drawBeamQuad(
+        VertexConsumer buffer,
+        PoseStack.Pose pose,
+        int lightCoords,
+        float deltaX,
+        float deltaY,
+        float deltaZ,
+        float v0,
+        float v1,
+        float xw,
+        float yw) {
+        buffer.addVertex(pose, -xw, -yw, 0.0F)
+            .setColor(-1)
+            .setUv(0.0F, v0)
+            .setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(lightCoords)
+            .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+        buffer.addVertex(pose, deltaX - xw, deltaY + yw, deltaZ)
+            .setColor(-1)
+            .setUv(0.0F, v1)
+            .setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(lightCoords)
+            .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+        buffer.addVertex(pose, deltaX + xw, deltaY + yw, deltaZ)
+            .setColor(-1)
+            .setUv(0.125F, v1)
+            .setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(lightCoords)
+            .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+        buffer.addVertex(pose, xw, -yw, 0.0F)
+            .setColor(-1)
+            .setUv(0.125F, v0)
+            .setOverlay(OverlayTexture.NO_OVERLAY)
+            .setLight(lightCoords)
+            .setNormal(pose, 0.0F, -1.0F, 0.0F);
+    }
+
     private static void submitCrystalBeams(
         float deltaX,
         float deltaY,
@@ -42,30 +96,7 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                buffer.addVertex(pose, -0.1F, -0.1F, 0.0F)
-                    .setColor(-16777216)
-                    .setUv(0.0F, v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(lightCoords)
-                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, deltaX - 0.1F, deltaY + 0.1F, deltaZ)
-                    .setColor(-1)
-                    .setUv(0.0F, v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(lightCoords)
-                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, deltaX + 0.1F, deltaY + 0.1F, deltaZ)
-                    .setColor(-1)
-                    .setUv(0.125F, v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(lightCoords)
-                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, 0.1F, -0.1F, 0.0F)
-                    .setColor(-16777216)
-                    .setUv(0.125F, v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(lightCoords)
-                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                drawBeam(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1);
             });
         poseStack.popPose();
     }
