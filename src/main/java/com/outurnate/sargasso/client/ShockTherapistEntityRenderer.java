@@ -47,11 +47,12 @@ public class ShockTherapistEntityRenderer
         CameraRenderState camera) {
         for (ElectricMine mine : state.mines) {
             poseStack.pushPose();
-            Vec3 delta = state.blockPos.getCenter().subtract(mine.getPosition(0));
+            Vec3 delta = state.blockPos.getCenter().subtract(mine.getPosition(0)); // TODO
+            poseStack.translate(delta);
             EnderDragonRenderer.submitCrystalBeams(
-                (float) delta.x,
-                (float) delta.y,
-                (float) delta.z,
+                (float) -delta.x,
+                (float) -delta.y,
+                (float) -delta.z,
                 0.0F, // TODO
                 poseStack,
                 submitNodeCollector,
