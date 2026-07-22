@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -18,9 +19,8 @@ import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    public static final Identifier CRYSTAL_BEAM_LOCATION = Identifier
-        .withDefaultNamespace("textures/entity/end_crystal/end_crystal_beam.png");
-    private static final RenderType BEAM = RenderTypes.endCrystalBeam(CRYSTAL_BEAM_LOCATION);
+    public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
+    private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
 
     private static void submitCrystalBeams(
         float deltaX,
@@ -40,7 +40,7 @@ public class ShockTherapistEntityRenderer
         float v1 = length / 32.0F;
         submitNodeCollector.submitCustomGeometry(
             poseStack,
-            BEAM,
+            ZAP,
             (pose, buffer) -> {
                 buffer.addVertex(pose, -0.1F, -0.1F, 0.0F)
                     .setColor(-16777216)
@@ -103,6 +103,7 @@ public class ShockTherapistEntityRenderer
         for (ElectricMine mine : state.mines) {
             poseStack.pushPose();
             Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             submitCrystalBeams(
                 (float) delta.x,
                 (float) delta.y,
