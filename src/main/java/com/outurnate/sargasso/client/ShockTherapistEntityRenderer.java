@@ -46,38 +46,33 @@ public class ShockTherapistEntityRenderer
                 float lastCos = 0.75F;
                 float lastU = 0.0F;
 
-                for (int i = 1; i <= 8; i++) {
-                    float sin = Mth.sin(i * (float) (Math.PI * 2) / 8.0F) * 0.75F;
-                    float cos = Mth.cos(i * (float) (Math.PI * 2) / 8.0F) * 0.75F;
-                    float u = i / 8.0F;
-                    buffer.addVertex(pose, lastSin * 0.2F, lastCos * 0.2F, 0.0F)
-                        .setColor(-16777216)
-                        .setUv(lastU, v0)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                    buffer.addVertex(pose, lastSin, lastCos, length)
-                        .setColor(-1)
-                        .setUv(lastU, v1)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                    buffer.addVertex(pose, sin, cos, length)
-                        .setColor(-1)
-                        .setUv(u, v1)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                    buffer.addVertex(pose, sin * 0.2F, cos * 0.2F, 0.0F)
-                        .setColor(-16777216)
-                        .setUv(u, v0)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                    lastSin = sin;
-                    lastCos = cos;
-                    lastU = u;
-                }
+                float sin = Mth.sin(1 * (float) (Math.PI * 2) / 8.0F) * 0.75F;
+                float cos = Mth.cos(1 * (float) (Math.PI * 2) / 8.0F) * 0.75F;
+                float u = 1 / 8.0F;
+                buffer.addVertex(pose, lastSin * 0.0F, lastCos * 0.2F, 0.0F)
+                    .setColor(-16777216)
+                    .setUv(lastU, v0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(lightCoords)
+                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                buffer.addVertex(pose, lastSin, lastCos, length)
+                    .setColor(-1)
+                    .setUv(lastU, v1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(lightCoords)
+                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                buffer.addVertex(pose, sin, cos, length)
+                    .setColor(-1)
+                    .setUv(u, v1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(lightCoords)
+                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                buffer.addVertex(pose, sin * 0.2F, cos * 0.2F, 0.0F)
+                    .setColor(-16777216)
+                    .setUv(u, v0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(lightCoords)
+                    .setNormal(pose, 0.0F, -1.0F, 0.0F);
             });
         poseStack.popPose();
     }
