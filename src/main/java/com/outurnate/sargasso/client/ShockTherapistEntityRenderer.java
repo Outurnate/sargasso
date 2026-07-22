@@ -42,34 +42,27 @@ public class ShockTherapistEntityRenderer
             poseStack,
             BEAM,
             (pose, buffer) -> {
-                float lastSin = 0.0F;
-                float lastCos = 0.75F;
-                float lastU = 0.0F;
-
-                float sin = Mth.sin(1 * (float) (Math.PI * 2) / 8.0F) * 0.75F;
-                float cos = Mth.cos(1 * (float) (Math.PI * 2) / 8.0F) * 0.75F;
-                float u = 1 / 8.0F;
-                buffer.addVertex(pose, lastSin * 0.0F, lastCos * 0.2F, 0.0F)
+                buffer.addVertex(pose, -0.1F, -0.1F, 0.0F)
                     .setColor(-16777216)
-                    .setUv(lastU, v0)
+                    .setUv(0.0F, v0)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, lastSin, lastCos, length)
+                buffer.addVertex(pose, -0.1F, 0.1F, length)
                     .setColor(-1)
-                    .setUv(lastU, v1)
+                    .setUv(0.0F, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, sin, cos, length)
+                buffer.addVertex(pose, 0.1F, 0.1F, length)
                     .setColor(-1)
-                    .setUv(u, v1)
+                    .setUv(0.125F, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, sin * 0.2F, cos * 0.2F, 0.0F)
+                buffer.addVertex(pose, 0.1F, -0.1F, 0.0F)
                     .setColor(-16777216)
-                    .setUv(u, v0)
+                    .setUv(0.125F, v0)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
