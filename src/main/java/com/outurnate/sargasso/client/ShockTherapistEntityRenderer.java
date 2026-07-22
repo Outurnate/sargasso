@@ -54,7 +54,7 @@ public class ShockTherapistEntityRenderer
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-        buffer.addVertex(pose, deltaX - xw, deltaY + yw, deltaZ)
+        buffer.addVertex(pose, deltaX - xw, deltaY - yw, deltaZ)
             .setColor(-1)
             .setUv(0.0F, v1)
             .setOverlay(OverlayTexture.NO_OVERLAY)
@@ -68,7 +68,7 @@ public class ShockTherapistEntityRenderer
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-        buffer.addVertex(pose, xw, -yw, 0.0F)
+        buffer.addVertex(pose, xw, yw, 0.0F)
             .setColor(-1)
             .setUv(0.125F, v0)
             .setOverlay(OverlayTexture.NO_OVERLAY)
