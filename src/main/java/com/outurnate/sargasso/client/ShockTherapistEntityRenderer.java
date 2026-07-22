@@ -48,13 +48,13 @@ public class ShockTherapistEntityRenderer
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, -0.1F, 0.1F, length)
+                buffer.addVertex(pose, deltaX - 0.1F, deltaY + 0.1F, deltaZ)
                     .setColor(-1)
                     .setUv(0.0F, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(lightCoords)
                     .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                buffer.addVertex(pose, 0.1F, 0.1F, length)
+                buffer.addVertex(pose, deltaX + 0.1F, deltaY + 0.1F, deltaZ)
                     .setColor(-1)
                     .setUv(0.125F, v1)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
@@ -102,12 +102,11 @@ public class ShockTherapistEntityRenderer
         CameraRenderState camera) {
         for (ElectricMine mine : state.mines) {
             poseStack.pushPose();
-            Vec3 delta = state.blockPos.getCenter().subtract(mine.getPosition(0)); // TODO
-            poseStack.translate(delta);
+            Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
             submitCrystalBeams(
-                (float) -delta.x,
-                (float) -delta.y,
-                (float) -delta.z,
+                (float) delta.x,
+                (float) delta.y,
+                (float) delta.z,
                 poseStack,
                 submitNodeCollector,
                 state.lightCoords);
