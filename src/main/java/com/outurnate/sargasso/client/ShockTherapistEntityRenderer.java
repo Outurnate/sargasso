@@ -23,64 +23,53 @@ import org.jspecify.annotations.Nullable;
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
     private static record LineSegment(Vector3f start, Vector3f end) {
+        private void drawBeamQuad(
+            VertexConsumer buffer,
+            PoseStack.Pose pose,
+            int lightCoords,
+            float xw,
+            float yw) {
+            buffer.addVertex(pose, -xw + start.x, -yw + start.y, start.z)
+                .setColor(-1)
+                .setUv(0.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+            buffer.addVertex(pose, end.x - xw, end.y - yw, end.z)
+                .setColor(-1)
+                .setUv(0.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+            buffer.addVertex(pose, end.x + xw, end.y + yw, end.z)
+                .setColor(-1)
+                .setUv(1.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+            buffer.addVertex(pose, xw + start.x, yw + start.y, start.z)
+                .setColor(-1)
+                .setUv(1.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+        }
+
+        public void draw(
+            VertexConsumer buffer,
+            PoseStack.Pose pose,
+            int lightCoords) {
+            drawBeamQuad(buffer, pose, lightCoords, 0.1F, 0.0F);
+            drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
+        }
     }
 
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
 
     private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
-
-    private static void drawBeam(
-        VertexConsumer buffer,
-        PoseStack.Pose pose,
-        int lightCoords,
-        Vector3f start,
-        Vector3f end) {
-        /*
-         * ArrayList<LineSegment> segments = new ArrayList<>(); lightning(original, 7,
-         * segments); for (LineSegment segment : segments) { drawBeamQuad(buffer, pose,
-         * lightCoords, segment.start, segment.end, 0.1F, 0.0F); drawBeamQuad(buffer,
-         * pose, lightCoords, segment.start, segment.end, 0.0F, 0.1F); }
-         */
-        drawBeamQuad(buffer, pose, lightCoords, start, end, 0.1F, 0.0F);
-        drawBeamQuad(buffer, pose, lightCoords, start, end, 0.0F, 0.1F);
-    }
-
-    private static void drawBeamQuad(
-        VertexConsumer buffer,
-        PoseStack.Pose pose,
-        int lightCoords,
-        Vector3f start,
-        Vector3f end,
-        float xw,
-        float yw) {
-        buffer.addVertex(pose, -xw + start.x, -yw + start.y, start.z)
-            .setColor(-1)
-            .setUv(0.0F, 0.0F)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(lightCoords)
-            .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-        buffer.addVertex(pose, end.x - xw, end.y - yw, end.z)
-            .setColor(-1)
-            .setUv(0.0F, 1.0F)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(lightCoords)
-            .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-        buffer.addVertex(pose, end.x + xw, end.y + yw, end.z)
-            .setColor(-1)
-            .setUv(1.0F, 1.0F)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(lightCoords)
-            .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-        buffer.addVertex(pose, xw + start.x, yw + start.y, start.z)
-            .setColor(-1)
-            .setUv(1.0F, 0.0F)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(lightCoords)
-            .setNormal(pose, 0.0F, -1.0F, 0.0F);
-    }
 
     private static void lightning(LineSegment lineSegment, int depth, ArrayList<LineSegment> accumulator) {
         Vector3f segmentLength = lineSegment.end.sub(lineSegment.start).mul(0.5F);
@@ -106,7 +95,11 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                drawBeam(buffer, pose, lightCoords, original.start, original.end);
+                ArrayList<LineSegment> segments = new ArrayList<>();
+                lightning(original, 7, segments);
+                for (LineSegment segment : segments) {
+                    segment.draw(buffer, pose, lightCoords);
+                }
             });
         poseStack.popPose();
     }
