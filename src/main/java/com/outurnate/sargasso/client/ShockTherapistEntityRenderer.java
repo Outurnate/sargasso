@@ -74,8 +74,12 @@ public class ShockTherapistEntityRenderer
     private static void lightning(LineSegment lineSegment, int depth, ArrayList<LineSegment> accumulator) {
         Vector3f segmentLength = lineSegment.end.sub(lineSegment.start).mul(0.5F);
         Vector3f midpoint = lineSegment.start.add(segmentLength).add(0.0F, 0.1F, 0.0F);
-        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
-        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
+        // LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
+        // LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
+        LineSegment segment1 = new LineSegment(lineSegment.start, lineSegment.end);
+        LineSegment segment2 = new LineSegment(
+            lineSegment.start.add(0.0F, 1.0F, 0.0F, midpoint),
+            lineSegment.end);
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
