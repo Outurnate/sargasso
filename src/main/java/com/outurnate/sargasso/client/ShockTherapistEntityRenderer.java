@@ -33,13 +33,16 @@ public class ShockTherapistEntityRenderer
         VertexConsumer buffer,
         PoseStack.Pose pose,
         int lightCoords,
-        LineSegment original) {
-        ArrayList<LineSegment> segments = new ArrayList<>();
-        lightning(original, 7, segments);
-        for (LineSegment segment : segments) {
-            drawBeamQuad(buffer, pose, lightCoords, segment.start, segment.end, 0.1F, 0.0F);
-            drawBeamQuad(buffer, pose, lightCoords, segment.start, segment.end, 0.0F, 0.1F);
-        }
+        Vector3f start,
+        Vector3f end) {
+        /*
+         * ArrayList<LineSegment> segments = new ArrayList<>(); lightning(original, 7,
+         * segments); for (LineSegment segment : segments) { drawBeamQuad(buffer, pose,
+         * lightCoords, segment.start, segment.end, 0.1F, 0.0F); drawBeamQuad(buffer,
+         * pose, lightCoords, segment.start, segment.end, 0.0F, 0.1F); }
+         */
+        drawBeamQuad(buffer, pose, lightCoords, start, end, 0.1F, 0.0F);
+        drawBeamQuad(buffer, pose, lightCoords, start, end, 0.0F, 0.1F);
     }
 
     private static void drawBeamQuad(
@@ -103,7 +106,7 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                drawBeam(buffer, pose, lightCoords, original);
+                drawBeam(buffer, pose, lightCoords, original.start, original.end);
             });
         poseStack.popPose();
     }
