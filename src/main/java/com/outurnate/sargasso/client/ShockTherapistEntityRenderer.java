@@ -5,7 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
-import java.util.List;
+
+import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -33,7 +34,7 @@ public class ShockTherapistEntityRenderer
         PoseStack.Pose pose,
         int lightCoords,
         LineSegment original) {
-        List<LineSegment> segments = List.of();
+        ArrayList<LineSegment> segments = new ArrayList<>();
         lightning(original, 7, segments);
         for (LineSegment segment : segments) {
             drawBeamQuad(buffer, pose, lightCoords, segment.start, segment.end, 0.1F, 0.0F);
@@ -78,7 +79,7 @@ public class ShockTherapistEntityRenderer
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
     }
 
-    private static void lightning(LineSegment lineSegment, int depth, List<LineSegment> accumulator) {
+    private static void lightning(LineSegment lineSegment, int depth, ArrayList<LineSegment> accumulator) {
         Vector3f segmentLength = lineSegment.end.sub(lineSegment.start).mul(0.5F);
         Vector3f midpoint = lineSegment.start.add(segmentLength).add(0.0F, 0.1F, 0.0F);
         LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
