@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
+import java.util.List;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -15,70 +16,84 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
+    private static record LineSegment(Vector3f start, Vector3f end) {
+    }
+
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
+
     private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
 
     private static void drawBeam(
         VertexConsumer buffer,
         PoseStack.Pose pose,
         int lightCoords,
-        float deltaX,
-        float deltaY,
-        float deltaZ,
-        float v0,
-        float v1) {
-        drawBeamQuad(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1, 0.1F, 0.0F);
-        drawBeamQuad(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, v0, v1, 0.0F, 0.1F);
+        LineSegment original) {
+        List<LineSegment> segments = List.of();
+        lightning(original, 7, segments);
+        for (LineSegment segment : segments) {
+            drawBeamQuad(buffer, pose, lightCoords, segment.start, segment.end, 0.1F, 0.0F);
+            drawBeamQuad(buffer, pose, lightCoords, segment.start, segment.end, 0.0F, 0.1F);
+        }
     }
 
     private static void drawBeamQuad(
         VertexConsumer buffer,
         PoseStack.Pose pose,
         int lightCoords,
-        float deltaX,
-        float deltaY,
-        float deltaZ,
-        float v0,
-        float v1,
+        Vector3f start,
+        Vector3f end,
         float xw,
         float yw) {
-        buffer.addVertex(pose, -xw, -yw, 0.0F)
+        buffer.addVertex(pose, -xw + start.x, -yw + start.y, start.z)
             .setColor(-1)
-            .setUv(0.0F, v0)
+            .setUv(0.0F, 0.0F)
             .setOverlay(OverlayTexture.NO_OVERLAY)
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-        buffer.addVertex(pose, deltaX - xw, deltaY - yw, deltaZ)
+        buffer.addVertex(pose, end.x - xw, end.y - yw, end.z)
             .setColor(-1)
-            .setUv(0.0F, v1)
+            .setUv(0.0F, 1.0F)
             .setOverlay(OverlayTexture.NO_OVERLAY)
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-        buffer.addVertex(pose, deltaX + xw, deltaY + yw, deltaZ)
+        buffer.addVertex(pose, end.x + xw, end.y + yw, end.z)
             .setColor(-1)
-            .setUv(0.125F, v1)
+            .setUv(1.0F, 1.0F)
             .setOverlay(OverlayTexture.NO_OVERLAY)
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-        buffer.addVertex(pose, xw, yw, 0.0F)
+        buffer.addVertex(pose, xw + start.x, yw + start.y, start.z)
             .setColor(-1)
-            .setUv(0.125F, v0)
+            .setUv(1.0F, 0.0F)
             .setOverlay(OverlayTexture.NO_OVERLAY)
             .setLight(lightCoords)
             .setNormal(pose, 0.0F, -1.0F, 0.0F);
     }
 
+    private static void lightning(LineSegment lineSegment, int depth, List<LineSegment> accumulator) {
+        Vector3f segmentLength = lineSegment.end.sub(lineSegment.start).mul(0.5F);
+        Vector3f midpoint = lineSegment.start.add(segmentLength).add(0.0F, 0.1F, 0.0F);
+        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
+        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
+        if (depth == 0) {
+            accumulator.add(segment1);
+            accumulator.add(segment2);
+        } else {
+            lightning(segment1, depth - 1, accumulator);
+            lightning(segment2, depth - 1, accumulator);
+        }
+    }
+
     private static void submitCrystalBeams(
-        float deltaX,
-        float deltaY,
-        float deltaZ,
+        LineSegment original,
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         int lightCoords) {
@@ -87,7 +102,7 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                drawBeam(buffer, pose, lightCoords, deltaX, deltaY, deltaZ, 0.0F, 1.0F);
+                drawBeam(buffer, pose, lightCoords, original);
             });
         poseStack.popPose();
     }
@@ -127,9 +142,12 @@ public class ShockTherapistEntityRenderer
             Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
             poseStack.translate(0.5F, 0.5F, 0.5F);
             submitCrystalBeams(
-                (float) delta.x,
-                (float) delta.y,
-                (float) delta.z,
+                new LineSegment(
+                    new Vector3f(0.0F, 0.0F, 0.0F),
+                    new Vector3f(
+                        (float) delta.x,
+                        (float) delta.y,
+                        (float) delta.z)),
                 poseStack,
                 submitNodeCollector,
                 state.lightCoords);
