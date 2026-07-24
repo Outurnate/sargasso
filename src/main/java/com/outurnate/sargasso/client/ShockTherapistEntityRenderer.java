@@ -64,7 +64,7 @@ public class ShockTherapistEntityRenderer
             PoseStack.Pose pose,
             int lightCoords) {
             drawBeamQuad(buffer, pose, lightCoords, 0.1F, 0.0F);
-            // drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
+            drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
         }
     }
 
@@ -141,8 +141,7 @@ public class ShockTherapistEntityRenderer
             double length = delta.length();
             poseStack.translate(0.5F, 0.5F, 0.5F);
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)))); // keep this one
-            // poseStack.mulPose(Axis.XP.rotation((float)
-            // (-Math.atan2(delta.horizontalDistance(), delta.y))));
+            poseStack.mulPose(Axis.ZP.rotation((float) (-Math.atan2(delta.horizontalDistance(), delta.y))));
             submitCrystalBeams(
                 new LineSegment(
                     new Vec3(0.0F, 0.0F, 0.0F),
