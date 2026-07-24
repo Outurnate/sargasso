@@ -2,7 +2,6 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
@@ -140,7 +139,7 @@ public class ShockTherapistEntityRenderer
             Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
             double length = delta.length();
             poseStack.translate(0.5F, 0.5F, 0.5F);
-            poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
+            // poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             // poseStack.mulPose(Axis.XP.rotation((float)
             // (-Math.atan2(delta.horizontalDistance(), delta.y))));
             submitCrystalBeams(
