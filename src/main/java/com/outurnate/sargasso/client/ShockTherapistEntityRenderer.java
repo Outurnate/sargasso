@@ -78,18 +78,20 @@ public class ShockTherapistEntityRenderer
         LineSegment lineSegment,
         int depth,
         ArrayList<LineSegment> accumulator,
-        Random random) {
+        Random random,
+        float amplitude) {
         Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
         Vec3 midpoint = lineSegment.start.add(segmentLength)
-            .add(0.0F, random.nextDouble() - 0.5F, random.nextDouble() - 0.5F);
+            .add(0.0F, (random.nextDouble() - 0.5F) * amplitude, (random.nextDouble() - 0.5F) * amplitude);
         LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
         } else {
-            lightning(segment1, depth - 1, accumulator, random);
-            lightning(segment2, depth - 1, accumulator, random);
+            amplitude /= 2;
+            lightning(segment1, depth - 1, accumulator, random, amplitude);
+            lightning(segment2, depth - 1, accumulator, random, amplitude);
         }
     }
 
@@ -105,7 +107,7 @@ public class ShockTherapistEntityRenderer
             (pose, buffer) -> {
                 Random random = new Random(0);
                 ArrayList<LineSegment> segments = new ArrayList<>();
-                lightning(original, 3, segments, random);
+                lightning(original, 3, segments, random, 1.0F);
                 for (LineSegment segment : segments) {
                     segment.draw(buffer, pose, lightCoords);
                 }
