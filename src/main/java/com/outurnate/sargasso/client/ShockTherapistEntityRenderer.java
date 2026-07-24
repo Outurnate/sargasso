@@ -141,7 +141,7 @@ public class ShockTherapistEntityRenderer
             double length = delta.length();
             poseStack.translate(0.5F, 0.5F, 0.5F);
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)))); // keep this one
-            poseStack.mulPose(Axis.ZP.rotation((float) (-Math.atan2(delta.horizontalDistance(), delta.y))));
+            poseStack.mulPose(Axis.ZP.rotation((float) (Math.atan2(delta.horizontalDistance(), delta.y))));
             submitCrystalBeams(
                 new LineSegment(
                     new Vec3(0.0F, 0.0F, 0.0F),
