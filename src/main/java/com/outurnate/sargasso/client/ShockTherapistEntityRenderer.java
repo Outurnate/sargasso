@@ -2,6 +2,7 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
+
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
@@ -95,7 +97,7 @@ public class ShockTherapistEntityRenderer
             ZAP,
             (pose, buffer) -> {
                 ArrayList<LineSegment> segments = new ArrayList<>();
-                lightning(original, 7, segments);
+                lightning(original, 3, segments);
                 for (LineSegment segment : segments) {
                     segment.draw(buffer, pose, lightCoords);
                 }
@@ -136,10 +138,16 @@ public class ShockTherapistEntityRenderer
         for (ElectricMine mine : state.mines) {
             poseStack.pushPose();
             Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
+            double length = delta.length();
             poseStack.translate(0.5F, 0.5F, 0.5F);
+            poseStack
+                .mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)) - (float) (Math.PI / 2)));
+            poseStack.mulPose(
+                Axis.XP.rotation(
+                    (float) (-Math.atan2(delta.horizontalDistance(), delta.y)) - (float) (Math.PI / 2)));
             submitCrystalBeams(
                 new LineSegment(
-                    new Vec3(0.0F, 0.0F, 0.0F),
+                    new Vec3(length, 0.0F, 0.0F),
                     delta),
                 poseStack,
                 submitNodeCollector,
