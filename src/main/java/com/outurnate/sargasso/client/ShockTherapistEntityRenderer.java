@@ -17,40 +17,39 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    private static record LineSegment(Vector3f start, Vector3f end) {
+    private static record LineSegment(Vec3 start, Vec3 end) {
         private void drawBeamQuad(
             VertexConsumer buffer,
             PoseStack.Pose pose,
             int lightCoords,
             float xw,
             float yw) {
-            buffer.addVertex(pose, -xw + start.x, -yw + start.y, start.z)
+            buffer.addVertex(pose, -xw + (float) start.x, -yw + (float) start.y, (float) start.z)
                 .setColor(-1)
                 .setUv(0.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x - xw, end.y - yw, end.z)
+            buffer.addVertex(pose, (float) end.x - xw, (float) end.y - yw, (float) end.z)
                 .setColor(-1)
                 .setUv(0.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x + xw, end.y + yw, end.z)
+            buffer.addVertex(pose, (float) end.x + xw, (float) end.y + yw, (float) end.z)
                 .setColor(-1)
                 .setUv(1.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, xw + start.x, yw + start.y, start.z)
+            buffer.addVertex(pose, xw + (float) start.x, yw + (float) start.y, (float) start.z)
                 .setColor(-1)
                 .setUv(1.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
@@ -72,10 +71,10 @@ public class ShockTherapistEntityRenderer
     private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
 
     private static void lightning(LineSegment lineSegment, int depth, ArrayList<LineSegment> accumulator) {
-        Vector3f segmentLength = lineSegment.end.sub(lineSegment.start).mul(0.5F);
-        Vector3f midpoint = lineSegment.start.add(segmentLength).add(0.0F, 0.1F, 0.0F);
-        LineSegment segment1 = new LineSegment(new Vector3f(0.0F, 0.0F, 0.0F), midpoint);
-        LineSegment segment2 = new LineSegment(new Vector3f(0.0F, 0.0F, 0.0F), lineSegment.end);
+        Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
+        Vec3 midpoint = lineSegment.start.subtract(segmentLength).add(0.0F, 0.1F, 0.0F);
+        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
+        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
@@ -140,11 +139,8 @@ public class ShockTherapistEntityRenderer
             poseStack.translate(0.5F, 0.5F, 0.5F);
             submitCrystalBeams(
                 new LineSegment(
-                    new Vector3f(0.0F, 0.0F, 0.0F),
-                    new Vector3f(
-                        (float) delta.x,
-                        (float) delta.y,
-                        (float) delta.z)),
+                    new Vec3(0.0F, 0.0F, 0.0F),
+                    delta),
                 poseStack,
                 submitNodeCollector,
                 state.lightCoords);
