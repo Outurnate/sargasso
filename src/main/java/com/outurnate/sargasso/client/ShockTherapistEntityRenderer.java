@@ -63,8 +63,8 @@ public class ShockTherapistEntityRenderer
             VertexConsumer buffer,
             PoseStack.Pose pose,
             int lightCoords) {
-            // drawBeamQuad(buffer, pose, lightCoords, 0.1F, 0.0F);
-            drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
+            drawBeamQuad(buffer, pose, lightCoords, 0.1F, 0.0F);
+            // drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
         }
     }
 
