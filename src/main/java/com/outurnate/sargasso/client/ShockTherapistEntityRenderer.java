@@ -8,6 +8,8 @@ import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -72,17 +74,22 @@ public class ShockTherapistEntityRenderer
 
     private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
 
-    private static void lightning(LineSegment lineSegment, int depth, ArrayList<LineSegment> accumulator) {
+    private static void lightning(
+        LineSegment lineSegment,
+        int depth,
+        ArrayList<LineSegment> accumulator,
+        Random random) {
         Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
-        Vec3 midpoint = lineSegment.start.add(segmentLength).add(0.0F, 0.0F, 0.0F);
+        Vec3 midpoint = lineSegment.start.add(segmentLength)
+            .add(0.0F, random.nextDouble() - 0.5F, random.nextDouble() - 0.5F);
         LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
         } else {
-            lightning(segment1, depth - 1, accumulator);
-            lightning(segment2, depth - 1, accumulator);
+            lightning(segment1, depth - 1, accumulator, random);
+            lightning(segment2, depth - 1, accumulator, random);
         }
     }
 
@@ -96,8 +103,9 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
+                Random random = new Random(0);
                 ArrayList<LineSegment> segments = new ArrayList<>();
-                lightning(original, 3, segments);
+                lightning(original, 3, segments, random);
                 for (LineSegment segment : segments) {
                     segment.draw(buffer, pose, lightCoords);
                 }
