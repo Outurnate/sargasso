@@ -139,9 +139,9 @@ public class ShockTherapistEntityRenderer
             poseStack.pushPose();
             Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
             double length = delta.length();
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack.mulPose(Axis.XP.rotation((float) (-Math.atan2(delta.horizontalDistance(), delta.y))));
-            poseStack.translate(0.5F, 0.5F, 0.5F);
             submitCrystalBeams(
                 new LineSegment(
                     new Vec3(0.0F, 0.0F, 0.0F),
