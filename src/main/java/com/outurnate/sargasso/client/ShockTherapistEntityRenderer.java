@@ -144,8 +144,8 @@ public class ShockTherapistEntityRenderer
             poseStack.translate(0.5F, 0.5F, 0.5F);
             submitCrystalBeams(
                 new LineSegment(
-                    new Vec3(length, 0.0F, 0.0F),
-                    delta),
+                    new Vec3(0.0F, 0.0F, 0.0F),
+                    new Vec3(length, 0.0F, 0.0F)),
                 poseStack,
                 submitNodeCollector,
                 state.lightCoords);
