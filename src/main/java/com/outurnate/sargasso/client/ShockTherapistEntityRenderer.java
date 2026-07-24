@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    private static record LineSegment(Vec3 start, Vec3 end) {
+    private static record LineSegment(Vec3 start, Vec3 end, float brightness) {
         private void drawBeamQuad(
             VertexConsumer buffer,
             PoseStack.Pose pose,
@@ -83,23 +83,26 @@ public class ShockTherapistEntityRenderer
         Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
         Vec3 midpoint = lineSegment.start.add(segmentLength)
             .add(0.0F, (random.nextDouble() - 0.5F) * amplitude, (random.nextDouble() - 0.5F) * amplitude);
-        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
-        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
-        if (random.nextBoolean()) {
-            accumulator.add(new LineSegment(midpoint, midpoint.multiply(2.0, 2.0, 2.0)));
-        }
+        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint, lineSegment.brightness);
+        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end, lineSegment.brightness);
+        LineSegment segment3 = new LineSegment(
+            midpoint,
+            midpoint.multiply(2.0, 2.0, 2.0),
+            lineSegment.brightness / 2);
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
+            accumulator.add(segment3);
         } else {
             amplitude /= 2;
             lightning(segment1, depth - 1, accumulator, random, amplitude);
             lightning(segment2, depth - 1, accumulator, random, amplitude);
+            lightning(segment3, depth - 1, accumulator, random, amplitude);
         }
     }
 
     private static void submitCrystalBeams(
-        LineSegment original,
+        float length,
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         int lightCoords) {
@@ -110,7 +113,12 @@ public class ShockTherapistEntityRenderer
             (pose, buffer) -> {
                 Random random = new Random(0);
                 ArrayList<LineSegment> segments = new ArrayList<>();
-                lightning(original, 3, segments, random, 2.0F);
+                lightning(
+                    new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
+                    3,
+                    segments,
+                    random,
+                    2.0F);
                 for (LineSegment segment : segments) {
                     segment.draw(buffer, pose, lightCoords);
                 }
@@ -158,9 +166,7 @@ public class ShockTherapistEntityRenderer
                 Axis.ZP.rotation(
                     (float) (-Math.atan2(delta.horizontalDistance(), delta.y)) + (float) (Math.PI / 2)));
             submitCrystalBeams(
-                new LineSegment(
-                    new Vec3(0.0F, 0.0F, 0.0F),
-                    new Vec3(length, 0.0F, 0.0F)),
+                (float) length,
                 poseStack,
                 submitNodeCollector,
                 state.lightCoords);
