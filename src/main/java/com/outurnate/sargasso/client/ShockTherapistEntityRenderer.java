@@ -19,12 +19,46 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
+import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
+    private static record ElectricArc(Vector3f origin, Vector3f destination) {
+        public void draw(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
+            Vector3f delta = new Vector3f();
+            destination.sub(origin, delta);
+            float length = delta.length();
+            double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
+
+            poseStack.pushPose();
+            poseStack.translate(origin.x, origin.y, 0.5F);
+            poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)))); // keep this one
+            poseStack
+                .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
+            submitNodeCollector.submitCustomGeometry(
+                poseStack,
+                ZAP,
+                (pose, buffer) -> {
+                    Random random = new Random(0);
+                    ArrayList<LineSegment> segments = new ArrayList<>();
+                    lightning(
+                        new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
+                        3,
+                        segments,
+                        random,
+                        2.0F);
+                    for (LineSegment segment : segments) {
+                        segment.draw(buffer, pose, lightCoords);
+                    }
+                });
+            poseStack.popPose();
+        }
+    }
+
     private static record LineSegment(Vec3 start, Vec3 end, float brightness) {
         private void drawBeamQuad(
             VertexConsumer buffer,
@@ -119,7 +153,7 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                Random random = new Random();
+                Random random = new Random(0);
                 ArrayList<LineSegment> segments = new ArrayList<>();
                 lightning(
                     new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
@@ -156,6 +190,7 @@ public class ShockTherapistEntityRenderer
             cameraPosition,
             breakProgress);
         state.mines = blockEntity.mines;
+        state.partialTicks = partialTicks;
     }
 
     @Override
@@ -165,20 +200,20 @@ public class ShockTherapistEntityRenderer
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         for (ElectricMine mine : state.mines) {
-            poseStack.pushPose();
-            Vec3 delta = mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial tick
-            double length = delta.length();
-            poseStack.translate(0.5F, 0.5F, 0.5F);
-            poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)))); // keep this one
-            poseStack.mulPose(
-                Axis.ZP.rotation(
-                    (float) (-Math.atan2(delta.horizontalDistance(), delta.y)) + (float) (Math.PI / 2)));
-            submitCrystalBeams(
-                (float) length,
-                poseStack,
-                submitNodeCollector,
-                state.lightCoords);
-            poseStack.popPose();
+            /*
+             * poseStack.pushPose(); Vec3 delta =
+             * mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial
+             * tick double length = delta.length(); poseStack.translate(0.5F, 0.5F, 0.5F);
+             * poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
+             * // keep this one poseStack.mulPose( Axis.ZP.rotation( (float)
+             * (-Math.atan2(delta.horizontalDistance(), delta.y)) + (float) (Math.PI / 2)));
+             * submitCrystalBeams( (float) length, poseStack, submitNodeCollector,
+             * state.lightCoords); poseStack.popPose();
+             */
+            new ElectricArc(
+                new Vector3f(0.5F, 0.5F, 0.5F),
+                mine.getPosition(state.partialTicks).subtract(state.blockPos.getCenter()).toVector3f())
+                    .draw(poseStack, submitNodeCollector, state.lightCoords);
         }
     }
 }
