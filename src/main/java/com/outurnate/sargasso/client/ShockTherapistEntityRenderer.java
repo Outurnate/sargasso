@@ -85,10 +85,18 @@ public class ShockTherapistEntityRenderer
             .add(0.0F, (random.nextDouble() - 0.5F) * amplitude, (random.nextDouble() - 0.5F) * amplitude);
         LineSegment segment1 = new LineSegment(lineSegment.start, midpoint, lineSegment.brightness);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end, lineSegment.brightness);
-        LineSegment segment3 = new LineSegment(
-            midpoint,
-            midpoint.multiply(2.0, 2.0, 2.0),
-            lineSegment.brightness / 2);
+        LineSegment segment3;
+        if (random.nextBoolean()) {
+            segment3 = new LineSegment(
+                midpoint,
+                midpoint.add(segmentLength),
+                lineSegment.brightness / 2);
+        } else {
+            segment3 = new LineSegment(
+                midpoint,
+                midpoint.subtract(segmentLength),
+                lineSegment.brightness / 2);
+        }
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
