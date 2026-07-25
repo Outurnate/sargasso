@@ -38,9 +38,7 @@ public class LocalRenderTypes {
 
     public static final RenderType ZAP = RenderType.create(
         "zap",
-        RenderSetup.builder(RenderPipelines.ENTITY_TRANSLUCENT)
+        RenderSetup.builder(RenderPipelines.ENTITY_SOLID)
             .withTexture("Sampler0", ZAP_LOCATION)
-            .useLightmap()
-            .setOutline(RenderSetup.OutlineProperty.NONE)
             .createRenderSetup());
 }
