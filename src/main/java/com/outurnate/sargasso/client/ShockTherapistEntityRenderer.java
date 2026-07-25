@@ -77,14 +77,14 @@ public class ShockTherapistEntityRenderer
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
-            submitNodeCollector.submitCustomGeometry(
-                poseStack,
-                LocalRenderTypes.ZAP,
-                (pose, buffer) -> {
-                    for (LineSegment segment : segments) {
+            for (LineSegment segment : segments) {
+                submitNodeCollector.submitCustomGeometry(
+                    poseStack,
+                    LocalRenderTypes.ZAP,
+                    (pose, buffer) -> {
                         segment.draw(buffer, pose, lightCoords);
-                    }
-                });
+                    });
+            }
             poseStack.popPose();
         }
     }
@@ -125,45 +125,6 @@ public class ShockTherapistEntityRenderer
             buffer.addVertex(pose, start.x, start.y + (aorb ? yf : -yf), start.z + (aorb ? zf : -zf))
                 .setColor(-1)
                 .setUv(1.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
-        }
-
-        private void drawBeamQuadB(
-            VertexConsumer buffer,
-            PoseStack.Pose pose,
-            int lightCoords,
-            float zw,
-            float yw,
-            float zo,
-            float yo) {
-            float zf = zw + zo;
-            float yf = yw + yo;
-            buffer.addVertex(pose, start.x, start.y + yf, start.z + zf)
-                .setColor(-1)
-                .setUv(1.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-            buffer.addVertex(pose, end.x, end.y + yf, end.z + zf)
-                .setColor(-1)
-                .setUv(1.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-            buffer.addVertex(pose, end.x, end.y - yf, end.z - zf)
-                .setColor(-1)
-                .setUv(0.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-            buffer.addVertex(pose, start.x, start.y - yf, start.z - zf)
-                .setColor(-1)
-                .setUv(0.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
