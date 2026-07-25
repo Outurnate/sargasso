@@ -1,7 +1,6 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
@@ -77,68 +76,108 @@ public class ShockTherapistEntityRenderer
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
-            submitNodeCollector.submitCustomGeometry(
-                poseStack,
-                LocalRenderTypes.ZAP,
-                (pose, buffer) -> {
-                    for (LineSegment segment : segments) {
-                        segment.draw(buffer, pose, lightCoords);
-                    }
-                });
+            for (LineSegment segment : segments) {
+                segment.draw(poseStack, submitNodeCollector, lightCoords);
+            }
             poseStack.popPose();
         }
     }
 
     private static record LineSegment(Vector3f start, Vector3f end) {
-        private void drawQuad(
-            VertexConsumer buffer,
-            PoseStack.Pose pose,
+        private void drawQuadA(
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
             int lightCoords,
             float zw,
             float yw,
             float zo,
-            float yo,
-            boolean aorb) {
-            float zf = zw + zo;
-            float yf = yw + yo;
-            buffer.addVertex(pose, start.x, start.y + (aorb ? -yf : yf), start.z + (aorb ? -zf : zf))
-                .setColor(-1)
-                .setUv(0.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+            float yo) {
 
-            buffer.addVertex(pose, end.x, end.y + (aorb ? -yf : yf), end.z + (aorb ? -zf : zf))
-                .setColor(-1)
-                .setUv(0.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+            submitNodeCollector.submitCustomGeometry(
+                poseStack,
+                LocalRenderTypes.ZAP,
+                (pose, buffer) -> {
+                    buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
+                        .setColor(-1)
+                        .setUv(0.0F, 0.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x, end.y + (aorb ? yf : -yf), end.z + (aorb ? zf : -zf))
-                .setColor(-1)
-                .setUv(1.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
+                        .setColor(-1)
+                        .setUv(0.0F, 1.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, start.x, start.y + (aorb ? yf : -yf), start.z + (aorb ? zf : -zf))
-                .setColor(-1)
-                .setUv(1.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
+                        .setColor(-1)
+                        .setUv(1.0F, 1.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+                    buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
+                        .setColor(-1)
+                        .setUv(1.0F, 0.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                });
+        }
+
+        private void drawQuadB(
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
+            int lightCoords,
+            float zw,
+            float yw,
+            float zo,
+            float yo) {
+            submitNodeCollector.submitCustomGeometry(
+                poseStack,
+                LocalRenderTypes.ZAP,
+                (pose, buffer) -> {
+                    buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
+                        .setColor(-1)
+                        .setUv(1.0F, 0.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+                    buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
+                        .setColor(-1)
+                        .setUv(1.0F, 1.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+                    buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
+                        .setColor(-1)
+                        .setUv(0.0F, 1.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+
+                    buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
+                        .setColor(-1)
+                        .setUv(0.0F, 0.0F)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(lightCoords)
+                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                });
         }
 
         public void draw(
-            VertexConsumer buffer,
-            PoseStack.Pose pose,
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
             int lightCoords) {
             float size = 1.0F / 16.0F;
-            drawQuad(buffer, pose, lightCoords, size, 0.0F, 0.0F, -size, true);
-            drawQuad(buffer, pose, lightCoords, 0.0F, size, -size, 0.0F, false);
-            drawQuad(buffer, pose, lightCoords, size, 0.0F, 0.0F, size, false);
-            drawQuad(buffer, pose, lightCoords, 0.0F, size, size, 0.0F, true);
+            drawQuadA(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, -size);
+            drawQuadB(poseStack, submitNodeCollector, lightCoords, 0.0F, size, -size, 0.0F);
+            drawQuadB(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, size);
+            drawQuadA(poseStack, submitNodeCollector, lightCoords, 0.0F, size, size, 0.0F);
         }
     }
 
