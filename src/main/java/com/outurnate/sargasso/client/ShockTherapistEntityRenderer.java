@@ -61,7 +61,7 @@ public class ShockTherapistEntityRenderer
             Vector3f delta = new Vector3f();
             destination.sub(origin, delta);
             float length = delta.length();
-            LineSegment[] segments = new LineSegment[Math.powExact(2, depth) * 2];
+            LineSegment[] segments = new LineSegment[Math.powExact(2, depth - 1) * 2];
             lightning(
                 new LineSegment(new Vector3f(0.0F), new Vector3f(length, 0.0F, 0.0F)),
                 depth,
