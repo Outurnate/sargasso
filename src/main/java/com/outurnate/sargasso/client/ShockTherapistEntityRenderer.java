@@ -119,7 +119,7 @@ public class ShockTherapistEntityRenderer
             poseStack,
             ZAP,
             (pose, buffer) -> {
-                Random random = new Random(0);
+                Random random = new Random();
                 ArrayList<LineSegment> segments = new ArrayList<>();
                 lightning(
                     new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
