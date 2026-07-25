@@ -77,14 +77,14 @@ public class ShockTherapistEntityRenderer
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
-            for (LineSegment segment : segments) {
-                submitNodeCollector.submitCustomGeometry(
-                    poseStack,
-                    LocalRenderTypes.ZAP,
-                    (pose, buffer) -> {
+            submitNodeCollector.submitCustomGeometry(
+                poseStack,
+                LocalRenderTypes.ZAP,
+                (pose, buffer) -> {
+                    for (LineSegment segment : segments) {
                         segment.draw(buffer, pose, lightCoords);
-                    });
-            }
+                    }
+                });
             poseStack.popPose();
         }
     }
