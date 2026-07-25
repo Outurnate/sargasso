@@ -39,13 +39,17 @@ public class ShockTherapistEntityRenderer
             float[] randomValues,
             int randomIndex,
             float amplitude) {
-            // need (2^depth)*2 random values
-            Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
-            Vec3 midpoint = lineSegment.start.add(segmentLength)
-                .add(
-                    0.0F,
-                    (randomValues[randomIndex++] - 0.5F) * amplitude,
-                    (randomValues[randomIndex++] - 0.5F) * amplitude);
+            Vector3f segmentLength = new Vector3f();
+            lineSegment.end.sub(lineSegment.start, segmentLength);
+            segmentLength.mul(0.5F);
+
+            Vector3f midpoint = new Vector3f();
+            lineSegment.start.add(segmentLength, midpoint);
+            midpoint.add(
+                0.0F,
+                (randomValues[randomIndex++] - 0.5F) * amplitude,
+                (randomValues[randomIndex++] - 0.5F) * amplitude);
+
             LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
             LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
             if (depth == 0) {
@@ -63,8 +67,8 @@ public class ShockTherapistEntityRenderer
             int depth = 3;
             float[] randomValues = new float[Math.powExact(2, depth) * 2];
             for (int i = 0; i < randomValues.length; ++i) {
-                // randomValues[i] = random.nextFloat();
-                randomValues[i] = 0.5F;
+                randomValues[i] = random.nextFloat();
+                // randomValues[i] = 0.5F;
             }
 
             Vector3f delta = new Vector3f();
@@ -72,7 +76,7 @@ public class ShockTherapistEntityRenderer
             float length = delta.length();
             ArrayList<LineSegment> segments = new ArrayList<>(); // TODO this can just be an array
             lightning(
-                new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0)),
+                new LineSegment(new Vector3f(0.0F), new Vector3f(length, 0.0F, 0.0F)),
                 depth,
                 segments,
                 randomValues,
@@ -101,35 +105,35 @@ public class ShockTherapistEntityRenderer
         }
     }
 
-    private static record LineSegment(Vec3 start, Vec3 end) {
+    private static record LineSegment(Vector3f start, Vector3f end) {
         private void drawBeamQuad(
             VertexConsumer buffer,
             PoseStack.Pose pose,
             int lightCoords,
             float zw,
             float yw) {
-            buffer.addVertex(pose, (float) start.x, -yw + (float) start.y, (float) start.z - zw)
+            buffer.addVertex(pose, start.x, start.y - yw, start.z - zw)
                 .setColor(-1)
                 .setUv(0.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, (float) end.x, (float) end.y - yw, (float) end.z - zw)
+            buffer.addVertex(pose, end.x, end.y - yw, end.z - zw)
                 .setColor(-1)
                 .setUv(0.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, (float) end.x, (float) end.y + yw, (float) end.z + zw)
+            buffer.addVertex(pose, end.x, end.y + yw, end.z + zw)
                 .setColor(-1)
                 .setUv(1.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, (float) start.x, yw + (float) start.y, (float) start.z + zw)
+            buffer.addVertex(pose, start.x, start.y + yw, start.z + zw)
                 .setColor(-1)
                 .setUv(1.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
