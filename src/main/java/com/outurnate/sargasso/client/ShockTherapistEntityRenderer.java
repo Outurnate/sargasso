@@ -174,10 +174,10 @@ public class ShockTherapistEntityRenderer
             SubmitNodeCollector submitNodeCollector,
             int lightCoords) {
             float size = 1.0F / 16.0F;
-            drawQuadA(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, -size);
-            drawQuadB(poseStack, submitNodeCollector, lightCoords, 0.0F, size, -size, 0.0F);
-            drawQuadB(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, size);
-            drawQuadA(poseStack, submitNodeCollector, lightCoords, 0.0F, size, size, 0.0F);
+            drawQuadB(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, -size);
+            drawQuadA(poseStack, submitNodeCollector, lightCoords, 0.0F, size, -size, 0.0F);
+            drawQuadA(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, size);
+            drawQuadB(poseStack, submitNodeCollector, lightCoords, 0.0F, size, size, 0.0F);
         }
     }
 
