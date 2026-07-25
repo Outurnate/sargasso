@@ -64,7 +64,7 @@ public class ShockTherapistEntityRenderer
             float[] randomValues = new float[Math.powExact(2, depth) * 2];
             for (int i = 0; i < randomValues.length; ++i) {
                 // randomValues[i] = random.nextFloat();
-                randomValues[i] = 0;
+                randomValues[i] = 0.5F;
             }
 
             Vector3f delta = new Vector3f();
