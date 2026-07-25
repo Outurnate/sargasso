@@ -11,7 +11,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.Vec3;
 
 public class ElectricMine extends Entity {
     private int remainingTicks = 20 * 30;
@@ -54,11 +53,7 @@ public class ElectricMine extends Entity {
         }
 
         this.applyGravity();
-        Vec3 deltaMovement = this.getDeltaMovement();
-        if (this.onGround()) {
-            deltaMovement = deltaMovement.multiply(0.1, 1.0, 0.1);
-        }
-        this.move(MoverType.SELF, deltaMovement);
+        this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();
 
         super.tick();
