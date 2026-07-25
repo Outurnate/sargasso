@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
-
+import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-
 import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
@@ -24,12 +23,11 @@ public class ShockTherapistEntityRenderer
     private static record ElectricArc(
         Vector3f origin,
         Vector3f delta,
-        LineSegment[] segments) {
+        ArrayList<LineSegment> segments) {
         private static void lightning(
             LineSegment lineSegment,
             int depth,
-            LineSegment[] accumulator,
-            int index,
+            ArrayList<LineSegment> accumulator,
             RandomSource random,
             float amplitude) {
             Vector3f segmentLength = new Vector3f();
@@ -46,12 +44,12 @@ public class ShockTherapistEntityRenderer
             LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
             LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
             if (depth == 0) {
-                accumulator[index++] = segment1;
-                accumulator[index++] = segment2;
+                accumulator.add(segment1);
+                accumulator.add(segment2);
             } else {
                 amplitude /= 2;
-                lightning(segment1, depth - 1, accumulator, index, random, amplitude);
-                lightning(segment2, depth - 1, accumulator, index, random, amplitude);
+                lightning(segment1, depth - 1, accumulator, random, amplitude);
+                lightning(segment2, depth - 1, accumulator, random, amplitude);
             }
         }
 
@@ -61,12 +59,11 @@ public class ShockTherapistEntityRenderer
             Vector3f delta = new Vector3f();
             destination.sub(origin, delta);
             float length = delta.length();
-            LineSegment[] segments = new LineSegment[Math.powExact(2, depth - 1) * 2];
+            ArrayList<LineSegment> segments = new ArrayList<>();
             lightning(
                 new LineSegment(new Vector3f(0.0F), new Vector3f(length, 0.0F, 0.0F)),
                 depth,
                 segments,
-                0,
                 random,
                 1.0F);
             this(origin, delta, segments);
