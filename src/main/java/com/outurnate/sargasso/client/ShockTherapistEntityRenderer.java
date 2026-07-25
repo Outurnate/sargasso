@@ -182,9 +182,9 @@ public class ShockTherapistEntityRenderer
             int lightCoords) {
             float size = 1.0F / 16.0F;
             drawBeamQuadA(buffer, pose, lightCoords, size, 0.0F, 0.0F, -size);
-            drawBeamQuadA(buffer, pose, lightCoords, 0.0F, size, -size, 0.0F);
+            drawBeamQuadB(buffer, pose, lightCoords, 0.0F, size, -size, 0.0F);
             drawBeamQuadB(buffer, pose, lightCoords, size, 0.0F, 0.0F, size);
-            drawBeamQuadB(buffer, pose, lightCoords, 0.0F, size, size, 0.0F);
+            drawBeamQuadA(buffer, pose, lightCoords, 0.0F, size, size, 0.0F);
         }
     }
 
