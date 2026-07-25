@@ -93,36 +93,43 @@ public class ShockTherapistEntityRenderer
     }
 
     private static record LineSegment(Vector3f start, Vector3f end) {
-        private void drawBeamQuadA(
+        private void drawQuad(
             VertexConsumer buffer,
             PoseStack.Pose pose,
             int lightCoords,
             float zw,
             float yw,
             float zo,
-            float yo) {
-            buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
+            float yo,
+            boolean aorb) {
+            float zf = zw + zo;
+            float yf = yw + yo;
+            buffer.addVertex(pose, start.x, start.y + (aorb ? -yf : yf), start.z + (aorb ? -zf : zf))
                 .setColor(-1)
                 .setUv(0.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
+            buffer.addVertex(pose, end.x, end.y + (aorb ? -yf : yf), end.z + (aorb ? -zf : zf))
                 .setColor(-1)
                 .setUv(0.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
+            buffer.addVertex(pose, end.x, end.y + (aorb ? yf : -yf), end.z + (aorb ? zf : -zf))
                 .setColor(-1)
                 .setUv(1.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
+            buffer.addVertex(pose, start.x, start.y + (aorb ? yf : -yf), start.z + (aorb ? zf : -zf))
                 .setColor(-1)
                 .setUv(1.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
         }
 
@@ -134,28 +141,34 @@ public class ShockTherapistEntityRenderer
             float yw,
             float zo,
             float yo) {
-            buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
+            float zf = zw + zo;
+            float yf = yw + yo;
+            buffer.addVertex(pose, start.x, start.y + yf, start.z + zf)
                 .setColor(-1)
                 .setUv(1.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
+            buffer.addVertex(pose, end.x, end.y + yf, end.z + zf)
                 .setColor(-1)
                 .setUv(1.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
+            buffer.addVertex(pose, end.x, end.y - yf, end.z - zf)
                 .setColor(-1)
                 .setUv(0.0F, 1.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-            buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
+            buffer.addVertex(pose, start.x, start.y - yf, start.z - zf)
                 .setColor(-1)
                 .setUv(0.0F, 0.0F)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(lightCoords)
                 .setNormal(pose, 0.0F, -1.0F, 0.0F);
         }
 
@@ -164,10 +177,10 @@ public class ShockTherapistEntityRenderer
             PoseStack.Pose pose,
             int lightCoords) {
             float size = 1.0F / 16.0F;
-            drawBeamQuadA(buffer, pose, lightCoords, size, 0.0F, 0.0F, -size);
-            drawBeamQuadB(buffer, pose, lightCoords, 0.0F, size, -size, 0.0F);
-            drawBeamQuadB(buffer, pose, lightCoords, size, 0.0F, 0.0F, size);
-            drawBeamQuadA(buffer, pose, lightCoords, 0.0F, size, size, 0.0F);
+            drawQuad(buffer, pose, lightCoords, size, 0.0F, 0.0F, -size, true);
+            drawQuad(buffer, pose, lightCoords, 0.0F, size, -size, 0.0F, false);
+            drawQuad(buffer, pose, lightCoords, size, 0.0F, 0.0F, size, false);
+            drawQuad(buffer, pose, lightCoords, 0.0F, size, size, 0.0F, true);
         }
     }
 

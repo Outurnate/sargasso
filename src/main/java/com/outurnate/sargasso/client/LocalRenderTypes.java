@@ -37,18 +37,5 @@ public class LocalRenderTypes {
 
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
 
-    public static final RenderType ZAP = RenderTypes.entityTranslucentEmissive(ZAP_LOCATION); /*
-                                                                                               * RenderType.
-                                                                                               * create(
-                                                                                               * "zap",
-                                                                                               * RenderSetup.
-                                                                                               * builder(
-                                                                                               * RenderPipelines.
-                                                                                               * ENTITY_SOLID)
-                                                                                               * .withTexture(
-                                                                                               * "Sampler0",
-                                                                                               * ZAP_LOCATION)
-                                                                                               * .createRenderSetup
-                                                                                               * ());
-                                                                                               */
+    public static final RenderType ZAP = RenderTypes.entityTranslucentEmissive(ZAP_LOCATION);
 }
