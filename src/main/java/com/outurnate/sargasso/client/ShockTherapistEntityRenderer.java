@@ -139,7 +139,7 @@ public class ShockTherapistEntityRenderer
             amplitude /= 2;
             lightning(segment1, depth - 1, accumulator, random, amplitude);
             lightning(segment2, depth - 1, accumulator, random, amplitude);
-            lightning(segment3, depth - 1, accumulator, random, amplitude);
+            // lightning(segment3, depth - 1, accumulator, random, amplitude);
         }
     }
 
