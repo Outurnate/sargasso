@@ -134,7 +134,7 @@ public class ShockTherapistEntityRenderer
         if (depth == 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
-            accumulator.add(segment3);
+            // accumulator.add(segment3);
         } else {
             amplitude /= 2;
             lightning(segment1, depth - 1, accumulator, random, amplitude);
