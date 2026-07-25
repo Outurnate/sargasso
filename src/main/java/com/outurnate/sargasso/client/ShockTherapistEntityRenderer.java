@@ -45,7 +45,7 @@ public class ShockTherapistEntityRenderer
                 .add(
                     0.0F,
                     (randomValues[randomIndex++] - 0.5F) * amplitude,
-                    (randomValues[randomIndex] - 0.5F) * amplitude);
+                    (randomValues[randomIndex++] - 0.5F) * amplitude);
             LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
             LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
             if (depth == 0) {
@@ -63,13 +63,14 @@ public class ShockTherapistEntityRenderer
             int depth = 3;
             float[] randomValues = new float[Math.powExact(2, depth) * 2];
             for (int i = 0; i < randomValues.length; ++i) {
-                randomValues[i] = random.nextFloat();
+                // randomValues[i] = random.nextFloat();
+                randomValues[i] = 0;
             }
 
             Vector3f delta = new Vector3f();
             destination.sub(origin, delta);
             float length = delta.length();
-            ArrayList<LineSegment> segments = new ArrayList<>();
+            ArrayList<LineSegment> segments = new ArrayList<>(); // TODO this can just be an array
             lightning(
                 new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0)),
                 depth,
