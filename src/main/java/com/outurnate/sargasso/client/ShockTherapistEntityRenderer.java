@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -112,31 +111,19 @@ public class ShockTherapistEntityRenderer
             float yo) {
             buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(0.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(0.0F, 1.0F);
 
             buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(1.0F, 1.0F);
 
             buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(1.0F, 0.0F);
         }
 
         private void drawBeamQuadB(
@@ -149,31 +136,19 @@ public class ShockTherapistEntityRenderer
             float yo) {
             buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(1.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(1.0F, 1.0F);
 
             buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 1.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(0.0F, 1.0F);
 
             buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 0.0F)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(lightCoords)
-                .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                .setUv(0.0F, 0.0F);
         }
 
         public void draw(
