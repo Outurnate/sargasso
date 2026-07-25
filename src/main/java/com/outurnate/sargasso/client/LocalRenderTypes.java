@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.rendertype.LayeringTransform;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
@@ -29,12 +30,22 @@ public class LocalRenderTypes {
     private static final RenderPipeline GLITCH_PIPELINE = RenderPipeline.builder(GLITCH_SNIPPET)
         .withLocation(Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "pipeline/glitch")).build();
 
-    private static final RenderType GLITCH = RenderType.create(
-        "end_portal",
+    public static final RenderType GLITCH = RenderType.create(
+        "glitch",
         RenderSetup.builder(GLITCH_PIPELINE)
             .createRenderSetup());
 
-    public static RenderType glitch() {
-        return GLITCH;
-    }
+    public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
+
+    public static final RenderType ZAP = RenderType.create(
+        "zap",
+        RenderSetup.builder(RenderPipelines.ENTITY_TRANSLUCENT)
+            .withTexture("Sampler0", ZAP_LOCATION)
+            .useLightmap()
+            .useOverlay()
+            .affectsCrumbling()
+            .setLayeringTransform(LayeringTransform.VIEW_OFFSET_Z_LAYERING)
+            .sortOnUpload()
+            .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
+            .createRenderSetup());
 }

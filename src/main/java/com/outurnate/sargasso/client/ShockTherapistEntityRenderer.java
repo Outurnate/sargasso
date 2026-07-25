@@ -3,7 +3,6 @@ package com.outurnate.sargasso.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
 
@@ -14,11 +13,8 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -95,7 +91,7 @@ public class ShockTherapistEntityRenderer
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
-                ZAP,
+                LocalRenderTypes.ZAP,
                 (pose, buffer) -> {
                     for (LineSegment segment : segments) {
                         segment.draw(buffer, pose, lightCoords);
@@ -149,10 +145,6 @@ public class ShockTherapistEntityRenderer
             drawBeamQuad(buffer, pose, lightCoords, 0.0F, 0.1F);
         }
     }
-
-    public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
-
-    private static final RenderType ZAP = RenderTypes.entityTranslucent(ZAP_LOCATION);
 
     public ShockTherapistEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }

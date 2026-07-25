@@ -110,7 +110,7 @@ public class GlitchBlockEntityRenderer
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         poseStack.pushPose();
-        submitCube(state.facesToShow, LocalRenderTypes.glitch(), poseStack, submitNodeCollector);
+        submitCube(state.facesToShow, LocalRenderTypes.GLITCH, poseStack, submitNodeCollector);
         poseStack.popPose();
     }
 }
