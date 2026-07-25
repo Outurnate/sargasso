@@ -85,10 +85,10 @@ public class ShockTherapistEntityRenderer
             double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
 
             poseStack.pushPose();
-            poseStack.translate(origin.x, origin.y, origin.z);
             poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
+            poseStack.translate(origin.x, origin.y, origin.z);
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
                 ZAP,
