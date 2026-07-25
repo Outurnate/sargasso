@@ -27,30 +27,71 @@ import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    private static record ElectricArc(Vector3f origin, Vector3f destination) {
-        public void draw(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
+    private static record ElectricArc(
+        Vector3f origin,
+        Vector3f delta,
+        ArrayList<LineSegment> segments,
+        float[] randomValues) {
+        private static void lightning(
+            LineSegment lineSegment,
+            int depth,
+            ArrayList<LineSegment> accumulator,
+            float[] randomValues,
+            int randomIndex,
+            float amplitude) {
+            // need (2^depth)*2 random values
+            Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
+            Vec3 midpoint = lineSegment.start.add(segmentLength)
+                .add(
+                    0.0F,
+                    (randomValues[randomIndex++] - 0.5F) * amplitude,
+                    (randomValues[randomIndex] - 0.5F) * amplitude);
+            LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
+            LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
+            if (depth == 0) {
+                accumulator.add(segment1);
+                accumulator.add(segment2);
+            } else {
+                amplitude /= 2;
+                lightning(segment1, depth - 1, accumulator, randomValues, randomIndex, amplitude);
+                lightning(segment2, depth - 1, accumulator, randomValues, randomIndex, amplitude);
+            }
+        }
+
+        public ElectricArc(Vector3f origin, Vector3f destination) {
+            Random random = new Random(0);
+            int depth = 3;
+            float[] randomValues = new float[Math.powExact(2, depth) * 2];
+            for (int i = 0; i < randomValues.length; ++i) {
+                randomValues[i] = random.nextFloat();
+            }
+
             Vector3f delta = new Vector3f();
             destination.sub(origin, delta);
             float length = delta.length();
+            ArrayList<LineSegment> segments = new ArrayList<>();
+            lightning(
+                new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0)),
+                depth,
+                segments,
+                randomValues,
+                0,
+                1.0F);
+            this(origin, delta, segments, randomValues);
+        }
+
+        public void draw(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
             double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
 
             poseStack.pushPose();
             poseStack.translate(origin.x, origin.y, 0.5F);
-            poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x)))); // keep this one
+            poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
                 ZAP,
                 (pose, buffer) -> {
-                    Random random = new Random(0);
-                    ArrayList<LineSegment> segments = new ArrayList<>();
-                    lightning(
-                        new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
-                        3,
-                        segments,
-                        random,
-                        2.0F);
                     for (LineSegment segment : segments) {
                         segment.draw(buffer, pose, lightCoords);
                     }
@@ -59,7 +100,7 @@ public class ShockTherapistEntityRenderer
         }
     }
 
-    private static record LineSegment(Vec3 start, Vec3 end, float brightness) {
+    private static record LineSegment(Vec3 start, Vec3 end) {
         private void drawBeamQuad(
             VertexConsumer buffer,
             PoseStack.Pose pose,
@@ -107,41 +148,6 @@ public class ShockTherapistEntityRenderer
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
 
     private static final RenderType ZAP = RenderTypes.entityTranslucent(ZAP_LOCATION);
-
-    private static void lightning(
-        LineSegment lineSegment,
-        int depth,
-        ArrayList<LineSegment> accumulator,
-        Random random,
-        float amplitude) {
-        Vec3 segmentLength = lineSegment.end.subtract(lineSegment.start).multiply(0.5, 0.5, 0.5);
-        Vec3 midpoint = lineSegment.start.add(segmentLength)
-            .add(0.0F, (random.nextDouble() - 0.5F) * amplitude, (random.nextDouble() - 0.5F) * amplitude);
-        LineSegment segment1 = new LineSegment(lineSegment.start, midpoint, lineSegment.brightness);
-        LineSegment segment2 = new LineSegment(midpoint, lineSegment.end, lineSegment.brightness);
-        LineSegment segment3;
-        if (random.nextBoolean()) {
-            segment3 = new LineSegment(
-                midpoint,
-                midpoint.add(segmentLength),
-                lineSegment.brightness / 2);
-        } else {
-            segment3 = new LineSegment(
-                midpoint,
-                midpoint.subtract(segmentLength),
-                lineSegment.brightness / 2);
-        }
-        if (depth == 0) {
-            accumulator.add(segment1);
-            accumulator.add(segment2);
-            // accumulator.add(segment3);
-        } else {
-            amplitude /= 2;
-            lightning(segment1, depth - 1, accumulator, random, amplitude);
-            lightning(segment2, depth - 1, accumulator, random, amplitude);
-            // lightning(segment3, depth - 1, accumulator, random, amplitude);
-        }
-    }
 
     public ShockTherapistEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }
