@@ -106,7 +106,7 @@ public class ShockTherapistEntityRenderer
 
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
 
-    private static final RenderType ZAP = RenderTypes.endCrystalBeam(ZAP_LOCATION);
+    private static final RenderType ZAP = RenderTypes.entitySolid(ZAP_LOCATION);
 
     private static void lightning(
         LineSegment lineSegment,
@@ -143,31 +143,6 @@ public class ShockTherapistEntityRenderer
         }
     }
 
-    private static void submitCrystalBeams(
-        float length,
-        PoseStack poseStack,
-        SubmitNodeCollector submitNodeCollector,
-        int lightCoords) {
-        poseStack.pushPose();
-        submitNodeCollector.submitCustomGeometry(
-            poseStack,
-            ZAP,
-            (pose, buffer) -> {
-                Random random = new Random(0);
-                ArrayList<LineSegment> segments = new ArrayList<>();
-                lightning(
-                    new LineSegment(new Vec3(0.0, 0.0, 0.0), new Vec3(length, 0.0, 0.0), 1.0F),
-                    3,
-                    segments,
-                    random,
-                    2.0F);
-                for (LineSegment segment : segments) {
-                    segment.draw(buffer, pose, lightCoords);
-                }
-            });
-        poseStack.popPose();
-    }
-
     public ShockTherapistEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }
 
@@ -200,16 +175,6 @@ public class ShockTherapistEntityRenderer
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         for (ElectricMine mine : state.mines) {
-            /*
-             * poseStack.pushPose(); Vec3 delta =
-             * mine.getPosition(0).subtract(state.blockPos.getCenter()); // TODO partial
-             * tick double length = delta.length(); poseStack.translate(0.5F, 0.5F, 0.5F);
-             * poseStack.mulPose(Axis.YP.rotation((float) (-Math.atan2(delta.z, delta.x))));
-             * // keep this one poseStack.mulPose( Axis.ZP.rotation( (float)
-             * (-Math.atan2(delta.horizontalDistance(), delta.y)) + (float) (Math.PI / 2)));
-             * submitCrystalBeams( (float) length, poseStack, submitNodeCollector,
-             * state.lightCoords); poseStack.popPose();
-             */
             new ElectricArc(
                 new Vector3f(0.5F, 0.5F, 0.5F),
                 mine.getPosition(state.partialTicks).subtract(state.blockPos.getCenter()).toVector3f())
