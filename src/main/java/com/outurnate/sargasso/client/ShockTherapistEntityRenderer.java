@@ -6,15 +6,14 @@ import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.entity.ElectricMine;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 import org.joml.Vector3f;
@@ -25,14 +24,13 @@ public class ShockTherapistEntityRenderer
     private static record ElectricArc(
         Vector3f origin,
         Vector3f delta,
-        ArrayList<LineSegment> segments,
-        float[] randomValues) {
+        LineSegment[] segments) {
         private static void lightning(
             LineSegment lineSegment,
             int depth,
-            ArrayList<LineSegment> accumulator,
-            float[] randomValues,
-            int randomIndex,
+            LineSegment[] accumulator,
+            int index,
+            RandomSource random,
             float amplitude) {
             Vector3f segmentLength = new Vector3f();
             lineSegment.end.sub(lineSegment.start, segmentLength);
@@ -42,42 +40,36 @@ public class ShockTherapistEntityRenderer
             lineSegment.start.add(segmentLength, midpoint);
             midpoint.add(
                 0.0F,
-                (randomValues[randomIndex++] - 0.5F) * amplitude,
-                (randomValues[randomIndex++] - 0.5F) * amplitude);
+                (random.nextFloat() - 0.5F) * amplitude,
+                (random.nextFloat() - 0.5F) * amplitude);
 
             LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
             LineSegment segment2 = new LineSegment(midpoint, lineSegment.end);
             if (depth == 0) {
-                accumulator.add(segment1);
-                accumulator.add(segment2);
+                accumulator[index++] = segment1;
+                accumulator[index++] = segment2;
             } else {
                 amplitude /= 2;
-                lightning(segment1, depth - 1, accumulator, randomValues, randomIndex, amplitude);
-                lightning(segment2, depth - 1, accumulator, randomValues, randomIndex, amplitude);
+                lightning(segment1, depth - 1, accumulator, index, random, amplitude);
+                lightning(segment2, depth - 1, accumulator, index, random, amplitude);
             }
         }
 
-        public ElectricArc(Vector3f origin, Vector3f destination) {
-            Random random = new Random(0);
+        public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
+            RandomSource random = RandomSource.createThreadLocalInstance(seed);
             int depth = 3;
-            float[] randomValues = new float[Math.powExact(2, depth) * 2];
-            for (int i = 0; i < randomValues.length; ++i) {
-                randomValues[i] = random.nextFloat();
-                // randomValues[i] = 0.5F;
-            }
-
             Vector3f delta = new Vector3f();
             destination.sub(origin, delta);
             float length = delta.length();
-            ArrayList<LineSegment> segments = new ArrayList<>(); // TODO this can just be an array
+            LineSegment[] segments = new LineSegment[Math.powExact(2, depth) * 2];
             lightning(
                 new LineSegment(new Vector3f(0.0F), new Vector3f(length, 0.0F, 0.0F)),
                 depth,
                 segments,
-                randomValues,
                 0,
+                random,
                 1.0F);
-            this(origin, delta, segments, randomValues);
+            this(origin, delta, segments);
         }
 
         public void draw(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
@@ -111,19 +103,27 @@ public class ShockTherapistEntityRenderer
             float yo) {
             buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 0.0F);
+                .setUv(0.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 1.0F);
+                .setUv(0.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 1.0F);
+                .setUv(1.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 0.0F);
+                .setUv(1.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
         }
 
         private void drawBeamQuadB(
@@ -136,19 +136,27 @@ public class ShockTherapistEntityRenderer
             float yo) {
             buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 0.0F);
+                .setUv(1.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                 .setColor(-1)
-                .setUv(1.0F, 1.0F);
+                .setUv(1.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 1.0F);
+                .setUv(0.0F, 1.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
             buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                 .setColor(-1)
-                .setUv(0.0F, 0.0F);
+                .setUv(0.0F, 0.0F)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(pose, 0.0F, -1.0F, 0.0F);
         }
 
         public void draw(
@@ -201,7 +209,8 @@ public class ShockTherapistEntityRenderer
                 .sub(blockPos).add(blockOffset); // TODO WHY DOES THIS WORK
             new ElectricArc(
                 blockOffset,
-                blockRelativeMinePosition)
+                blockRelativeMinePosition,
+                0)
                     .draw(poseStack, submitNodeCollector, state.lightCoords);
         }
     }
