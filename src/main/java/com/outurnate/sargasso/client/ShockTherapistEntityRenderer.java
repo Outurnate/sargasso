@@ -185,7 +185,7 @@ public class ShockTherapistEntityRenderer
         Vector3f blockOffset = new Vector3f(0.5F);
         for (ElectricMine mine : state.mines) {
             Vector3f blockRelativeMinePosition = mine.getPosition(state.partialTicks).toVector3f()
-                .sub(blockPos).sub(blockOffset);
+                .sub(blockPos).add(blockOffset); // TODO WHY DOES THIS WORK
             new ElectricArc(
                 blockOffset,
                 blockRelativeMinePosition)
