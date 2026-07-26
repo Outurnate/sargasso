@@ -57,8 +57,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             e -> true);
         bolts = new ArrayList<>();
         if (mines.size() > 1) {
-            Vec3 leftPos = new Vec3(3.0, 6.0, 8.0);
-            Vec3 rightPos = new Vec3(13.0, 6.0, 8.0);
+            Vec3 leftPos = new Vec3(
+                pos.getX() + (3.0 / 16.0),
+                pos.getY() + (6.0 / 16.0),
+                pos.getZ() + (8.0 / 16.0));
+            Vec3 rightPos = new Vec3(
+                pos.getX() + (13.0 / 16.0),
+                pos.getY() + (6.0 / 16.0),
+                pos.getZ() + (8.0 / 16.0));
             int leftStart = findNearest(mines, leftPos);
             int rightStart = findNearest(mines, rightPos);
             if (leftStart == rightStart) {
