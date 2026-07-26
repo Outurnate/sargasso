@@ -53,7 +53,7 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.RECORD_UNCHECKED,
             SoundDefinition.definition()
                 .with(
-                    sound(LocalSoundEvents.RECORD_UNCHECKED.getRegisteredName()))
+                    sound("sargasso:unchecked_tapeless_mix"))
                 .subtitle("sound.sargasso.record_unchecked")
                 .replace(true));
     }
