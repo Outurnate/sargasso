@@ -1,9 +1,9 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
-import com.outurnate.sargasso.entity.ElectricMine;
 import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -202,7 +202,7 @@ public class ShockTherapistEntityRenderer
             partialTicks,
             cameraPosition,
             breakProgress);
-        state.mines = blockEntity.mines;
+        state.bolts = blockEntity.bolts;
         state.partialTicks = partialTicks;
     }
 
@@ -214,12 +214,13 @@ public class ShockTherapistEntityRenderer
         CameraRenderState camera) {
         Vector3f blockPos = state.blockPos.getCenter().toVector3f();
         Vector3f blockOffset = new Vector3f(0.5F);
-        for (ElectricMine mine : state.mines) {
-            Vector3f blockRelativeMinePosition = mine.getPosition(state.partialTicks).toVector3f()
-                .sub(blockPos).add(blockOffset); // TODO WHY DOES THIS WORK
+        for (Pair<Vec3, Vec3> mine : state.bolts) {
+            // Vector3f blockRelativeMinePosition =
+            // mine.getPosition(state.partialTicks).toVector3f()
+            // .sub(blockPos).add(blockOffset); // TODO WHY DOES THIS WORK
             new ElectricArc(
-                blockOffset,
-                blockRelativeMinePosition,
+                mine.getFirst().toVector3f(),
+                mine.getSecond().toVector3f(),
                 0)
                     .draw(poseStack, submitNodeCollector, state.lightCoords);
         }
