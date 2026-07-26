@@ -75,7 +75,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     public void tick(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
         AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
-        if ((level.getGameTime() % (20 * 10)) == 0) {
+        if ((level.getGameTime() % 20) == 0) {
             seed = level.getRandom().nextLong();
         }
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
