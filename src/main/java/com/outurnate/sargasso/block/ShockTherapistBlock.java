@@ -81,7 +81,8 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        AttachFace attachFace = switch (context.getClickedFace()) {
+        Direction clickedFace = context.getClickedFace();
+        AttachFace attachFace = switch (clickedFace) {
             case Direction.DOWN -> AttachFace.CEILING;
             case Direction.UP -> AttachFace.FLOOR;
             case Direction.NORTH -> AttachFace.WALL;
@@ -89,8 +90,13 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
             case Direction.EAST -> AttachFace.WALL;
             case Direction.WEST -> AttachFace.WALL;
         };
+        Direction horizontalFacing = switch (attachFace) {
+            case AttachFace.CEILING -> context.getHorizontalDirection().getOpposite();
+            case AttachFace.FLOOR -> context.getHorizontalDirection().getOpposite();
+            case AttachFace.WALL -> clickedFace.getOpposite();
+        };
         return this.defaultBlockState()
-            .setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite())
+            .setValue(HORIZONTAL_FACING, horizontalFacing)
             .setValue(ATTACH_FACE, attachFace);
     }
 
