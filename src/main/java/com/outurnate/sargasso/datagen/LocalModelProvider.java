@@ -29,7 +29,6 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
@@ -151,15 +150,11 @@ public class LocalModelProvider extends ModelProvider {
          */
 
         blockModels.blockStateOutput.accept(
-            MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
-                .with(ROTATION_HORIZONTAL_FACING)
-                .with(shock_therapist_rotation));
-
-        MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get())
-            .with(plainVariant(shock_therapist))
-            .with(
-                condition().term(ShockTherapistBlock.PHASE, Phase.DISCHARGING),
-                plainVariant(shock_therapist_glow));
+            MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get())
+                .with(plainVariant(shock_therapist))
+                .with(
+                    condition().term(ShockTherapistBlock.PHASE, Phase.DISCHARGING),
+                    plainVariant(shock_therapist_glow)));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
