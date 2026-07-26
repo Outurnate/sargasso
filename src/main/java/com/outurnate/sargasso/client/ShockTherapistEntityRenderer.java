@@ -212,12 +212,8 @@ public class ShockTherapistEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
-        Vec3 blockPos = state.blockPos.getCenter();
-        Vector3f blockOffset = new Vector3f(0.5F);
+        Vec3 blockPos = new Vec3(state.blockPos);
         for (Pair<Vec3, Vec3> mine : state.bolts) {
-            // Vector3f blockRelativeMinePosition =
-            // mine.getPosition(state.partialTicks).toVector3f()
-            // .sub(blockPos).add(blockOffset); // TODO WHY DOES THIS WORK
             new ElectricArc(
                 mine.getFirst().subtract(blockPos).toVector3f(),
                 mine.getSecond().subtract(blockPos).toVector3f(),
