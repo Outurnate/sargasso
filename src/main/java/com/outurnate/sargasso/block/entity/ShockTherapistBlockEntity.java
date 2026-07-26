@@ -1,6 +1,8 @@
 package com.outurnate.sargasso.block.entity;
 
 import com.mojang.datafixers.util.Pair;
+import com.outurnate.sargasso.block.ShockTherapistBlock;
+import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import java.util.ArrayList;
@@ -51,33 +53,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
     }
 
-    private void spawnMines(Level level, BlockPos pos, BlockState state) {
-        if ((level.getGameTime() % (20 * 10)) == 0) {
-            RandomSource random = level.getRandom();
-            int num = random.nextInt(5, 10);
-            for (int i = 0; i < num; ++i) {
-                Entity electricMine = new ElectricMine(level);
-                electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
-
-                float yRot = random.nextFloat() * 360.0F;
-                float xRot = 225.0F;
-                float speed = 0.2F + (random.nextFloat() * 0.2F);
-                float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-                float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
-                electricMine.setDeltaMovement(movement);
-                level.addFreshEntity(electricMine);
-            }
-        }
-    }
-
-    public void tick(Level level, BlockPos pos, BlockState state) {
+    private void arc(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
         AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
-        if ((level.getGameTime() % 10) == 0) {
-            seed = level.getRandom().nextLong();
-        }
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
 
         List<ElectricMine> mines = level.getEntities(
@@ -118,7 +96,42 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 struckEntity.hurtServer(serverLevel, serverLevel.damageSources().lightningBolt(), 1.0F);
             }
         }
+    }
 
-        spawnMines(level, pos, state);
+    private void spawnMines(Level level, BlockPos pos, BlockState state) {
+        RandomSource random = level.getRandom();
+        int num = random.nextInt(5, 10);
+        for (int i = 0; i < num; ++i) {
+            Entity electricMine = new ElectricMine(level);
+            electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
+
+            float yRot = random.nextFloat() * 360.0F;
+            float xRot = 225.0F;
+            float speed = 0.2F + (random.nextFloat() * 0.2F);
+            float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+            float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+            float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+            Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+            electricMine.setDeltaMovement(movement);
+            level.addFreshEntity(electricMine);
+        }
+    }
+
+    public void tick(Level level, BlockPos pos, BlockState state) {
+        if ((level.getGameTime() % 10) == 0) {
+            seed = level.getRandom().nextLong();
+        }
+
+        if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
+            arc(level, pos, state);
+        }
+
+        if ((level.getGameTime() % (20 * 10)) == 0) {
+            state.setValue(ShockTherapistBlock.PHASE, state.getValue(ShockTherapistBlock.PHASE).next());
+            level.setBlock(pos, state, 0);
+            if (state.getValue(ShockTherapistBlock.PHASE) == Phase.CHARGING) {
+                spawnMines(level, pos, state);
+            }
+        }
     }
 }

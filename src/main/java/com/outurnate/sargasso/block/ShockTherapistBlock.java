@@ -39,6 +39,14 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
                 case DISCHARGING -> "discharging";
             };
         }
+
+        public Phase next() {
+            return switch (this) {
+                case IDLE -> CHARGING;
+                case CHARGING -> DISCHARGING;
+                case DISCHARGING -> IDLE;
+            };
+        }
     }
 
     public static final EnumProperty<Phase> PHASE = EnumProperty.create("phase", Phase.class);
@@ -93,7 +101,7 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         Direction horizontalFacing = switch (attachFace) {
             case AttachFace.CEILING -> context.getHorizontalDirection().getOpposite();
             case AttachFace.FLOOR -> context.getHorizontalDirection().getOpposite();
-            case AttachFace.WALL -> clickedFace.getOpposite();
+            case AttachFace.WALL -> clickedFace;
         };
         return this.defaultBlockState()
             .setValue(HORIZONTAL_FACING, horizontalFacing)

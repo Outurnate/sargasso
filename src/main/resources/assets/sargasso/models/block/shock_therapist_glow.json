@@ -1,0 +1,26 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "sargasso:block/shock_therapist",
+		"particle": "sargasso:block/shock_therapist"
+	},
+	"elements": [
+		{
+			"name": "glow",
+			"from": [5, 3.9, 5.9],
+			"to": [11, 8.1, 10.1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 5, 7]},
+			"faces": {
+				"north": {"uv": [4, 2, 7, 4], "texture": "#0"},
+				"east": {"uv": [7, 2, 9, 4], "texture": "#0"},
+				"south": {"uv": [4, 2, 7, 4], "texture": "#0"},
+				"west": {"uv": [7, 2, 9, 4], "texture": "#0"},
+				"up": {"uv": [7, 4, 4, 2], "texture": "#0"},
+				"down": {"uv": [7, 2, 4, 4], "texture": "#0"}
+			}
+		}
+	]
+}
