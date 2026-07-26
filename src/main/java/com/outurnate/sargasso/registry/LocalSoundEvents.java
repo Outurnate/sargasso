@@ -25,6 +25,9 @@ public class LocalSoundEvents {
     public static final Holder<SoundEvent> PYLON = REGISTRY.register(
         "pylon",
         SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> RECORD_UNCHECKED = REGISTRY.register(
+        "record_unchecked",
+        SoundEvent::createVariableRangeEvent);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

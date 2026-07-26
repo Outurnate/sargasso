@@ -29,3 +29,7 @@ rules:
     license: CC0-1.0
     attribution: 'Jewellerybox_Open_1_Hit'
     url: https://freesound.org/people/hanasmusic/sounds/841416/
+  - glob: assets/sargasso/sounds/unchecked_tapeless_mix
+    author: Tarn Kazsuhara
+    license: ARR
+    url: https://bsky.app/profile/did:plc:xis2ndf4ced7d3ioxghp7yyf

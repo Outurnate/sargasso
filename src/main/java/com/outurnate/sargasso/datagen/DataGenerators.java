@@ -49,7 +49,8 @@ public class DataGenerators {
                 .add(Registries.TIMELINE, LocalTimelinesProvider::provide)
                 .add(Registries.WORLD_CLOCK, LocalWorldClocksProvider::provide)
                 .add(Registries.NOISE, LocalNoisesProvider::provide)
-                .add(Registries.DENSITY_FUNCTION, LocalDensityFunctionProvider::provide));
+                .add(Registries.DENSITY_FUNCTION, LocalDensityFunctionProvider::provide)
+                .add(Registries.JUKEBOX_SONG, LocalJukeboxSongProvider::provide));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);

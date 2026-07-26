@@ -37,7 +37,7 @@ public class ShockTherapistEntityRenderer
             lineSegment.start.add(segmentLength, midpoint);
             midpoint.add(
                 0.0F,
-                (random.nextFloat() - 0.5F) * amplitude,
+                random.nextFloat() * (amplitude / 2.0F),
                 (random.nextFloat() - 0.5F) * amplitude);
 
             LineSegment segment1 = new LineSegment(lineSegment.start, midpoint);
