@@ -7,5 +7,4 @@ import net.minecraft.world.phys.Vec3;
 
 public class ShockTherapistRenderState extends BlockEntityRenderState {
     public List<Pair<Vec3, Vec3>> bolts;
-    public float partialTicks;
 }

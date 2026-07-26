@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
+
 import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -202,8 +203,8 @@ public class ShockTherapistEntityRenderer
             partialTicks,
             cameraPosition,
             breakProgress);
-        state.bolts = blockEntity.bolts;
-        state.partialTicks = partialTicks;
+        state.bolts = blockEntity.bolts.stream()
+            .map(b -> new Pair<>(b.getFirst().pos(partialTicks), b.getSecond().pos(partialTicks))).toList();
     }
 
     @Override

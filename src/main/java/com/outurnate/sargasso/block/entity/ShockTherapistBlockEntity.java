@@ -18,12 +18,30 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class ShockTherapistBlockEntity extends BlockEntity {
-    private static int findNearest(List<ElectricMine> mines, Vec3 pos) {
+    public static record LerpVec3(Vec3 oldPos, Vec3 newPos) {
+        public LerpVec3(Vec3 pos) {
+            this(pos, pos);
+        }
+
+        public LerpVec3(Entity entity) {
+            this(entity.getPosition(0.0F), entity.getPosition(1.0F));
+        }
+
+        public Vec3 pos(float partialTickTime) {
+            return Mth.lerp(partialTickTime, oldPos, newPos);
+        }
+
+        public Vec3 pos() {
+            return newPos;
+        }
+    }
+
+    private static int findFarthest(List<ElectricMine> mines, Vec3 pos) {
         int result = 0;
-        double dist = 3_000_000.0F;
+        double dist = 0.0F;
         for (int i = 0; i < mines.size(); ++i) {
             double currentDist = mines.get(i).getPosition(0.0F).distanceTo(pos);
-            if (currentDist < dist) {
+            if (currentDist > dist) {
                 result = i;
                 dist = currentDist;
             }
@@ -34,26 +52,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, Vec3 pos) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
         while (mines.size() != 0) {
-            ElectricMine currentMine = mines.remove(findNearest(mines, pos));
+            ElectricMine currentMine = mines.remove(findFarthest(mines, pos));
             newMines.add(currentMine);
             pos = currentMine.getPosition(0.0F);
         }
         return newMines;
     }
 
-    private static List<ElectricMine> rearrange(List<ElectricMine> mines, int firstIndex, int lastIndex) {
-        ArrayList<ElectricMine> newMines = new ArrayList<>();
-        newMines.add(mines.get(firstIndex));
-        for (int i = 0; i < mines.size(); ++i) {
-            if (i != firstIndex && i != lastIndex) {
-                newMines.add(mines.get(i));
-            }
-        }
-        newMines.add(mines.get(lastIndex));
-        return newMines;
-    }
-
-    public List<Pair<Vec3, Vec3>> bolts;
+    public List<Pair<LerpVec3, LerpVec3>> bolts;
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
@@ -77,23 +83,24 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 pos.getX() + (13.0 / 16.0),
                 pos.getY() + (6.0 / 16.0),
                 pos.getZ() + (8.0 / 16.0));
-            Vec3 lastPos = leftPos;
-            for (ElectricMine mine : naiveTSP(mines, lastPos)) {
-                Vec3 nextPos = mine.getPosition(0.0F); // TODO delayed eval
-                bolts.add(new Pair<Vec3, Vec3>(lastPos, nextPos));
+            LerpVec3 lastPos = new LerpVec3(leftPos);
+            for (ElectricMine mine : naiveTSP(mines, lastPos.pos())) {
+                LerpVec3 nextPos = new LerpVec3(mine);
+                bolts.add(new Pair<LerpVec3, LerpVec3>(lastPos, nextPos));
                 lastPos = nextPos;
             }
-            bolts.add(new Pair<Vec3, Vec3>(lastPos, rightPos));
+            bolts.add(new Pair<LerpVec3, LerpVec3>(lastPos, new LerpVec3(rightPos)));
         }
 
         if (level instanceof ServerLevel serverLevel) {
             ArrayList<Entity> struckEntities = new ArrayList<>();
-            for (Pair<Vec3, Vec3> bolt : bolts) {
+            for (Pair<LerpVec3, LerpVec3> bolt : bolts) {
                 struckEntities.addAll(
                     serverLevel.getEntities(
                         (Entity) null,
                         arcSpace.inflate(2.0),
-                        e -> e.getBoundingBox().clip(bolt.getFirst(), bolt.getSecond()).isPresent()));
+                        e -> e.getBoundingBox().clip(bolt.getFirst().pos(), bolt.getSecond().pos())
+                            .isPresent()));
             }
             for (Entity struckEntity : struckEntities) {
                 // TODO custom damage source
