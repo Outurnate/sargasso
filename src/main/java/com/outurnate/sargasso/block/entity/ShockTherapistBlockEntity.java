@@ -1,6 +1,8 @@
 package com.outurnate.sargasso.block.entity;
 
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.entity.ElectricMine;
@@ -16,11 +18,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class ShockTherapistBlockEntity extends BlockEntity {
     public static record LerpVec3(Vec3 oldPos, Vec3 newPos) {
+        @SuppressWarnings("null")
+        public static final Codec<LerpVec3> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                Vec3.CODEC.fieldOf("old_pos").forGetter(LerpVec3::oldPos),
+                Vec3.CODEC.fieldOf("new_pos").forGetter(LerpVec3::newPos)).apply(instance, LerpVec3::new));
+
         public LerpVec3(Vec3 pos) {
             this(pos, pos);
         }
@@ -37,6 +47,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             return newPos;
         }
     }
+
+    @SuppressWarnings("null")
+    private static final Codec<Pair<LerpVec3, LerpVec3>> LERP_PAIR_CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            LerpVec3.CODEC.fieldOf("first").forGetter(Pair::getFirst),
+            LerpVec3.CODEC.fieldOf("second").forGetter(Pair::getSecond)).apply(instance, Pair::of));
+
+    private static final Codec<List<Pair<LerpVec3, LerpVec3>>> BOLTS_CODEC = LERP_PAIR_CODEC.listOf();
 
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
@@ -96,6 +114,20 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 struckEntity.hurtServer(serverLevel, serverLevel.damageSources().lightningBolt(), 1.0F);
             }
         }
+    }
+
+    @Override
+    public void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.seed = input.getLongOr("seed", 0);
+        this.bolts = input.read("bolts", BOLTS_CODEC).orElseGet(List::of);
+    }
+
+    @Override
+    public void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putLong("seed", this.seed);
+        output.store("bolts", BOLTS_CODEC, this.bolts);
     }
 
     private void spawnMines(Level level, BlockPos pos, BlockState state) {
