@@ -131,6 +131,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             level.setBlock(pos, state.setValue(ShockTherapistBlock.PHASE, newPhase), 0);
             if (newPhase == Phase.CHARGING) {
                 spawnMines(level, pos, state);
+            } else if (newPhase == Phase.IDLE) {
+                this.bolts = List.of();
             }
         }
     }

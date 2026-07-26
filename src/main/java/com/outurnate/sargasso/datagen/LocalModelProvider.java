@@ -8,12 +8,15 @@ import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_90;
+import static net.minecraft.client.data.models.BlockModelGenerators.condition;
 import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainModel;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 import com.mojang.math.Transformation;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.block.ShockTherapistBlock;
+import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
@@ -133,15 +137,29 @@ public class LocalModelProvider extends ModelProvider {
                 LocalBlocks.PYLON.get(),
                 plainVariant(pylon)));
         Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
+        Identifier shock_therapist_glow = SuperSargassoSea.ID("block/shock_therapist_glow");
         PropertyDispatch<VariantMutator> shock_therapist_rotation = PropertyDispatch
             .modify(BlockStateProperties.ATTACH_FACE)
             .select(AttachFace.CEILING, X_ROT_180)
             .select(AttachFace.FLOOR, NOP)
             .select(AttachFace.WALL, X_ROT_90);
+        /*
+         * blockModels.blockStateOutput.accept(
+         * MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(),
+         * plainVariant(shock_therapist)) .with(ROTATION_HORIZONTAL_FACING)
+         * .with(shock_therapist_rotation));
+         */
+
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
                 .with(ROTATION_HORIZONTAL_FACING)
                 .with(shock_therapist_rotation));
+
+        MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get())
+            .with(plainVariant(shock_therapist))
+            .with(
+                condition().term(ShockTherapistBlock.PHASE, Phase.DISCHARGING),
+                plainVariant(shock_therapist_glow));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
