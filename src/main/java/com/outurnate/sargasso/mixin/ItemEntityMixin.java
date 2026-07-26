@@ -2,6 +2,8 @@
 package com.outurnate.sargasso.mixin;
 
 import com.outurnate.sargasso.loot.LostItemsSavedData;
+
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -17,7 +19,7 @@ public abstract class ItemEntityMixin extends Entity {
 
     @Override
     protected void onBelowWorld() {
-        if ((Object) this instanceof ItemEntity self) {
+        if ((Object) this instanceof ItemEntity self && this.level() instanceof ServerLevel) {
             LostItemsSavedData.AddLostItem(self.getItem());
         }
         this.discard();

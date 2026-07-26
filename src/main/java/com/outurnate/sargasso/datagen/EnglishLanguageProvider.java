@@ -106,6 +106,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
 
+        this.add("jukebox_song.sargasso.unchecked", "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
+        this.addItem(LocalItems.RECORD_UNCHECKED, "Unchecked (Tapeless Mix)");
+
         for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
             this.add(entry.getKey(), entry.getValue());
         }
