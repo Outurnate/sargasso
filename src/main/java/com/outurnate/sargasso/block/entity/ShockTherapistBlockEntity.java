@@ -23,8 +23,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             this(pos, pos);
         }
 
-        public LerpVec3(Entity entity) {
-            this(entity.getPosition(0.0F), entity.getPosition(1.0F));
+        public LerpVec3(Entity entity, Vec3 offset) {
+            this(entity.getPosition(0.0F).add(offset), entity.getPosition(1.0F).add(offset));
         }
 
         public Vec3 pos(float partialTickTime) {
@@ -75,7 +75,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     public void tick(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
         AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
-        if ((level.getGameTime() % 20) == 0) {
+        if ((level.getGameTime() % 10) == 0) {
             seed = level.getRandom().nextLong();
         }
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
@@ -96,7 +96,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 pos.getZ() + (8.0 / 16.0));
             LerpVec3 lastPos = new LerpVec3(leftPos);
             for (ElectricMine mine : naiveTSP(mines, random)) {
-                LerpVec3 nextPos = new LerpVec3(mine);
+                LerpVec3 nextPos = new LerpVec3(mine, new Vec3(0.0, 0.5 / 16.0, 0.0));
                 bolts.add(new Pair<LerpVec3, LerpVec3>(lastPos, nextPos));
                 lastPos = nextPos;
             }
