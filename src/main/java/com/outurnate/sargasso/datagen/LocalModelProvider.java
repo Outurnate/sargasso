@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
@@ -22,6 +23,7 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
@@ -126,9 +128,8 @@ public class LocalModelProvider extends ModelProvider {
                 plainVariant(pylon)));
         Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
         blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.SHOCK_THERAPIST.get(),
-                plainVariant(shock_therapist)));
+            MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
+                .with(ROTATION_FACING));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
