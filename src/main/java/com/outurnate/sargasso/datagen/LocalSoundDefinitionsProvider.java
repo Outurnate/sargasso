@@ -49,5 +49,12 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                     sound("sargasso:pylon"))
                 .subtitle("sound.sargasso.pylon")
                 .replace(true));
+        add(
+            LocalSoundEvents.RECORD_UNCHECKED,
+            SoundDefinition.definition()
+                .with(
+                    sound(LocalSoundEvents.RECORD_UNCHECKED.getRegisteredName()))
+                .subtitle("sound.sargasso.record_unchecked")
+                .replace(true));
     }
 }

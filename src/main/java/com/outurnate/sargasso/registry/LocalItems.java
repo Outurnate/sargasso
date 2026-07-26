@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
@@ -187,6 +188,13 @@ public class LocalItems {
                     DataComponents.EQUIPPABLE,
                     Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
+    public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
+        "unchecked",
+        props -> new Item(
+            props
+                .stacksTo(1)
+                .rarity(Rarity.RARE)
+                .jukeboxPlayable(LocalJukeboxSongs.UNCHECKED)));
 
     private static int getBatteryCapacity() {
         try {
