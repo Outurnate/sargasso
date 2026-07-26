@@ -135,8 +135,8 @@ public class LocalModelProvider extends ModelProvider {
         Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
         PropertyDispatch<VariantMutator> shock_therapist_rotation = PropertyDispatch
             .modify(BlockStateProperties.FACING)
-            .select(Direction.DOWN, X_ROT_90)
-            .select(Direction.UP, X_ROT_180)
+            .select(Direction.DOWN, X_ROT_180)
+            .select(Direction.UP, X_ROT_90)
             .select(Direction.NORTH, NOP)
             .select(Direction.SOUTH, Y_ROT_180)
             .select(Direction.WEST, Y_ROT_270)
