@@ -127,9 +127,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
 
         if ((level.getGameTime() % (20 * 10)) == 0) {
-            state.setValue(ShockTherapistBlock.PHASE, state.getValue(ShockTherapistBlock.PHASE).next());
-            level.setBlock(pos, state, 0);
-            if (state.getValue(ShockTherapistBlock.PHASE) == Phase.CHARGING) {
+            Phase newPhase = state.getValue(ShockTherapistBlock.PHASE).next();
+            level.setBlock(pos, state.setValue(ShockTherapistBlock.PHASE, newPhase), 0);
+            if (newPhase == Phase.CHARGING) {
                 spawnMines(level, pos, state);
             }
         }
