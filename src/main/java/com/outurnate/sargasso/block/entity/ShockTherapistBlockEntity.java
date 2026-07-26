@@ -96,7 +96,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 pos.getZ() + (8.0 / 16.0));
             LerpVec3 lastPos = new LerpVec3(leftPos);
             for (ElectricMine mine : naiveTSP(mines, random)) {
-                LerpVec3 nextPos = new LerpVec3(mine, new Vec3(0.0, 0.5 / 16.0, 0.0));
+                LerpVec3 nextPos = new LerpVec3(mine, new Vec3(0.0, 1.0 / 16.0, 0.0));
                 bolts.add(new Pair<LerpVec3, LerpVec3>(lastPos, nextPos));
                 lastPos = nextPos;
             }

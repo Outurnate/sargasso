@@ -2,6 +2,8 @@ package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
 
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,12 +11,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 public class ElectricMine extends Entity {
-    private int remainingTicks = 20 * 30;
+    private static final int DEFAULT_LIFE = 20 * 30;
+    private int remainingTicks = DEFAULT_LIFE;
 
     public ElectricMine(EntityType<?> type, Level level) {
         super(type, level);
@@ -26,6 +30,7 @@ public class ElectricMine extends Entity {
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
+        output.putInt("remainingTicks", this.remainingTicks);
     }
 
     @Override
@@ -43,7 +48,20 @@ public class ElectricMine extends Entity {
     }
 
     @Override
+    public void onClientRemoval() {
+        this.level().addParticle(
+            new BlockParticleOption(ParticleTypes.BLOCK, Blocks.IRON_BLOCK.defaultBlockState()),
+            this.getX(),
+            this.getY(),
+            this.getZ(),
+            this.getX(),
+            this.getY(),
+            this.getZ());
+    }
+
+    @Override
     protected void readAdditionalSaveData(ValueInput input) {
+        this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
     }
 
     @Override
