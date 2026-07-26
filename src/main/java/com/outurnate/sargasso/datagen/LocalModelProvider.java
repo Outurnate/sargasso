@@ -1,8 +1,10 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
-import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_FACING;
+import static net.minecraft.client.data.models.BlockModelGenerators.NOP;
 import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
+import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_180;
+import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_90;
@@ -24,15 +26,18 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.item.CompositeModel;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -42,6 +47,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
@@ -127,9 +133,17 @@ public class LocalModelProvider extends ModelProvider {
                 LocalBlocks.PYLON.get(),
                 plainVariant(pylon)));
         Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
+        PropertyDispatch<VariantMutator> shock_therapist_rotation = PropertyDispatch
+            .modify(BlockStateProperties.FACING)
+            .select(Direction.DOWN, X_ROT_90)
+            .select(Direction.UP, X_ROT_180)
+            .select(Direction.NORTH, NOP)
+            .select(Direction.SOUTH, Y_ROT_180)
+            .select(Direction.WEST, Y_ROT_270)
+            .select(Direction.EAST, Y_ROT_90);
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
-                .with(ROTATION_FACING));
+                .with(shock_therapist_rotation));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
