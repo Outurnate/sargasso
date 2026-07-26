@@ -86,19 +86,19 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             bolts.add(new Pair<Vec3, Vec3>(lastPos, rightPos));
         }
 
-        ArrayList<Entity> struckEntities = new ArrayList<>();
-        for (Pair<Vec3, Vec3> bolt : bolts) {
-            struckEntities.addAll(
-                level.getEntities(
-                    (Entity) null,
-                    arcSpace.inflate(2.0),
-                    e -> e.getBoundingBox().clip(bolt.getFirst(), bolt.getSecond()).isPresent()));
-        }
-        for (Entity struckEntity : struckEntities) {
-            struckEntity.hurtServer((ServerLevel) level, level.damageSources().lightningBolt(), 1.0F); // TODO
-                                                                                                       // custom
-                                                                                                       // damage
-                                                                                                       // source
+        if (level instanceof ServerLevel serverLevel) {
+            ArrayList<Entity> struckEntities = new ArrayList<>();
+            for (Pair<Vec3, Vec3> bolt : bolts) {
+                struckEntities.addAll(
+                    serverLevel.getEntities(
+                        (Entity) null,
+                        arcSpace.inflate(2.0),
+                        e -> e.getBoundingBox().clip(bolt.getFirst(), bolt.getSecond()).isPresent()));
+            }
+            for (Entity struckEntity : struckEntities) {
+                // TODO custom damage source
+                struckEntity.hurtServer(serverLevel, serverLevel.damageSources().lightningBolt(), 1.0F);
+            }
         }
 
         if ((level.getGameTime() % (20 * 10)) == 0) {
