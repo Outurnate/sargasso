@@ -43,6 +43,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("sound.sargasso.glitch_teleport", "Glitched");
         this.add("sound.sargasso.toaster", "Time travel happened");
         this.add("sound.sargasso.pylon", "Pylon equipped");
+        this.add("jukebox_song.sargasso.unchecked", "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
+        this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
 
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
@@ -105,9 +107,6 @@ public class EnglishLanguageProvider extends LanguageProvider {
                 LocalPotions.LONG_HEAD_EXPLOSION));
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
-
-        this.add("jukebox_song.sargasso.unchecked", "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
-        this.addItem(LocalItems.RECORD_UNCHECKED, "Unchecked (Tapeless Mix)");
 
         for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
             this.add(entry.getKey(), entry.getValue());

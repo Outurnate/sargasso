@@ -54,7 +54,6 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             SoundDefinition.definition()
                 .with(
                     sound("sargasso:unchecked_tapeless_mix"))
-                .subtitle("sound.sargasso.record_unchecked")
                 .replace(true));
     }
 }
