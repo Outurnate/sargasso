@@ -74,7 +74,7 @@ public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
     @Override

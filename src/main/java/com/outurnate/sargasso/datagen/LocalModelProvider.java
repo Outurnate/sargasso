@@ -136,11 +136,11 @@ public class LocalModelProvider extends ModelProvider {
         PropertyDispatch<VariantMutator> shock_therapist_rotation = PropertyDispatch
             .modify(BlockStateProperties.FACING)
             .select(Direction.DOWN, X_ROT_180)
-            .select(Direction.UP, X_ROT_90)
-            .select(Direction.NORTH, NOP)
-            .select(Direction.SOUTH, Y_ROT_180)
-            .select(Direction.WEST, Y_ROT_270)
-            .select(Direction.EAST, Y_ROT_90);
+            .select(Direction.UP, NOP)
+            .select(Direction.NORTH, NOP.then(X_ROT_90))
+            .select(Direction.SOUTH, Y_ROT_180.then(X_ROT_90))
+            .select(Direction.WEST, Y_ROT_270.then(X_ROT_90))
+            .select(Direction.EAST, Y_ROT_90.then(X_ROT_90));
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
                 .with(shock_therapist_rotation));
