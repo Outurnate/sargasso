@@ -36,38 +36,47 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
     }
 
-    private static int findFarthest(List<ElectricMine> mines, Vec3 pos) {
-        int result = 0;
-        double dist = 0.0F;
-        for (int i = 0; i < mines.size(); ++i) {
-            double currentDist = mines.get(i).getPosition(0.0F).distanceTo(pos);
-            if (currentDist > dist) {
-                result = i;
-                dist = currentDist;
-            }
-        }
-        return result;
-    }
-
-    private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, Vec3 pos) {
+    private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
         while (mines.size() != 0) {
-            ElectricMine currentMine = mines.remove(findFarthest(mines, pos));
-            newMines.add(currentMine);
-            pos = currentMine.getPosition(0.0F);
+            newMines.add(mines.remove(random.nextInt(mines.size())));
         }
         return newMines;
     }
 
     public List<Pair<LerpVec3, LerpVec3>> bolts;
+    public long seed;
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
     }
 
+    private void spawnMines(Level level, BlockPos pos, BlockState state) {
+        if ((level.getGameTime() % (20 * 10)) == 0) {
+            RandomSource random = level.getRandom();
+            int num = random.nextInt(5, 10);
+            for (int i = 0; i < num; ++i) {
+                Entity electricMine = new ElectricMine(level);
+                electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
+
+                float yRot = random.nextFloat() * 360.0F;
+                float xRot = 225.0F;
+                float speed = 0.2F + (random.nextFloat() * 0.2F);
+                float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
+                float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
+                Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+                electricMine.setDeltaMovement(movement);
+                level.addFreshEntity(electricMine);
+            }
+        }
+    }
+
     public void tick(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
         AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
+        seed = 0; // TODO randomize
+        RandomSource random = RandomSource.createThreadLocalInstance(seed);
 
         List<ElectricMine> mines = level.getEntities(
             EntityTypeTest.forClass(ElectricMine.class),
@@ -84,7 +93,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 pos.getY() + (6.0 / 16.0),
                 pos.getZ() + (8.0 / 16.0));
             LerpVec3 lastPos = new LerpVec3(leftPos);
-            for (ElectricMine mine : naiveTSP(mines, lastPos.pos())) {
+            for (ElectricMine mine : naiveTSP(mines, random)) {
                 LerpVec3 nextPos = new LerpVec3(mine);
                 bolts.add(new Pair<LerpVec3, LerpVec3>(lastPos, nextPos));
                 lastPos = nextPos;
@@ -108,23 +117,6 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             }
         }
 
-        if ((level.getGameTime() % (20 * 10)) == 0) {
-            RandomSource random = level.getRandom();
-            int num = random.nextInt(5, 10);
-            for (int i = 0; i < num; ++i) {
-                Entity electricMine = new ElectricMine(level);
-                electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
-
-                float yRot = random.nextFloat() * 360.0F;
-                float xRot = 225.0F;
-                float speed = 0.2F;
-                float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-                float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
-                electricMine.setDeltaMovement(movement);
-                level.addFreshEntity(electricMine);
-            }
-        }
+        spawnMines(level, pos, state);
     }
 }
