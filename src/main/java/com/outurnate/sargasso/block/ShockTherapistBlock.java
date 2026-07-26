@@ -5,25 +5,27 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
-public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock {
+public class ShockTherapistBlock extends Block implements EntityBlock {
     public static enum Phase implements StringRepresentable {
         IDLE,
         CHARGING,
@@ -40,6 +42,8 @@ public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock
     }
 
     public static final EnumProperty<Phase> PHASE = EnumProperty.create("phase", Phase.class);
+    public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
     public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
         .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
 
@@ -54,7 +58,10 @@ public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock
     public ShockTherapistBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(
-            stateDefinition.any().setValue(PHASE, Phase.IDLE));
+            stateDefinition.any()
+                .setValue(PHASE, Phase.IDLE)
+                .setValue(ATTACH_FACE, AttachFace.FLOOR)
+                .setValue(HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
@@ -64,7 +71,7 @@ public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PHASE);
+        builder.add(HORIZONTAL_FACING, ATTACH_FACE, PHASE);
     }
 
     @Override
@@ -74,7 +81,17 @@ public class ShockTherapistBlock extends DirectionalBlock implements EntityBlock
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
+        Direction clickedFace = context.getClickedFace();
+        AttachFace attachFace = switch (clickedFace) {
+            case Direction.DOWN -> AttachFace.CEILING;
+            case Direction.UP -> AttachFace.FLOOR;
+            case Direction.NORTH -> AttachFace.WALL;
+            case Direction.SOUTH -> AttachFace.WALL;
+            case Direction.EAST -> AttachFace.WALL;
+            case Direction.WEST -> AttachFace.WALL;
+        };
+        return this.defaultBlockState().setValue(HORIZONTAL_FACING, clickedFace.getOpposite())
+            .setValue(ATTACH_FACE, attachFace);
     }
 
     @Override

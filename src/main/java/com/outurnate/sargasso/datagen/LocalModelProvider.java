@@ -37,7 +37,6 @@ import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.item.CompositeModel;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.resources.model.sprite.Material;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -47,6 +46,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Vector3f;
 
@@ -134,15 +134,13 @@ public class LocalModelProvider extends ModelProvider {
                 plainVariant(pylon)));
         Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
         PropertyDispatch<VariantMutator> shock_therapist_rotation = PropertyDispatch
-            .modify(BlockStateProperties.FACING)
-            .select(Direction.DOWN, X_ROT_180)
-            .select(Direction.UP, NOP)
-            .select(Direction.NORTH, NOP.then(X_ROT_90))
-            .select(Direction.SOUTH, Y_ROT_180.then(X_ROT_90))
-            .select(Direction.WEST, Y_ROT_270.then(X_ROT_90))
-            .select(Direction.EAST, Y_ROT_90.then(X_ROT_90));
+            .modify(BlockStateProperties.ATTACH_FACE)
+            .select(AttachFace.CEILING, X_ROT_180)
+            .select(AttachFace.FLOOR, NOP)
+            .select(AttachFace.WALL, X_ROT_90);
         blockModels.blockStateOutput.accept(
             MultiVariantGenerator.dispatch(LocalBlocks.SHOCK_THERAPIST.get(), plainVariant(shock_therapist))
+                .with(ROTATION_HORIZONTAL_FACING)
                 .with(shock_therapist_rotation));
 
         itemModels.itemModelOutput.accept(
