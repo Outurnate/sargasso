@@ -78,7 +78,6 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         if ((level.getGameTime() % (20 * 10)) == 0) {
             RandomSource random = level.getRandom();
             int num = random.nextInt(5, 10);
-            num = 1;
             for (int i = 0; i < num; ++i) {
                 Entity electricMine = new ElectricMine(level);
                 electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
