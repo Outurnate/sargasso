@@ -6,6 +6,7 @@ import com.outurnate.sargasso.registry.LocalBlockEntities;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -21,13 +22,23 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         int result = 0;
         double dist = 3_000_000.0F;
         for (int i = 0; i < mines.size(); ++i) {
-            double currentDist = Math.abs(mines.get(i).getPosition(0.0F).subtract(pos).length());
+            double currentDist = mines.get(i).getPosition(0.0F).distanceTo(pos);
             if (currentDist < dist) {
                 result = i;
                 dist = currentDist;
             }
         }
         return result;
+    }
+
+    private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, Vec3 pos) {
+        ArrayList<ElectricMine> newMines = new ArrayList<>();
+        while (mines.size() != 0) {
+            ElectricMine currentMine = mines.remove(findNearest(mines, pos));
+            newMines.add(currentMine);
+            pos = currentMine.getPosition(0.0F);
+        }
+        return newMines;
     }
 
     private static List<ElectricMine> rearrange(List<ElectricMine> mines, int firstIndex, int lastIndex) {
@@ -50,10 +61,11 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
+        AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
 
         List<ElectricMine> mines = level.getEntities(
             EntityTypeTest.forClass(ElectricMine.class),
-            AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius),
+            arcSpace,
             e -> true);
         bolts = new ArrayList<>();
         if (mines.size() > 1) {
@@ -65,20 +77,28 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 pos.getX() + (13.0 / 16.0),
                 pos.getY() + (6.0 / 16.0),
                 pos.getZ() + (8.0 / 16.0));
-            int leftStart = findNearest(mines, leftPos);
-            int rightStart = findNearest(mines, rightPos);
-            if (leftStart == rightStart) {
-                leftStart = 0;
-                rightStart = mines.size() - 1;
-            }
-            mines = rearrange(mines, leftStart, rightStart);
             Vec3 lastPos = leftPos;
-            for (ElectricMine mine : mines) {
+            for (ElectricMine mine : naiveTSP(mines, lastPos)) {
                 Vec3 nextPos = mine.getPosition(0.0F); // TODO delayed eval
                 bolts.add(new Pair<Vec3, Vec3>(lastPos, nextPos));
                 lastPos = nextPos;
             }
             bolts.add(new Pair<Vec3, Vec3>(lastPos, rightPos));
+        }
+
+        ArrayList<Entity> struckEntities = new ArrayList<>();
+        for (Pair<Vec3, Vec3> bolt : bolts) {
+            struckEntities.addAll(
+                level.getEntities(
+                    (Entity) null,
+                    arcSpace.inflate(2.0),
+                    e -> e.getBoundingBox().clip(bolt.getFirst(), bolt.getSecond()).isPresent()));
+        }
+        for (Entity struckEntity : struckEntities) {
+            struckEntity.hurtServer((ServerLevel) level, level.damageSources().lightningBolt(), 1.0F); // TODO
+                                                                                                       // custom
+                                                                                                       // damage
+                                                                                                       // source
         }
 
         if ((level.getGameTime() % (20 * 10)) == 0) {
