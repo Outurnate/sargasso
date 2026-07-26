@@ -46,7 +46,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         return newMines;
     }
 
-    public List<Pair<LerpVec3, LerpVec3>> bolts;
+    public List<Pair<LerpVec3, LerpVec3>> bolts = List.of();
     public long seed = 0;
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
