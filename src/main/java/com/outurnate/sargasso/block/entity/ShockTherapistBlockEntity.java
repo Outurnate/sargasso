@@ -45,7 +45,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     public List<Pair<LerpVec3, LerpVec3>> bolts;
-    public long seed;
+    public long seed = 0;
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
@@ -75,7 +75,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     public void tick(Level level, BlockPos pos, BlockState state) {
         double arcRadius = 8.0;
         AABB arcSpace = AABB.ofSize(pos.getCenter(), 2.0 * arcRadius, 2.0 * arcRadius, 2.0 * arcRadius);
-        seed = 0; // TODO randomize
+        if ((level.getGameTime() % (20 * 10)) == 0) {
+            seed = level.getRandom().nextLong();
+        }
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
 
         List<ElectricMine> mines = level.getEntities(
