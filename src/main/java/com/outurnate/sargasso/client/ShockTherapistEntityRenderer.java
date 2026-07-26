@@ -1,7 +1,6 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 
@@ -20,7 +19,7 @@ import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    private static record ElectricArc(
+    public static record ElectricArc(
         Vector3f origin,
         Vector3f delta,
         ArrayList<LineSegment> segments) {
@@ -69,7 +68,7 @@ public class ShockTherapistEntityRenderer
             this(origin, delta, segments);
         }
 
-        public void draw(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
             double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
 
             poseStack.pushPose();
@@ -174,7 +173,7 @@ public class ShockTherapistEntityRenderer
             PoseStack poseStack,
             SubmitNodeCollector submitNodeCollector,
             int lightCoords) {
-            float size = 1.0F / 16.0F;
+            float size = 0.25F / 16.0F;
             drawQuadB(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, -size);
             drawQuadA(poseStack, submitNodeCollector, lightCoords, 0.0F, size, -size, 0.0F);
             drawQuadA(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, size);
@@ -203,8 +202,15 @@ public class ShockTherapistEntityRenderer
             partialTicks,
             cameraPosition,
             breakProgress);
+        Vec3 blockPos = new Vec3(state.blockPos);
+        RandomSource random = RandomSource.createThreadLocalInstance(blockEntity.seed);
         state.bolts = blockEntity.bolts.stream()
-            .map(b -> new Pair<>(b.getFirst().pos(partialTicks), b.getSecond().pos(partialTicks))).toList();
+            .map(
+                b -> new ElectricArc(
+                    b.getFirst().pos(partialTicks).subtract(blockPos).toVector3f(),
+                    b.getSecond().pos(partialTicks).subtract(blockPos).toVector3f(),
+                    random.nextLong()))
+            .toList();
     }
 
     @Override
@@ -213,13 +219,8 @@ public class ShockTherapistEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
-        Vec3 blockPos = new Vec3(state.blockPos);
-        for (Pair<Vec3, Vec3> mine : state.bolts) {
-            new ElectricArc(
-                mine.getFirst().subtract(blockPos).toVector3f(),
-                mine.getSecond().subtract(blockPos).toVector3f(),
-                0)
-                    .draw(poseStack, submitNodeCollector, state.lightCoords);
+        for (ElectricArc arc : state.bolts) {
+            arc.submit(poseStack, submitNodeCollector, state.lightCoords);
         }
     }
 }
