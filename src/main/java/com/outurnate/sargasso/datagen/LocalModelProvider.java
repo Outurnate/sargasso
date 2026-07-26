@@ -151,10 +151,30 @@ public class LocalModelProvider extends ModelProvider {
 
         blockModels.blockStateOutput.accept(
             MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get())
-                .with(plainVariant(shock_therapist))
                 .with(
-                    condition().term(ShockTherapistBlock.PHASE, Phase.DISCHARGING),
-                    plainVariant(shock_therapist_glow)));
+                    condition().term(BlockStateProperties.ATTACH_FACE, AttachFace.CEILING),
+                    plainVariant(shock_therapist).with(X_ROT_180))
+                .with(
+                    condition().term(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR),
+                    plainVariant(shock_therapist).with(NOP))
+                .with(
+                    condition().term(BlockStateProperties.ATTACH_FACE, AttachFace.WALL),
+                    plainVariant(shock_therapist).with(X_ROT_90))
+                .with(
+                    condition()
+                        .term(ShockTherapistBlock.PHASE, Phase.DISCHARGING)
+                        .term(BlockStateProperties.ATTACH_FACE, AttachFace.CEILING),
+                    plainVariant(shock_therapist_glow).with(X_ROT_180))
+                .with(
+                    condition()
+                        .term(ShockTherapistBlock.PHASE, Phase.DISCHARGING)
+                        .term(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR),
+                    plainVariant(shock_therapist_glow).with(NOP))
+                .with(
+                    condition()
+                        .term(ShockTherapistBlock.PHASE, Phase.DISCHARGING)
+                        .term(BlockStateProperties.ATTACH_FACE, AttachFace.WALL),
+                    plainVariant(shock_therapist_glow).with(X_ROT_90)));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
