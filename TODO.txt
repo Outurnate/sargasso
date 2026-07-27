@@ -5,6 +5,7 @@
 - sun is in the wrong place
 - normalize translation keys and centralize them
 - shock therapist
+- something fixed in one place that you can build a factory around
 
 DONE
 - fix dupe bug

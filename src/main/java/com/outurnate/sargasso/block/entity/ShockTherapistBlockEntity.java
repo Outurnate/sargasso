@@ -146,7 +146,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         RandomSource random = level.getRandom();
         // scale the number of mines by the number of nearby sources
         // reduces spamminess
-        int nearby = Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get());
+        int nearby = Math.max(Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get()), 1);
         int num = random.nextInt(Math.min(5 / nearby, 1), Math.min(10 / nearby, 2));
         for (int i = 0; i < num; ++i) {
             Entity electricMine = new ElectricMine(level);
