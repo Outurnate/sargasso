@@ -60,6 +60,11 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     private static final Codec<List<Pair<LerpVec3, LerpVec3>>> BOLTS_CODEC = LERP_PAIR_CODEC.listOf();
 
+    private static final int IDLE_TICKS = 10 * 20;
+
+    private static final int CHARGE_TICKS = 3 * 20;
+    private static final int DISCHARGE_TICKS = 5 * 20;
+
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
         while (mines.size() != 0) {
@@ -70,6 +75,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     public List<Pair<LerpVec3, LerpVec3>> bolts = List.of();
     public long seed = 0;
+    private int ticksToNextState = IDLE_TICKS;
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
@@ -123,7 +129,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private Direction getUp(BlockState state) {
         return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
             case AttachFace.CEILING -> Direction.DOWN;
-            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING).getOpposite();
+            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
             case AttachFace.FLOOR -> Direction.UP;
         };
     }
@@ -149,7 +155,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         int nearby = Math.max(Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get()), 1);
         int num = random.nextInt(Math.max(5 / nearby, 1), Math.max(10 / nearby, 2));
         for (int i = 0; i < num; ++i) {
-            Entity electricMine = new ElectricMine(level);
+            Entity electricMine = new ElectricMine(level, CHARGE_TICKS + DISCHARGE_TICKS);
             electricMine.setPos(pos.getCenter());
 
             Vec3 movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
@@ -159,22 +165,31 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
+        --this.ticksToNextState;
+        if (this.ticksToNextState < 0) {
+            Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
+            Phase newPhase = oldPhase.next();
+            this.ticksToNextState = switch (newPhase) {
+                case CHARGING -> CHARGE_TICKS;
+                case DISCHARGING -> DISCHARGE_TICKS;
+                case IDLE -> IDLE_TICKS;
+            };
+            state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
+            level.setBlock(pos, state, 0);
+
+            if (newPhase == Phase.CHARGING) {
+                spawnMines(level, pos, state);
+            } else if (newPhase == Phase.IDLE) {
+                this.bolts = List.of();
+            }
+        }
+
         if ((level.getGameTime() % 10) == 0) {
             seed = level.getRandom().nextLong();
         }
 
         if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
             arc(level, pos, state);
-        }
-
-        if ((level.getGameTime() % (20 * 10)) == 0) {
-            Phase newPhase = state.getValue(ShockTherapistBlock.PHASE).next();
-            level.setBlock(pos, state.setValue(ShockTherapistBlock.PHASE, newPhase), 0);
-            if (newPhase == Phase.CHARGING) {
-                spawnMines(level, pos, state);
-            } else if (newPhase == Phase.IDLE) {
-                this.bolts = List.of();
-            }
         }
     }
 }

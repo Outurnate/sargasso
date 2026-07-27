@@ -28,6 +28,11 @@ public class ElectricMine extends Entity {
         super(LocalEntities.ELECTRIC_MINE.get(), level);
     }
 
+    public ElectricMine(Level level, int remainingTicks) {
+        super(LocalEntities.ELECTRIC_MINE.get(), level);
+        this.remainingTicks = remainingTicks;
+    }
+
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
         output.putInt("remainingTicks", this.remainingTicks);

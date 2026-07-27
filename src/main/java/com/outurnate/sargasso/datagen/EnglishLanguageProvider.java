@@ -108,6 +108,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
 
+        this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
+
         for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
             this.add(entry.getKey(), entry.getValue());
         }
