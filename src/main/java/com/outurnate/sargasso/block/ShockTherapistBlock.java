@@ -117,6 +117,15 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     }
 
     @Override
+    protected VoxelShape getShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context) {
+        return defaultShape();
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction clickedFace = context.getClickedFace();
         AttachFace attachFace = switch (clickedFace) {
@@ -146,15 +155,6 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
             type,
             LocalBlockEntities.SHOCK_THERAPIST.get(),
             (levelInner, pos, stateInner, blockEntity) -> blockEntity.tick(levelInner, pos, stateInner));
-    }
-
-    @Override
-    protected VoxelShape getVisualShape(
-        BlockState state,
-        BlockGetter level,
-        BlockPos pos,
-        CollisionContext context) {
-        return defaultShape();
     }
 
     @Override
