@@ -123,7 +123,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private Direction getUp(BlockState state) {
         return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
             case AttachFace.CEILING -> Direction.DOWN;
-            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
+            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING).getOpposite();
             case AttachFace.FLOOR -> Direction.UP;
         };
     }
@@ -147,7 +147,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         // scale the number of mines by the number of nearby sources
         // reduces spamminess
         int nearby = Math.max(Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get()), 1);
-        int num = random.nextInt(Math.min(5 / nearby, 1), Math.min(10 / nearby, 2));
+        int num = random.nextInt(Math.max(5 / nearby, 1), Math.max(10 / nearby, 2));
         for (int i = 0; i < num; ++i) {
             Entity electricMine = new ElectricMine(level);
             electricMine.setPos(pos.getCenter());
