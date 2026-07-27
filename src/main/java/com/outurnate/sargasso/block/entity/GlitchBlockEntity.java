@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.block.entity;
 
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 
@@ -116,13 +117,7 @@ public class GlitchBlockEntity extends BlockEntity {
                 Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
                 Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
                 if (proj != null) {
-                    float speed = rand.nextFloat() + 1.0F;
-                    float yRot = chosenDirection.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
-                    float xRot = chosenDirection.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
-                    float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                    float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-                    float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-                    Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+                    Vec3 movement = Utils.randomVelInDirection(rand, chosenDirection, 1.0F, 2.0F);
                     proj.setDeltaMovement(movement);
                     proj.needsSync = true;
                     proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));

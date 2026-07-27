@@ -3,13 +3,16 @@ package com.outurnate.sargasso.block.entity;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
+import com.outurnate.sargasso.registry.LocalBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -17,6 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -116,6 +120,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
     }
 
+    private Direction getUp(BlockState state) {
+        return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
+            case AttachFace.CEILING -> Direction.DOWN;
+            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
+            case AttachFace.FLOOR -> Direction.UP;
+        };
+    }
+
     @Override
     public void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
@@ -132,18 +144,15 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     private void spawnMines(Level level, BlockPos pos, BlockState state) {
         RandomSource random = level.getRandom();
-        int num = random.nextInt(5, 10);
+        // scale the number of mines by the number of nearby sources
+        // reduces spamminess
+        int nearby = Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get());
+        int num = random.nextInt(Math.min(5 / nearby, 1), Math.min(10 / nearby, 2));
         for (int i = 0; i < num; ++i) {
             Entity electricMine = new ElectricMine(level);
-            electricMine.setPos(pos.getCenter().add(0.0, 1.0, 0.0));
+            electricMine.setPos(pos.getCenter());
 
-            float yRot = random.nextFloat() * 360.0F;
-            float xRot = 225.0F;
-            float speed = 0.2F + (random.nextFloat() * 0.2F);
-            float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-            float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-            float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-            Vec3 movement = new Vec3(xd, yd, zd).normalize().scale(speed);
+            Vec3 movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
             electricMine.setDeltaMovement(movement);
             level.addFreshEntity(electricMine);
         }
