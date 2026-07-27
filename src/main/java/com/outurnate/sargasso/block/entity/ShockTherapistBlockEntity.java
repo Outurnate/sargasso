@@ -139,6 +139,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         super.loadAdditional(input);
         this.seed = input.getLongOr("seed", 0);
         this.bolts = input.read("bolts", BOLTS_CODEC).orElseGet(List::of);
+        this.ticksToNextState = input.getIntOr("clock", IDLE_TICKS);
     }
 
     @Override
@@ -146,6 +147,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         super.saveAdditional(output);
         output.putLong("seed", this.seed);
         output.store("bolts", BOLTS_CODEC, this.bolts);
+        output.putInt("clock", this.ticksToNextState);
     }
 
     private void spawnMines(Level level, BlockPos pos, BlockState state) {
