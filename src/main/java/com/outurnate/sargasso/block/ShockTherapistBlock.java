@@ -55,33 +55,113 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
     public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
         .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
+    private static final double ORIGINAL_SHAPE_minX = 0.125;
+    private static final double ORIGINAL_SHAPE_minY = 0.0;
+    private static final double ORIGINAL_SHAPE_minZ = 0.25;
+    private static final double ORIGINAL_SHAPE_maxX = 0.875;
+    private static final double ORIGINAL_SHAPE_maxY = 0.5;
+    private static final double ORIGINAL_SHAPE_maxZ = 0.75;
+    private static final double FLIPPED_SHAPE_minY = 1.0 - ORIGINAL_SHAPE_maxY;
+    private static final double FLIPPED_SHAPE_maxY = 1.0 - ORIGINAL_SHAPE_minY;
     private static final Map<Direction, VoxelShape> WALL_SHAPES = Map.of(
         Direction.NORTH,
-        Shapes.box(0.125, 0.25, 0.5, 0.875, 0.75, 1.0),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_minZ,
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_maxX,
+            ORIGINAL_SHAPE_maxZ,
+            FLIPPED_SHAPE_maxY),
         Direction.EAST,
-        Shapes.box(0.0, 0.25, 0.125, 0.5, 0.75, 0.875),
+        Shapes.box(
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ,
+            ORIGINAL_SHAPE_maxX),
         Direction.SOUTH,
-        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.75, 0.5),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_maxX,
+            ORIGINAL_SHAPE_maxZ,
+            ORIGINAL_SHAPE_maxY),
         Direction.WEST,
-        Shapes.box(0.5, 0.25, 0.125, 1.0, 0.75, 0.875));
+        Shapes.box(
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_minX,
+            FLIPPED_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ,
+            ORIGINAL_SHAPE_maxX));
     private static final Map<Direction, VoxelShape> FLOOR_SHAPE = Map.of(
         Direction.NORTH,
-        Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.75),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_maxX,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ),
         Direction.EAST,
-        Shapes.box(0.25, 0.0, 0.125, 0.75, 0.5, 0.875),
+        Shapes.box(
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_maxZ,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxX),
         Direction.SOUTH,
-        Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.75),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_maxX,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ),
         Direction.WEST,
-        Shapes.box(0.25, 0.0, 0.125, 0.75, 0.5, 0.875));
+        Shapes.box(
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_maxZ,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxX));
     private static final Map<Direction, VoxelShape> CEILING_SHAPE = Map.of(
         Direction.NORTH,
-        Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.75),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_maxX,
+            FLIPPED_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ),
         Direction.EAST,
-        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.75, 0.5),
+        Shapes.box(
+            ORIGINAL_SHAPE_minZ,
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_maxZ,
+            FLIPPED_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxX),
         Direction.SOUTH,
-        Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.75),
+        Shapes.box(
+            ORIGINAL_SHAPE_minX,
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_maxX,
+            FLIPPED_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ),
         Direction.WEST,
-        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.75, 0.5));
+        Shapes.box(
+            ORIGINAL_SHAPE_minZ,
+            FLIPPED_SHAPE_minY,
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_maxZ,
+            FLIPPED_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxX));
 
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
@@ -126,7 +206,6 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
             case FLOOR -> FLOOR_SHAPE;
             case WALL -> WALL_SHAPES;
         }).get(state.getValue(HORIZONTAL_FACING));
-        // return Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.875);
     }
 
     @Override
