@@ -3,6 +3,7 @@ package com.outurnate.sargasso;
 
 import com.outurnate.sargasso.registry.LocalDimensions;
 
+import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class Utils {
     public static int countBlocks(Level level, BlockPos center, int radius, Block block) {
@@ -48,6 +51,48 @@ public class Utils {
         }
 
         return a;
+    }
+
+    public static Map<Direction, VoxelShape> horizontalMap(
+        double minX,
+        double minY,
+        double minZ,
+        double maxX,
+        double maxY,
+        double maxZ) {
+        return Map.of(
+            Direction.NORTH,
+            Shapes.box(
+                minX,
+                minY,
+                minZ,
+                maxX,
+                maxY,
+                maxZ),
+            Direction.EAST,
+            Shapes.box(
+                minZ,
+                minY,
+                minX,
+                maxZ,
+                maxY,
+                maxX),
+            Direction.SOUTH,
+            Shapes.box(
+                minX,
+                minY,
+                minZ,
+                maxX,
+                maxY,
+                maxZ),
+            Direction.WEST,
+            Shapes.box(
+                minZ,
+                minY,
+                minX,
+                maxZ,
+                maxY,
+                maxX));
     }
 
     public static long nextLong(RandomSource randomSource, long max) {

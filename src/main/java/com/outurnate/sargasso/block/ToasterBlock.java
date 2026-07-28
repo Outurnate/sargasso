@@ -3,6 +3,7 @@ package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.network.chat.DurationContents;
 import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
@@ -38,16 +39,9 @@ import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class ToasterBlock extends Block {
     public static final MapCodec<ToasterBlock> CODEC = simpleCodec(ToasterBlock::new);
-    private static final Map<Direction, VoxelShape> SHAPES = Map.of(
-        Direction.NORTH,
-        Block.box(4.0, 0.0, 5.0, 12.0, 6.0, 10.0),
-        Direction.EAST,
-        Block.box(6.0, 0.0, 4.0, 11.0, 6.0, 12.0),
-        Direction.SOUTH,
-        Block.box(4.0, 0.0, 6.0, 12.0, 6.0, 11.0),
-        Direction.WEST,
-        Block.box(5.0, 0.0, 4.0, 10.0, 6.0, 12.0));
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    private static final Map<Direction, VoxelShape> SHAPES = Utils
+        .horizontalMap(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
 
     @SubscribeEvent
     public static void onEntityFinishUsing(LivingEntityUseItemEvent.Finish event) {
