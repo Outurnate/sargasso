@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
+import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -54,6 +55,17 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
     public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
         .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
+    private static final Map<Direction, VoxelShape> WALL_SHAPES = Map.of(
+        Direction.NORTH,
+        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.875, 0.5),
+        Direction.EAST,
+        Shapes.box(0.0, 0.125, 0.25, 0.5, 0.875, 0.875),
+        Direction.SOUTH,
+        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.875, 0.5),
+        Direction.WEST,
+        Shapes.box(0.0, 0.125, 0.25, 0.5, 0.875, 0.875));
+    private static final VoxelShape FLOOR_SHAPE = Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.875);
+    private static final VoxelShape CEILING_SHAPE = Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.875);
 
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
@@ -93,7 +105,12 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         BlockGetter level,
         BlockPos pos,
         CollisionContext context) {
-        return Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.875);
+        return switch (state.getValue(ATTACH_FACE)) {
+            case CEILING -> CEILING_SHAPE;
+            case FLOOR -> FLOOR_SHAPE;
+            case WALL -> WALL_SHAPES.get(state.getValue(HORIZONTAL_FACING));
+        };
+        // return Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.875);
     }
 
     @Override
