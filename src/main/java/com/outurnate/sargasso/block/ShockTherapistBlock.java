@@ -64,8 +64,8 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         Shapes.box(0.125, 0.25, 0.0, 0.875, 0.875, 0.5),
         Direction.WEST,
         Shapes.box(0.0, 0.125, 0.25, 0.5, 0.875, 0.875));
-    private static final VoxelShape FLOOR_SHAPE = Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.875);
-    private static final VoxelShape CEILING_SHAPE = Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.875);
+    private static final VoxelShape FLOOR_SHAPE = Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.75);
+    private static final VoxelShape CEILING_SHAPE = Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.75);
 
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
