@@ -57,13 +57,13 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
     private static final Map<Direction, VoxelShape> WALL_SHAPES = Map.of(
         Direction.NORTH,
-        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.75, 0.5),
-        Direction.EAST,
-        Shapes.box(0.0, 0.125, 0.25, 0.5, 0.875, 0.75),
-        Direction.SOUTH,
         Shapes.box(0.125, 0.25, 0.5, 0.875, 0.75, 1.0),
+        Direction.EAST,
+        Shapes.box(0.0, 0.25, 0.125, 0.5, 0.75, 0.875),
+        Direction.SOUTH,
+        Shapes.box(0.125, 0.25, 0.0, 0.875, 0.75, 0.5),
         Direction.WEST,
-        Shapes.box(0.5, 0.125, 0.25, 1.0, 0.875, 0.75));
+        Shapes.box(0.5, 0.25, 0.125, 1.0, 0.75, 0.875));
     private static final VoxelShape FLOOR_SHAPE = Shapes.box(0.125, 0.0, 0.25, 0.875, 0.5, 0.75);
     private static final VoxelShape CEILING_SHAPE = Shapes.box(0.125, 0.5, 0.25, 0.875, 1.0, 0.75);
 
