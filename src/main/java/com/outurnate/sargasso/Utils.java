@@ -162,7 +162,6 @@ public class Utils {
         Direction direction,
         float minSpeed,
         float maxSpeed) {
-        direction = direction.getOpposite();
         float speed = minSpeed + (rand.nextFloat() * (maxSpeed - minSpeed));
         float yRot = direction.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
         float xRot = direction.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
