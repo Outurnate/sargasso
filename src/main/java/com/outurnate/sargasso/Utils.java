@@ -162,13 +162,19 @@ public class Utils {
         Direction direction,
         float minSpeed,
         float maxSpeed) {
+        float uncertainty = 1.0F;
         float speed = minSpeed + (rand.nextFloat() * (maxSpeed - minSpeed));
-        float yRot = direction.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
-        float xRot = direction.toYRot() + ((rand.nextFloat() * 80.0F) - 40.0F);
-        float xd = -Mth.sin(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-        float yd = -Mth.sin(xRot * Mth.DEG_TO_RAD);
-        float zd = Mth.cos(yRot * Mth.DEG_TO_RAD) * Mth.cos(xRot * Mth.DEG_TO_RAD);
-        return new Vec3(xd, yd, zd).normalize().scale(speed);
+        Vec3 movement = new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ())
+            .normalize()
+            .add(
+                rand.triangle(0.0, 0.0172275 * uncertainty),
+                rand.triangle(0.0, 0.0172275 * uncertainty),
+                rand.triangle(0.0, 0.0172275 * uncertainty))
+            .scale(speed);
+        double sd = movement.horizontalDistance();
+        double yrot = (float) (Mth.atan2(movement.x, movement.z) * 180.0F / (float) Math.PI);
+        double xrot = (float) (Mth.atan2(movement.y, sd) * 180.0F / (float) Math.PI);
+        return movement;
     }
 
     public static void sendToSea(ServerPlayer player) {
