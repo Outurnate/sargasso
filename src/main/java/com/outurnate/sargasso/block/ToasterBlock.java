@@ -41,7 +41,7 @@ public class ToasterBlock extends Block {
     public static final MapCodec<ToasterBlock> CODEC = simpleCodec(ToasterBlock::new);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final Map<Direction, VoxelShape> SHAPES = Utils
-        .horizontalMap(4.0, 0.0, 5.0, 12.0, 6.0, 10.0);
+        .horizontalMap(4.0 / 16.0, 0.0, 5.0 / 16.0, 12.0 / 16.0, 6.0 / 16.0, 10.0 / 16.0);
 
     @SubscribeEvent
     public static void onEntityFinishUsing(LivingEntityUseItemEvent.Finish event) {
