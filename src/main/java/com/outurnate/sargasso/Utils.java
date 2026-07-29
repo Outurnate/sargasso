@@ -17,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.Vec3;
@@ -24,6 +25,56 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class Utils {
+    public static Map<AttachFace, Map<Direction, VoxelShape>> attachedHorizontalMap(
+        double minX,
+        double minY,
+        double minZ,
+        double maxX,
+        double maxY,
+        double maxZ) {
+        double fminY = 1.0 - maxY;
+        double fmaxY = 1.0 - minY;
+        return Map.of(
+            AttachFace.FLOOR,
+            horizontalMap(minX, minY, minZ, maxX, maxY, maxZ),
+            AttachFace.CEILING,
+            horizontalMap(minX, fminY, minZ, maxX, fmaxY, maxZ),
+            AttachFace.WALL,
+            Map.of(
+                Direction.NORTH,
+                Shapes.box(
+                    minX,
+                    minZ,
+                    fminY,
+                    maxX,
+                    maxZ,
+                    fmaxY),
+                Direction.EAST,
+                Shapes.box(
+                    minY,
+                    minZ,
+                    minX,
+                    maxY,
+                    maxZ,
+                    maxX),
+                Direction.SOUTH,
+                Shapes.box(
+                    minX,
+                    minZ,
+                    minY,
+                    maxX,
+                    maxZ,
+                    maxY),
+                Direction.WEST,
+                Shapes.box(
+                    fminY,
+                    minZ,
+                    minX,
+                    fmaxY,
+                    maxZ,
+                    maxX)));
+    }
+
     public static int countBlocks(Level level, BlockPos center, int radius, Block block) {
         int count = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
