@@ -111,6 +111,8 @@ public class Utils {
         double maxX,
         double maxY,
         double maxZ) {
+        double fminZ = 1.0 - maxZ;
+        double fmaxZ = 1.0 - minZ;
         return Map.of(
             Direction.NORTH,
             Shapes.box(
@@ -122,20 +124,20 @@ public class Utils {
                 maxZ),
             Direction.EAST,
             Shapes.box(
-                minZ,
+                fminZ,
                 minY,
                 minX,
-                maxZ,
+                fmaxZ,
                 maxY,
                 maxX),
             Direction.SOUTH,
             Shapes.box(
                 minX,
                 minY,
-                minZ,
+                fminZ,
                 maxX,
                 maxY,
-                maxZ),
+                fmaxZ),
             Direction.WEST,
             Shapes.box(
                 minZ,
