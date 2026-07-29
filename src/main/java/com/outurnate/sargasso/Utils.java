@@ -25,6 +25,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class Utils {
+    public static record VelocityHeading(Vec3 velocity, float yrot, float xrot) {
+    }
+
     public static Map<AttachFace, Map<Direction, VoxelShape>> attachedHorizontalMap(
         double minX,
         double minY,
@@ -157,12 +160,12 @@ public class Utils {
         return r % max;
     }
 
-    public static Vec3 randomVelInDirection(
+    public static VelocityHeading randomVelInDirection(
         RandomSource rand,
         Direction direction,
         float minSpeed,
         float maxSpeed) {
-        float uncertainty = 1.0F;
+        float uncertainty = 10.0F;
         float speed = minSpeed + (rand.nextFloat() * (maxSpeed - minSpeed));
         Vec3 movement = new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ())
             .normalize()
@@ -174,7 +177,7 @@ public class Utils {
         double sd = movement.horizontalDistance();
         double yrot = (float) (Mth.atan2(movement.x, movement.z) * 180.0F / (float) Math.PI);
         double xrot = (float) (Mth.atan2(movement.y, sd) * 180.0F / (float) Math.PI);
-        return movement;
+        return new VelocityHeading(movement, (float) yrot, (float) xrot);
     }
 
     public static void sendToSea(ServerPlayer player) {

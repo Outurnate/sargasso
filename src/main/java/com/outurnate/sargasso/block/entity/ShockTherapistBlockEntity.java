@@ -160,8 +160,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             Entity electricMine = new ElectricMine(level, CHARGE_TICKS + DISCHARGE_TICKS);
             electricMine.setPos(pos.getCenter());
 
-            Vec3 movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
-            electricMine.setDeltaMovement(movement);
+            Utils.VelocityHeading movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
+            electricMine.setDeltaMovement(movement.velocity());
             level.addFreshEntity(electricMine);
         }
     }

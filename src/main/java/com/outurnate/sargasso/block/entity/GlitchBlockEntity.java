@@ -11,7 +11,6 @@ import java.util.function.BiFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
@@ -117,12 +116,12 @@ public class GlitchBlockEntity extends BlockEntity {
                 Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
                 Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
                 if (proj != null) {
-                    Vec3 movement = Utils.randomVelInDirection(rand, chosenDirection, 1.0F, 2.0F);
-                    proj.setDeltaMovement(movement);
+                    Utils.VelocityHeading movement = Utils
+                        .randomVelInDirection(rand, chosenDirection, 1.0F, 2.0F);
+                    proj.setDeltaMovement(movement.velocity());
                     proj.needsSync = true;
-                    proj.setYRot((float) (Mth.atan2(movement.x, movement.z) * Mth.RAD_TO_DEG));
-                    proj.setXRot(
-                        (float) (Mth.atan2(movement.y, movement.horizontalDistance()) * Mth.RAD_TO_DEG));
+                    proj.setYRot(movement.yrot());
+                    proj.setXRot(movement.xrot());
                     proj.yRotO = proj.getYRot();
                     proj.xRotO = proj.getXRot();
                     level.addFreshEntity(proj);
