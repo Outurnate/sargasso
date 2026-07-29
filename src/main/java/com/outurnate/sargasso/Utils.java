@@ -165,14 +165,14 @@ public class Utils {
         Direction direction,
         float minSpeed,
         float maxSpeed) {
-        float uncertainty = 10.0F;
+        float uncertainty = 45.0F;
         float speed = minSpeed + (rand.nextFloat() * (maxSpeed - minSpeed));
         Vec3 movement = new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ())
             .normalize()
             .add(
-                rand.triangle(0.0, 0.0172275 * uncertainty),
-                rand.triangle(0.0, 0.0172275 * uncertainty),
-                rand.triangle(0.0, 0.0172275 * uncertainty))
+                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty),
+                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty),
+                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty))
             .scale(speed);
         double sd = movement.horizontalDistance();
         double yrot = (float) (Mth.atan2(movement.x, movement.z) * 180.0F / (float) Math.PI);
