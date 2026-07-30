@@ -55,7 +55,7 @@ public class SparkParticle extends SingleQuadParticle {
         SpriteSet spriteSet) {
         super(level, x, y, z, xa, ya, za, spriteSet.first());
         this.spriteSet = spriteSet;
-        this.gravity = 0.0F;
+        this.gravity = -1.0F;
     }
 
     @Override
