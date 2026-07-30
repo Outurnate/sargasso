@@ -9,12 +9,15 @@ import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
+import com.outurnate.sargasso.registry.LocalDamageTypes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -22,6 +25,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -146,8 +150,10 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                             .isPresent()));
             }
             for (Entity struckEntity : struckEntities) {
-                // TODO custom damage source
-                struckEntity.hurtServer(serverLevel, serverLevel.damageSources().lightningBolt(), 1.0F);
+                DamageSource damageSource = new DamageSource(
+                    level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                        .getOrThrow(LocalDamageTypes.ELECTRIC_SHOCK));
+                struckEntity.hurtServer(serverLevel, damageSource, 1.0F);
             }
         }
     }

@@ -20,8 +20,14 @@ public class LocalDamageTypesTagsProvider extends DamageTypeTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         this.tag(DamageTypeTags.BYPASSES_ARMOR).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
         this.tag(DamageTypeTags.BYPASSES_COOLDOWN).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
-        this.tag(DamageTypeTags.BYPASSES_INVULNERABILITY).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
         this.tag(DamageTypeTags.BYPASSES_SHIELD).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
         this.tag(DamageTypeTags.IS_EXPLOSION).add(LocalDamageTypes.HEAD_EXPLOSION).replace(false);
+        this.tag(DamageTypeTags.NO_KNOCKBACK)
+            .add(LocalDamageTypes.HEAD_EXPLOSION)
+            .add(LocalDamageTypes.ELECTRIC_SHOCK)
+            .replace(false);
+        this.tag(DamageTypeTags.IS_LIGHTNING).add(LocalDamageTypes.ELECTRIC_SHOCK).replace(false);
+        this.tag(DamageTypeTags.PANIC_ENVIRONMENTAL_CAUSES).add(LocalDamageTypes.ELECTRIC_SHOCK)
+            .replace(false);
     }
 }
