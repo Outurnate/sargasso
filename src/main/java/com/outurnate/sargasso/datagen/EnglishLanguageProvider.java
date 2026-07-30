@@ -113,8 +113,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
                 LocalPotions.EXTRA_STRONG_HEAD_EXPLOSION,
                 LocalPotions.LONG_HEAD_EXPLOSION));
 
-        this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
         this.addDamageType(LocalDamageTypes.ELECTRIC_SHOCK, "%s was electrocuted");
+        this.addDamageType(LocalDamageTypes.HEAD_EXPLOSION, "%s's head exploded");
 
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
 

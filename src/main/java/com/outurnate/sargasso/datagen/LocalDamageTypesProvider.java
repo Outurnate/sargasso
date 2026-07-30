@@ -20,5 +20,13 @@ public class LocalDamageTypesProvider {
                 0.1F,
                 DamageEffects.HURT,
                 DeathMessageType.DEFAULT));
+        bootstrap.register(
+            LocalDamageTypes.ELECTRIC_SHOCK,
+            new DamageType(
+                LocalDamageTypes.ELECTRIC_SHOCK.identifier().toLanguageKey(),
+                DamageScaling.NEVER,
+                0.1F,
+                DamageEffects.HURT,
+                DeathMessageType.DEFAULT));
     }
 }
