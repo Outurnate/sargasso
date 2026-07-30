@@ -13,6 +13,6 @@ public class LocalParticleDescriptionProvider extends ParticleDescriptionProvide
 
     @Override
     protected void addDescriptions() {
-        this.spriteSet(LocalParticleTypes.SPARK.get(), SuperSargassoSea.ID("spark"), 3, false);
+        this.spriteSet(LocalParticleTypes.SPARK.get(), SuperSargassoSea.ID("spark"), 6, false);
     }
 }
