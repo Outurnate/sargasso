@@ -113,7 +113,11 @@ public class LocalBlocks {
             .strength(1.0F)
             .sound(SoundType.IRON)
             .forceSolidOn()
-            .noOcclusion());
+            .noOcclusion()
+            .lightLevel(
+                state -> state.getValue(ShockTherapistBlock.PHASE) == ShockTherapistBlock.Phase.DISCHARGING
+                    ? 15
+                    : 0));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

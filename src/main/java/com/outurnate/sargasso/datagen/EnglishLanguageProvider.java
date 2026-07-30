@@ -4,6 +4,7 @@ package com.outurnate.sargasso.datagen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.registry.LocalBlocks;
+import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
@@ -15,12 +16,18 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.alchemy.Potion;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class EnglishLanguageProvider extends LanguageProvider {
     public EnglishLanguageProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, SuperSargassoSea.MODID, "en_us");
+    }
+
+    private void addDamageType(ResourceKey<DamageType> damageType, String translation) {
+        this.add(damageType.identifier().toLanguageKey("death.attack"), translation);
     }
 
     private void addPotion(String name, List<Holder<Potion>> potions) {
@@ -107,6 +114,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
                 LocalPotions.LONG_HEAD_EXPLOSION));
 
         this.add("death.attack.sargasso.head_explosion", "%s's head exploded");
+        this.addDamageType(LocalDamageTypes.ELECTRIC_SHOCK, "%s was electrocuted");
 
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
 

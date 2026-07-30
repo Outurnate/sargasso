@@ -16,11 +16,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -157,6 +161,11 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return this.saveWithoutMetadata(registries);
     }
@@ -189,6 +198,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
             Utils.VelocityHeading movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
             electricMine.setDeltaMovement(movement.velocity());
+            electricMine.needsSync = true;
             level.addFreshEntity(electricMine);
         }
     }
@@ -204,7 +214,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 case IDLE -> IDLE_TICKS;
             };
             state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
-            level.setBlock(pos, state, 0);
+            level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
 
             if (newPhase == Phase.CHARGING) {
                 spawnMines(level, pos, state);
