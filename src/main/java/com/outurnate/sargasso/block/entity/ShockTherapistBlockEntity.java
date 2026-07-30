@@ -10,6 +10,7 @@ import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
+import com.outurnate.sargasso.registry.LocalParticleTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,6 +236,17 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
         if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
             arc(level, pos, state);
+        }
+
+        if (state.getValue(ShockTherapistBlock.PHASE) != Phase.IDLE) {
+            level.addParticle(
+                LocalParticleTypes.SPARK.get(),
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                0.0,
+                0.0,
+                0.0);
         }
     }
 }
