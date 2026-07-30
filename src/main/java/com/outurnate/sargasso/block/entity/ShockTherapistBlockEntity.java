@@ -12,7 +12,6 @@ import com.outurnate.sargasso.registry.LocalBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -66,10 +65,25 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private static final int CHARGE_TICKS = 3 * 20;
     private static final int DISCHARGE_TICKS = 5 * 20;
 
-    private static final Map<Direction, Vec3> LEFTPOS_MAP = Utils
-        .horizontalMap(3.0 / 16.0, 6.0 / 16.0, 8.0 / 16.0);
-    private static final Map<Direction, Vec3> RIGHTPOS_MAP = Utils
-        .horizontalMap(13.0 / 16.0, 6.0 / 16.0, 8.0 / 16.0);
+    private static final double ARCPOS_X = 3.0 / 16.0;
+    private static final double ARCPOS_Y = 6.0 / 16.0;
+    private static final double ARCPOS_Z = 8.0 / 16.0;
+    private static final double ARCPOS_SHIFT = 10.0 / 16.0;
+
+    private static final Map<AttachFace, Map<Direction, Vec3>> LEFTPOS_MAP = Map.of(
+        AttachFace.CEILING,
+        Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
+        AttachFace.WALL,
+        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, ARCPOS_Y),
+        AttachFace.FLOOR,
+        Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z));
+    private static final Map<AttachFace, Map<Direction, Vec3>> RIGHTPOS_MAP = Map.of(
+        AttachFace.CEILING,
+        Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
+        AttachFace.WALL,
+        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, ARCPOS_Y),
+        AttachFace.FLOOR,
+        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z));
 
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
@@ -99,9 +113,13 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         bolts = new ArrayList<>();
         if (mines.size() > 1) {
             Vec3 leftPos = new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                .add(LEFTPOS_MAP.get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
+                .add(
+                    LEFTPOS_MAP.get(state.getValue(ShockTherapistBlock.ATTACH_FACE))
+                        .get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
             Vec3 rightPos = new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                .add(RIGHTPOS_MAP.get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
+                .add(
+                    RIGHTPOS_MAP.get(state.getValue(ShockTherapistBlock.ATTACH_FACE))
+                        .get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
             LerpVec3 lastPos = new LerpVec3(leftPos);
             for (ElectricMine mine : naiveTSP(mines, random)) {
                 LerpVec3 nextPos = new LerpVec3(mine, new Vec3(0.0, 1.0 / 16.0, 0.0));

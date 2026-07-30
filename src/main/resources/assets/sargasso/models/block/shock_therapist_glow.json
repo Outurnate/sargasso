@@ -12,6 +12,7 @@
 			"name": "glow",
 			"from": [5, 3.9, 5.9],
 			"to": [11, 8.1, 10.1],
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [7, 5, 7]},
 			"faces": {
 				"north": {"uv": [4, 2, 7, 4], "texture": "#0"},
