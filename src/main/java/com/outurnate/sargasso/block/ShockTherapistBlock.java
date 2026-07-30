@@ -5,7 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
-import java.util.Map;
+import java.util.function.Function;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -61,13 +62,16 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     private static final double ORIGINAL_SHAPE_maxX = 0.875;
     private static final double ORIGINAL_SHAPE_maxY = 0.5;
     private static final double ORIGINAL_SHAPE_maxZ = 0.75;
-    private static final Map<AttachFace, Map<Direction, VoxelShape>> SHAPES = Utils.attachedHorizontalMap(
-        ORIGINAL_SHAPE_minX,
-        ORIGINAL_SHAPE_minY,
-        ORIGINAL_SHAPE_minZ,
-        ORIGINAL_SHAPE_maxX,
-        ORIGINAL_SHAPE_maxY,
-        ORIGINAL_SHAPE_maxZ);
+    private static final Function<BlockState, VoxelShape> SHAPES = Utils.propLookup(
+        HORIZONTAL_FACING,
+        ATTACH_FACE,
+        Utils.attachedHorizontalMap(
+            ORIGINAL_SHAPE_minX,
+            ORIGINAL_SHAPE_minY,
+            ORIGINAL_SHAPE_minZ,
+            ORIGINAL_SHAPE_maxX,
+            ORIGINAL_SHAPE_maxY,
+            ORIGINAL_SHAPE_maxZ));
 
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
@@ -107,7 +111,7 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         BlockGetter level,
         BlockPos pos,
         CollisionContext context) {
-        return SHAPES.get(state.getValue(ATTACH_FACE)).get(state.getValue(HORIZONTAL_FACING));
+        return SHAPES.apply(state);
     }
 
     @Override

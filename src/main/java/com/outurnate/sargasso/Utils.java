@@ -3,8 +3,10 @@ package com.outurnate.sargasso;
 
 import com.outurnate.sargasso.registry.LocalDimensions;
 
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +19,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.Vec3;
@@ -37,45 +41,19 @@ public class Utils {
         double maxZ) {
         double fminY = 1.0 - maxY;
         double fmaxY = 1.0 - minY;
-        return Map.of(
-            AttachFace.FLOOR,
-            horizontalMap(minX, minY, minZ, maxX, maxY, maxZ),
-            AttachFace.CEILING,
-            horizontalMap(minX, fminY, minZ, maxX, fmaxY, maxZ),
-            AttachFace.WALL,
-            Map.of(
-                Direction.NORTH,
-                Shapes.box(
-                    minX,
-                    minZ,
-                    fminY,
-                    maxX,
-                    maxZ,
-                    fmaxY),
-                Direction.EAST,
-                Shapes.box(
-                    minY,
-                    minZ,
-                    minX,
-                    maxY,
-                    maxZ,
-                    maxX),
-                Direction.SOUTH,
-                Shapes.box(
-                    minX,
-                    minZ,
-                    minY,
-                    maxX,
-                    maxZ,
-                    maxY),
-                Direction.WEST,
-                Shapes.box(
-                    fminY,
-                    minZ,
-                    minX,
-                    fmaxY,
-                    maxZ,
-                    maxX)));
+
+        EnumMap<Direction, VoxelShape> wallMap = new EnumMap<>(Direction.class);
+        wallMap.put(Direction.NORTH, Shapes.box(minX, minZ, fminY, maxX, maxZ, fmaxY));
+        wallMap.put(Direction.EAST, Shapes.box(minY, minZ, minX, maxY, maxZ, maxX));
+        wallMap.put(Direction.SOUTH, Shapes.box(minX, minZ, minY, maxX, maxZ, maxY));
+        wallMap.put(Direction.WEST, Shapes.box(fminY, minZ, minX, fmaxY, maxZ, maxX));
+
+        EnumMap<AttachFace, Map<Direction, VoxelShape>> map = new EnumMap<>(AttachFace.class);
+        map.put(AttachFace.FLOOR, horizontalMap(minX, minY, minZ, maxX, maxY, maxZ));
+        map.put(AttachFace.CEILING, horizontalMap(minX, fminY, minZ, maxX, fmaxY, maxZ));
+        map.put(AttachFace.WALL, wallMap);
+
+        return map;
     }
 
     public static int countBlocks(Level level, BlockPos center, int radius, Block block) {
@@ -112,15 +90,12 @@ public class Utils {
         double y,
         double z) {
         double fz = 1.0 - z;
-        return Map.of(
-            Direction.NORTH,
-            new Vec3(x, y, z),
-            Direction.EAST,
-            new Vec3(fz, y, x),
-            Direction.SOUTH,
-            new Vec3(x, y, fz),
-            Direction.WEST,
-            new Vec3(z, y, x));
+        EnumMap<Direction, Vec3> map = new EnumMap<>(Direction.class);
+        map.put(Direction.NORTH, new Vec3(x, y, z));
+        map.put(Direction.EAST, new Vec3(fz, y, x));
+        map.put(Direction.SOUTH, new Vec3(x, y, fz));
+        map.put(Direction.WEST, new Vec3(z, y, x));
+        return map;
     }
 
     // TODO assumes centered in X direction
@@ -133,39 +108,12 @@ public class Utils {
         double maxZ) {
         double fminZ = 1.0 - maxZ;
         double fmaxZ = 1.0 - minZ;
-        return Map.of(
-            Direction.NORTH,
-            Shapes.box(
-                minX,
-                minY,
-                minZ,
-                maxX,
-                maxY,
-                maxZ),
-            Direction.EAST,
-            Shapes.box(
-                fminZ,
-                minY,
-                minX,
-                fmaxZ,
-                maxY,
-                maxX),
-            Direction.SOUTH,
-            Shapes.box(
-                minX,
-                minY,
-                fminZ,
-                maxX,
-                maxY,
-                fmaxZ),
-            Direction.WEST,
-            Shapes.box(
-                minZ,
-                minY,
-                minX,
-                maxZ,
-                maxY,
-                maxX));
+        EnumMap<Direction, VoxelShape> map = new EnumMap<>(Direction.class);
+        map.put(Direction.NORTH, Shapes.box(minX, minY, minZ, maxX, maxY, maxZ));
+        map.put(Direction.EAST, Shapes.box(fminZ, minY, minX, fmaxZ, maxY, maxX));
+        map.put(Direction.SOUTH, Shapes.box(minX, minY, fminZ, maxX, maxY, fmaxZ));
+        map.put(Direction.WEST, Shapes.box(minZ, minY, minX, maxZ, maxY, maxX));
+        return map;
     }
 
     public static long nextLong(RandomSource randomSource, long max) {
@@ -175,6 +123,13 @@ public class Utils {
             r = randomSource.nextLong() & Long.MAX_VALUE;
         } while (r >= limit);
         return r % max;
+    }
+
+    public static <T> Function<BlockState, T> propLookup(
+        EnumProperty<Direction> directionProp,
+        EnumProperty<AttachFace> attachProp,
+        Map<AttachFace, Map<Direction, T>> map) {
+        return state -> map.get(state.getValue(attachProp)).get(state.getValue(directionProp));
     }
 
     public static VelocityHeading randomVelInDirection(

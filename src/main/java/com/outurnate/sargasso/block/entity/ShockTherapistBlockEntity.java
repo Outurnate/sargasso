@@ -15,6 +15,8 @@ import com.outurnate.sargasso.registry.LocalParticleTypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -81,20 +83,26 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private static final double ARCPOS_Z = 8.0 / 16.0;
     private static final double ARCPOS_SHIFT = 10.0 / 16.0;
 
-    private static final Map<AttachFace, Map<Direction, Vec3>> LEFTPOS_MAP = Map.of(
-        AttachFace.CEILING,
-        Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
-        AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, 1.0 - ARCPOS_Y),
-        AttachFace.FLOOR,
-        Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z));
-    private static final Map<AttachFace, Map<Direction, Vec3>> RIGHTPOS_MAP = Map.of(
-        AttachFace.CEILING,
-        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, 1.0 - ARCPOS_Y, ARCPOS_Z),
-        AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Z, 1.0 - ARCPOS_Y),
-        AttachFace.FLOOR,
-        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z));
+    private static final Function<BlockState, Vec3> LEFTPOS_MAP = Utils.propLookup(
+        ShockTherapistBlock.HORIZONTAL_FACING,
+        ShockTherapistBlock.ATTACH_FACE,
+        Map.of(
+            AttachFace.CEILING,
+            Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
+            AttachFace.WALL,
+            Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, 1.0 - ARCPOS_Y),
+            AttachFace.FLOOR,
+            Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z)));
+    private static final Function<BlockState, Vec3> RIGHTPOS_MAP = Utils.propLookup(
+        ShockTherapistBlock.HORIZONTAL_FACING,
+        ShockTherapistBlock.ATTACH_FACE,
+        Map.of(
+            AttachFace.CEILING,
+            Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, 1.0 - ARCPOS_Y, ARCPOS_Z),
+            AttachFace.WALL,
+            Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Z, 1.0 - ARCPOS_Y),
+            AttachFace.FLOOR,
+            Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z)));
 
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
@@ -123,14 +131,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             e -> true);
         bolts = new ArrayList<>();
         if (mines.size() > 1) {
-            Vec3 leftPos = new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                .add(
-                    LEFTPOS_MAP.get(state.getValue(ShockTherapistBlock.ATTACH_FACE))
-                        .get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
-            Vec3 rightPos = new Vec3(pos.getX(), pos.getY(), pos.getZ())
-                .add(
-                    RIGHTPOS_MAP.get(state.getValue(ShockTherapistBlock.ATTACH_FACE))
-                        .get(state.getValue(ShockTherapistBlock.HORIZONTAL_FACING)));
+            Vec3 leftPos = new Vec3(pos.getX(), pos.getY(), pos.getZ()).add(LEFTPOS_MAP.apply(state));
+            Vec3 rightPos = new Vec3(pos.getX(), pos.getY(), pos.getZ()).add(RIGHTPOS_MAP.apply(state));
             LerpVec3 lastPos = new LerpVec3(leftPos);
             for (ElectricMine mine : naiveTSP(mines, random)) {
                 LerpVec3 nextPos = new LerpVec3(mine, new Vec3(0.0, 1.0 / 16.0, 0.0));
@@ -239,11 +241,13 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
 
         if (state.getValue(ShockTherapistBlock.PHASE) != Phase.IDLE) {
+            Vec3 along = new LerpVec3(LEFTPOS_MAP.apply(state), RIGHTPOS_MAP.apply(state))
+                .pos(level.getRandom().nextFloat());
             level.addParticle(
                 LocalParticleTypes.SPARK.get(),
-                pos.getX(),
-                pos.getY(),
-                pos.getZ(),
+                pos.getX() + along.x,
+                pos.getY() + along.y,
+                pos.getZ() + along.z,
                 0.0,
                 0.0,
                 0.0);
