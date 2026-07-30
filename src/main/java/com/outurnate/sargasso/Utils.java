@@ -107,6 +107,22 @@ public class Utils {
         return a;
     }
 
+    public static Map<Direction, Vec3> horizontalMap(
+        double x,
+        double y,
+        double z) {
+        return Map.of(
+            Direction.NORTH,
+            new Vec3(x, y, z),
+            Direction.EAST,
+            new Vec3(z, y, x),
+            Direction.SOUTH,
+            new Vec3(x, y, z),
+            Direction.WEST,
+            new Vec3(z, y, x));
+    }
+
+    // TODO assumes centered in X direction
     public static Map<Direction, VoxelShape> horizontalMap(
         double minX,
         double minY,
