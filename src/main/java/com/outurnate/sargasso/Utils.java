@@ -111,15 +111,16 @@ public class Utils {
         double x,
         double y,
         double z) {
+        double fz = 1.0 - z;
         return Map.of(
             Direction.NORTH,
             new Vec3(x, y, z),
             Direction.EAST,
             new Vec3(z, y, x),
             Direction.SOUTH,
-            new Vec3(x, y, z),
+            new Vec3(x, y, fz),
             Direction.WEST,
-            new Vec3(z, y, x));
+            new Vec3(fz, y, x));
     }
 
     // TODO assumes centered in X direction
