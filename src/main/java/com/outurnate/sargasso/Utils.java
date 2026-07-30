@@ -72,6 +72,46 @@ public class Utils {
         return count;
     }
 
+    // 0-180 only
+    public static Vec3 deflectCone(
+        Direction face,
+        double minAngleDeg,
+        double maxAngleDeg,
+        RandomSource random) {
+        Vec3 n = Vec3.atLowerCornerOf(face.getUnitVec3i());
+        Vec3 u, v;
+        switch (face) {
+            case EAST, WEST -> {
+                u = new Vec3(0, 1, 0);
+                v = new Vec3(0, 0, 1);
+            }
+            case UP, DOWN -> {
+                u = new Vec3(1, 0, 0);
+                v = new Vec3(0, 0, 1);
+            }
+            case NORTH, SOUTH -> {
+                u = new Vec3(1, 0, 0);
+                v = new Vec3(0, 1, 0);
+            }
+            default -> throw new IllegalStateException();
+        }
+
+        double minRad = Math.toRadians(minAngleDeg);
+        double maxRad = Math.toRadians(maxAngleDeg);
+
+        // Uniform over the spherical shell between min and max angles
+        double cosMin = Math.cos(minRad);
+        double cosMax = Math.cos(maxRad);
+
+        double cosPhi = Mth.lerp(random.nextDouble(), cosMin, cosMax);
+        double sinPhi = Math.sqrt(1.0 - cosPhi * cosPhi);
+        double theta = random.nextDouble() * (Math.PI * 2.0);
+
+        return n.scale(cosPhi)
+            .add(u.scale(Math.cos(theta) * sinPhi))
+            .add(v.scale(Math.sin(theta) * sinPhi));
+    }
+
     public static int gcd(int a, int b) {
         a = Math.abs(a);
         b = Math.abs(b);
@@ -139,13 +179,7 @@ public class Utils {
         float maxSpeed) {
         float uncertainty = 45.0F;
         float speed = minSpeed + (rand.nextFloat() * (maxSpeed - minSpeed));
-        Vec3 movement = new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ())
-            .normalize()
-            .add(
-                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty),
-                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty),
-                rand.triangle(0.0, Mth.DEG_TO_RAD * uncertainty))
-            .scale(speed);
+        Vec3 movement = deflectCone(direction, 0.0F, uncertainty, rand).scale(speed);
         double sd = movement.horizontalDistance();
         double yrot = (float) (Mth.atan2(movement.x, movement.z) * 180.0F / (float) Math.PI);
         double xrot = (float) (Mth.atan2(movement.y, sd) * 180.0F / (float) Math.PI);
