@@ -74,14 +74,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         AttachFace.CEILING,
         Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
         AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, ARCPOS_Y),
+        Utils.horizontalMap(ARCPOS_Y, ARCPOS_Z, ARCPOS_X),
         AttachFace.FLOOR,
         Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z));
     private static final Map<AttachFace, Map<Direction, Vec3>> RIGHTPOS_MAP = Map.of(
         AttachFace.CEILING,
-        Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
+        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, 1.0 - ARCPOS_Y, ARCPOS_Z),
         AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, ARCPOS_Y),
+        Utils.horizontalMap(ARCPOS_Y, ARCPOS_Z, ARCPOS_X + ARCPOS_SHIFT),
         AttachFace.FLOOR,
         Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z));
 
