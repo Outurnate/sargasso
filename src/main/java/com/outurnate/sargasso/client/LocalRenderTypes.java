@@ -10,7 +10,6 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -37,5 +36,13 @@ public class LocalRenderTypes {
 
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
 
-    public static final RenderType ZAP = RenderTypes.entityTranslucentEmissive(ZAP_LOCATION);
+    public static final RenderType ZAP = RenderType.create(
+        "zap",
+        RenderSetup.builder(RenderPipelines.ENTITY_TRANSLUCENT_EMISSIVE)
+            .withTexture("Sampler0", ZAP_LOCATION)
+            .useOverlay()
+            .affectsCrumbling()
+            .sortOnUpload()
+            .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
+            .createRenderSetup());
 }
