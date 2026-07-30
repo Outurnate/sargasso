@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -74,14 +76,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         AttachFace.CEILING,
         Utils.horizontalMap(ARCPOS_X, 1.0 - ARCPOS_Y, ARCPOS_Z),
         AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_Y, ARCPOS_Z, ARCPOS_X),
+        Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, ARCPOS_Y),
         AttachFace.FLOOR,
         Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z));
     private static final Map<AttachFace, Map<Direction, Vec3>> RIGHTPOS_MAP = Map.of(
         AttachFace.CEILING,
         Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, 1.0 - ARCPOS_Y, ARCPOS_Z),
         AttachFace.WALL,
-        Utils.horizontalMap(ARCPOS_Y, ARCPOS_Z, ARCPOS_X + ARCPOS_SHIFT),
+        Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Z, ARCPOS_Y),
         AttachFace.FLOOR,
         Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z));
 
@@ -152,6 +154,16 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
             case AttachFace.FLOOR -> Direction.UP;
         };
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public void handleUpdateTag(ValueInput input) {
+        super.handleUpdateTag(input);
     }
 
     @Override
