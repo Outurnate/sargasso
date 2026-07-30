@@ -116,11 +116,11 @@ public class Utils {
             Direction.NORTH,
             new Vec3(x, y, z),
             Direction.EAST,
-            new Vec3(z, y, x),
+            new Vec3(fz, y, x),
             Direction.SOUTH,
             new Vec3(x, y, fz),
             Direction.WEST,
-            new Vec3(fz, y, x));
+            new Vec3(z, y, x));
     }
 
     // TODO assumes centered in X direction
