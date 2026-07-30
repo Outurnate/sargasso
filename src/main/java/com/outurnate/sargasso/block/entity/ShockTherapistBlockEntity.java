@@ -205,7 +205,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             Entity electricMine = new ElectricMine(level, CHARGE_TICKS + DISCHARGE_TICKS);
             electricMine.setPos(pos.getCenter());
 
-            Utils.VelocityHeading movement = Utils.randomVelInDirection(random, getUp(state), 0.2F, 0.4F);
+            Utils.VelocityHeading movement = Utils
+                .randomVelInDirection(random, getUp(state), 0.2, 0.4, 45.0, 45.0);
             electricMine.setDeltaMovement(movement.velocity());
             electricMine.needsSync = true;
             level.addFreshEntity(electricMine);

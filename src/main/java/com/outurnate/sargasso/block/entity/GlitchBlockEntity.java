@@ -117,7 +117,7 @@ public class GlitchBlockEntity extends BlockEntity {
                 Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
                 if (proj != null) {
                     Utils.VelocityHeading movement = Utils
-                        .randomVelInDirection(rand, chosenDirection, 1.0F, 2.0F);
+                        .randomVelInDirection(rand, chosenDirection, 1.0, 2.0, 0.0, 45.0);
                     proj.setDeltaMovement(movement.velocity());
                     proj.needsSync = true;
                     proj.setYRot(movement.yrot());
