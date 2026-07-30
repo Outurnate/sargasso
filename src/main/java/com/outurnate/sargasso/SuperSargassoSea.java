@@ -12,6 +12,7 @@ import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
 import com.outurnate.sargasso.registry.LocalMobEffects;
+import com.outurnate.sargasso.registry.LocalParticleTypes;
 import com.outurnate.sargasso.registry.LocalPotions;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 import net.minecraft.resources.Identifier;
@@ -44,5 +45,6 @@ public class SuperSargassoSea {
         LocalAttachmentTypes.register(modEventBus);
         LocalDataComponentTypes.register(modEventBus);
         LocalConsumeEffects.register(modEventBus);
+        LocalParticleTypes.register(modEventBus);
     }
 }
