@@ -19,7 +19,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LocalRenderTypes {
-    public static final RenderPipeline.Snippet GLITCH_SNIPPET = RenderPipeline
+    private static final RenderPipeline GLITCH_PIPELINE = RenderPipeline
         .builder(
             RenderPipelines.MATRICES_PROJECTION_SNIPPET,
             RenderPipelines.FOG_SNIPPET,
@@ -28,9 +28,8 @@ public class LocalRenderTypes {
         .withFragmentShader(Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "rendertype_glitch"))
         .withVertexFormat(DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS)
         .withDepthStencilState(DepthStencilState.DEFAULT)
-        .buildSnippet();
-    private static final RenderPipeline GLITCH_PIPELINE = RenderPipeline.builder(GLITCH_SNIPPET)
-        .withLocation(Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "pipeline/glitch")).build();
+        .withLocation(Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "pipeline/glitch"))
+        .build();
 
     public static final RenderType GLITCH = RenderType.create(
         "glitch",
@@ -51,6 +50,7 @@ public class LocalRenderTypes {
         .withLocation("pipeline/translucent_block")
         .withShaderDefine("ALPHA_CUTOUT", 0.01F)
         .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
+        .withCull(false)
         .withDepthStencilState(DepthStencilState.DEFAULT)
         .build();
 
