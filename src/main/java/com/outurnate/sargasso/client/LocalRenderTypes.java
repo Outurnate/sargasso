@@ -57,7 +57,7 @@ public class LocalRenderTypes {
         .withDepthStencilState(DepthStencilState.DEFAULT)
         .build();
 
-    public static final RenderType ZAP = RenderTypes.entityTranslucent(ZAP_LOCATION);
+    public static final RenderType ZAP = RenderTypes.entityCutout(ZAP_LOCATION);
     /*
      * RenderType.create( "zap", RenderSetup.builder(ZAP_PIPELINE)
      * .withTexture("Sampler0", ZAP_LOCATION) .affectsCrumbling() .sortOnUpload()
