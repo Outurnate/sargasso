@@ -56,7 +56,7 @@ public class LocalRenderTypes {
 
     public static final RenderType ZAP = RenderType.create(
         "zap",
-        RenderSetup.builder(RenderPipelines.TRANSLUCENT_BLOCK)
+        RenderSetup.builder(ZAP_PIPELINE)
             .withTexture("Sampler0", ZAP_LOCATION)
             .affectsCrumbling()
             .sortOnUpload()
