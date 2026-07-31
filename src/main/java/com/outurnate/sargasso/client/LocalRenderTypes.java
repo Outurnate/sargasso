@@ -1,6 +1,8 @@
 /* (C)2026 */
 package com.outurnate.sargasso.client;
 
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -36,6 +38,21 @@ public class LocalRenderTypes {
             .createRenderSetup());
 
     public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
+
+    public static final RenderPipeline.Snippet ZAP_SNIPPET = RenderPipeline.builder(
+        RenderPipelines.GENERIC_BLOCKS_SNIPPET,
+        RenderPipelines.MATRICES_PROJECTION_SNIPPET)
+        .withVertexShader("core/block")
+        .withFragmentShader("core/block")
+        .withShaderDefine("EMISSIVE")
+        .buildSnippet();
+
+    public static final RenderPipeline ZAP_PIPELINE = RenderPipeline.builder(ZAP_SNIPPET)
+        .withLocation("pipeline/translucent_block")
+        .withShaderDefine("ALPHA_CUTOUT", 0.01F)
+        .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
+        .withDepthStencilState(DepthStencilState.DEFAULT)
+        .build();
 
     public static final RenderType ZAP = RenderType.create(
         "zap",
