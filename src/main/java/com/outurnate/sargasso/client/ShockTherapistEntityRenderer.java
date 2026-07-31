@@ -68,7 +68,7 @@ public class ShockTherapistEntityRenderer
             this(origin, delta, segments);
         }
 
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
             double horizontalDistance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
 
             poseStack.pushPose();
@@ -77,7 +77,7 @@ public class ShockTherapistEntityRenderer
             poseStack
                 .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
             for (LineSegment segment : segments) {
-                segment.draw(poseStack, submitNodeCollector, lightCoords);
+                segment.draw(poseStack, submitNodeCollector);
             }
             poseStack.popPose();
         }
@@ -87,7 +87,6 @@ public class ShockTherapistEntityRenderer
         private void drawQuadA(
             PoseStack poseStack,
             SubmitNodeCollector submitNodeCollector,
-            int lightCoords,
             float zw,
             float yw,
             float zo,
@@ -97,32 +96,33 @@ public class ShockTherapistEntityRenderer
                 poseStack,
                 LocalRenderTypes.ZAP,
                 (pose, buffer) -> {
+                    int fullBright = 0x00F000F0;
                     buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                         .setColor(-1)
                         .setUv(0.0F, 0.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                         .setColor(-1)
                         .setUv(0.0F, 1.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                         .setColor(-1)
                         .setUv(1.0F, 1.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                         .setColor(-1)
                         .setUv(1.0F, 0.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
                 });
         }
@@ -130,7 +130,6 @@ public class ShockTherapistEntityRenderer
         private void drawQuadB(
             PoseStack poseStack,
             SubmitNodeCollector submitNodeCollector,
-            int lightCoords,
             float zw,
             float yw,
             float zo,
@@ -139,45 +138,45 @@ public class ShockTherapistEntityRenderer
                 poseStack,
                 LocalRenderTypes.ZAP,
                 (pose, buffer) -> {
+                    int fullBright = 0x00F000F0;
                     buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
                         .setColor(-1)
                         .setUv(1.0F, 0.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
                         .setColor(-1)
                         .setUv(1.0F, 1.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
                         .setColor(-1)
                         .setUv(0.0F, 1.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
                     buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
                         .setColor(-1)
                         .setUv(0.0F, 0.0F)
                         .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(lightCoords)
+                        .setLight(fullBright)
                         .setNormal(pose, 0.0F, -1.0F, 0.0F);
                 });
         }
 
         public void draw(
             PoseStack poseStack,
-            SubmitNodeCollector submitNodeCollector,
-            int lightCoords) {
+            SubmitNodeCollector submitNodeCollector) {
             float size = 0.25F / 16.0F;
-            drawQuadB(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, -size);
-            drawQuadA(poseStack, submitNodeCollector, lightCoords, 0.0F, size, -size, 0.0F);
-            drawQuadA(poseStack, submitNodeCollector, lightCoords, size, 0.0F, 0.0F, size);
-            drawQuadB(poseStack, submitNodeCollector, lightCoords, 0.0F, size, size, 0.0F);
+            drawQuadB(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size);
+            drawQuadA(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F);
+            drawQuadA(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size);
+            drawQuadB(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F);
         }
     }
 
@@ -220,7 +219,7 @@ public class ShockTherapistEntityRenderer
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
         for (ElectricArc arc : state.bolts) {
-            arc.submit(poseStack, submitNodeCollector, state.lightCoords);
+            arc.submit(poseStack, submitNodeCollector);
         }
     }
 }

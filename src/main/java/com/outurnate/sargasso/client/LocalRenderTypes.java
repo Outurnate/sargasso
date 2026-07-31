@@ -10,9 +10,9 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -57,12 +57,10 @@ public class LocalRenderTypes {
         .withDepthStencilState(DepthStencilState.DEFAULT)
         .build();
 
-    public static final RenderType ZAP = RenderType.create(
-        "zap",
-        RenderSetup.builder(ZAP_PIPELINE)
-            .withTexture("Sampler0", ZAP_LOCATION)
-            .affectsCrumbling()
-            .sortOnUpload()
-            .setOutputTarget(OutputTarget.MAIN_TARGET)
-            .createRenderSetup());
+    public static final RenderType ZAP = RenderTypes.entityTranslucent(ZAP_LOCATION);
+    /*
+     * RenderType.create( "zap", RenderSetup.builder(ZAP_PIPELINE)
+     * .withTexture("Sampler0", ZAP_LOCATION) .affectsCrumbling() .sortOnUpload()
+     * .setOutputTarget(OutputTarget.MAIN_TARGET) .createRenderSetup());
+     */
 }
