@@ -172,7 +172,7 @@ public class ShockTherapistEntityRenderer
         public void draw(
             PoseStack poseStack,
             SubmitNodeCollector submitNodeCollector) {
-            float size = 0.25F / 16.0F;
+            float size = 1.0F / 16.0F;
             drawQuadB(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size);
             drawQuadA(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F);
             drawQuadA(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size);
