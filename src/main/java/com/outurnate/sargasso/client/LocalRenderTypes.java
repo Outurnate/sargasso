@@ -39,11 +39,10 @@ public class LocalRenderTypes {
 
     public static final RenderType ZAP = RenderType.create(
         "zap",
-        RenderSetup.builder(RenderPipelines.ENTITY_TRANSLUCENT_EMISSIVE)
+        RenderSetup.builder(RenderPipelines.TRANSLUCENT_BLOCK)
             .withTexture("Sampler0", ZAP_LOCATION)
-            .useOverlay()
             .affectsCrumbling()
             .sortOnUpload()
-            .setOutputTarget(OutputTarget.MAIN_TARGET)
+            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET)
             .createRenderSetup());
 }
