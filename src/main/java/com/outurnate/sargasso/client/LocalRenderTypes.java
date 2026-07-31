@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.rendertype.OutputTarget;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
@@ -43,6 +44,6 @@ public class LocalRenderTypes {
             .useOverlay()
             .affectsCrumbling()
             .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.AFFECTS_OUTLINE)
+            .setOutputTarget(OutputTarget.MAIN_TARGET)
             .createRenderSetup());
 }
