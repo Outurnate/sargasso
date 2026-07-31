@@ -64,7 +64,7 @@ public class ShockTherapistEntityRenderer
                 depth,
                 segments,
                 random,
-                0.5F);
+                1.0F);
             this(origin, delta, segments);
         }
 
