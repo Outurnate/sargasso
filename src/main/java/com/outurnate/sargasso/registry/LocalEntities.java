@@ -3,6 +3,7 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
+import com.outurnate.sargasso.entity.RedstoneBug;
 import com.outurnate.sargasso.entity.ThrownLightningBottle;
 import com.outurnate.sargasso.entity.ThrownRedstoneEMP;
 
@@ -60,6 +61,20 @@ public class LocalEntities {
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "redstone_emp"))));
+
+    public static final Supplier<EntityType<RedstoneBug>> REDSTONE_BUG = REGISTRY.register(
+        "redstone_bug",
+        () -> EntityType.Builder.<RedstoneBug>of(
+            RedstoneBug::new,
+            MobCategory.MISC)
+            .noLootTable()
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(
+                ResourceKey.create(
+                    Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "redstone_bug"))));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
