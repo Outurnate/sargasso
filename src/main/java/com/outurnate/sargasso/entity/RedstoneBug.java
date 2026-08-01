@@ -59,7 +59,8 @@ public class RedstoneBug extends Entity {
             this.remove(RemovalReason.KILLED);
         }
 
-        SuperSargassoSea.LOGGER.error((int) this.getX() + "," + (int) this.getY() + "," + (int) this.getZ());
+        SuperSargassoSea.LOGGER
+            .error("BUG AT " + (int) this.getX() + "," + (int) this.getY() + "," + (int) this.getZ());
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
         Block nearest = this.level().getBlockState(nearestPos).getBlock();
         level().neighborChanged(nearestPos, nearest, null);

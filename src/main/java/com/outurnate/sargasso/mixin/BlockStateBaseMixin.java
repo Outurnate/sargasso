@@ -24,7 +24,8 @@ public abstract class BlockStateBaseMixin {
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
         if (level instanceof ServerLevel serverLevel) {
-            SuperSargassoSea.LOGGER.error((int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
+            SuperSargassoSea.LOGGER
+                .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
             if (bugs.size() > 0) {
