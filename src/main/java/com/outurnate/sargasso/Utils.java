@@ -19,6 +19,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -27,6 +30,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 public class Utils {
     public static record VelocityHeading(Vec3 velocity, float yrot, float xrot) {
@@ -70,6 +74,14 @@ public class Utils {
             }
         }
         return count;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
+        BlockEntityType<A> type,
+        BlockEntityType<E> checkedType,
+        BlockEntityTicker<? super E> ticker) {
+        return checkedType == type ? (BlockEntityTicker<A>) ticker : null;
     }
 
     public static int gcd(int a, int b) {

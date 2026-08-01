@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -119,6 +118,16 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             AttachFace.FLOOR,
             Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z)));
 
+    public static void clientTick(
+        Level level,
+        BlockPos pos,
+        BlockState state,
+        ShockTherapistBlockEntity blockEntity) {
+        if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
+            Minecraft.getInstance().getSoundManager().play(new ElectricArcSoundInstance(level, pos));
+        }
+    }
+
     private static Direction getDown(BlockState state) {
         return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
             case AttachFace.CEILING -> Direction.UP;
@@ -172,6 +181,68 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
                 return side == getDown(be.getBlockState()) ? be.energy : null;
             });
+    }
+
+    public static void serverTick(
+        Level level,
+        BlockPos pos,
+        BlockState state,
+        ShockTherapistBlockEntity blockEntity) {
+        if ((level.getGameTime() % 10) == 0) {
+            blockEntity.seed = level.getRandom().nextLong();
+        }
+
+        Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
+        Phase newPhase = oldPhase;
+
+        try (Transaction tx = Transaction.openRoot()) {
+            int extracted = blockEntity.energy.extract(ENERGY_CONSUMPTION, tx);
+            if (extracted == ENERGY_CONSUMPTION) {
+                tx.commit();
+
+                --blockEntity.ticksToNextState;
+                if (blockEntity.ticksToNextState < 0) {
+                    newPhase = oldPhase.next();
+                    blockEntity.ticksToNextState = switch (newPhase) {
+                        case CHARGING -> CHARGE_TICKS;
+                        case DISCHARGING -> DISCHARGE_TICKS;
+                        case IDLE -> IDLE_TICKS;
+                    };
+                }
+
+            } else {
+                newPhase = Phase.IDLE;
+            }
+        }
+
+        if (oldPhase != newPhase) {
+            if (newPhase == Phase.CHARGING) {
+                blockEntity.spawnMines(level, pos, state);
+            } else if (newPhase == Phase.IDLE) {
+                blockEntity.bolts = List.of();
+            }
+            state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
+            level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+        }
+
+        if (newPhase == Phase.DISCHARGING) {
+            blockEntity.arc(level, pos, state);
+        }
+
+        if (newPhase != Phase.IDLE) {
+            Vec3 along = new LerpVec3(LEFTPOS_MAP.apply(state), RIGHTPOS_MAP.apply(state))
+                .pos(level.getRandom().nextFloat());
+            level.addParticle(
+                LocalParticleTypes.SPARK.get(),
+                pos.getX() + along.x,
+                pos.getY() + along.y,
+                pos.getZ() + along.z,
+                0.0,
+                0.0,
+                0.0);
+        }
+
+        blockEntity.setChanged();
     }
 
     public List<Pair<LerpVec3, LerpVec3>> bolts = List.of();
@@ -273,66 +344,5 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             electricMine.needsSync = true;
             level.addFreshEntity(electricMine);
         }
-    }
-
-    public void tick(Level level, BlockPos pos, BlockState state) {
-        if ((level.getGameTime() % 10) == 0) {
-            seed = level.getRandom().nextLong();
-        }
-
-        Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
-        Phase newPhase = oldPhase;
-
-        try (Transaction tx = Transaction.openRoot()) {
-            int extracted = this.energy.extract(ENERGY_CONSUMPTION, tx);
-            if (extracted == ENERGY_CONSUMPTION) {
-                tx.commit();
-
-                --this.ticksToNextState;
-                if (this.ticksToNextState < 0) {
-                    newPhase = oldPhase.next();
-                    this.ticksToNextState = switch (newPhase) {
-                        case CHARGING -> CHARGE_TICKS;
-                        case DISCHARGING -> DISCHARGE_TICKS;
-                        case IDLE -> IDLE_TICKS;
-                    };
-                }
-
-            } else {
-                newPhase = Phase.IDLE;
-            }
-        }
-
-        if (oldPhase != newPhase) {
-            if (newPhase == Phase.CHARGING) {
-                spawnMines(level, pos, state);
-            } else if (newPhase == Phase.IDLE) {
-                this.bolts = List.of();
-            }
-            state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
-            level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
-        }
-
-        if (newPhase == Phase.DISCHARGING) {
-            arc(level, pos, state);
-            if (level instanceof ClientLevel) {
-                Minecraft.getInstance().getSoundManager().play(new ElectricArcSoundInstance(level, pos));
-            }
-        }
-
-        if (newPhase != Phase.IDLE) {
-            Vec3 along = new LerpVec3(LEFTPOS_MAP.apply(state), RIGHTPOS_MAP.apply(state))
-                .pos(level.getRandom().nextFloat());
-            level.addParticle(
-                LocalParticleTypes.SPARK.get(),
-                pos.getX() + along.x,
-                pos.getY() + along.y,
-                pos.getZ() + along.z,
-                0.0,
-                0.0,
-                0.0);
-        }
-
-        this.setChanged();
     }
 }

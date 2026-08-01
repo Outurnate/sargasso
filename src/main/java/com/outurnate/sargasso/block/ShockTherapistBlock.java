@@ -73,14 +73,6 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
             ORIGINAL_SHAPE_maxY,
             ORIGINAL_SHAPE_maxZ));
 
-    @SuppressWarnings("unchecked")
-    private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
-        BlockEntityType<A> type,
-        BlockEntityType<E> checkedType,
-        BlockEntityTicker<? super E> ticker) {
-        return checkedType == type ? (BlockEntityTicker<A>) ticker : null;
-    }
-
     public ShockTherapistBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(
@@ -140,10 +132,15 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         Level level,
         BlockState state,
         BlockEntityType<T> type) {
-        return createTickerHelper(
-            type,
-            LocalBlockEntities.SHOCK_THERAPIST.get(),
-            (levelInner, pos, stateInner, blockEntity) -> blockEntity.tick(levelInner, pos, stateInner));
+        return level.isClientSide()
+            ? Utils.createTickerHelper(
+                type,
+                LocalBlockEntities.SHOCK_THERAPIST.get(),
+                ShockTherapistBlockEntity::clientTick)
+            : Utils.createTickerHelper(
+                type,
+                LocalBlockEntities.SHOCK_THERAPIST.get(),
+                ShockTherapistBlockEntity::serverTick);
     }
 
     @Override

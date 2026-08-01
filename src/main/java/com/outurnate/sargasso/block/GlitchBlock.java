@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.block;
 
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
@@ -31,14 +32,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 public class GlitchBlock extends Block implements EntityBlock {
-    @SuppressWarnings("unchecked")
-    private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
-        BlockEntityType<A> type,
-        BlockEntityType<E> checkedType,
-        BlockEntityTicker<? super E> ticker) {
-        return checkedType == type ? (BlockEntityTicker<A>) ticker : null;
-    }
-
     public GlitchBlock(Properties properties) {
         super(properties);
     }
@@ -106,7 +99,7 @@ public class GlitchBlock extends Block implements EntityBlock {
         Level level,
         BlockState state,
         BlockEntityType<T> type) {
-        return createTickerHelper(
+        return Utils.createTickerHelper(
             type,
             LocalBlockEntities.GLITCH.get(),
             (levelInner, pos, stateInner, blockEntity) -> blockEntity.tick(levelInner, pos, stateInner));
