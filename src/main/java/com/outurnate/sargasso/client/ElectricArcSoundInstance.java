@@ -2,6 +2,7 @@ package com.outurnate.sargasso.client;
 
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
+import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
@@ -33,6 +34,7 @@ public class ElectricArcSoundInstance extends AbstractTickableSoundInstance {
     @Override
     public void tick() {
         if (!level.isLoaded(pos)
+            || !level.getBlockState(pos).is(LocalBlocks.SHOCK_THERAPIST.get())
             || level.getBlockState(pos).getValue(ShockTherapistBlock.PHASE) != Phase.DISCHARGING) {
             this.stop();
             return;
