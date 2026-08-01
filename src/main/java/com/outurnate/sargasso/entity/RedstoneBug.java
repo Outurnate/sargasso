@@ -9,10 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.redstone.Redstone;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -63,19 +60,8 @@ public class RedstoneBug extends Entity {
 
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
         BlockState nearest = this.level().getBlockState(nearestPos);
-        // level().neighborChanged(nearestPos, nearest.getBlock(), null);
+        level().neighborChanged(nearestPos, nearest.getBlock(), null);
         // level().updateNeighborsAt(nearestPos, nearest.getBlock());
-
-        if (nearest.hasProperty(BlockStateProperties.POWER)) {
-            nearest.setValue(BlockStateProperties.POWER, Redstone.SIGNAL_MAX);
-            this.level().setBlock(nearestPos, nearest, Block.UPDATE_ALL);
-            level().updateNeighborsAt(nearestPos, nearest.getBlock());
-        }
-        if (nearest.hasProperty(BlockStateProperties.POWERED)) {
-            nearest.setValue(BlockStateProperties.POWERED, true);
-            this.level().setBlock(nearestPos, nearest, Block.UPDATE_ALL);
-            level().updateNeighborsAt(nearestPos, nearest.getBlock());
-        }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();
