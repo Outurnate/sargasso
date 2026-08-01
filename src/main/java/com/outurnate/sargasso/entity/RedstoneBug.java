@@ -1,5 +1,6 @@
 package com.outurnate.sargasso.entity;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
@@ -9,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -58,10 +59,11 @@ public class RedstoneBug extends Entity {
             this.remove(RemovalReason.KILLED);
         }
 
+        SuperSargassoSea.LOGGER.error((int) this.getX() + "," + (int) this.getY() + "," + (int) this.getZ());
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
-        BlockState nearest = this.level().getBlockState(nearestPos);
-        level().neighborChanged(nearestPos, nearest.getBlock(), null);
-        level().updateNeighborsAt(nearestPos, nearest.getBlock());
+        Block nearest = this.level().getBlockState(nearestPos).getBlock();
+        level().neighborChanged(nearestPos, nearest, null);
+        level().updateNeighborsAt(nearestPos, nearest);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();
