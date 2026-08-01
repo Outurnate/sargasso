@@ -28,6 +28,9 @@ public class LocalSoundEvents {
     public static final Holder<SoundEvent> RECORD_UNCHECKED = REGISTRY.register(
         "record_unchecked",
         SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> ZAP = REGISTRY.register(
+        "zap",
+        SoundEvent::createVariableRangeEvent);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

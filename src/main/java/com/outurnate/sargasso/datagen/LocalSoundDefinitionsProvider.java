@@ -55,5 +55,15 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 .with(
                     sound("sargasso:unchecked_tapeless_mix"))
                 .replace(true));
+        add(
+            LocalSoundEvents.ZAP,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:zap1"),
+                    sound("sargasso:zap2"),
+                    sound("sargasso:zap3"),
+                    sound("sargasso:zap4"))
+                .subtitle("sound.sargasso.zap")
+                .replace(true));
     }
 }

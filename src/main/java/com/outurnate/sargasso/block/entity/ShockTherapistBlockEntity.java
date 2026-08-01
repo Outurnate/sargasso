@@ -8,6 +8,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
+import com.outurnate.sargasso.client.ElectricArcSoundInstance;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -205,6 +209,8 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
 
         if (level instanceof ServerLevel serverLevel) {
+            // we do this in two passes, so if an entity is struck by two or
+            // more bolts, we only apply damage once
             ArrayList<Entity> struckEntities = new ArrayList<>();
             for (Pair<LerpVec3, LerpVec3> bolt : bolts) {
                 struckEntities.addAll(
@@ -309,6 +315,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
         if (newPhase == Phase.DISCHARGING) {
             arc(level, pos, state);
+            if (level instanceof ClientLevel) {
+                Minecraft.getInstance().getSoundManager().play(new ElectricArcSoundInstance(level, pos));
+            }
         }
 
         if (newPhase != Phase.IDLE) {

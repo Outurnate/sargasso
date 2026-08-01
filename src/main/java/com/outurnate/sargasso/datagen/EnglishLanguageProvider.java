@@ -50,6 +50,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add("sound.sargasso.glitch_teleport", "Glitched");
         this.add("sound.sargasso.toaster", "Time travel happened");
         this.add("sound.sargasso.pylon", "Pylon equipped");
+        this.add("sound.sargasso.zap", "Electric arc");
         this.add("jukebox_song.sargasso.unchecked", "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
         this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
 

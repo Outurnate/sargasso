@@ -33,3 +33,9 @@ rules:
     author: Tarn Kazsuhara
     license: ARR
     url: https://bsky.app/profile/did:plc:xis2ndf4ced7d3ioxghp7yyf
+  - glob: assets/sargasso/sounds/zap*.ogg
+    source: Freesound
+    author: parabolix
+    license: CC0-1.0
+    attribution: 'jacobs ladder from side.wav'
+    url: "https://freesound.org/people/parabolix/sounds/449013/"
