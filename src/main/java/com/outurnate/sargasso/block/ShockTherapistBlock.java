@@ -132,15 +132,10 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
         Level level,
         BlockState state,
         BlockEntityType<T> type) {
-        return level.isClientSide()
-            ? Utils.createTickerHelper(
-                type,
-                LocalBlockEntities.SHOCK_THERAPIST.get(),
-                ShockTherapistBlockEntity::clientTick)
-            : Utils.createTickerHelper(
-                type,
-                LocalBlockEntities.SHOCK_THERAPIST.get(),
-                ShockTherapistBlockEntity::serverTick);
+        return Utils.createTickerHelper(
+            type,
+            LocalBlockEntities.SHOCK_THERAPIST.get(),
+            ShockTherapistBlockEntity::tick);
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
-import com.outurnate.sargasso.client.ElectricArcSoundInstance;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -42,8 +40,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -119,17 +115,6 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             AttachFace.FLOOR,
             Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z)));
 
-    @OnlyIn(Dist.CLIENT)
-    public static void clientTick(
-        Level level,
-        BlockPos pos,
-        BlockState state,
-        ShockTherapistBlockEntity blockEntity) {
-        if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
-            Minecraft.getInstance().getSoundManager().play(new ElectricArcSoundInstance(level, pos));
-        }
-    }
-
     private static Direction getDown(BlockState state) {
         return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
             case AttachFace.CEILING -> Direction.UP;
@@ -185,7 +170,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             });
     }
 
-    public static void serverTick(
+    public static void tick(
         Level level,
         BlockPos pos,
         BlockState state,

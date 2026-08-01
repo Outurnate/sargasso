@@ -3,20 +3,24 @@ package com.outurnate.sargasso.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
-
 import java.util.ArrayList;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
+@OnlyIn(Dist.CLIENT)
 public class ShockTherapistEntityRenderer
     implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
     public static record ElectricArc(
@@ -218,6 +222,20 @@ public class ShockTherapistEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
+
+        Minecraft mc = Minecraft.getInstance();
+        SoundManager sm = mc.getSoundManager();
+
+        if (state.bolts.size() > 0) {
+            if (state.sound == null || state.sound.isStopped()) {
+                state.sound = new ElectricArcSoundInstance(mc.level, state.blockPos);
+                sm.play(state.sound);
+            }
+        } else if (state.sound != null) {
+            sm.stop(state.sound);
+            state.sound = null;
+        }
+
         for (ElectricArc arc : state.bolts) {
             arc.submit(poseStack, submitNodeCollector);
         }
