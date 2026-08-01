@@ -297,10 +297,14 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             }
         }
 
-        if (newPhase == Phase.CHARGING) {
-            spawnMines(level, pos, state);
-        } else if (newPhase == Phase.IDLE) {
-            this.bolts = List.of();
+        if (oldPhase != newPhase) {
+            if (newPhase == Phase.CHARGING) {
+                spawnMines(level, pos, state);
+            } else if (newPhase == Phase.IDLE) {
+                this.bolts = List.of();
+            }
+            state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
+            level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         }
 
         if (newPhase == Phase.DISCHARGING) {
@@ -320,8 +324,6 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 0.0);
         }
 
-        state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
-        level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         this.setChanged();
     }
 }
