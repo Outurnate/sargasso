@@ -18,6 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
     private static boolean sargasso$getBugs(BlockGetter level, BlockPos pos) {
+        SuperSargassoSea.LOGGER
+            .error(
+                "CHECKED AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ()
+                    + new AABB(pos).toString());
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
