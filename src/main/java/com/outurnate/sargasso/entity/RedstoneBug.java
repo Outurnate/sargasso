@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.redstone.Redstone;
@@ -42,11 +43,6 @@ public class RedstoneBug extends Entity {
     }
 
     @Override
-    protected double getDefaultGravity() {
-        return 0.04;
-    }
-
-    @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
         return false;
     }
@@ -65,14 +61,16 @@ public class RedstoneBug extends Entity {
             this.remove(RemovalReason.KILLED);
         }
 
-        BlockState nearest = this.level()
-            .getBlockState(new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ()));
+        BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
+        BlockState nearest = this.level().getBlockState(nearestPos);
 
         if (nearest.hasProperty(BlockStateProperties.POWER)) {
             nearest.setValue(BlockStateProperties.POWER, Redstone.SIGNAL_MAX);
+            this.level().setBlock(nearestPos, nearest, Block.UPDATE_ALL);
         }
         if (nearest.hasProperty(BlockStateProperties.POWERED)) {
             nearest.setValue(BlockStateProperties.POWERED, true);
+            this.level().setBlock(nearestPos, nearest, Block.UPDATE_ALL);
         }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
