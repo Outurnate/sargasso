@@ -11,7 +11,7 @@
     "SensingMixin",
     "FoxMixin",
     "MonsterMixin",
-    "RedstoneWireBlockMixin"
+    "BlockStateBaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
