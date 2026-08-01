@@ -6,10 +6,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-    public static final ModConfigSpec.BooleanValue DO_CLIENT_CODEGEN = BUILDER
-        .comment(
-            "Dev-only setting - whether to run a specific datagen step on a client. You never need to turn this on")
-        .define("doClientCodegen", false);
     public static final ModConfigSpec.LongValue MAX_LOST_ITEMS_OF_TYPE = BUILDER
         .comment(
             "Maximum number of despawned items of a given type to preserve before excess items are ignored.")
@@ -30,6 +26,14 @@ public class Config {
         .comment(
             "Maximum FE/t the player can produce by eating potato batteries")
         .defineInRange("potatoGenerationMax", 5, 0, 200);
+    public static final ModConfigSpec.IntValue SHOCK_THERAPIST_CAPACITY = BUILDER
+        .comment(
+            "Internal capacity of the shock therapist")
+        .defineInRange("shockTherapistCapacity", 10000, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue SHOCK_THERAPIST_FET = BUILDER
+        .comment(
+            "FE/t consumed by the shock therapist")
+        .defineInRange("shockTherapistConsumption", 5, 0, 200);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

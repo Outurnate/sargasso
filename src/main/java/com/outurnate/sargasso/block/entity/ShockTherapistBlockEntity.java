@@ -3,6 +3,7 @@ package com.outurnate.sargasso.block.entity;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
@@ -89,6 +90,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     private static final double ARCPOS_Z = 8.0 / 16.0;
     private static final double ARCPOS_SHIFT = 10.0 / 16.0;
 
+    private static final int ENERGY_CAPACITY = getEnergyCapacity();
+    private static final int ENERGY_CONSUMPTION = getEnergyConsumption();
+
     private static final Function<BlockState, Vec3> LEFTPOS_MAP = Utils.propLookup(
         ShockTherapistBlock.HORIZONTAL_FACING,
         ShockTherapistBlock.ATTACH_FACE,
@@ -99,6 +103,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             Utils.horizontalMap(ARCPOS_X, ARCPOS_Z, 1.0 - ARCPOS_Y),
             AttachFace.FLOOR,
             Utils.horizontalMap(ARCPOS_X, ARCPOS_Y, ARCPOS_Z)));
+
     private static final Function<BlockState, Vec3> RIGHTPOS_MAP = Utils.propLookup(
         ShockTherapistBlock.HORIZONTAL_FACING,
         ShockTherapistBlock.ATTACH_FACE,
@@ -116,6 +121,24 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING).getOpposite();
             case AttachFace.FLOOR -> Direction.DOWN;
         };
+    }
+
+    private static int getEnergyCapacity() {
+        try {
+            return Config.SHOCK_THERAPIST_CAPACITY.getAsInt();
+        } catch (Exception e) {
+            // during datagen, config isn't loaded
+            return 10000;
+        }
+    }
+
+    private static int getEnergyConsumption() {
+        try {
+            return Config.SHOCK_THERAPIST_FET.getAsInt();
+        } catch (Exception e) {
+            // during datagen, config isn't loaded
+            return 5;
+        }
     }
 
     private static Direction getUp(BlockState state) {
@@ -153,7 +176,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     private int ticksToNextState = IDLE_TICKS;
 
-    private final SimpleEnergyHandler energy = new SimpleEnergyHandler(10000);
+    private final SimpleEnergyHandler energy = new SimpleEnergyHandler(ENERGY_CAPACITY);
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
@@ -247,44 +270,44 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        try (Transaction tx = Transaction.openRoot()) {
-            int extracted = this.energy.extract(1, tx);
-            if (extracted == 1) {
-                tx.commit();
-
-                --this.ticksToNextState;
-
-                this.setChanged();
-            }
-        }
-
-        if (this.ticksToNextState < 0) {
-            Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
-            Phase newPhase = oldPhase.next();
-            this.ticksToNextState = switch (newPhase) {
-                case CHARGING -> CHARGE_TICKS;
-                case DISCHARGING -> DISCHARGE_TICKS;
-                case IDLE -> IDLE_TICKS;
-            };
-            state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
-            level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
-
-            if (newPhase == Phase.CHARGING) {
-                spawnMines(level, pos, state);
-            } else if (newPhase == Phase.IDLE) {
-                this.bolts = List.of();
-            }
-        }
-
         if ((level.getGameTime() % 10) == 0) {
             seed = level.getRandom().nextLong();
         }
 
-        if (state.getValue(ShockTherapistBlock.PHASE) == Phase.DISCHARGING) {
+        Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
+        Phase newPhase = oldPhase;
+
+        try (Transaction tx = Transaction.openRoot()) {
+            int extracted = this.energy.extract(ENERGY_CONSUMPTION, tx);
+            if (extracted == ENERGY_CONSUMPTION) {
+                tx.commit();
+
+                --this.ticksToNextState;
+                if (this.ticksToNextState < 0) {
+                    newPhase = oldPhase.next();
+                    this.ticksToNextState = switch (newPhase) {
+                        case CHARGING -> CHARGE_TICKS;
+                        case DISCHARGING -> DISCHARGE_TICKS;
+                        case IDLE -> IDLE_TICKS;
+                    };
+                }
+
+            } else {
+                newPhase = Phase.IDLE;
+            }
+        }
+
+        if (newPhase == Phase.CHARGING) {
+            spawnMines(level, pos, state);
+        } else if (newPhase == Phase.IDLE) {
+            this.bolts = List.of();
+        }
+
+        if (newPhase == Phase.DISCHARGING) {
             arc(level, pos, state);
         }
 
-        if (state.getValue(ShockTherapistBlock.PHASE) != Phase.IDLE) {
+        if (newPhase != Phase.IDLE) {
             Vec3 along = new LerpVec3(LEFTPOS_MAP.apply(state), RIGHTPOS_MAP.apply(state))
                 .pos(level.getRandom().nextFloat());
             level.addParticle(
@@ -296,5 +319,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
                 0.0,
                 0.0);
         }
+
+        state = state.setValue(ShockTherapistBlock.PHASE, newPhase);
+        level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+        this.setChanged();
     }
 }

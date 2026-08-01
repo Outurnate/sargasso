@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen.util;
 
-import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +19,8 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
 public class JavaClientCodegen {
+    private static boolean DO_CLIENT_CODEGEN = false;
+
     private static byte[] compress(byte[] data) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (GZIPOutputStream gzip = new GZIPOutputStream(baos)) {
@@ -34,7 +35,7 @@ public class JavaClientCodegen {
     public static void onLogin(ClientPlayerNetworkEvent.LoggingIn event) {
         Path outputPath = Paths
             .get(Minecraft.getInstance().gameDirectory.toPath().toString(), "FontWidths.java");
-        if (Config.DO_CLIENT_CODEGEN.getAsBoolean() && !outputPath.toFile().exists()) {
+        if (DO_CLIENT_CODEGEN && !outputPath.toFile().exists()) {
             StringBuilder javaSource = new StringBuilder();
             int maxCodePoint = 0xFFFF; // we don't need the unicode astral planes
             javaSource.append(
