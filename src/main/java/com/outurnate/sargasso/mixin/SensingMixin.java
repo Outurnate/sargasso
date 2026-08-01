@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Sensing.class)
-public class SensingMixin {
+public abstract class SensingMixin {
     @Shadow
     private Mob mob;
 

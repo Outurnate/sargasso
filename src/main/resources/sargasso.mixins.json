@@ -10,7 +10,8 @@
     "ComponentSerializationMixin",
     "SensingMixin",
     "FoxMixin",
-    "MonsterMixin"
+    "MonsterMixin",
+    "RedstoneWireBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

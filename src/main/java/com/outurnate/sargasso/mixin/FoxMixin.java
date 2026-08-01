@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Fox.class)
-public class FoxMixin {
+public abstract class FoxMixin {
     @Inject(method = "trusts", at = @At("HEAD"), cancellable = true)
     private void sargasso$trusts(LivingEntity entity, CallbackInfoReturnable<Boolean> callbackInfo) {
         if (entity.getItemBySlot(EquipmentSlot.HEAD).is(LocalTags.FOX_TRUST_HAT)) {
