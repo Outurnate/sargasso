@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -214,6 +215,21 @@ public class ShockTherapistEntityRenderer
                     b.getSecond().pos(partialTicks).subtract(blockPos).toVector3f(),
                     random.nextLong()))
             .toList();
+
+        Minecraft mc = Minecraft.getInstance();
+        SoundManager sm = mc.getSoundManager();
+
+        if (state.bolts.size() > 0) {
+            if (blockEntity.clientObj == null
+                || (blockEntity.clientObj instanceof ElectricArcSoundInstance instance
+                    && instance.isStopped())) {
+                blockEntity.clientObj = new ElectricArcSoundInstance(mc.level, state.blockPos);
+                sm.play((SoundInstance) blockEntity.clientObj);
+            }
+        } else if (blockEntity.clientObj != null) {
+            sm.stop((SoundInstance) blockEntity.clientObj);
+            blockEntity.clientObj = null;
+        }
     }
 
     @Override
@@ -222,20 +238,6 @@ public class ShockTherapistEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
-
-        Minecraft mc = Minecraft.getInstance();
-        SoundManager sm = mc.getSoundManager();
-
-        if (state.bolts.size() > 0) {
-            if (state.sound == null || state.sound.isStopped()) {
-                state.sound = new ElectricArcSoundInstance(mc.level, state.blockPos);
-                sm.play(state.sound);
-            }
-        } else if (state.sound != null) {
-            sm.stop(state.sound);
-            state.sound = null;
-        }
-
         for (ElectricArc arc : state.bolts) {
             arc.submit(poseStack, submitNodeCollector);
         }

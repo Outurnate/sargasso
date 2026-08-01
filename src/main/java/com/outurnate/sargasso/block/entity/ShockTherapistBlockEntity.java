@@ -240,6 +240,9 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
     private final SimpleEnergyHandler energy = new SimpleEnergyHandler(ENERGY_CAPACITY);
 
+    // used to store the soundInstance on the client
+    public Object clientObj = null;
+
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
     }
