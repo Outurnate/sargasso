@@ -170,6 +170,24 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             });
     }
 
+    private static void spawnMines(Level level, BlockPos pos, BlockState state) {
+        RandomSource random = level.getRandom();
+        // scale the number of mines by the number of nearby sources
+        // reduces spamminess
+        int nearby = Math.max(Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get()), 1);
+        int num = random.nextInt(Math.max(5 / nearby, 1), Math.max(10 / nearby, 2));
+        for (int i = 0; i < num; ++i) {
+            Entity electricMine = new ElectricMine(level, CHARGE_TICKS + DISCHARGE_TICKS);
+            electricMine.setPos(pos.getCenter());
+
+            Utils.VelocityHeading movement = Utils
+                .randomVelInDirection(random, getUp(state), 0.4, 0.5, 45.0, 45.0);
+            electricMine.setDeltaMovement(movement.velocity());
+            electricMine.needsSync = true;
+            level.addFreshEntity(electricMine);
+        }
+    }
+
     public static void tick(
         Level level,
         BlockPos pos,
@@ -184,7 +202,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
         try (Transaction tx = Transaction.openRoot()) {
             int extracted = blockEntity.energy.extract(ENERGY_CONSUMPTION, tx);
-            if (extracted == ENERGY_CONSUMPTION) {
+            if (extracted == ENERGY_CONSUMPTION || state.getValue(ShockTherapistBlock.INFINITE_POWER)) {
                 tx.commit();
 
                 --blockEntity.ticksToNextState;
@@ -204,7 +222,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
 
         if (oldPhase != newPhase) {
             if (newPhase == Phase.CHARGING) {
-                blockEntity.spawnMines(level, pos, state);
+                spawnMines(level, pos, state);
             } else if (newPhase == Phase.IDLE) {
                 blockEntity.bolts = List.of();
             }
@@ -316,23 +334,5 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         output.store("bolts", BOLTS_CODEC, this.bolts);
         output.putInt("clock", this.ticksToNextState);
         output.putChild("energy", this.energy);
-    }
-
-    private void spawnMines(Level level, BlockPos pos, BlockState state) {
-        RandomSource random = level.getRandom();
-        // scale the number of mines by the number of nearby sources
-        // reduces spamminess
-        int nearby = Math.max(Utils.countBlocks(level, pos, 5, LocalBlocks.SHOCK_THERAPIST.get()), 1);
-        int num = random.nextInt(Math.max(5 / nearby, 1), Math.max(10 / nearby, 2));
-        for (int i = 0; i < num; ++i) {
-            Entity electricMine = new ElectricMine(level, CHARGE_TICKS + DISCHARGE_TICKS);
-            electricMine.setPos(pos.getCenter());
-
-            Utils.VelocityHeading movement = Utils
-                .randomVelInDirection(random, getUp(state), 0.4, 0.5, 45.0, 45.0);
-            electricMine.setDeltaMovement(movement.velocity());
-            electricMine.needsSync = true;
-            level.addFreshEntity(electricMine);
-        }
     }
 }

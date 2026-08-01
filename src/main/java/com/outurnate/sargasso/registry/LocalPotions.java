@@ -5,13 +5,17 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.CreativeModeTab.TabVisibility;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -43,6 +47,38 @@ public class LocalPotions {
         registryName -> new Potion(
             registryName.getPath(),
             new MobEffectInstance[] { new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 2) }));
+
+    @SubscribeEvent
+    public static void buildContents(BuildCreativeModeTabContentsEvent event) {
+        movePotion(event, HEAD_EXPLOSION);
+        movePotion(event, LONG_HEAD_EXPLOSION);
+        movePotion(event, STRONG_HEAD_EXPLOSION);
+        movePotion(event, EXTRA_STRONG_HEAD_EXPLOSION);
+    }
+
+    private static void movePotion(BuildCreativeModeTabContentsEvent event, Holder<Potion> potion) {
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+            event.remove(
+                PotionContents.createItemStack(Items.POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.remove(
+                PotionContents.createItemStack(Items.SPLASH_POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.remove(
+                PotionContents.createItemStack(Items.LINGERING_POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+        } else if (event.getTabKey() == LocalCreativeTabs.TAB.getKey()) {
+            event.accept(
+                PotionContents.createItemStack(Items.POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.accept(
+                PotionContents.createItemStack(Items.SPLASH_POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.accept(
+                PotionContents.createItemStack(Items.LINGERING_POTION, potion),
+                TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+    }
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

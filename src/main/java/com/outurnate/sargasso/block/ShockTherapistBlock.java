@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -54,6 +55,8 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     public static final EnumProperty<Phase> PHASE = EnumProperty.create("phase", Phase.class);
     public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
+    public static final BooleanProperty INFINITE_POWER = BooleanProperty.create("infinite_power");
+
     public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
         .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
     private static final double ORIGINAL_SHAPE_minX = 0.125;
@@ -79,7 +82,8 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
             stateDefinition.any()
                 .setValue(PHASE, Phase.IDLE)
                 .setValue(ATTACH_FACE, AttachFace.FLOOR)
-                .setValue(HORIZONTAL_FACING, Direction.NORTH));
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(INFINITE_POWER, false));
     }
 
     @Override
@@ -89,7 +93,7 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, ATTACH_FACE, PHASE);
+        builder.add(HORIZONTAL_FACING, ATTACH_FACE, PHASE, INFINITE_POWER);
     }
 
     @Override

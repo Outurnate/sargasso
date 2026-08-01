@@ -1,0 +1,16 @@
+{
+    "name": "Shock Therapist",
+    "icon": "sargasso:shock_therapist",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "title": "Shock Therapist",
+            "item": "sargasso:shock_therapist",
+            "text": "A device that periodically spews chunks of metal, and then creates arcs of electricity. Best not approached."
+        }
+    ],
+    "extra_recipe_mappings": {
+        "sargasso:shock_therapist": 0
+    }
+}
