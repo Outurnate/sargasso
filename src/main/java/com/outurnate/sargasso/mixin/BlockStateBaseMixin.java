@@ -17,20 +17,38 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
+    private static boolean sargasso$getBugs(BlockGetter level, BlockPos pos) {
+        if (level instanceof ServerLevel serverLevel) {
+            List<RedstoneBug> bugs = serverLevel
+                .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
+            return bugs.size() > 0;
+        }
+        return false;
+    }
+
+    @Inject(method = "getDirectSignal", at = @At("HEAD"), cancellable = true)
+    private void getDirectSignal(
+        BlockGetter level,
+        BlockPos pos,
+        Direction direction,
+        CallbackInfoReturnable<Integer> callbackInfo) {
+        if (sargasso$getBugs(level, pos)) {
+            SuperSargassoSea.LOGGER
+                .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
+            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
+        }
+    }
+
     @Inject(method = "getSignal", at = @At("HEAD"), cancellable = true)
     private void sargasso$getSignal(
         BlockGetter level,
         BlockPos pos,
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
-        if (level instanceof ServerLevel serverLevel) {
-            List<RedstoneBug> bugs = serverLevel
-                .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
-            if (bugs.size() > 0) {
-                SuperSargassoSea.LOGGER
-                    .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
-                callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
-            }
+        if (sargasso$getBugs(level, pos)) {
+            SuperSargassoSea.LOGGER
+                .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
+            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
         }
     }
 }
