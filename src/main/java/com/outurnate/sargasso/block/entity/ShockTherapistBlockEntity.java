@@ -3,6 +3,7 @@ package com.outurnate.sargasso.block.entity;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
@@ -11,12 +12,10 @@ import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -40,7 +39,14 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
+@EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class ShockTherapistBlockEntity extends BlockEntity {
     public static record LerpVec3(Vec3 oldPos, Vec3 newPos) {
         @SuppressWarnings("null")
@@ -104,6 +110,22 @@ public class ShockTherapistBlockEntity extends BlockEntity {
             AttachFace.FLOOR,
             Utils.horizontalMap(ARCPOS_X + ARCPOS_SHIFT, ARCPOS_Y, ARCPOS_Z)));
 
+    private static Direction getDown(BlockState state) {
+        return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
+            case AttachFace.CEILING -> Direction.UP;
+            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING).getOpposite();
+            case AttachFace.FLOOR -> Direction.DOWN;
+        };
+    }
+
+    private static Direction getUp(BlockState state) {
+        return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
+            case AttachFace.CEILING -> Direction.DOWN;
+            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
+            case AttachFace.FLOOR -> Direction.UP;
+        };
+    }
+
     private static List<ElectricMine> naiveTSP(List<ElectricMine> mines, RandomSource random) {
         ArrayList<ElectricMine> newMines = new ArrayList<>();
         while (mines.size() != 0) {
@@ -112,9 +134,26 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         return newMines;
     }
 
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+            Capabilities.Energy.BLOCK,
+            LocalBlockEntities.SHOCK_THERAPIST.get(),
+            (be, side) -> {
+                if (side == null)
+                    return be.energy;
+
+                return side == getDown(be.getBlockState()) ? be.energy : null;
+            });
+    }
+
     public List<Pair<LerpVec3, LerpVec3>> bolts = List.of();
+
     public long seed = 0;
+
     private int ticksToNextState = IDLE_TICKS;
+
+    private final SimpleEnergyHandler energy = new SimpleEnergyHandler(10000);
 
     public ShockTherapistBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(LocalBlockEntities.SHOCK_THERAPIST.get(), worldPosition, blockState);
@@ -161,14 +200,6 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         }
     }
 
-    private Direction getUp(BlockState state) {
-        return switch (state.getValue(ShockTherapistBlock.ATTACH_FACE)) {
-            case AttachFace.CEILING -> Direction.DOWN;
-            case AttachFace.WALL -> state.getValue(ShockTherapistBlock.HORIZONTAL_FACING);
-            case AttachFace.FLOOR -> Direction.UP;
-        };
-    }
-
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
@@ -185,6 +216,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         this.seed = input.getLongOr("seed", 0);
         this.bolts = input.read("bolts", BOLTS_CODEC).orElseGet(List::of);
         this.ticksToNextState = input.getIntOr("clock", IDLE_TICKS);
+        input.readChild("energy", this.energy);
     }
 
     @Override
@@ -193,6 +225,7 @@ public class ShockTherapistBlockEntity extends BlockEntity {
         output.putLong("seed", this.seed);
         output.store("bolts", BOLTS_CODEC, this.bolts);
         output.putInt("clock", this.ticksToNextState);
+        output.putChild("energy", this.energy);
     }
 
     private void spawnMines(Level level, BlockPos pos, BlockState state) {
@@ -214,7 +247,17 @@ public class ShockTherapistBlockEntity extends BlockEntity {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        --this.ticksToNextState;
+        try (Transaction tx = Transaction.openRoot()) {
+            int extracted = this.energy.extract(1, tx);
+            if (extracted == 1) {
+                tx.commit();
+
+                --this.ticksToNextState;
+
+                this.setChanged();
+            }
+        }
+
         if (this.ticksToNextState < 0) {
             Phase oldPhase = state.getValue(ShockTherapistBlock.PHASE);
             Phase newPhase = oldPhase.next();
