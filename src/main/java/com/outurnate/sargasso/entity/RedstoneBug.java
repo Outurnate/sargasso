@@ -61,7 +61,7 @@ public class RedstoneBug extends Entity {
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
         BlockState nearest = this.level().getBlockState(nearestPos);
         level().neighborChanged(nearestPos, nearest.getBlock(), null);
-        // level().updateNeighborsAt(nearestPos, nearest.getBlock());
+        level().updateNeighborsAt(nearestPos, nearest.getBlock());
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();
