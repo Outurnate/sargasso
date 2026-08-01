@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.redstone.Redstone;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +28,7 @@ public abstract class RedstoneWireBlockMixin {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, AABB.unitCubeFromLowerCorner(new Vec3(pos)));
             if (bugs.size() > 0) {
-                callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
+                // callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
             }
         }
     }
