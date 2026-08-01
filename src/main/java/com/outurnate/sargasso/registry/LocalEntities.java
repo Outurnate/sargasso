@@ -4,6 +4,8 @@ package com.outurnate.sargasso.registry;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.entity.ThrownLightningBottle;
+import com.outurnate.sargasso.entity.ThrownRedstoneEMP;
+
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -44,6 +46,20 @@ public class LocalEntities {
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
                     Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "electric_mine"))));
+
+    public static final Supplier<EntityType<ThrownRedstoneEMP>> REDSTONE_EMP = REGISTRY.register(
+        "redstone_emp",
+        () -> EntityType.Builder.<ThrownRedstoneEMP>of(
+            ThrownRedstoneEMP::new,
+            MobCategory.MISC)
+            .noLootTable()
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(
+                ResourceKey.create(
+                    Registries.ENTITY_TYPE,
+                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "redstone_emp"))));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

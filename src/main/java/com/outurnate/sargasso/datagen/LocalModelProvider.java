@@ -218,5 +218,6 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.PERSONAL_VOLTMETER.get(), ModelTemplates.FLAT_ITEM);
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
         itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
     }
 }

@@ -99,7 +99,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.ORANGE_FOX_EARS, "Fox Ears");
         this.addItem(LocalItems.TWO_COLOR_FOX_EARS, "Fox Ears");
         this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");
-        this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
+        this.addItem(LocalItems.REDSTONE_EMP, "Comically Tall Fox Ears");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
         this.add(
@@ -117,7 +117,9 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addDamageType(LocalDamageTypes.ELECTRIC_SHOCK, "%s was electrocuted");
         this.addDamageType(LocalDamageTypes.HEAD_EXPLOSION, "%s's head exploded");
 
+        this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
+        this.addEntityType(LocalEntities.REDSTONE_EMP, "Redstone Pulse Device");
 
         for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
             this.add(entry.getKey(), entry.getValue());

@@ -8,6 +8,7 @@ import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
+import com.outurnate.sargasso.item.RedstoneEMPItem;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -195,6 +196,12 @@ public class LocalItems {
                 .stacksTo(1)
                 .rarity(Rarity.RARE)
                 .jukeboxPlayable(LocalJukeboxSongs.UNCHECKED)));
+
+    public static final DeferredItem<Item> REDSTONE_EMP = REGISTRY.registerItem(
+        "redstone_emp",
+        RedstoneEMPItem::new,
+        p -> p
+            .useCooldown(2.0F));
 
     private static int getBatteryCapacity() {
         try {
