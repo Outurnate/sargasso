@@ -10,7 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -62,14 +61,13 @@ public class RedstoneBug extends Entity {
         SuperSargassoSea.LOGGER
             .error("BUG AT " + (int) this.getX() + "," + (int) this.getY() + "," + (int) this.getZ());
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
-        Block nearest = this.level().getBlockState(nearestPos).getBlock();
-        level().neighborChanged(nearestPos, nearest, null);
-        level().neighborChanged(nearestPos.above(), nearest, null);
-        level().neighborChanged(nearestPos.below(), nearest, null);
-        level().neighborChanged(nearestPos.north(), nearest, null);
-        level().neighborChanged(nearestPos.south(), nearest, null);
-        level().neighborChanged(nearestPos.east(), nearest, null);
-        level().neighborChanged(nearestPos.west(), nearest, null);
+        level().neighborChanged(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.above(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.below(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.north(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.south(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.east(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(nearestPos.west(), this.level().getBlockState(nearestPos).getBlock(), null);
         // level().updateNeighborsAt(nearestPos, nearest);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
