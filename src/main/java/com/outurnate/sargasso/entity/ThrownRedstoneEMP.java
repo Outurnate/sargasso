@@ -67,6 +67,7 @@ public class ThrownRedstoneEMP extends ThrowableItemProjectile {
                 RedstoneBug bug = LocalEntities.REDSTONE_BUG.get()
                     .create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (bug != null) {
+                    bug.setPos(this.getPosition(1.0F));
                     bug.setDeltaMovement(
                         (rand.nextDouble() * 2.0) - 1.0,
                         (rand.nextDouble() * 2.0) - 1.0,
