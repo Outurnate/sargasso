@@ -27,8 +27,7 @@ public abstract class BlockStateBaseMixin {
             // in a powered state await a block
             // update
             if (bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0) {
-                // the first bug might be dead, but whatevs
-                return bugs.get(0).reversePolarity ? Redstone.SIGNAL_NONE : Redstone.SIGNAL_MAX;
+                return serverLevel.getRandom().nextBoolean() ? Redstone.SIGNAL_NONE : Redstone.SIGNAL_MAX;
             }
         }
         return -1;

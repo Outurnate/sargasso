@@ -39,8 +39,8 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
     }
 
     private int remainingTicks = DEFAULT_LIFE;
-    public boolean reversePolarity = false;
     public Vector3f origin = new Vector3f();
+    public long seed = 0;
 
     public RedstoneBug(EntityType<?> type, Level level) {
         super(type, level);
@@ -52,12 +52,11 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
         this.noPhysics = true;
     }
 
-    public RedstoneBug(Level level, int remainingTicks, Vector3f origin, boolean reversePolarity) {
+    public RedstoneBug(Level level, int remainingTicks, Vector3f origin) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
         this.remainingTicks = remainingTicks;
         this.origin = origin;
         this.noPhysics = true;
-        this.reversePolarity = reversePolarity;
     }
 
     @Override
@@ -99,6 +98,10 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
         --remainingTicks;
         if (remainingTicks <= 0) {
             this.remove(RemovalReason.KILLED);
+        }
+
+        if ((level().getGameTime() % 10) == 0) {
+            this.seed = level().getRandom().nextLong();
         }
 
         spamUpdates(this.level(), this.blockPosition(), 2);

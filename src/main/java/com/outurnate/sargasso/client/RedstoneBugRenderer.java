@@ -26,11 +26,10 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
     @Override
     public void extractRenderState(RedstoneBug entity, RedstoneBugRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
-        // TODO seed
         state.bolt = new ElectricArc(
             entity.getPosition(partialTicks).toVector3f().mul(-1.0F).add(entity.origin),
             new Vector3f(),
-            0,
+            entity.seed,
             4,
             0.5F,
             2.0F);
