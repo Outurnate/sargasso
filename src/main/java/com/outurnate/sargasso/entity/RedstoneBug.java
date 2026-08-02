@@ -2,6 +2,7 @@ package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -11,9 +12,10 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import org.joml.Vector3f;
 
-public class RedstoneBug extends Entity {
+public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
     private static final int DEFAULT_LIFE = 20 * 30;
 
     private static void spamUpdates(Level level, BlockPos center, int radius) {
@@ -36,7 +38,7 @@ public class RedstoneBug extends Entity {
     }
 
     private int remainingTicks = DEFAULT_LIFE;
-    public Vec3 origin = Vec3.ZERO;
+    public Vector3f origin = new Vector3f();
 
     public RedstoneBug(EntityType<?> type, Level level) {
         super(type, level);
@@ -48,7 +50,7 @@ public class RedstoneBug extends Entity {
         this.noPhysics = true;
     }
 
-    public RedstoneBug(Level level, int remainingTicks, Vec3 origin) {
+    public RedstoneBug(Level level, int remainingTicks, Vector3f origin) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
         this.remainingTicks = remainingTicks;
         this.origin = origin;
@@ -58,9 +60,9 @@ public class RedstoneBug extends Entity {
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
         output.putInt("remainingTicks", this.remainingTicks);
-        output.putDouble("originX", origin.x);
-        output.putDouble("originY", origin.y);
-        output.putDouble("originZ", origin.z);
+        output.putFloat("originX", origin.x);
+        output.putFloat("originY", origin.y);
+        output.putFloat("originZ", origin.z);
     }
 
     @Override
@@ -75,10 +77,15 @@ public class RedstoneBug extends Entity {
     @Override
     protected void readAdditionalSaveData(ValueInput input) {
         this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
-        this.origin = new Vec3(
-            input.getDoubleOr("originX", 0.0),
-            input.getDoubleOr("originY", 0.0),
-            input.getDoubleOr("originZ", 0.0));
+        this.origin = new Vector3f(
+            input.getFloatOr("originX", 0.0F),
+            input.getFloatOr("originY", 0.0F),
+            input.getFloatOr("originZ", 0.0F));
+    }
+
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
+        this.origin = additionalData.readVector3f();
     }
 
     @Override
@@ -93,5 +100,10 @@ public class RedstoneBug extends Entity {
 
         this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
         this.move(MoverType.SELF, this.getDeltaMovement());
+    }
+
+    @Override
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+        buffer.writeVector3f(origin);
     }
 }
