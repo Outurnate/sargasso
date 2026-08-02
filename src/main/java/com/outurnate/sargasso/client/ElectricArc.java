@@ -22,7 +22,8 @@ public class ElectricArc {
             float yw,
             float zo,
             float yo,
-            boolean reverse) {
+            boolean reverse,
+            int color) {
 
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
@@ -53,7 +54,7 @@ public class ElectricArc {
 
                     for (int i : order) {
                         buffer.addVertex(pose, x[i], y[i], z[i])
-                            .setColor(-1)
+                            .setColor(color)
                             .setUv(u[i], v[i])
                             .setOverlay(OverlayTexture.NO_OVERLAY)
                             .setLight(fullBright)
@@ -62,12 +63,12 @@ public class ElectricArc {
                 });
         }
 
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int color) {
             float size = 0.5F / 16.0F;
-            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size, true);
-            submitQuad(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F, false);
-            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size, false);
-            submitQuad(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F, true);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size, true, color);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F, false, color);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size, false, color);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F, true, color);
         }
     }
 
@@ -108,9 +109,10 @@ public class ElectricArc {
     private final Vector3f origin;
     private final Vector3f delta;
     private final ArrayList<LineSegment> segments;
+    private final int color;
 
     public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
-        this(origin, destination, seed, 3, null, 1.0F);
+        this(origin, destination, seed, 3, null, 1.0F, -1);
     }
 
     public ElectricArc(
@@ -119,7 +121,8 @@ public class ElectricArc {
         long seed,
         int depth,
         Float segmentLength,
-        float amplitude) {
+        float amplitude,
+        int color) {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
         this.delta = new Vector3f();
         destination.sub(origin, delta);
@@ -149,6 +152,7 @@ public class ElectricArc {
             amplitude,
             maxLength);
         this.origin = origin;
+        this.color = color;
     }
 
     public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
@@ -160,7 +164,7 @@ public class ElectricArc {
         poseStack
             .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
         for (LineSegment segment : segments) {
-            segment.submit(poseStack, submitNodeCollector);
+            segment.submit(poseStack, submitNodeCollector, color);
         }
         poseStack.popPose();
     }
