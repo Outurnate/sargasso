@@ -144,11 +144,27 @@ public class ElectricArc {
     private final ArrayList<LineSegment> segments;
 
     public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
+        this(origin, destination, seed, null);
+    }
+
+    public ElectricArc(Vector3f origin, Vector3f destination, long seed, Float segmentLength) {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
-        int depth = 3;
         this.delta = new Vector3f();
         destination.sub(origin, delta);
         float length = delta.length();
+
+        int depth = 3;
+        if (segmentLength != null) {
+            double targetNumberOfSegments = length / segmentLength;
+            depth = (int) Math.round(Math.log(targetNumberOfSegments) / Math.log(2));
+        }
+
+        // d | s
+        // 0 | 2
+        // 1 | 4
+        // 2 | 8
+        // segments = 2^(depth+1)
+
         this.segments = new ArrayList<>();
         lightning(
             new LineSegment(new Vector3f(0.0F), new Vector3f(length, 0.0F, 0.0F)),
