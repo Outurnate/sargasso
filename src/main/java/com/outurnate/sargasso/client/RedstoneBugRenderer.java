@@ -30,7 +30,8 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
             new Vector3f(),
             0,
             4,
-            0.5F);
+            0.5F,
+            2.0F);
     }
 
     @Override

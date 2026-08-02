@@ -132,10 +132,10 @@ public class ElectricArc {
         LineSegment segment1 = new LineSegment(lineSegment.start(), midpoint);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end());
         if (depth <= 0) {
-            if (segment1.end.x < maxLength) {
+            if (segment1.start.x < maxLength) {
                 accumulator.add(segment1);
             }
-            if (segment2.end.x < maxLength) {
+            if (segment2.start.x < maxLength) {
                 accumulator.add(segment2);
             }
         } else {
@@ -150,10 +150,16 @@ public class ElectricArc {
     private final ArrayList<LineSegment> segments;
 
     public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
-        this(origin, destination, seed, 3, null);
+        this(origin, destination, seed, 3, null, 1.0F);
     }
 
-    public ElectricArc(Vector3f origin, Vector3f destination, long seed, int depth, Float segmentLength) {
+    public ElectricArc(
+        Vector3f origin,
+        Vector3f destination,
+        long seed,
+        int depth,
+        Float segmentLength,
+        float amplitude) {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
         this.delta = new Vector3f();
         destination.sub(origin, delta);
@@ -180,7 +186,7 @@ public class ElectricArc {
             depth,
             segments,
             random,
-            1.0F,
+            amplitude,
             maxLength);
         this.origin = origin;
     }
