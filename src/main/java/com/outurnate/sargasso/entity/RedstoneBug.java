@@ -2,7 +2,6 @@ package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,6 +14,26 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 public class RedstoneBug extends Entity {
     private static final int DEFAULT_LIFE = 20 * 30;
+
+    private static void spamUpdates(Level level, BlockPos center, int radius) {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        for (int x = center.getX() - radius; x <= center.getX() + radius; ++x) {
+            for (int y = center.getY() - radius; y <= center.getY() + radius; ++y) {
+                for (int z = center.getZ() - radius; z <= center.getZ() + radius; ++z) {
+                    pos.set(x, y, z);
+                    level.neighborChanged(
+                        pos,
+                        level.getBlockState(pos).getBlock(),
+                        null);
+                    level.updateNeighborsAt(
+                        pos,
+                        level.getBlockState(pos).getBlock(),
+                        null);
+                }
+            }
+        }
+    }
+
     private int remainingTicks = DEFAULT_LIFE;
 
     public RedstoneBug(EntityType<?> type, Level level) {
@@ -58,21 +77,7 @@ public class RedstoneBug extends Entity {
             this.remove(RemovalReason.KILLED);
         }
 
-        BlockPos nearestPos = this.blockPosition();
-        level().neighborChanged(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
-        level().updateNeighborsAt(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
-        for (Direction direction : Direction.values()) {
-            BlockPos relative = nearestPos.relative(direction);
-            level().neighborChanged(
-                relative,
-                this.level().getBlockState(relative).getBlock(),
-                null);
-            level()
-                .updateNeighborsAt(
-                    relative,
-                    this.level().getBlockState(relative).getBlock(),
-                    null);
-        }
+        spamUpdates(this.level(), this.blockPosition(), 2);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();

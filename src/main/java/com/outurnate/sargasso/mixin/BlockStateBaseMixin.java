@@ -20,7 +20,7 @@ public abstract class BlockStateBaseMixin {
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
-            return bugs.size() > 0;
+            return bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0;
         }
         return false;
     }
