@@ -1,6 +1,5 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -87,9 +86,7 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
-        SuperSargassoSea.LOGGER.error(this.origin.toString());
         this.origin = additionalData.readVector3f();
-        SuperSargassoSea.LOGGER.error(this.origin.toString());
     }
 
     @Override
@@ -112,7 +109,6 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
-        SuperSargassoSea.LOGGER.error(this.origin.toString());
         buffer.writeVector3f(origin);
     }
 }

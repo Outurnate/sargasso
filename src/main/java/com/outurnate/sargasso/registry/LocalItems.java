@@ -192,7 +192,7 @@ public class LocalItems {
 
     public static final DeferredItem<Item> FOX_EARS = REGISTRY.registerItem(
         "fox_ears",
-        p -> new Item(p.humanoidArmor(ArmorMaterials.ARMADILLO_SCUTE, ArmorType.HELMET)));
+        p -> new Item(p.humanoidArmor(ArmorMaterials.GOLD, ArmorType.HELMET)));
 
     public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
         "unchecked",
