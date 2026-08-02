@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
-    private static boolean sargasso$getBugs(BlockGetter level, BlockPos pos) {
+    private static int sargasso$getBugs(BlockGetter level, BlockPos pos) {
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
@@ -26,19 +26,23 @@ public abstract class BlockStateBaseMixin {
             // redstone blocks don't end up stuck
             // in a powered state await a block
             // update
-            return bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0;
+            if (bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0) {
+                // the first bug might be dead, but whatevs
+                return bugs.get(0).reversePolarity ? Redstone.SIGNAL_NONE : Redstone.SIGNAL_MAX;
+            }
         }
-        return false;
+        return -1;
     }
 
     @Inject(method = "getDirectSignal", at = @At("HEAD"), cancellable = true)
-    private void getDirectSignal(
+    private void sargasso$getDirectSignal(
         BlockGetter level,
         BlockPos pos,
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
-        if (sargasso$getBugs(level, pos)) {
-            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
+        int bugVal = sargasso$getBugs(level, pos);
+        if (bugVal >= 0) {
+            callbackInfo.setReturnValue(bugVal);
         }
     }
 
@@ -48,8 +52,9 @@ public abstract class BlockStateBaseMixin {
         BlockPos pos,
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
-        if (sargasso$getBugs(level, pos)) {
-            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
+        int bugVal = sargasso$getBugs(level, pos);
+        if (bugVal >= 0) {
+            callbackInfo.setReturnValue(bugVal);
         }
     }
 }

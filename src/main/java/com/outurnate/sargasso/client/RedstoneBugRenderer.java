@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
@@ -32,6 +34,10 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
             4,
             0.5F,
             2.0F);
+    }
+
+    protected AABB getBoundingBoxForCulling(RedstoneBug entity) {
+        return new AABB(new Vec3(entity.origin), entity.getPosition(1.0F));
     }
 
     @Override

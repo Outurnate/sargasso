@@ -65,9 +65,14 @@ public class ThrownRedstoneEMP extends ThrowableItemProjectile {
         super.onHit(hitResult);
         if (!this.level().isClientSide()) {
             RandomSource rand = this.level().getRandom();
+            boolean reversePolarity = rand.nextBoolean();
             Vec3 impact = this.getPosition(1.0F);
             for (int i = 0; i < 15; ++i) {
-                RedstoneBug bug = new RedstoneBug(this.level(), 10 * 20, impact.toVector3f());
+                RedstoneBug bug = new RedstoneBug(
+                    this.level(),
+                    10 * 20,
+                    impact.toVector3f(),
+                    reversePolarity);
                 if (bug != null) {
                     bug.setPos(impact);
                     bug.setDeltaMovement(

@@ -39,6 +39,7 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
     }
 
     private int remainingTicks = DEFAULT_LIFE;
+    public boolean reversePolarity = false;
     public Vector3f origin = new Vector3f();
 
     public RedstoneBug(EntityType<?> type, Level level) {
@@ -51,11 +52,12 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
         this.noPhysics = true;
     }
 
-    public RedstoneBug(Level level, int remainingTicks, Vector3f origin) {
+    public RedstoneBug(Level level, int remainingTicks, Vector3f origin, boolean reversePolarity) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
         this.remainingTicks = remainingTicks;
         this.origin = origin;
         this.noPhysics = true;
+        this.reversePolarity = reversePolarity;
     }
 
     @Override
@@ -89,12 +91,6 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
         SuperSargassoSea.LOGGER.error(this.origin.toString());
         this.origin = additionalData.readVector3f();
         SuperSargassoSea.LOGGER.error(this.origin.toString());
-    }
-
-    @Override
-    public boolean shouldRender(double camX, double camY, double camZ) {
-        // TODO this could be smarter
-        return true;
     }
 
     @Override
