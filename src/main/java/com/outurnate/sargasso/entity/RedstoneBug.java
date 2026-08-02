@@ -64,23 +64,59 @@ public class RedstoneBug extends Entity {
             .error("BUG AT " + this.getX() + "," + this.getY() + "," + this.getZ());
         BlockPos nearestPos = new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ());
         level().neighborChanged(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.above(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.below(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.north(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.south(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.east(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(nearestPos.west(), this.level().getBlockState(nearestPos).getBlock(), null);
+        level().neighborChanged(
+            nearestPos.above(),
+            this.level().getBlockState(nearestPos.above()).getBlock(),
+            null);
+        level().neighborChanged(
+            nearestPos.below(),
+            this.level().getBlockState(nearestPos.below()).getBlock(),
+            null);
+        level().neighborChanged(
+            nearestPos.north(),
+            this.level().getBlockState(nearestPos.north()).getBlock(),
+            null);
+        level().neighborChanged(
+            nearestPos.south(),
+            this.level().getBlockState(nearestPos.south()).getBlock(),
+            null);
+        level().neighborChanged(
+            nearestPos.east(),
+            this.level().getBlockState(nearestPos.east()).getBlock(),
+            null);
+        level().neighborChanged(
+            nearestPos.west(),
+            this.level().getBlockState(nearestPos.west()).getBlock(),
+            null);
         level().updateNeighborsAt(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
         level()
-            .updateNeighborsAt(nearestPos.above(), this.level().getBlockState(nearestPos).getBlock(), null);
+            .updateNeighborsAt(
+                nearestPos.above(),
+                this.level().getBlockState(nearestPos.above()).getBlock(),
+                null);
         level()
-            .updateNeighborsAt(nearestPos.below(), this.level().getBlockState(nearestPos).getBlock(), null);
+            .updateNeighborsAt(
+                nearestPos.below(),
+                this.level().getBlockState(nearestPos.below()).getBlock(),
+                null);
         level()
-            .updateNeighborsAt(nearestPos.north(), this.level().getBlockState(nearestPos).getBlock(), null);
+            .updateNeighborsAt(
+                nearestPos.north(),
+                this.level().getBlockState(nearestPos.north()).getBlock(),
+                null);
         level()
-            .updateNeighborsAt(nearestPos.south(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().updateNeighborsAt(nearestPos.east(), this.level().getBlockState(nearestPos).getBlock(), null);
-        level().updateNeighborsAt(nearestPos.west(), this.level().getBlockState(nearestPos).getBlock(), null);
+            .updateNeighborsAt(
+                nearestPos.south(),
+                this.level().getBlockState(nearestPos.south()).getBlock(),
+                null);
+        level().updateNeighborsAt(
+            nearestPos.east(),
+            this.level().getBlockState(nearestPos.east()).getBlock(),
+            null);
+        level().updateNeighborsAt(
+            nearestPos.west(),
+            this.level().getBlockState(nearestPos.west()).getBlock(),
+            null);
         // level().updateNeighborsAt(nearestPos, nearest);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
