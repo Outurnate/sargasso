@@ -157,9 +157,10 @@ public class ElectricArc {
 
         int depth = 3;
         if (segmentLength != null) {
-            double targetNumberOfSegments = length / segmentLength;
+            double targetNumberOfSegments = Math.abs(length) / segmentLength;
             depth = (int) Math.round(Math.log(targetNumberOfSegments) / Math.log(2));
             SuperSargassoSea.LOGGER.error("depth=" + depth);
+            length = (float) (targetNumberOfSegments * segmentLength * Math.signum(length));
         }
 
         // d | s
