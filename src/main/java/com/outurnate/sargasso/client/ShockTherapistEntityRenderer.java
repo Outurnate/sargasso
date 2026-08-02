@@ -47,7 +47,8 @@ public class ShockTherapistEntityRenderer
                 b -> new ElectricArc(
                     b.getFirst().pos(partialTicks).subtract(blockPos).toVector3f(),
                     b.getSecond().pos(partialTicks).subtract(blockPos).toVector3f(),
-                    random.nextLong()))
+                    random.nextLong(),
+                    LocalRenderTypes.ELECTRIC_ZAP))
             .toList();
 
         Minecraft mc = Minecraft.getInstance();

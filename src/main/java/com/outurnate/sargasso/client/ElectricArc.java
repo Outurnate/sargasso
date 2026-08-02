@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 
 import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -23,11 +24,11 @@ public class ElectricArc {
             float zo,
             float yo,
             boolean reverse,
-            int color) {
+            RenderType renderType) {
 
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
-                LocalRenderTypes.ZAP,
+                renderType,
                 (pose, buffer) -> {
                     int fullBright = 0x00F000F0;
 
@@ -54,7 +55,7 @@ public class ElectricArc {
 
                     for (int i : order) {
                         buffer.addVertex(pose, x[i], y[i], z[i])
-                            .setColor(color)
+                            .setColor(-1)
                             .setUv(u[i], v[i])
                             .setOverlay(OverlayTexture.NO_OVERLAY)
                             .setLight(fullBright)
@@ -63,12 +64,15 @@ public class ElectricArc {
                 });
         }
 
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int color) {
+        public void submit(
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
+            RenderType renderType) {
             float size = 0.5F / 16.0F;
-            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size, true, color);
-            submitQuad(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F, false, color);
-            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size, false, color);
-            submitQuad(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F, true, color);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size, true, renderType);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F, false, renderType);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size, false, renderType);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F, true, renderType);
         }
     }
 
@@ -109,11 +113,7 @@ public class ElectricArc {
     private final Vector3f origin;
     private final Vector3f delta;
     private final ArrayList<LineSegment> segments;
-    private final int color;
-
-    public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
-        this(origin, destination, seed, 3, null, 1.0F, -1);
-    }
+    private final RenderType renderType;
 
     public ElectricArc(
         Vector3f origin,
@@ -122,7 +122,7 @@ public class ElectricArc {
         int depth,
         Float segmentLength,
         float amplitude,
-        int color) {
+        RenderType renderType) {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
         this.delta = new Vector3f();
         destination.sub(origin, delta);
@@ -152,7 +152,11 @@ public class ElectricArc {
             amplitude,
             maxLength);
         this.origin = origin;
-        this.color = color;
+        this.renderType = renderType;
+    }
+
+    public ElectricArc(Vector3f origin, Vector3f destination, long seed, RenderType renderType) {
+        this(origin, destination, seed, 3, null, 1.0F, renderType);
     }
 
     public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
@@ -164,7 +168,7 @@ public class ElectricArc {
         poseStack
             .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
         for (LineSegment segment : segments) {
-            segment.submit(poseStack, submitNodeCollector, color);
+            segment.submit(poseStack, submitNodeCollector, renderType);
         }
         poseStack.popPose();
     }

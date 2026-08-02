@@ -34,7 +34,13 @@ public class LocalRenderTypes {
         RenderSetup.builder(GLITCH_PIPELINE)
             .createRenderSetup());
 
-    public static final Identifier ZAP_LOCATION = SuperSargassoSea.ID("textures/entity/zap.png");
+    public static final Identifier ELECTRIC_ZAP_LOCATION = SuperSargassoSea
+        .ID("textures/entity/electric_zap.png");
 
-    public static final RenderType ZAP = RenderTypes.entityCutout(ZAP_LOCATION);
+    public static final RenderType ELECTRIC_ZAP = RenderTypes.entityCutout(ELECTRIC_ZAP_LOCATION);
+
+    public static final Identifier REDSTONE_ZAP_LOCATION = SuperSargassoSea
+        .ID("textures/entity/redstone_zap.png");
+
+    public static final RenderType REDSTONE_ZAP = RenderTypes.entityCutout(REDSTONE_ZAP_LOCATION);
 }
