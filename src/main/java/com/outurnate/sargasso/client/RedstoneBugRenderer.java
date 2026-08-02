@@ -27,7 +27,8 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
         // TODO seed
         state.bolt = new ElectricArc(
             new Vector3f(),
-            entity.origin.sub(entity.getPosition(1.0F).toVector3f()),
+            new Vector3f(0.0F, 0.0F, 0.0F),
+            // entity.getPosition(partialTicks).toVector3f().sub(entity.origin),
             0);
     }
 
