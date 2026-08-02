@@ -192,7 +192,14 @@ public class LocalItems {
 
     public static final DeferredItem<Item> FOX_EARS = REGISTRY.registerItem(
         "fox_ears",
-        p -> new Item(p.humanoidArmor(ArmorMaterials.GOLD, ArmorType.HELMET)));
+        p -> new Item(
+            p
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot())
+                        .setDispensable(true)
+                        .setEquipSound(LocalSoundEvents.PYLON)
+                        .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur")).build())));
 
     public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
         "unchecked",
