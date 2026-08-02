@@ -11,6 +11,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 
 public class RedstoneBug extends Entity {
     private static final int DEFAULT_LIFE = 20 * 30;
@@ -35,18 +36,22 @@ public class RedstoneBug extends Entity {
     }
 
     private int remainingTicks = DEFAULT_LIFE;
+    private final Vec3 origin;
 
     public RedstoneBug(EntityType<?> type, Level level) {
         super(type, level);
+        this.origin = Vec3.ZERO;
     }
 
     public RedstoneBug(Level level) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
+        this.origin = Vec3.ZERO;
     }
 
-    public RedstoneBug(Level level, int remainingTicks) {
+    public RedstoneBug(Level level, int remainingTicks, Vec3 origin) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
         this.remainingTicks = remainingTicks;
+        this.origin = origin;
     }
 
     @Override
@@ -71,7 +76,6 @@ public class RedstoneBug extends Entity {
     @Override
     public void tick() {
         super.tick();
-
         --remainingTicks;
         if (remainingTicks <= 0) {
             this.remove(RemovalReason.KILLED);
@@ -79,7 +83,7 @@ public class RedstoneBug extends Entity {
 
         spamUpdates(this.level(), this.blockPosition(), 2);
 
+        this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
         this.move(MoverType.SELF, this.getDeltaMovement());
-        this.applyEffectsFromBlocks();
     }
 }
