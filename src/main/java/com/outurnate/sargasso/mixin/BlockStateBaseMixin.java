@@ -20,6 +20,12 @@ public abstract class BlockStateBaseMixin {
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
+            // we filter out dead bugs here
+            // this is because bugs fire one last
+            // update on death - this is so that
+            // redstone blocks don't end up stuck
+            // in a powered state await a block
+            // update
             return bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0;
         }
         return false;
