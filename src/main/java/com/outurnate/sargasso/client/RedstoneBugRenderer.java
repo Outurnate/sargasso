@@ -34,7 +34,7 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
             3,
             0.5F,
             2.0F,
-            ARGB.color(100, 0, 0));
+            ARGB.color(127, 100, 0, 0));
     }
 
     protected AABB getBoundingBoxForCulling(RedstoneBug entity) {
