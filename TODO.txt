@@ -8,6 +8,7 @@
 - redstone emp
 - frankenstein's lab
 - redo fox ears
+- grabthar's hammer
 
 DONE
 - fix dupe bug
