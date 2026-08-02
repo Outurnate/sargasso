@@ -2,13 +2,13 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.entity.RedstoneBug;
-
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBugRenderState> {
@@ -24,8 +24,11 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
     @Override
     public void extractRenderState(RedstoneBug entity, RedstoneBugRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
-        state.bolt = new ElectricArc(entity.origin, entity.getPosition(1.0F).toVector3f(), 0); // TODO
-                                                                                               // seed
+        // TODO seed
+        state.bolt = new ElectricArc(
+            entity.origin.sub(entity.getPosition(1.0F).toVector3f()),
+            new Vector3f(),
+            0);
     }
 
     @Override
