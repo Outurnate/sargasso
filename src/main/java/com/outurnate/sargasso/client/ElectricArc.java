@@ -2,6 +2,8 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.outurnate.sargasso.SuperSargassoSea;
+
 import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -129,7 +131,7 @@ public class ElectricArc {
 
         LineSegment segment1 = new LineSegment(lineSegment.start(), midpoint);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end());
-        if (depth == 0) {
+        if (depth <= 0) {
             accumulator.add(segment1);
             accumulator.add(segment2);
         } else {
@@ -157,6 +159,7 @@ public class ElectricArc {
         if (segmentLength != null) {
             double targetNumberOfSegments = length / segmentLength;
             depth = (int) Math.round(Math.log(targetNumberOfSegments) / Math.log(2));
+            SuperSargassoSea.LOGGER.error("depth=" + depth);
         }
 
         // d | s
