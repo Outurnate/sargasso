@@ -2,7 +2,6 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.outurnate.sargasso.SuperSargassoSea;
 
 import java.util.ArrayList;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -153,21 +152,21 @@ public class ElectricArc {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
         this.delta = new Vector3f();
         destination.sub(origin, delta);
-        float length = delta.length();
 
         int depth = 3;
-        if (segmentLength != null) {
-            int targetNumberOfSegments = (int) Math.round(Math.abs(length) / segmentLength);
-            depth = (int) Math.round(Math.log(targetNumberOfSegments) / Math.log(2));
-            SuperSargassoSea.LOGGER.error("depth=" + depth);
-            length = (float) (targetNumberOfSegments * segmentLength * Math.signum(length));
-        }
 
-        // d | s
-        // 0 | 2
-        // 1 | 4
-        // 2 | 8
-        // segments = 2^(depth+1)
+        float length;
+        if (segmentLength != null) {
+            // d | s
+            // 0 | 2
+            // 1 | 4
+            // 2 | 8
+            // segments = 2^(depth+1)
+            int segments = Math.powExact(2, depth + 1);
+            length = segmentLength * segments;
+        } else {
+            length = delta.length();
+        }
 
         this.segments = new ArrayList<>();
         lightning(
