@@ -15,99 +15,59 @@ import org.joml.Vector3f;
 @OnlyIn(Dist.CLIENT)
 public class ElectricArc {
     private static record LineSegment(Vector3f start, Vector3f end) {
-        private void drawQuadA(
+        private void submitQuad(
             PoseStack poseStack,
             SubmitNodeCollector submitNodeCollector,
             float zw,
             float yw,
             float zo,
-            float yo) {
+            float yo,
+            boolean reverse) {
 
             submitNodeCollector.submitCustomGeometry(
                 poseStack,
                 LocalRenderTypes.ZAP,
                 (pose, buffer) -> {
                     int fullBright = 0x00F000F0;
-                    buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
-                        .setColor(-1)
-                        .setUv(0.0F, 0.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
 
-                    buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
-                        .setColor(-1)
-                        .setUv(0.0F, 1.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    float[] x = { start.x, end.x, end.x, start.x };
+                    float[] y = {
+                        start.y - yw + yo,
+                        end.y - yw + yo,
+                        end.y + yw + yo,
+                        start.y + yw + yo
+                    };
+                    float[] z = {
+                        start.z - zw + zo,
+                        end.z - zw + zo,
+                        end.z + zw + zo,
+                        start.z + zw + zo
+                    };
 
-                    buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
-                        .setColor(-1)
-                        .setUv(1.0F, 1.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    float[] u = { 0.0F, 0.0F, 1.0F, 1.0F };
+                    float[] v = { 0.0F, 1.0F, 1.0F, 0.0F };
 
-                    buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
-                        .setColor(-1)
-                        .setUv(1.0F, 0.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    int[] order = reverse
+                        ? new int[] { 3, 2, 1, 0 }
+                        : new int[] { 0, 1, 2, 3 };
+
+                    for (int i : order) {
+                        buffer.addVertex(pose, x[i], y[i], z[i])
+                            .setColor(-1)
+                            .setUv(u[i], v[i])
+                            .setOverlay(OverlayTexture.NO_OVERLAY)
+                            .setLight(fullBright)
+                            .setNormal(pose, 0.0F, -1.0F, 0.0F);
+                    }
                 });
         }
 
-        private void drawQuadB(
-            PoseStack poseStack,
-            SubmitNodeCollector submitNodeCollector,
-            float zw,
-            float yw,
-            float zo,
-            float yo) {
-            submitNodeCollector.submitCustomGeometry(
-                poseStack,
-                LocalRenderTypes.ZAP,
-                (pose, buffer) -> {
-                    int fullBright = 0x00F000F0;
-                    buffer.addVertex(pose, start.x, start.y + yw + yo, start.z + zw + zo)
-                        .setColor(-1)
-                        .setUv(1.0F, 0.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-                    buffer.addVertex(pose, end.x, end.y + yw + yo, end.z + zw + zo)
-                        .setColor(-1)
-                        .setUv(1.0F, 1.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-                    buffer.addVertex(pose, end.x, end.y - yw + yo, end.z - zw + zo)
-                        .setColor(-1)
-                        .setUv(0.0F, 1.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-
-                    buffer.addVertex(pose, start.x, start.y - yw + yo, start.z - zw + zo)
-                        .setColor(-1)
-                        .setUv(0.0F, 0.0F)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(fullBright)
-                        .setNormal(pose, 0.0F, -1.0F, 0.0F);
-                });
-        }
-
-        public void draw(
-            PoseStack poseStack,
-            SubmitNodeCollector submitNodeCollector) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector) {
             float size = 0.5F / 16.0F;
-            drawQuadB(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size);
-            drawQuadA(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F);
-            drawQuadA(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size);
-            drawQuadB(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, -size, true);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, -size, 0.0F, false);
+            submitQuad(poseStack, submitNodeCollector, size, 0.0F, 0.0F, size, false);
+            submitQuad(poseStack, submitNodeCollector, 0.0F, size, size, 0.0F, true);
         }
     }
 
@@ -200,7 +160,7 @@ public class ElectricArc {
         poseStack
             .mulPose(Axis.ZP.rotation((float) (-Math.atan2(horizontalDistance, delta.y)) + Mth.HALF_PI));
         for (LineSegment segment : segments) {
-            segment.draw(poseStack, submitNodeCollector);
+            segment.submit(poseStack, submitNodeCollector);
         }
         poseStack.popPose();
     }

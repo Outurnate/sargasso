@@ -120,6 +120,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
         this.addEntityType(LocalEntities.REDSTONE_EMP, "Redstone Pulse Device");
+        this.addEntityType(LocalEntities.REDSTONE_BUG, "Redstone Bug");
 
         for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
             this.add(entry.getKey(), entry.getValue());
