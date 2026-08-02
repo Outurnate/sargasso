@@ -106,7 +106,7 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
 
         spamUpdates(this.level(), this.blockPosition(), 2);
 
-        this.setDeltaMovement(this.getDeltaMovement().scale(0.45));
+        this.setDeltaMovement(this.getDeltaMovement().scale(0.7));
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
