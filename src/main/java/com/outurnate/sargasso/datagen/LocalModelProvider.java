@@ -219,5 +219,6 @@ public class LocalModelProvider extends ModelProvider {
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
         itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.declareCustomModelItem(LocalItems.FOX_EARS.get());
     }
 }

@@ -189,6 +189,11 @@ public class LocalItems {
                     DataComponents.EQUIPPABLE,
                     Equippable.builder(ArmorType.HELMET.getSlot()).setAsset(ArmorMaterials.LEATHER.assetId())
                         .build())));
+
+    public static final DeferredItem<Item> FOX_EARS = REGISTRY.registerItem(
+        "fox_ears",
+        p -> new Item(p.humanoidArmor(ArmorMaterials.ARMADILLO_SCUTE, ArmorType.HELMET)));
+
     public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
         "unchecked",
         props -> new Item(
