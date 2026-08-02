@@ -100,7 +100,7 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
             this.remove(RemovalReason.KILLED);
         }
 
-        if ((level().getGameTime() % 10) == 0) {
+        if ((level().getGameTime() % 5) == 0) {
             this.seed = level().getRandom().nextLong();
         }
 
