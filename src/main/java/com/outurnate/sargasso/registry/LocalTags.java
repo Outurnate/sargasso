@@ -6,6 +6,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 
@@ -24,4 +25,6 @@ public class LocalTags {
         .create(Registries.BIOME, SuperSargassoSea.ID("lost_items"));
     public static final TagKey<Item> FOX_TRUST_HAT = TagKey
         .create(Registries.ITEM, SuperSargassoSea.ID("fox_trust_hat"));
+    public static final TagKey<EntityType<?>> CAN_WEAR_PYLON = TagKey
+        .create(Registries.ENTITY_TYPE, SuperSargassoSea.ID("can_wear_pylon"));
 }

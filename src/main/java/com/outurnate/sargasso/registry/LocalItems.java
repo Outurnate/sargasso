@@ -10,9 +10,12 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
 
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -57,14 +60,7 @@ public class LocalItems {
     public static final DeferredItem<BlockItem> PYLON = REGISTRY.registerSimpleBlockItem(
         "pylon",
         LocalBlocks.PYLON,
-        p -> p
-            .component(
-                DataComponents.EQUIPPABLE,
-                Equippable.builder(ArmorType.HELMET.getSlot())
-                    .setDispensable(true)
-                    .setEquipSound(LocalSoundEvents.PYLON)
-                    .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
-                    .setEquipOnInteract(true).build()));
+        p -> p.component(DataComponents.EQUIPPABLE, pylon()));
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
@@ -226,6 +222,19 @@ public class LocalItems {
     @SubscribeEvent
     public static void onEnderManAngerEvent(EnderManAngerEvent event) {
         event.setCanceled(event.getPlayer().getItemBySlot(EquipmentSlot.HEAD).is(PYLON));
+    }
+
+    public static Equippable pylon() {
+        HolderGetter<EntityType<?>> entityGetter = BuiltInRegistries
+            .acquireBootstrapRegistrationLookup(BuiltInRegistries.ENTITY_TYPE);
+        return Equippable.builder(ArmorType.HELMET.getSlot())
+            .setEquipSound(LocalSoundEvents.PYLON)
+            .setDispensable(true)
+            .setAllowedEntities(entityGetter.getOrThrow(LocalTags.CAN_WEAR_PYLON))
+            .setEquipOnInteract(true)
+            .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
+            .setEquipOnInteract(true)
+            .build();
     }
 
     public static void register(IEventBus modEventBus) {

@@ -56,6 +56,7 @@ public class DataGenerators {
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalBiomeTagsProvider::new);
+        event.createProvider(LocalEntityTypeTagsProvider::new);
 
         // CALL LAST, AS EARLIER STEPS POPULATE MAPS
         event.createProvider(EnglishLanguageProvider::new);

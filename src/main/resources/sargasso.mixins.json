@@ -10,7 +10,6 @@
     "ComponentSerializationMixin",
     "SensingMixin",
     "FoxMixin",
-    "MonsterMixin",
     "BlockStateBaseMixin"
   ],
   "injectors": {
