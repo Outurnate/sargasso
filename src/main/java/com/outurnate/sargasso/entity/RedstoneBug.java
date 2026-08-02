@@ -100,13 +100,13 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
             this.remove(RemovalReason.KILLED);
         }
 
-        if ((level().getGameTime() % 5) == 0) {
+        if ((level().getGameTime() % 3) == 0) {
             this.seed = level().getRandom().nextLong();
         }
 
         spamUpdates(this.level(), this.blockPosition(), 2);
 
-        this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+        this.setDeltaMovement(this.getDeltaMovement().scale(0.45));
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 

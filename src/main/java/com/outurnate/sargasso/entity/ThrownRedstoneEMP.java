@@ -17,7 +17,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownRedstoneEMP extends ThrowableItemProjectile {
-    private static final double MAX_VEL_IN_AXIS = 0.5;
+    private static final double MAX_VEL_IN_AXIS = 0.75;
 
     public ThrownRedstoneEMP(EntityType<? extends ThrownRedstoneEMP> type, Level level) {
         super(type, level);
