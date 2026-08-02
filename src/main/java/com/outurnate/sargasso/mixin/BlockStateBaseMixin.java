@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
-    private static int sargasso$getBugs(BlockGetter level, BlockPos pos) {
+    private static boolean sargasso$getBugs(BlockGetter level, BlockPos pos) {
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
@@ -26,22 +26,19 @@ public abstract class BlockStateBaseMixin {
             // redstone blocks don't end up stuck
             // in a powered state await a block
             // update
-            if (bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0) {
-                return serverLevel.getRandom().nextBoolean() ? Redstone.SIGNAL_NONE : Redstone.SIGNAL_MAX;
-            }
+            return bugs.stream().filter(bug -> bug.getRemovalReason() == null).count() > 0;
         }
-        return -1;
+        return false;
     }
 
     @Inject(method = "getDirectSignal", at = @At("HEAD"), cancellable = true)
-    private void sargasso$getDirectSignal(
+    private void getDirectSignal(
         BlockGetter level,
         BlockPos pos,
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
-        int bugVal = sargasso$getBugs(level, pos);
-        if (bugVal >= 0) {
-            callbackInfo.setReturnValue(bugVal);
+        if (sargasso$getBugs(level, pos)) {
+            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
         }
     }
 
@@ -51,9 +48,8 @@ public abstract class BlockStateBaseMixin {
         BlockPos pos,
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
-        int bugVal = sargasso$getBugs(level, pos);
-        if (bugVal >= 0) {
-            callbackInfo.setReturnValue(bugVal);
+        if (sargasso$getBugs(level, pos)) {
+            callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
         }
     }
 }
