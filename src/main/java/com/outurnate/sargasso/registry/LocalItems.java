@@ -63,7 +63,8 @@ public class LocalItems {
                 Equippable.builder(ArmorType.HELMET.getSlot())
                     .setDispensable(true)
                     .setEquipSound(LocalSoundEvents.PYLON)
-                    .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur")).build()));
+                    .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
+                    .setEquipOnInteract(true).build()));
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
