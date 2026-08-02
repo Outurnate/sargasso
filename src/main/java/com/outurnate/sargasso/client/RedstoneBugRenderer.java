@@ -29,6 +29,7 @@ public class RedstoneBugRenderer extends EntityRenderer<RedstoneBug, RedstoneBug
             entity.getPosition(partialTicks).toVector3f().mul(-1.0F).add(entity.origin),
             new Vector3f(),
             0,
+            4,
             0.5F);
     }
 

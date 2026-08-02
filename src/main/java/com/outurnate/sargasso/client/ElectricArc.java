@@ -116,7 +116,8 @@ public class ElectricArc {
         int depth,
         ArrayList<LineSegment> accumulator,
         RandomSource random,
-        float amplitude) {
+        float amplitude,
+        float maxLength) {
         Vector3f segmentLength = new Vector3f();
         lineSegment.end().sub(lineSegment.start(), segmentLength);
         segmentLength.mul(0.5F);
@@ -131,12 +132,16 @@ public class ElectricArc {
         LineSegment segment1 = new LineSegment(lineSegment.start(), midpoint);
         LineSegment segment2 = new LineSegment(midpoint, lineSegment.end());
         if (depth <= 0) {
-            accumulator.add(segment1);
-            accumulator.add(segment2);
+            if (segment1.end.x < maxLength) {
+                accumulator.add(segment1);
+            }
+            if (segment2.end.x < maxLength) {
+                accumulator.add(segment2);
+            }
         } else {
             amplitude /= 2;
-            lightning(segment1, depth - 1, accumulator, random, amplitude);
-            lightning(segment2, depth - 1, accumulator, random, amplitude);
+            lightning(segment1, depth - 1, accumulator, random, amplitude, maxLength);
+            lightning(segment2, depth - 1, accumulator, random, amplitude, maxLength);
         }
     }
 
@@ -145,17 +150,16 @@ public class ElectricArc {
     private final ArrayList<LineSegment> segments;
 
     public ElectricArc(Vector3f origin, Vector3f destination, long seed) {
-        this(origin, destination, seed, null);
+        this(origin, destination, seed, 3, null);
     }
 
-    public ElectricArc(Vector3f origin, Vector3f destination, long seed, Float segmentLength) {
+    public ElectricArc(Vector3f origin, Vector3f destination, long seed, int depth, Float segmentLength) {
         RandomSource random = RandomSource.createThreadLocalInstance(seed);
         this.delta = new Vector3f();
         destination.sub(origin, delta);
 
-        int depth = 3;
-
         float length;
+        float maxLength;
         if (segmentLength != null) {
             // d | s
             // 0 | 2
@@ -164,8 +168,10 @@ public class ElectricArc {
             // segments = 2^(depth+1)
             int segments = Math.powExact(2, depth + 1);
             length = segmentLength * segments;
+            maxLength = delta.length();
         } else {
             length = delta.length();
+            maxLength = length + 1;
         }
 
         this.segments = new ArrayList<>();
@@ -174,7 +180,8 @@ public class ElectricArc {
             depth,
             segments,
             random,
-            1.0F);
+            1.0F,
+            maxLength);
         this.origin = origin;
     }
 
