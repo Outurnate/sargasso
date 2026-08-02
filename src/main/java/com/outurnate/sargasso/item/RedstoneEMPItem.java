@@ -1,6 +1,6 @@
 package com.outurnate.sargasso.item;
 
-import com.outurnate.sargasso.entity.ThrownLightningBottle;
+import com.outurnate.sargasso.entity.ThrownRedstoneEMP;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
@@ -24,7 +24,7 @@ public class RedstoneEMPItem extends Item implements ProjectileItem {
 
     @Override
     public Projectile asProjectile(Level level, Position position, ItemStack itemStack, Direction direction) {
-        return new ThrownLightningBottle(level, position.x(), position.y(), position.z(), itemStack);
+        return new ThrownRedstoneEMP(level, position.x(), position.y(), position.z(), itemStack);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class RedstoneEMPItem extends Item implements ProjectileItem {
             0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (level instanceof ServerLevel serverLevel) {
             Projectile.spawnProjectileFromRotation(
-                ThrownLightningBottle::new,
+                ThrownRedstoneEMP::new,
                 serverLevel,
                 itemStack,
                 player,
