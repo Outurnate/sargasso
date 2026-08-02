@@ -17,6 +17,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownRedstoneEMP extends ThrowableItemProjectile {
+    private static final double MAX_VEL_IN_AXIS = 0.5;
+
     public ThrownRedstoneEMP(EntityType<? extends ThrownRedstoneEMP> type, Level level) {
         super(type, level);
     }
@@ -69,9 +71,9 @@ public class ThrownRedstoneEMP extends ThrowableItemProjectile {
                 if (bug != null) {
                     bug.setPos(impact);
                     bug.setDeltaMovement(
-                        (rand.nextDouble() * 2.0) - 1.0,
-                        (rand.nextDouble() * 2.0) - 1.0,
-                        (rand.nextDouble() * 2.0) - 1.0);
+                        (rand.nextDouble() * 2.0 * MAX_VEL_IN_AXIS) - MAX_VEL_IN_AXIS,
+                        (rand.nextDouble() * 2.0 * MAX_VEL_IN_AXIS) - MAX_VEL_IN_AXIS,
+                        (rand.nextDouble() * 2.0 * MAX_VEL_IN_AXIS) - MAX_VEL_IN_AXIS);
                     this.level().addFreshEntity(bug);
                 }
             }

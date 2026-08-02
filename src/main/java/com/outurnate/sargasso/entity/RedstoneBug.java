@@ -92,6 +92,12 @@ public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
     }
 
     @Override
+    public boolean shouldRender(double camX, double camY, double camZ) {
+        // TODO this could be smarter
+        return true;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         --remainingTicks;
