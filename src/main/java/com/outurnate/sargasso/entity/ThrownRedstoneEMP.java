@@ -5,9 +5,9 @@ import com.outurnate.sargasso.registry.LocalItems;
 
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -62,11 +62,17 @@ public class ThrownRedstoneEMP extends ThrowableItemProjectile {
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
         if (!this.level().isClientSide()) {
-            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT
-                .create(this.level(), EntitySpawnReason.TRIGGERED);
-            if (lightningBolt != null) {
-                lightningBolt.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                this.level().addFreshEntity(lightningBolt);
+            RandomSource rand = this.level().getRandom();
+            for (int i = 0; i < 15; ++i) {
+                RedstoneBug bug = LocalEntities.REDSTONE_BUG.get()
+                    .create(this.level(), EntitySpawnReason.TRIGGERED);
+                if (bug != null) {
+                    bug.setDeltaMovement(
+                        (rand.nextDouble() * 2.0) - 1.0,
+                        (rand.nextDouble() * 2.0) - 1.0,
+                        (rand.nextDouble() * 2.0) - 1.0);
+                    this.level().addFreshEntity(bug);
+                }
             }
 
             this.level().broadcastEntityEvent(this, (byte) 3);

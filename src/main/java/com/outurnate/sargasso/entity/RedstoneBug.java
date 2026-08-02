@@ -1,8 +1,8 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -58,67 +58,21 @@ public class RedstoneBug extends Entity {
             this.remove(RemovalReason.KILLED);
         }
 
-        SuperSargassoSea.LOGGER
-            .error("BUG AT " + (int) this.getX() + "," + (int) this.getY() + "," + (int) this.getZ());
-        SuperSargassoSea.LOGGER
-            .error("BUG AT " + this.getX() + "," + this.getY() + "," + this.getZ());
-
         BlockPos nearestPos = this.blockPosition();
         level().neighborChanged(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
-        level().neighborChanged(
-            nearestPos.above(),
-            this.level().getBlockState(nearestPos.above()).getBlock(),
-            null);
-        level().neighborChanged(
-            nearestPos.below(),
-            this.level().getBlockState(nearestPos.below()).getBlock(),
-            null);
-        level().neighborChanged(
-            nearestPos.north(),
-            this.level().getBlockState(nearestPos.north()).getBlock(),
-            null);
-        level().neighborChanged(
-            nearestPos.south(),
-            this.level().getBlockState(nearestPos.south()).getBlock(),
-            null);
-        level().neighborChanged(
-            nearestPos.east(),
-            this.level().getBlockState(nearestPos.east()).getBlock(),
-            null);
-        level().neighborChanged(
-            nearestPos.west(),
-            this.level().getBlockState(nearestPos.west()).getBlock(),
-            null);
         level().updateNeighborsAt(nearestPos, this.level().getBlockState(nearestPos).getBlock(), null);
-        level()
-            .updateNeighborsAt(
-                nearestPos.above(),
-                this.level().getBlockState(nearestPos.above()).getBlock(),
+        for (Direction direction : Direction.values()) {
+            BlockPos relative = nearestPos.relative(direction);
+            level().neighborChanged(
+                relative,
+                this.level().getBlockState(relative).getBlock(),
                 null);
-        level()
-            .updateNeighborsAt(
-                nearestPos.below(),
-                this.level().getBlockState(nearestPos.below()).getBlock(),
-                null);
-        level()
-            .updateNeighborsAt(
-                nearestPos.north(),
-                this.level().getBlockState(nearestPos.north()).getBlock(),
-                null);
-        level()
-            .updateNeighborsAt(
-                nearestPos.south(),
-                this.level().getBlockState(nearestPos.south()).getBlock(),
-                null);
-        level().updateNeighborsAt(
-            nearestPos.east(),
-            this.level().getBlockState(nearestPos.east()).getBlock(),
-            null);
-        level().updateNeighborsAt(
-            nearestPos.west(),
-            this.level().getBlockState(nearestPos.west()).getBlock(),
-            null);
-        // level().updateNeighborsAt(nearestPos, nearest);
+            level()
+                .updateNeighborsAt(
+                    relative,
+                    this.level().getBlockState(relative).getBlock(),
+                    null);
+        }
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.applyEffectsFromBlocks();

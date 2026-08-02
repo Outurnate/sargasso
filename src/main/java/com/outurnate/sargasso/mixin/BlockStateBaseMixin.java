@@ -1,6 +1,5 @@
 package com.outurnate.sargasso.mixin;
 
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.RedstoneBug;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -18,10 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
     private static boolean sargasso$getBugs(BlockGetter level, BlockPos pos) {
-        SuperSargassoSea.LOGGER
-            .error(
-                "CHECKED AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ()
-                    + new AABB(pos).toString());
         if (level instanceof ServerLevel serverLevel) {
             List<RedstoneBug> bugs = serverLevel
                 .getEntitiesOfClass(RedstoneBug.class, new AABB(pos));
@@ -37,8 +32,6 @@ public abstract class BlockStateBaseMixin {
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
         if (sargasso$getBugs(level, pos)) {
-            SuperSargassoSea.LOGGER
-                .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
             callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
         }
     }
@@ -50,8 +43,6 @@ public abstract class BlockStateBaseMixin {
         Direction direction,
         CallbackInfoReturnable<Integer> callbackInfo) {
         if (sargasso$getBugs(level, pos)) {
-            SuperSargassoSea.LOGGER
-                .error("MIXIN AT " + (int) pos.getX() + "," + (int) pos.getY() + "," + (int) pos.getZ());
             callbackInfo.setReturnValue(Redstone.SIGNAL_MAX);
         }
     }
