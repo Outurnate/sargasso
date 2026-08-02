@@ -6,7 +6,6 @@ import com.outurnate.sargasso.registry.LocalItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class ThrownRedstoneEMP extends ThrowableItemProjectile {
     public ThrownRedstoneEMP(EntityType<? extends ThrownRedstoneEMP> type, Level level) {
@@ -63,11 +63,11 @@ public class ThrownRedstoneEMP extends ThrowableItemProjectile {
         super.onHit(hitResult);
         if (!this.level().isClientSide()) {
             RandomSource rand = this.level().getRandom();
+            Vec3 impact = this.getPosition(1.0F);
             for (int i = 0; i < 15; ++i) {
-                RedstoneBug bug = LocalEntities.REDSTONE_BUG.get()
-                    .create(this.level(), EntitySpawnReason.TRIGGERED);
+                RedstoneBug bug = new RedstoneBug(this.level(), 10 * 20, impact);
                 if (bug != null) {
-                    bug.setPos(this.getPosition(1.0F));
+                    bug.setPos(impact);
                     bug.setDeltaMovement(
                         (rand.nextDouble() * 2.0) - 1.0,
                         (rand.nextDouble() * 2.0) - 1.0,

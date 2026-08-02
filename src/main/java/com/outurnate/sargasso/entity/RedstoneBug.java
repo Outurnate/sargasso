@@ -36,27 +36,31 @@ public class RedstoneBug extends Entity {
     }
 
     private int remainingTicks = DEFAULT_LIFE;
-    private final Vec3 origin;
+    public Vec3 origin = Vec3.ZERO;
 
     public RedstoneBug(EntityType<?> type, Level level) {
         super(type, level);
-        this.origin = Vec3.ZERO;
+        this.noPhysics = true;
     }
 
     public RedstoneBug(Level level) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
-        this.origin = Vec3.ZERO;
+        this.noPhysics = true;
     }
 
     public RedstoneBug(Level level, int remainingTicks, Vec3 origin) {
         super(LocalEntities.REDSTONE_BUG.get(), level);
         this.remainingTicks = remainingTicks;
         this.origin = origin;
+        this.noPhysics = true;
     }
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
         output.putInt("remainingTicks", this.remainingTicks);
+        output.putDouble("originX", origin.x);
+        output.putDouble("originY", origin.y);
+        output.putDouble("originZ", origin.z);
     }
 
     @Override
@@ -71,6 +75,10 @@ public class RedstoneBug extends Entity {
     @Override
     protected void readAdditionalSaveData(ValueInput input) {
         this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
+        this.origin = new Vec3(
+            input.getDoubleOr("originX", 0.0),
+            input.getDoubleOr("originY", 0.0),
+            input.getDoubleOr("originZ", 0.0));
     }
 
     @Override
