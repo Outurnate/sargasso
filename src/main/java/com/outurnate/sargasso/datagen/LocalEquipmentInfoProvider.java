@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
