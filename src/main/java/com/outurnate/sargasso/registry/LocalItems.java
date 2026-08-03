@@ -191,6 +191,7 @@ public class LocalItems {
         "fox_ears",
         props -> new Item(
             props
+                .stacksTo(1)
                 .component(
                     DataComponents.EQUIPPABLE,
                     Equippable.builder(ArmorType.HELMET.getSlot()).build())));

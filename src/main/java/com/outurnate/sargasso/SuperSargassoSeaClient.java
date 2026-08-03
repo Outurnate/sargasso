@@ -3,6 +3,7 @@ package com.outurnate.sargasso;
 
 import com.outurnate.sargasso.client.ElectricMineModel;
 import com.outurnate.sargasso.client.ElectricMineRenderer;
+import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HeadGearRenderLayer;
 import com.outurnate.sargasso.client.RedstoneBugRenderer;
@@ -11,7 +12,6 @@ import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
-
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -25,6 +25,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -49,6 +50,11 @@ public class SuperSargassoSeaClient {
                 armorStandRenderer.addLayer(new HeadGearRenderLayer<>(armorStandRenderer));
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(SuperSargassoSea.ID("from_cosmetic"), FromCosmeticItemTintSource.MAP_CODEC);
     }
 
     @SubscribeEvent

@@ -2,17 +2,23 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.recipe.ApplyCosmeticRecipe;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.CustomCraftingRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.DyeRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class LocalRecipeProvider extends RecipeProvider {
@@ -83,7 +89,26 @@ public class LocalRecipeProvider extends RecipeProvider {
             .pattern("CRC")
             .unlockedBy("has_potato_battery", this.has(LocalItems.POTATO_BATTERY.get()))
             .save(this.output);
-        dyedItem(LocalItems.FOX_EARS.get(), "dyed_armor");
+        dyedItem2(LocalItems.FOX_EARS.get(), "dyed_armor");
+        SpecialRecipeBuilder.special(
+            () -> new ApplyCosmeticRecipe(
+                Ingredient.of(LocalItems.FOX_EARS.get()),
+                Ingredient.of(LocalItems.AA_BATTERY.get())))
+            .save(this.output, SuperSargassoSea.MODID + ":" + "apply_cosmetic_to_fox_ears");
+    }
+
+    private void dyedItem2(Item target, String group) {
+        CustomCraftingRecipeBuilder.customCrafting(
+            RecipeCategory.MISC,
+            (commonInfo, bookInfo) -> new DyeRecipe(
+                commonInfo,
+                bookInfo,
+                Ingredient.of(target),
+                this.tag(ItemTags.DYES),
+                new ItemStackTemplate(target)))
+            .unlockedBy(getHasName(target), this.has(target))
+            .group(group)
+            .save(this.output, SuperSargassoSea.MODID + ":" + getItemName(target) + "_dyed");
     }
 
     private void studdedLeatherSmithing(Item base, RecipeCategory category, Item result) {

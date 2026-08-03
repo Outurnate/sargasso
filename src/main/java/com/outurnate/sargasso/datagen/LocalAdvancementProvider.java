@@ -16,6 +16,7 @@ import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.criterion.ChangeDimensionTrigger;
 import net.minecraft.advancements.criterion.ImpossibleTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementProvider;
@@ -90,14 +91,13 @@ public class LocalAdvancementProvider extends AdvancementProvider {
             AdvancementHolder pylon = builder(
                 LocalAdvancements.PYLON,
                 "Groove Crusader",
-                "Pacify a mob",
+                "Acquire a cool hat",
                 new ItemStackTemplate(LocalItems.PYLON.get()),
                 b -> b
                     .parent(enter)
                     .addCriterion(
-                        "impossible",
-                        CriteriaTriggers.IMPOSSIBLE
-                            .createCriterion(new ImpossibleTrigger.TriggerInstance())));
+                        "pylon",
+                        InventoryChangeTrigger.TriggerInstance.hasItems(LocalItems.PYLON.get())));
             output.accept(enter);
             output.accept(leave);
             output.accept(toast);
