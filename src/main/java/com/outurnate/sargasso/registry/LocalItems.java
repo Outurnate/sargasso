@@ -13,7 +13,6 @@ import com.outurnate.sargasso.item.RedstoneEMPItem;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -26,7 +25,6 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -232,7 +230,8 @@ public class LocalItems {
         return Equippable.builder(ArmorType.HELMET.getSlot())
             .setEquipSound(LocalSoundEvents.PYLON)
             .setDispensable(true)
-            .setAsset(ResourceKey.create(EquipmentAssets.ROOT_ID, LocalEquipmentAssets.FOX_EARS))
+            // .setAsset(ResourceKey.create(EquipmentAssets.ROOT_ID,
+            // LocalEquipmentAssets.FOX_EARS))
             .setAllowedEntities(entityGetter.getOrThrow(LocalTags.CAN_WEAR_PYLON))
             .setEquipOnInteract(true)
             .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))

@@ -4,7 +4,6 @@ import com.mojang.math.OctahedralGroup;
 import com.mojang.math.Transformation;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.client.HeadGearClientExtensions;
-import com.outurnate.sargasso.client.TestClientItemExtension;
 
 import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
@@ -43,7 +42,6 @@ public class LocalStandaloneModels {
         event.registerItem(new HeadGearClientExtensions(), LocalItems.TWO_COLOR_FOX_EARS);
         event.registerItem(new HeadGearClientExtensions(), LocalItems.COMICALLY_TALL_FOX_EARS);
         event.registerItem(new HeadGearClientExtensions(), LocalItems.ORANGE_FOX_EARS);
-        event.registerItem(new TestClientItemExtension(), LocalItems.FOX_EARS);
     }
 
     private static void registerSimpleModel(

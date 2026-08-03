@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -224,11 +225,14 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
 
         Item foxEars = LocalItems.FOX_EARS.get();
+        int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
+        int white = ARGB.color(255, 255, 255);
         itemModels.itemModelOutput.accept(
             foxEars,
             ItemModelUtils.tintedModel(
                 ModelLocationUtils.getModelLocation(foxEars),
-                new Dye(ARGB.color(255, 255, 255)),
-                new Dye(ARGB.color(255, 255, 255))));
+                new Dye(foxOrange),
+                new Dye(foxOrange),
+                new Constant(white)));
     }
 }
