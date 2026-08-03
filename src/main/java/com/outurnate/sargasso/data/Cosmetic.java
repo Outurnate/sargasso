@@ -2,6 +2,8 @@ package com.outurnate.sargasso.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.SuperSargassoSea;
+
 import java.util.function.Consumer;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,6 +30,7 @@ public record Cosmetic(ItemStackTemplate cosmetic) implements TooltipProvider {
         Consumer<Component> consumer,
         TooltipFlag flag,
         DataComponentGetter components) {
+        SuperSargassoSea.LOGGER.error("ass");
         consumer.accept(cosmetic.item().value().getDefaultInstance().getDisplayName());
         consumer.accept(Component.literal("ass"));
     }
