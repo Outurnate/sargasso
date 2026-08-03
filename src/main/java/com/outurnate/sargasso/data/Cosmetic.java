@@ -29,5 +29,6 @@ public record Cosmetic(ItemStackTemplate cosmetic) implements TooltipProvider {
         TooltipFlag flag,
         DataComponentGetter components) {
         consumer.accept(cosmetic.item().value().getDefaultInstance().getDisplayName());
+        consumer.accept(Component.literal("ass"));
     }
 }
