@@ -47,7 +47,6 @@ public class SuperSargassoSea {
         LocalDataComponentTypes.register(modEventBus);
         LocalConsumeEffects.register(modEventBus);
         LocalParticleTypes.register(modEventBus);
-        // LocalRecipeTypes.register(modEventBus); // might be removed
         LocalRecipeSerializers.register(modEventBus);
     }
 }
