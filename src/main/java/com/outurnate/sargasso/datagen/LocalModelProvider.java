@@ -228,6 +228,7 @@ public class LocalModelProvider extends ModelProvider {
             foxEars,
             ItemModelUtils.tintedModel(
                 ModelLocationUtils.getModelLocation(foxEars),
+                new Dye(ARGB.color(255, 255, 255)),
                 new Dye(ARGB.color(255, 255, 255))));
     }
 }
