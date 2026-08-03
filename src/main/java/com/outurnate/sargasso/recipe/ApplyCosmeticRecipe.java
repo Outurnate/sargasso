@@ -144,6 +144,11 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
     }
 
     @Override
+    public boolean isSpecial() {
+        return false;
+    }
+
+    @Override
     public boolean matches(CraftingInput input, Level level) {
         return this.getItemsToCombine(input) != null;
     }
