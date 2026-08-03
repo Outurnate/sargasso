@@ -22,7 +22,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -195,8 +194,7 @@ public class LocalItems {
                 .stacksTo(1)
                 .component(
                     DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot()).build())
-                .component(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT)));
+                    Equippable.builder(ArmorType.HELMET.getSlot()).build())));
 
     public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
         "unchecked",
