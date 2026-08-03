@@ -18,6 +18,7 @@ public class TestClientItemExtension implements IClientItemExtensions {
         ItemStack itemStack,
         EquipmentClientInfo.LayerType layerType,
         Model original) {
+        SuperSargassoSea.LOGGER.error(original.toString());
         if (original instanceof HumanoidModel<?> playerModel) {
             SuperSargassoSea.LOGGER.error(playerModel.getHead().toString());
         }
