@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
@@ -45,6 +47,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.item.Item;
@@ -219,6 +222,12 @@ public class LocalModelProvider extends ModelProvider {
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
         itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.declareCustomModelItem(LocalItems.FOX_EARS.get());
+
+        Item foxEars = LocalItems.FOX_EARS.get();
+        itemModels.itemModelOutput.accept(
+            foxEars,
+            ItemModelUtils.tintedModel(
+                ModelLocationUtils.getModelLocation(foxEars),
+                new Dye(ARGB.color(255, 255, 255))));
     }
 }
