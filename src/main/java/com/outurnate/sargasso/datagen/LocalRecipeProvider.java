@@ -43,6 +43,14 @@ public class LocalRecipeProvider extends RecipeProvider {
         super(registries, output);
     }
 
+    private void addFoxEarsToHelmet(Item target) {
+        SpecialRecipeBuilder.special(
+            () -> new ApplyCosmeticRecipe(
+                Ingredient.of(target),
+                Ingredient.of(LocalItems.FOX_EARS.get())))
+            .save(this.output, SuperSargassoSea.MODID + ":" + "apply_fox_ears_to_" + getItemName(target));
+    }
+
     @Override
     protected void buildRecipes() {
         shaped(RecipeCategory.FOOD, LocalItems.BREADROCK)
@@ -95,6 +103,12 @@ public class LocalRecipeProvider extends RecipeProvider {
                 Ingredient.of(LocalItems.FOX_EARS.get()),
                 Ingredient.of(LocalItems.AA_BATTERY.get())))
             .save(this.output, SuperSargassoSea.MODID + ":" + "apply_cosmetic_to_fox_ears");
+        addFoxEarsToHelmet(Items.LEATHER_HELMET);
+        addFoxEarsToHelmet(Items.IRON_HELMET);
+        addFoxEarsToHelmet(Items.CHAINMAIL_HELMET);
+        addFoxEarsToHelmet(Items.GOLDEN_HELMET);
+        addFoxEarsToHelmet(Items.DIAMOND_HELMET);
+        addFoxEarsToHelmet(Items.NETHERITE_HELMET);
     }
 
     private void dyedItem2(Item target, String group) {
