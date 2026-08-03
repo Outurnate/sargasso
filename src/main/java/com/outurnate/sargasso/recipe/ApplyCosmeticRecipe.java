@@ -55,14 +55,15 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
     }
 
     private static ItemStack apply(ItemStack source, ItemStack cosmetic) {
+        ItemStack result = source.copy();
         DataComponentPatch components = DataComponentPatch.builder()
             .set(
                 LocalDataComponentTypes.COSMETIC_ITEM.get(),
                 new Cosmetic(new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch())))
             .build();
-        source.applyComponents(components);
-        source.setCount(1);
-        return source;
+        result.applyComponents(components);
+        result.setCount(1);
+        return result;
     }
 
     private final Recipe.CommonInfo commonInfo;
