@@ -12,9 +12,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
@@ -25,11 +29,17 @@ import org.jspecify.annotations.Nullable;
 public class ApplyCosmeticRecipe extends CustomRecipe {
     public static final MapCodec<ApplyCosmeticRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
         i -> i.group(
+            Recipe.CommonInfo.MAP_CODEC.forGetter(o -> o.commonInfo),
+            CraftingRecipe.CraftingBookInfo.MAP_CODEC.forGetter(o -> o.bookInfo),
             Ingredient.CODEC.fieldOf("source").forGetter(o -> o.sourceItem),
             Ingredient.CODEC.fieldOf("cosmetic").forGetter(o -> o.cosmeticItem))
             .apply(i, ApplyCosmeticRecipe::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, ApplyCosmeticRecipe> STREAM_CODEC = StreamCodec
         .composite(
+            Recipe.CommonInfo.STREAM_CODEC,
+            o -> o.commonInfo,
+            CraftingRecipe.CraftingBookInfo.STREAM_CODEC,
+            o -> o.bookInfo,
             Ingredient.CONTENTS_STREAM_CODEC,
             o -> o.sourceItem,
             Ingredient.CONTENTS_STREAM_CODEC,
@@ -54,11 +64,18 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
         return source;
     }
 
+    private final Recipe.CommonInfo commonInfo;
+    private final CraftingRecipe.CraftingBookInfo bookInfo;
     private final Ingredient sourceItem;
-
     private final Ingredient cosmeticItem;
 
-    public ApplyCosmeticRecipe(Ingredient sourceItem, Ingredient cosmeticItem) {
+    public ApplyCosmeticRecipe(
+        Recipe.CommonInfo commonInfo,
+        CraftingRecipe.CraftingBookInfo bookInfo,
+        Ingredient sourceItem,
+        Ingredient cosmeticItem) {
+        this.commonInfo = commonInfo;
+        this.bookInfo = bookInfo;
         this.sourceItem = sourceItem;
         this.cosmeticItem = cosmeticItem;
     }
@@ -71,6 +88,11 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public final CraftingBookCategory category() {
+        return this.bookInfo.category();
     }
 
     @Override
@@ -117,7 +139,22 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
     }
 
     @Override
+    public final String group() {
+        return this.bookInfo.group();
+    }
+
+    @Override
     public boolean matches(CraftingInput input, Level level) {
         return this.getItemsToCombine(input) != null;
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(List.of(this.sourceItem, this.cosmeticItem));
+    }
+
+    @Override
+    public final boolean showNotification() {
+        return this.commonInfo.showNotification();
     }
 }
