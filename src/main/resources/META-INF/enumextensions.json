@@ -4,7 +4,10 @@
             "enum": "net/minecraft/client/resources/model/EquipmentClientInfo/LayerType",
             "name": "SARGASSO_EARS",
             "constructor": "(Ljava/lang/String;)V",
-            "parameters": [ "sargasso:ears" ]
+            "parameters": {
+                "class": "com/outurnate/sargasso/EnumExtensions",
+                "field": "SARGASSO_EARS"
+            }
         }
     ]
 }
