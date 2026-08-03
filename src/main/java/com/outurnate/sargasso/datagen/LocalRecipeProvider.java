@@ -88,17 +88,17 @@ public class LocalRecipeProvider extends RecipeProvider {
             .pattern("CRC")
             .unlockedBy("has_potato_battery", this.has(LocalItems.POTATO_BATTERY.get()))
             .save(this.output);
-        dyedItem(LocalItems.FOX_EARS.get(), "dyed_armor");
-        cosmetic(LocalItems.FOX_EARS.get(), LocalItems.AA_BATTERY.get());
-        cosmetic(Items.LEATHER_HELMET, LocalItems.FOX_EARS.get());
-        cosmetic(Items.IRON_HELMET, LocalItems.FOX_EARS.get());
-        cosmetic(Items.CHAINMAIL_HELMET, LocalItems.FOX_EARS.get());
-        cosmetic(Items.GOLDEN_HELMET, LocalItems.FOX_EARS.get());
-        cosmetic(Items.DIAMOND_HELMET, LocalItems.FOX_EARS.get());
-        cosmetic(Items.NETHERITE_HELMET, LocalItems.FOX_EARS.get());
+        dyedItem(LocalItems.FOX_EARS.get(), "dyed_fox_ears");
+        cosmetic(LocalItems.FOX_EARS.get(), LocalItems.AA_BATTERY.get(), "dyed_fox_ears");
+        cosmetic(Items.LEATHER_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.IRON_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.CHAINMAIL_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.GOLDEN_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.DIAMOND_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.NETHERITE_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
     }
 
-    private void cosmetic(Item target, Item cosmetic) {
+    private void cosmetic(Item target, Item cosmetic, String group) {
         CustomCraftingRecipeBuilder.customCrafting(
             RecipeCategory.MISC,
             (commonInfo, bookInfo) -> new ApplyCosmeticRecipe(
