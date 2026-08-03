@@ -18,6 +18,7 @@ import com.mojang.math.Transformation;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
+import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.color.item.Constant;
-import net.minecraft.client.color.item.Dye;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -227,12 +227,13 @@ public class LocalModelProvider extends ModelProvider {
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
         int white = ARGB.color(255, 255, 255);
+        int black = ARGB.color(0, 0, 0);
         itemModels.itemModelOutput.accept(
             foxEars,
             ItemModelUtils.tintedModel(
                 ModelLocationUtils.getModelLocation(foxEars),
-                new Dye(foxOrange),
-                new Dye(foxOrange),
+                new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), black)),
+                new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), foxOrange)),
                 new Constant(white)));
     }
 }
