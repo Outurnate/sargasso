@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -48,7 +49,10 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
 
         SuperSargassoSea.LOGGER.error(cosmetic.toString());
         DataComponentPatch components = DataComponentPatch.builder()
-            .set(LocalDataComponentTypes.COSMETIC_ITEM.get(), cosmetic).build();
+            .set(
+                LocalDataComponentTypes.COSMETIC_ITEM.get(),
+                new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch()))
+            .build();
         source.applyComponents(components);
         source.setCount(1);
         SuperSargassoSea.LOGGER.error(source.toString());
