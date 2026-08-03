@@ -46,6 +46,7 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
         ItemStack source = inputs.getFirst();
         ItemStack cosmetic = inputs.getSecond();
 
+        SuperSargassoSea.LOGGER.error(cosmetic.toString());
         DataComponentPatch components = DataComponentPatch.builder()
             .set(LocalDataComponentTypes.COSMETIC_ITEM.get(), cosmetic).build();
         source.applyComponents(components);
