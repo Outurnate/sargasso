@@ -237,7 +237,7 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.itemModelOutput.accept(
             comicallyTallFoxEars,
             ItemModelUtils.tintedModel(
-                ModelLocationUtils.getModelLocation(foxEars),
+                ModelLocationUtils.getModelLocation(comicallyTallFoxEars),
                 new Constant(black),
                 new Constant(black),
                 new Constant(gray)));
