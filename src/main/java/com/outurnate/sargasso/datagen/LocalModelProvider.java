@@ -238,7 +238,7 @@ public class LocalModelProvider extends ModelProvider {
             comicallyTallFoxEars,
             new CuboidItemModelWrapper.Unbaked(
                 ModelLocationUtils.getModelLocation(foxEars),
-                Optional.of(new Transformation(null, null, new Vector3f(1.0F, 2.0F, 1.0F), null)),
+                Optional.of(new Transformation(null, null, new Vector3f(3.0F), null)),
                 List.of(
                     new Constant(black),
                     new Constant(black),
