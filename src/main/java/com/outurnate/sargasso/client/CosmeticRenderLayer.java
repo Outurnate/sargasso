@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -42,14 +40,12 @@ public class CosmeticRenderLayer<S extends HumanoidRenderState, M extends Humano
             poseStack.pushPose();
             getParentModel().head.translateAndRotate(poseStack);
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
-            itemModelResolver
-                .updateForLiving(itemStackRenderState, cosmeticItemStack, ItemDisplayContext.HEAD, null);
-            itemStackRenderState.submit(
-                poseStack,
-                submitNodeCollector,
-                lightCoords,
-                OverlayTexture.NO_OVERLAY,
-                state.outlineColor);
+            // itemModelResolver.updateForLiving(itemStackRenderState, cosmeticItemStack,
+            // ItemDisplayContext.HEAD, null);
+            /*
+             * itemStackRenderState.submit( poseStack, submitNodeCollector, lightCoords,
+             * OverlayTexture.NO_OVERLAY, state.outlineColor);
+             */
             poseStack.popPose();
         }
     }

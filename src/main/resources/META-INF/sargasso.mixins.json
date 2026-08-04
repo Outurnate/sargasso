@@ -10,7 +10,8 @@
     "ComponentSerializationMixin",
     "SensingMixin",
     "FoxMixin",
-    "BlockStateBaseMixin"
+    "BlockStateBaseMixin",
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
