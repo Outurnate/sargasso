@@ -59,6 +59,7 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
             .addTag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "armors")))
             .addTag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "tools")));
         this.tag(LocalTags.FOX_TRUST_HAT)
-            .add(LocalItems.FOX_EARS.get());
+            .add(LocalItems.FOX_EARS.get())
+            .add(LocalItems.COMICALLY_TALL_FOX_EARS.get());
     }
 }

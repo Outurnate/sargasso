@@ -5,9 +5,6 @@
 - redstone emp
 - frankenstein's lab
 - grabthar's hammer
-- fox ears: tooltips not working
-- fox ears: when attached to items, doesn't show in UI
-- fox ears: comically tall
 - still have topless buildings
 
 DONE
@@ -27,3 +24,6 @@ DONE
 - shock therapist
 - sun is in the wrong place
 - more worldgen changes
+- fox ears: tooltips not working
+- fox ears: when attached to items, doesn't show in UI
+- fox ears: comically tall

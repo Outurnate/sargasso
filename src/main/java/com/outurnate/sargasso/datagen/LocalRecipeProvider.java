@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.recipe.ApplyCosmeticRecipe;
 import com.outurnate.sargasso.registry.LocalItems;
 import java.util.concurrent.CompletableFuture;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -83,35 +84,33 @@ public class LocalRecipeProvider extends RecipeProvider {
             .pattern("CRC")
             .unlockedBy("has_potato_battery", this.has(LocalItems.POTATO_BATTERY.get()))
             .save(this.output);
+        shapeless(RecipeCategory.MISC, LocalItems.COMICALLY_TALL_FOX_EARS)
+            .requires(LocalItems.FOX_EARS)
+            .requires(Items.RED_MUSHROOM);
         dyedItem(LocalItems.FOX_EARS.get(), "dyed_fox_ears");
-        cosmetic(LocalItems.FOX_EARS.get(), LocalItems.AA_BATTERY.get(), "dyed_fox_ears");
-        cosmetic(Items.LEATHER_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.IRON_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.CHAINMAIL_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.GOLDEN_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.DIAMOND_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.NETHERITE_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.LEATHER_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.IRON_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.CHAINMAIL_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.GOLDEN_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.DIAMOND_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
-        cosmetic(Items.NETHERITE_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Ingredient.of(LocalItems.FOX_EARS.get()), LocalItems.AA_BATTERY.get(), "dyed_fox_ears");
+        cosmetic(
+            Ingredient.of(this.items.getOrThrow(ItemTags.HEAD_ARMOR)),
+            LocalItems.FOX_EARS.get(),
+            "armored_fox_ears");
+        cosmetic(
+            Ingredient.of(this.items.getOrThrow(ItemTags.HEAD_ARMOR)),
+            LocalItems.COMICALLY_TALL_FOX_EARS.get(),
+            "armored_fox_ears");
     }
 
-    private void cosmetic(Item target, Item cosmetic, String group) {
+    private void cosmetic(Ingredient target, Item cosmetic, String group) {
         CustomCraftingRecipeBuilder.customCrafting(
             RecipeCategory.MISC,
             (commonInfo, bookInfo) -> new ApplyCosmeticRecipe(
                 commonInfo,
                 bookInfo,
-                Ingredient.of(target),
+                target,
                 Ingredient.of(cosmetic)))
-            .unlockedBy(getHasName(target), this.has(target))
+            .unlockedBy(getHasName(cosmetic), this.has(cosmetic))
             .save(
                 this.output,
-                SuperSargassoSea.MODID + ":" + "apply_" + getItemName(cosmetic) + "_to_"
-                    + getItemName(target));
+                SuperSargassoSea.MODID + ":" + "apply_" + getItemName(cosmetic));
     }
 
     @Override

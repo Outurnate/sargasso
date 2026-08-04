@@ -1,0 +1,20 @@
+{
+    "name": "Fox Ears",
+    "icon": "sargasso:fox_ears",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "title": "Fox Ears",
+            "item": "sargasso:fox_ears",
+            "text": "Wearing these seems to earn the trust of wild foxes. They can be dyed, and combined with armor"
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "sargasso:fox_ears_dyed",
+            "recipe2": "sargasso:apply_fox_ears"
+        }
+    ],
+    "extra_recipe_mappings": {
+    }
+}
