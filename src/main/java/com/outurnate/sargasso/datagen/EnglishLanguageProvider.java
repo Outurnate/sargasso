@@ -98,6 +98,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.REDSTONE_EMP, "Redstone Pulse Device");
         this.addItem(LocalItems.FOX_EARS, "Fox Ears");
         this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");
+        this.addItem(LocalItems.QUARTER, "25¢ Coin");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
         this.add(

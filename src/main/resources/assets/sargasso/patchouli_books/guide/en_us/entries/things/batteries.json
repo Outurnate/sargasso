@@ -1,0 +1,21 @@
+{
+    "name": "Batteries",
+    "icon": "sargasso:aa_battery",
+    "category": "sargasso:things",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "sargasso:aa_battery",
+            "title": "AA Battery",
+            "text": "This item can supply power to items in the inventory, but, once it's out of charge, it's useless"
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": "sargasso:rechargable_aa_battery",
+            "title": "Rechargable AA Battery",
+            "text": "There are rechargable variants. It can be recharged with $(l:potato_battery)"
+        }
+    ],
+    "extra_recipe_mappings": {
+    }
+}
