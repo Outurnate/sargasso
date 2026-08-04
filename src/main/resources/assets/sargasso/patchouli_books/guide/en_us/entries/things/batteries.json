@@ -17,5 +17,7 @@
         }
     ],
     "extra_recipe_mappings": {
+        "sargasso:aa_battery": 0,
+        "sargasso:rechargable_aa_battery": 0
     }
 }
