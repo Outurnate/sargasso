@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin {
@@ -24,7 +25,8 @@ public abstract class LivingEntityRendererMixin {
     public void sargasso$extractRenderState(
         LivingEntity entity,
         LivingEntityRenderState state,
-        float partialTicks) {
+        float partialTicks,
+        CallbackInfo callbackInfo) {
         ItemStack headItem = entity.getItemBySlot(EquipmentSlot.HEAD);
         if (headItem.get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof Cosmetic cosmetic) {
             ItemStack innerHeadItem = cosmetic.cosmetic().create();
