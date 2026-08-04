@@ -97,6 +97,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargable Durable AA Battery Cell");
         this.addItem(LocalItems.REDSTONE_EMP, "Redstone Pulse Device");
         this.addItem(LocalItems.FOX_EARS, "Fox Ears");
+        this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
         this.add(

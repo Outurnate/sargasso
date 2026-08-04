@@ -224,6 +224,7 @@ public class LocalModelProvider extends ModelProvider {
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
         int white = ARGB.color(255, 255, 255);
         int black = ARGB.color(0, 0, 0);
+        int gray = ARGB.color(127, 127, 127);
         itemModels.itemModelOutput.accept(
             foxEars,
             ItemModelUtils.tintedModel(
@@ -231,5 +232,16 @@ public class LocalModelProvider extends ModelProvider {
                 new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), black)),
                 new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), foxOrange)),
                 new Constant(white)));
+
+        Item comicallyTallFoxEars = LocalItems.COMICALLY_TALL_FOX_EARS.get();
+        itemModels.itemModelOutput.accept(
+            comicallyTallFoxEars,
+            new CuboidItemModelWrapper.Unbaked(
+                ModelLocationUtils.getModelLocation(foxEars),
+                Optional.of(new Transformation(null, null, new Vector3f(1.0F, 2.0F, 1.0F), null)),
+                List.of(
+                    new Constant(black),
+                    new Constant(black),
+                    new Constant(gray))));
     }
 }

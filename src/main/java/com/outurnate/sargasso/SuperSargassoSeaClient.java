@@ -65,6 +65,7 @@ public class SuperSargassoSeaClient {
         if (event.getItemStack()
             .get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
             event.getTooltipElements().add(
+                0,
                 Either.left(
                     cosmetic.create().getItemName().copy()
                         .setStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY))));

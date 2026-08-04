@@ -162,6 +162,15 @@ public class LocalItems {
                     DataComponents.EQUIPPABLE,
                     Equippable.builder(ArmorType.HELMET.getSlot()).build())));
 
+    public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
+        "comically_tall_fox_ears",
+        props -> new Item(
+            props
+                .stacksTo(1)
+                .component(
+                    DataComponents.EQUIPPABLE,
+                    Equippable.builder(ArmorType.HELMET.getSlot()).build())));
+
     public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
         "unchecked",
         props -> new Item(
@@ -197,8 +206,6 @@ public class LocalItems {
         return Equippable.builder(ArmorType.HELMET.getSlot())
             .setEquipSound(LocalSoundEvents.PYLON)
             .setDispensable(true)
-            // .setAsset(ResourceKey.create(EquipmentAssets.ROOT_ID,
-            // LocalEquipmentAssets.FOX_EARS))
             .setAllowedEntities(entityGetter.getOrThrow(LocalTags.CAN_WEAR_PYLON))
             .setEquipOnInteract(true)
             .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
