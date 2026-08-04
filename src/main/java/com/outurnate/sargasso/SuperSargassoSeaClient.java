@@ -1,17 +1,18 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.outurnate.sargasso.client.CosmeticRenderLayer;
 import com.outurnate.sargasso.client.ElectricMineModel;
 import com.outurnate.sargasso.client.ElectricMineRenderer;
 import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
-import com.outurnate.sargasso.client.HeadGearRenderLayer;
 import com.outurnate.sargasso.client.RedstoneBugRenderer;
 import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -38,16 +39,25 @@ public class SuperSargassoSeaClient {
         for (PlayerModelType type : event.getSkins()) {
             AvatarRenderer<AbstractClientPlayer> playerRenderer = event.getPlayerRenderer(type);
             if (playerRenderer != null) {
-                playerRenderer.addLayer(new HeadGearRenderLayer<>(playerRenderer));
+                playerRenderer.addLayer(
+                    new CosmeticRenderLayer<>(
+                        playerRenderer,
+                        Minecraft.getInstance().getItemModelResolver()));
             }
         }
         for (EntityType<?> entityType : event.getEntityTypes()) {
             EntityRenderer<?, ?> renderer = event.getRenderer(entityType);
             if (renderer instanceof AvatarRenderer<?> avatarRenderer) {
-                avatarRenderer.addLayer(new HeadGearRenderLayer<>(avatarRenderer));
+                avatarRenderer.addLayer(
+                    new CosmeticRenderLayer<>(
+                        avatarRenderer,
+                        Minecraft.getInstance().getItemModelResolver()));
             }
             if (renderer instanceof ArmorStandRenderer armorStandRenderer) {
-                armorStandRenderer.addLayer(new HeadGearRenderLayer<>(armorStandRenderer));
+                armorStandRenderer.addLayer(
+                    new CosmeticRenderLayer<>(
+                        armorStandRenderer,
+                        Minecraft.getInstance().getItemModelResolver()));
             }
         }
     }
