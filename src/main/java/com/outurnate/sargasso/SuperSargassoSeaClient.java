@@ -13,7 +13,10 @@ import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -61,7 +64,10 @@ public class SuperSargassoSeaClient {
     public static void registerTooltipAppenders(RenderTooltipEvent.GatherComponents event) {
         if (event.getItemStack()
             .get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
-            event.getTooltipElements().add(Either.left(cosmetic.create().getItemName()));
+            event.getTooltipElements().add(
+                Either.left(
+                    cosmetic.create().getItemName().copy()
+                        .setStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY))));
         }
     }
 
