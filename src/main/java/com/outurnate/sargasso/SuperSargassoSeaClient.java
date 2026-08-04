@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
+import com.mojang.datafixers.util.Either;
 import com.outurnate.sargasso.client.ElectricMineModel;
 import com.outurnate.sargasso.client.ElectricMineRenderer;
 import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
@@ -9,9 +10,11 @@ import com.outurnate.sargasso.client.RedstoneBugRenderer;
 import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
+import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -20,6 +23,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
@@ -51,6 +55,14 @@ public class SuperSargassoSeaClient {
         event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerTooltipAppenders(RenderTooltipEvent.GatherComponents event) {
+        if (event.getItemStack()
+            .get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
+            event.getTooltipElements().add(Either.left(cosmetic.create().getDisplayName()));
+        }
     }
 
     public SuperSargassoSeaClient(ModContainer container) {

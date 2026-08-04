@@ -84,15 +84,15 @@ public class LocalNoiseSettingsProvider {
             DensityFunctions.constant(0.0));
         SurfaceRules.RuleSource surfaceRules = SurfaceRules.sequence(
             SurfaceRules.ifTrue(
-                SurfaceRules
-                    .verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(8)),
-                SurfaceRules.state(Blocks.STONE.defaultBlockState())),
-            SurfaceRules.ifTrue(
                 SurfaceRules.verticalGradient(
                     "bedrock_floor",
                     VerticalAnchor.bottom(),
                     VerticalAnchor.aboveBottom(5)),
-                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())));
+                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())),
+            SurfaceRules.ifTrue(
+                SurfaceRules
+                    .verticalGradient("deepslate", VerticalAnchor.absolute(60), VerticalAnchor.absolute(70)),
+                SurfaceRules.state(Blocks.STONE.defaultBlockState())));
         bootstrap.register(
             SEA,
             new NoiseGeneratorSettings(

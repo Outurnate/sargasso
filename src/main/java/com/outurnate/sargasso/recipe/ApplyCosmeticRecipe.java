@@ -3,7 +3,6 @@ package com.outurnate.sargasso.recipe;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.outurnate.sargasso.data.Cosmetic;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalRecipeSerializers;
 import java.util.List;
@@ -59,7 +58,7 @@ public class ApplyCosmeticRecipe extends CustomRecipe {
         DataComponentPatch components = DataComponentPatch.builder()
             .set(
                 LocalDataComponentTypes.COSMETIC_ITEM.get(),
-                new Cosmetic(new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch())))
+                new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch()))
             .build();
         result.applyComponents(components);
         result.setCount(1);
