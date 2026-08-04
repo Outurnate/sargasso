@@ -31,7 +31,7 @@ public record Cosmetic(ItemStackTemplate cosmetic) implements TooltipProvider {
         TooltipFlag flag,
         DataComponentGetter components) {
         SuperSargassoSea.LOGGER.error("ass");
-        consumer.accept(cosmetic.item().value().getDefaultInstance().getDisplayName());
+        // consumer.accept(cosmetic.item().value().getDefaultInstance().getDisplayName());
         consumer.accept(Component.literal("ass"));
     }
 }
