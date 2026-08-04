@@ -13,7 +13,7 @@
             "type": "patchouli:spotlight",
             "item": "sargasso:rechargable_aa_battery",
             "title": "Rechargable AA Battery",
-            "text": "There are rechargable variants. It can be recharged with $(l:potato_battery)Potato Batteries"
+            "text": "There are rechargable variants. It can be recharged with $(l:things/potato_battery)Potato Batteries"
         }
     ],
     "extra_recipe_mappings": {
