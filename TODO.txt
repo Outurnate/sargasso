@@ -9,6 +9,7 @@
 - fox ears: tooltips not working
 - fox ears: when attached to items, doesn't show in UI
 - fox ears: comically tall
+- still have topless buildings
 
 DONE
 - fix dupe bug
