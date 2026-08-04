@@ -91,6 +91,12 @@ public class LocalRecipeProvider extends RecipeProvider {
         cosmetic(Items.GOLDEN_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
         cosmetic(Items.DIAMOND_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
         cosmetic(Items.NETHERITE_HELMET, LocalItems.FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.LEATHER_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.IRON_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.CHAINMAIL_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.GOLDEN_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.DIAMOND_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
+        cosmetic(Items.NETHERITE_HELMET, LocalItems.COMICALLY_TALL_FOX_EARS.get(), "armored_fox_ears");
     }
 
     private void cosmetic(Item target, Item cosmetic, String group) {
