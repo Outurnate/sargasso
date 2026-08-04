@@ -219,6 +219,7 @@ public class LocalModelProvider extends ModelProvider {
         createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
         itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.QUARTER.get(), ModelTemplates.FLAT_ITEM);
 
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);

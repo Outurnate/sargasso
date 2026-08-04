@@ -185,6 +185,11 @@ public class LocalItems {
         p -> p
             .useCooldown(2.0F));
 
+    public static final DeferredItem<Item> QUARTER = REGISTRY.registerItem(
+        "quarter",
+        Item::new,
+        p -> p);
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();

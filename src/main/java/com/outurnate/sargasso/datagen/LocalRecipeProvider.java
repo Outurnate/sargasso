@@ -86,7 +86,9 @@ public class LocalRecipeProvider extends RecipeProvider {
             .save(this.output);
         shapeless(RecipeCategory.MISC, LocalItems.COMICALLY_TALL_FOX_EARS)
             .requires(LocalItems.FOX_EARS)
-            .requires(Items.RED_MUSHROOM);
+            .requires(Items.RED_MUSHROOM)
+            .unlockedBy(getHasName(LocalItems.FOX_EARS), this.has(LocalItems.FOX_EARS))
+            .save(this.output);
         dyedItem(LocalItems.FOX_EARS.get(), "dyed_fox_ears");
         cosmetic(Ingredient.of(LocalItems.FOX_EARS.get()), LocalItems.AA_BATTERY.get(), "dyed_fox_ears");
         cosmetic(
@@ -97,6 +99,12 @@ public class LocalRecipeProvider extends RecipeProvider {
             Ingredient.of(this.items.getOrThrow(ItemTags.HEAD_ARMOR)),
             LocalItems.COMICALLY_TALL_FOX_EARS.get(),
             "armored_fox_ears");
+        shapeless(RecipeCategory.FOOD, LocalItems.POTATO_BATTERY)
+            .requires(Items.POTATO)
+            .requires(Items.COPPER_NUGGET)
+            .requires(LocalItems.QUARTER.get())
+            .unlockedBy(getHasName(LocalItems.QUARTER), this.has(LocalItems.QUARTER))
+            .save(this.output);
     }
 
     private void cosmetic(Ingredient target, Item cosmetic, String group) {
