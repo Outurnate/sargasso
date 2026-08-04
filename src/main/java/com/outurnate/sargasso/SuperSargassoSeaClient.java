@@ -61,7 +61,7 @@ public class SuperSargassoSeaClient {
     public static void registerTooltipAppenders(RenderTooltipEvent.GatherComponents event) {
         if (event.getItemStack()
             .get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
-            event.getTooltipElements().add(Either.left(cosmetic.create().getDisplayName()));
+            event.getTooltipElements().add(Either.left(cosmetic.create().getItemName()));
         }
     }
 
