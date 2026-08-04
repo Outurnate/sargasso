@@ -61,5 +61,17 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
         this.tag(LocalTags.FOX_TRUST_HAT)
             .add(LocalItems.FOX_EARS.get())
             .add(LocalItems.COMICALLY_TALL_FOX_EARS.get());
+        this.tag(ItemTags.HEAD_ARMOR)
+            .add(LocalItems.STUDDED_LEATHER_HELMET.get())
+            .replace(false);
+        this.tag(ItemTags.CHEST_ARMOR)
+            .add(LocalItems.STUDDED_LEATHER_CHESTPLATE.get())
+            .replace(false);
+        this.tag(ItemTags.LEG_ARMOR)
+            .add(LocalItems.STUDDED_LEATHER_LEGGINGS.get())
+            .replace(false);
+        this.tag(ItemTags.FOOT_ARMOR)
+            .add(LocalItems.STUDDED_LEATHER_BOOTS.get())
+            .replace(false);
     }
 }
