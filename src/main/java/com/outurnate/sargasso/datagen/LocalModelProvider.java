@@ -236,12 +236,10 @@ public class LocalModelProvider extends ModelProvider {
         Item comicallyTallFoxEars = LocalItems.COMICALLY_TALL_FOX_EARS.get();
         itemModels.itemModelOutput.accept(
             comicallyTallFoxEars,
-            new CuboidItemModelWrapper.Unbaked(
+            ItemModelUtils.tintedModel(
                 ModelLocationUtils.getModelLocation(foxEars),
-                Optional.of(new Transformation(null, null, new Vector3f(3.0F), null)),
-                List.of(
-                    new Constant(black),
-                    new Constant(black),
-                    new Constant(gray))));
+                new Constant(black),
+                new Constant(black),
+                new Constant(gray)));
     }
 }
