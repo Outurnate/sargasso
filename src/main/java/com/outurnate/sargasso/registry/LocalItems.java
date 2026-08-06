@@ -192,6 +192,11 @@ public class LocalItems {
         Item::new,
         p -> p);
 
+    public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
+        "hammer",
+        Item::new,
+        p -> p);
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();
