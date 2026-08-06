@@ -9,6 +9,7 @@ import com.outurnate.sargasso.item.EnergyItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
+import com.outurnate.sargasso.item.SnowBootsItem;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
@@ -147,7 +148,8 @@ public class LocalItems {
         props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.LEGGINGS)));
     public static final DeferredItem<Item> STUDDED_LEATHER_BOOTS = REGISTRY.registerItem(
         "studded_leather_boots",
-        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
+        props -> new SnowBootsItem(
+            props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
     public static final DeferredItem<Item> STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE = REGISTRY
         .registerSimpleItem(
