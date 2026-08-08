@@ -5,8 +5,8 @@
             "name": "SARGASSO_HAMMER",
             "constructor": "(ZZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
             "parameters": {
-                "class": "com/outurnate/sargasso/EnumExtensions",
-                "field": "SARGASSO_HAMMER"
+                "class": "com/outurnate/sargasso/client/HammerArmPoseTransformer",
+                "field": "PROXY"
             }
         }
     ]
