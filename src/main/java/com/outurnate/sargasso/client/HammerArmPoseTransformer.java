@@ -1,5 +1,7 @@
 package com.outurnate.sargasso.client;
 
+import com.outurnate.sargasso.SuperSargassoSea;
+
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
@@ -23,11 +25,12 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         float secondArmX;
         float secondArmY;
         float secondArmZ;
+        SuperSargassoSea.LOGGER.error("t" + entity.attackTime);
         if (!(entity.attackTime <= 0.0F)) {
             mainArmX = -Mth.HALF_PI;
             mainArmY = Mth.HALF_PI / 2;
-            mainArmZ = 0;
-            secondArmX = -Mth.HALF_PI / 2;
+            mainArmZ = Mth.HALF_PI;
+            secondArmX = Mth.HALF_PI / 2;
             secondArmY = 0;
             secondArmZ = 0;
         } else {
