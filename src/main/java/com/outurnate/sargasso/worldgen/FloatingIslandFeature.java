@@ -3,6 +3,7 @@ package com.outurnate.sargasso.worldgen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -19,15 +20,15 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
-        BlockPos origin = context.origin();
+        ChunkPos genChunk = ChunkPos.containing(context.origin());
+        int minX = genChunk.getMinBlockX();
+        int targetY = context.origin().getY();
+        int minZ = genChunk.getMinBlockZ();
 
         int blobs = random.nextInt(2, 5);
         for (int i = 0; i < blobs; ++i) {
             int size = random.nextInt(5, 7);
-            double angle = random.nextDouble() * Math.PI * 2.0;
-            float x = Mth.cos(angle) * size;
-            float z = Mth.sin(angle) * size;
-            origin = origin.offset((int) Math.ceil(x), 0, (int) Math.ceil(z));
+            BlockPos origin = new BlockPos(minX + random.nextInt(16), targetY, minZ + random.nextInt(16));
             placeIsland(level, random, origin, size);
         }
 
