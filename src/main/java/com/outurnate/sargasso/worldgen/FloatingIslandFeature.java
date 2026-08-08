@@ -23,8 +23,12 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
 
         int blobs = random.nextInt(2, 5);
         for (int i = 0; i < blobs; ++i) {
-            BlockPos root = origin.offset(i * 15, 0, 0);
-            placeIsland(level, random, root, 4, 7);
+            int size = random.nextInt(5, 7);
+            double angle = random.nextDouble() * Math.PI * 2.0;
+            float x = Mth.cos(angle) * size;
+            float y = Mth.sin(angle) * size;
+            origin = origin.offset((int) Math.ceil(x), (int) Math.ceil(y), 0);
+            placeIsland(level, random, origin, size);
         }
 
         return true;
@@ -34,9 +38,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level,
         RandomSource random,
         BlockPos origin,
-        int minSize,
-        int maxSize) {
-        float size = (float) (random.nextInt(maxSize - minSize) + minSize);
+        float size) {
 
         for (int y = 0; size > 0.5F; y--) {
             for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
