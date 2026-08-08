@@ -29,7 +29,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
                         Block block;
                         if (y == 0) {
                             block = Blocks.GRASS_BLOCK;
-                        } else if (y < 5 && random.nextInt(y) == 0) {
+                        } else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
                             block = Blocks.DIRT;
                         } else {
                             block = Blocks.STONE;
