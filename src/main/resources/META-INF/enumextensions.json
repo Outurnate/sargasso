@@ -1,0 +1,13 @@
+{
+    "entries": [
+        {
+            "enum": "net/minecraft/client/model/HumanoidModel/ArmPose",
+            "name": "SARGASSO_HAMMER",
+            "constructor": "(ZZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+            "parameters": {
+                "class": "com/outurnate/sargasso/EnumExtensions",
+                "field": "SARGASSO_HAMMER"
+            }
+        }
+    ]
+}

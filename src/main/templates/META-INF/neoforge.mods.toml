@@ -21,6 +21,7 @@ Super Sargasso Sea mod - a dimension where lost things go
 
 ${mod_credits}
 '''
+enumExtensions="META-INF/enumextensions.json"
 
 [[mixins]]
 config="META-INF/${mod_id}.mixins.json"
