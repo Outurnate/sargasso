@@ -1,5 +1,7 @@
 package com.outurnate.sargasso.worldgen;
 
+import java.util.HashSet;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -25,27 +27,26 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         int minX = genChunk.getMinBlockX();
         int targetY = context.origin().getY();
         int minZ = genChunk.getMinBlockZ();
+        HashSet<BlockPos> surface = new HashSet<>();
 
         int blobs = random.nextInt(2, 5);
         for (int i = 0; i < blobs; ++i) {
             int size = random.nextInt(5, 7);
             BlockPos origin = new BlockPos(minX + random.nextInt(16), targetY, minZ + random.nextInt(16));
-            placeIsland(level, random, origin, size);
-
-            int spikes = random.nextInt(0, 4);
-            for (int j = 0; j < spikes; ++j) {
-                double angle = random.nextDouble() * Math.PI * 2.0;
-                double x = Math.cos(angle) * size;
-                double z = Math.sin(angle) * size;
-                origin = origin.offset((int) Math.ceil(x), 0, (int) Math.ceil(z));
-                placeSpike(level, random, origin);
-            }
+            placeIsland(surface, level, random, origin, size);
+        }
+        int spikes = random.nextInt(0, 4);
+        for (int j = 0; j < spikes; ++j) {
+            BlockPos origin = surface.stream().skip(random.nextInt(surface.size())).findFirst()
+                .orElse(context.origin());
+            placeSpike(null, level, random, origin);
         }
 
         return true;
     }
 
     private void placeIsland(
+        HashSet<BlockPos> surface,
         WorldGenLevel level,
         RandomSource random,
         BlockPos origin,
@@ -55,7 +56,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
             for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
                 for (int z = Mth.floor(-size); z <= Mth.ceil(size); z++) {
                     if (x * x + z * z <= (size + 1.0F) * (size + 1.0F)) {
-                        setBlock(level, random, origin, x, y, z);
+                        setBlock(surface, level, random, origin, x, y, z);
                     }
                 }
             }
@@ -65,6 +66,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private void placeSpike(
+        HashSet<BlockPos> surface,
         WorldGenLevel level,
         RandomSource random,
         BlockPos origin) {
@@ -77,27 +79,38 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         };
 
         int thickLength = random.nextInt(5, 10);
-        int totalLength = thickLength + random.nextInt(10);
+        int totalLength = (thickLength * 2) + random.nextInt(3);
 
         for (int i = 0; i < totalLength; i++) {
             int y = -i;
 
-            setBlock(level, random, origin, 0, y, 0);
+            setBlock(surface, level, random, origin, 0, y, 0);
             if (i < thickLength) {
-                setBlock(level, random, origin, direction.getStepX(), y, direction.getStepZ());
+                setBlock(surface, level, random, origin, direction.getStepX(), y, direction.getStepZ());
             }
         }
     }
 
-    private void setBlock(WorldGenLevel level, RandomSource random, BlockPos origin, int x, int y, int z) {
+    private void setBlock(
+        HashSet<BlockPos> surface,
+        WorldGenLevel level,
+        RandomSource random,
+        BlockPos origin,
+        int x,
+        int y,
+        int z) {
         Block block;
+        BlockPos pos = origin.offset(x, y, z);
         if (y == 0) {
             block = Blocks.GRASS_BLOCK;
+            if (surface != null) {
+                surface.add(pos);
+            }
         } else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
             block = Blocks.DIRT;
         } else {
             block = Blocks.STONE;
         }
-        this.setBlock(level, origin.offset(x, y, z), block.defaultBlockState());
+        this.setBlock(level, pos, block.defaultBlockState());
     }
 }
