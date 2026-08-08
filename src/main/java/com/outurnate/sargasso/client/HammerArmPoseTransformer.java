@@ -61,37 +61,24 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
         SuperSargassoSea.LOGGER.error("t" + entity.attackTime);
-        Vec3 main;
-        Vec3 off;
-        if (!(entity.attackTime <= 0.0F)) {
-            main = MAIN_HAND_ANIM.sample(entity.attackTime);
-            off = OFF_HAND_ANIM.sample(entity.attackTime);
-        } else {
-            main = MAIN_HAND_ANIM.sample(0.0F);
-            off = OFF_HAND_ANIM.sample(0.0F);
-        }
-        float mainArmX = (float) main.x;
-        float mainArmY = (float) main.y;
-        float mainArmZ = (float) main.z;
-        float secondArmX = (float) off.x;
-        float secondArmY = (float) off.y;
-        float secondArmZ = (float) off.z;
+        Vec3 main = MAIN_HAND_ANIM.sample(entity.attackTime);
+        Vec3 off = OFF_HAND_ANIM.sample(entity.attackTime);
         // entity.attackArm == arm
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
-            model.rightArm.xRot = mainArmX;
-            model.rightArm.yRot = mainArmY;
-            model.rightArm.zRot = mainArmZ;
-            model.leftArm.xRot = secondArmX;
-            model.leftArm.yRot = secondArmY;
-            model.leftArm.zRot = secondArmZ;
+            model.rightArm.xRot = (float) main.x;
+            model.rightArm.yRot = (float) main.y;
+            model.rightArm.zRot = (float) main.z;
+            model.leftArm.xRot = (float) off.x;
+            model.leftArm.yRot = (float) off.y;
+            model.leftArm.zRot = (float) off.z;
             entity.leftHandItemState.clear();
         } else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
-            model.leftArm.xRot = mainArmX;
-            model.leftArm.yRot = -mainArmY;
-            model.leftArm.zRot = -mainArmZ;
-            model.rightArm.xRot = secondArmX;
-            model.rightArm.yRot = secondArmY;
-            model.rightArm.zRot = secondArmZ;
+            model.leftArm.xRot = (float) main.x;
+            model.leftArm.yRot = -(float) main.y;
+            model.leftArm.zRot = -(float) main.z;
+            model.rightArm.xRot = (float) off.x;
+            model.rightArm.yRot = (float) off.y;
+            model.rightArm.zRot = (float) off.z;
             entity.rightHandItemState.clear();
         }
     }
