@@ -8,7 +8,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.biome.OverworldBiomes;
-import net.minecraft.data.worldgen.placement.EndPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.attribute.BackgroundMusic;
@@ -105,7 +104,7 @@ public class LocalBiomesProvider {
             LocalPlacedFeaturesProvider.PATCH_DEBRIS);
         generation.addFeature(
             GenerationStep.Decoration.RAW_GENERATION,
-            EndPlacements.END_ISLAND_DECORATED);
+            LocalPlacedFeaturesProvider.FLOATING_ISLAND);
 
         return new Biome.BiomeBuilder()
             .hasPrecipitation(true)
