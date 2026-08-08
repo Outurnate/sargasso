@@ -207,9 +207,9 @@ public class LocalItems {
         Item::new,
         p -> p
             .rarity(Rarity.EPIC)
-            .durability(500)
+            .durability(2048)
             .component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
-            .repairable(Items.DIRT)
+            .repairable(Items.NETHERITE_INGOT)
             .enchantable(15)
             .attributes(
                 ItemAttributeModifiers.builder()
@@ -217,7 +217,7 @@ public class LocalItems {
                         Attributes.ATTACK_DAMAGE,
                         new AttributeModifier(
                             Item.BASE_ATTACK_DAMAGE_ID,
-                            5.0,
+                            9.0,
                             AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                     .add(
