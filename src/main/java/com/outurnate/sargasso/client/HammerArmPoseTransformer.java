@@ -18,22 +18,25 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
         float mainArmX = -Mth.HALF_PI / 2;
-        float mainArmY = -Mth.HALF_PI / 2;
+        float mainArmY = 0;
         float mainArmZ = Mth.HALF_PI;
+        float secondArmX = -Mth.HALF_PI / 2;
+        float secondArmY = 0;
+        float secondArmZ = 0;
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
             model.rightArm.xRot = mainArmX;
             model.rightArm.yRot = mainArmY;
             model.rightArm.zRot = mainArmZ;
-            model.leftArm.xRot = 0;
-            model.leftArm.yRot = 0;
-            model.leftArm.zRot = 0;
+            model.leftArm.xRot = secondArmX;
+            model.leftArm.yRot = secondArmY;
+            model.leftArm.zRot = secondArmZ;
         } else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
             model.leftArm.xRot = mainArmX;
             model.leftArm.yRot = mainArmY;
-            model.leftArm.zRot = mainArmZ;
-            model.rightArm.xRot = 0;
-            model.rightArm.yRot = 0;
-            model.rightArm.zRot = 0;
+            model.leftArm.zRot = -mainArmZ;
+            model.rightArm.xRot = secondArmX;
+            model.rightArm.yRot = secondArmY;
+            model.rightArm.zRot = secondArmZ;
         }
     }
 }
