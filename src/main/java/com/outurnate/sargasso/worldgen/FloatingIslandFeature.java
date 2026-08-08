@@ -101,15 +101,16 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
         }
 
         // coat surface
-        /*
-         * for (BlockPos surfacePos : surface) { if (random.nextInt(4) != 0) {
-         * this.setBlock(level, surfacePos.above(), context.config().ground); } }
-         */
+        for (BlockPos surfacePos : surface) {
+            if (random.nextInt(4) != 0) {
+                this.setBlock(level, surfacePos.above(), context.config().ground);
+            }
+        }
 
-        // main building
         int buildingCentreIndex = random.nextInt(centres.size());
         if (level instanceof WorldGenRegion region) {
             if (region.getServer() instanceof MinecraftServer server) {
+                // main building
                 StructureTemplateManager structureManager = server.getStructureManager();
                 StructureTemplate template = structureManager.get(
                     context.config().building)
@@ -123,11 +124,16 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
                 BoundingBox box = template.getBoundingBox(settings, centre);
 
+                // trees
+                ArrayList<BlockPos> placedTrees = new ArrayList<>();
                 Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
                     .lookupOrThrow(Registries.CONFIGURED_FEATURE);
                 ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
                 for (BlockPos surfacePos : surface) {
-                    if (!box.isInside(surfacePos) && random.nextInt(10) == 0) {
+                    if (!box.isInside(surfacePos)
+                        && !placedTrees.stream().anyMatch(pos -> pos.distManhattan(surfacePos) < 2)
+                        && random.nextInt(10) == 0) {
+                        placedTrees.add(surfacePos);
                         tree.place(level, context.chunkGenerator(), random, surfacePos.above());
                     }
                 }
