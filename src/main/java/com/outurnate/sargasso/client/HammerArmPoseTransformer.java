@@ -23,7 +23,7 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         float secondArmX;
         float secondArmY;
         float secondArmZ;
-        if (entity.isUsingItem) {
+        if (!(entity.attackTime <= 0.0F)) {
             mainArmX = -Mth.HALF_PI;
             mainArmY = Mth.HALF_PI / 2;
             mainArmZ = 0;
@@ -38,6 +38,7 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
             secondArmY = 0;
             secondArmZ = 0;
         }
+        // entity.attackArm == arm
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
             model.rightArm.xRot = mainArmX;
             model.rightArm.yRot = mainArmY;
