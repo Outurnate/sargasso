@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.worldgen;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -29,7 +30,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         for (int i = 0; i < blobs; ++i) {
             int size = random.nextInt(5, 7);
             BlockPos origin = new BlockPos(minX + random.nextInt(16), targetY, minZ + random.nextInt(16));
-            placeIsland(level, random, origin, size, 1);
+            placeIsland(level, random, origin, size);
 
             int spikes = random.nextInt(0, 4);
             for (int j = 0; j < spikes; ++j) {
@@ -37,7 +38,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
                 double x = Math.cos(angle) * size;
                 double z = Math.sin(angle) * size;
                 origin = origin.offset((int) Math.ceil(x), 0, (int) Math.ceil(z));
-                placeIsland(level, random, origin, 1, 3);
+                placeSpike(level, random, origin);
             }
         }
 
@@ -48,29 +49,55 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level,
         RandomSource random,
         BlockPos origin,
-        float size,
-        int decay) {
+        float size) {
 
         for (int y = 0; size > 0.5F; y--) {
             for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
                 for (int z = Mth.floor(-size); z <= Mth.ceil(size); z++) {
                     if (x * x + z * z <= (size + 1.0F) * (size + 1.0F)) {
-                        Block block;
-                        if (y == 0) {
-                            block = Blocks.GRASS_BLOCK;
-                        } else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
-                            block = Blocks.DIRT;
-                        } else {
-                            block = Blocks.STONE;
-                        }
-                        this.setBlock(level, origin.offset(x, y, z), block.defaultBlockState());
+                        setBlock(level, random, origin, x, y, z);
                     }
                 }
             }
 
-            if (random.nextInt(decay) == 0) {
-                size -= random.nextInt(2) + 0.5F;
+            size -= random.nextInt(2) + 0.5F;
+        }
+    }
+
+    private void placeSpike(
+        WorldGenLevel level,
+        RandomSource random,
+        BlockPos origin) {
+        Direction direction = switch (random.nextInt(4)) {
+            case 0 -> Direction.NORTH;
+            case 1 -> Direction.SOUTH;
+            case 2 -> Direction.EAST;
+            case 3 -> Direction.WEST;
+            default -> throw new IllegalStateException();
+        };
+
+        int thickLength = random.nextInt(5, 10);
+        int totalLength = thickLength + random.nextInt(10);
+
+        for (int i = 0; i < totalLength; i++) {
+            int y = -i;
+
+            setBlock(level, random, origin, 0, y, 0);
+            if (i < thickLength) {
+                setBlock(level, random, origin, direction.getStepX(), y, direction.getStepZ());
             }
         }
+    }
+
+    private void setBlock(WorldGenLevel level, RandomSource random, BlockPos origin, int x, int y, int z) {
+        Block block;
+        if (y == 0) {
+            block = Blocks.GRASS_BLOCK;
+        } else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
+            block = Blocks.DIRT;
+        } else {
+            block = Blocks.STONE;
+        }
+        this.setBlock(level, origin.offset(x, y, z), block.defaultBlockState());
     }
 }
