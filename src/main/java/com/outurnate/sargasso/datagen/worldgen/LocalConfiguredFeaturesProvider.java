@@ -9,10 +9,10 @@ import com.outurnate.sargasso.worldgen.FloatingIslandFeature.FloatingIslandFeatu
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.TreeFeatures;
-import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -42,6 +42,6 @@ public class LocalConfiguredFeaturesProvider {
                     Identifier
                         .fromNamespaceAndPath("minecraft", "village/snowy/houses/snowy_small_house_1"),
                     TreeFeatures.SPRUCE,
-                    VegetationFeatures.FLOWER_FLOWER_FOREST)));
+                    Blocks.SHORT_GRASS.defaultBlockState())));
     }
 }

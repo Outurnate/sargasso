@@ -22,6 +22,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -37,18 +38,17 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
                 Identifier.CODEC.fieldOf("building").forGetter(config -> config.building),
                 ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("tree")
                     .forGetter(config -> config.tree),
-                ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("ground")
-                    .forGetter(config -> config.ground))
+                BlockState.CODEC.fieldOf("ground").forGetter(config -> config.ground))
                 .apply(instance, FloatingIslandFeatureConfiguration::new));
 
         public final Identifier building;
         public final ResourceKey<ConfiguredFeature<?, ?>> tree;
-        public final ResourceKey<ConfiguredFeature<?, ?>> ground;
+        public final BlockState ground;
 
         public FloatingIslandFeatureConfiguration(
             Identifier building,
             ResourceKey<ConfiguredFeature<?, ?>> tree,
-            ResourceKey<ConfiguredFeature<?, ?>> ground) {
+            BlockState ground) {
             this.building = building;
             this.tree = tree;
             this.ground = ground;
@@ -89,12 +89,9 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
         }
 
         // coat surface
-        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
-            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
-        ConfiguredFeature<?, ?> ground = configuredFeatures.getValueOrThrow(context.config().ground);
         for (BlockPos surfacePos : surface) {
             if (random.nextInt(4) != 0) {
-                ground.place(level, context.chunkGenerator(), random, surfacePos.above());
+                this.setBlock(level, surfacePos.above(), context.config().ground);
             }
         }
 
@@ -116,10 +113,12 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             }
         }
 
+        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
         ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
         for (int i = 0; i < centres.size(); ++i) {
             if (i != buildingCentreIndex) {
-                tree.place(level, context.chunkGenerator(), random, centres.get(i));
+                tree.place(level, context.chunkGenerator(), random, centres.get(i).above());
             }
         }
 
