@@ -1,10 +1,12 @@
 package com.outurnate.sargasso.worldgen;
 
+import com.mojang.serialization.Codec;
+import com.outurnate.sargasso.worldgen.FloatingIslandFeature.StructureReferenceFeatureConfiguration;
 import java.util.ArrayList;
 import java.util.HashSet;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.WorldGenRegion;
@@ -14,20 +16,31 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
-public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
+public class FloatingIslandFeature extends Feature<StructureReferenceFeatureConfiguration> {
+    public static class StructureReferenceFeatureConfiguration implements FeatureConfiguration {
+        public static final Codec<StructureReferenceFeatureConfiguration> CODEC = Identifier.CODEC
+            .fieldOf("reference").xmap(StructureReferenceFeatureConfiguration::new, c -> c.reference).codec();
+        public final Identifier reference;
+
+        public StructureReferenceFeatureConfiguration(Identifier reference) {
+            this.reference = reference;
+        }
+    }
+
     public FloatingIslandFeature() {
-        super(NoneFeatureConfiguration.CODEC);
+        super(StructureReferenceFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+    public boolean place(FeaturePlaceContext<StructureReferenceFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
         ChunkPos genChunk = ChunkPos.containing(context.origin());
@@ -57,9 +70,14 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
             if (region.getServer() instanceof MinecraftServer server) {
                 StructureTemplateManager structureManager = server.getStructureManager();
                 StructureTemplate template = structureManager.get(
-                    Identifier.fromNamespaceAndPath("minecraft", "village/snowy/houses/snowy_small_house_1"))
+                    context.config().reference)
                     .orElseThrow();
+                StructurePlaceSettings settings = new StructurePlaceSettings();
+                Rotation rotation = Rotation.getRandom(random);
+                settings.setRotation(rotation);
+                Vec3i size = template.getSize(rotation);
                 BlockPos centre = centres.get(random.nextInt(centres.size()));
+                centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
             }
         }

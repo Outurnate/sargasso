@@ -4,15 +4,16 @@ package com.outurnate.sargasso.datagen.worldgen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalFeatures;
+import com.outurnate.sargasso.worldgen.FloatingIslandFeature.StructureReferenceFeatureConfiguration;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
@@ -35,6 +36,8 @@ public class LocalConfiguredFeaturesProvider {
             FLOATING_ISLAND,
             new ConfiguredFeature<>(
                 LocalFeatures.FLOATING_ISLAND.get(),
-                new NoneFeatureConfiguration()));
+                new StructureReferenceFeatureConfiguration(
+                    Identifier
+                        .fromNamespaceAndPath("minecraft", "village/snowy/houses/snowy_small_house_1"))));
     }
 }
