@@ -26,8 +26,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SwingAnimationType;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
@@ -199,6 +201,7 @@ public class LocalItems {
         Item::new,
         p -> p);
 
+    private static float HAMMER_ATTACK_SPEED = -3.4F;
     public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
         "hammer",
         Item::new,
@@ -221,15 +224,16 @@ public class LocalItems {
                         Attributes.ATTACK_SPEED,
                         new AttributeModifier(
                             Item.BASE_ATTACK_SPEED_ID,
-                            -3.4F,
+                            HAMMER_ATTACK_SPEED,
                             AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                     .build())
             .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
-            /*
-             * .component( DataComponents.SWING_ANIMATION, new
-             * SwingAnimation(SwingAnimationType.STAB, (int) (0.65F * 20.0F)))
-             */
+            .component(
+                DataComponents.SWING_ANIMATION,
+                new SwingAnimation(
+                    SwingAnimationType.STAB,
+                    (int) (20.0F * (1.0F / (4.0F + HAMMER_ATTACK_SPEED)))))
             .component(DataComponents.WEAPON, new Weapon(1)));
 
     private static int getBatteryCapacity() {
