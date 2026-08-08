@@ -65,21 +65,29 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         Vec3 off = OFF_HAND_ANIM.sample(entity.attackTime);
         // entity.attackArm == arm
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
-            model.rightArm.xRot = (float) main.x;
-            model.rightArm.yRot = (float) main.y;
-            model.rightArm.zRot = (float) main.z;
-            model.leftArm.xRot = (float) off.x;
-            model.leftArm.yRot = (float) off.y;
-            model.leftArm.zRot = (float) off.z;
-            entity.leftHandItemState.clear();
+            if (entity.attackArm.compareTo(arm) == 0) {
+                model.rightArm.xRot = (float) main.x;
+                model.rightArm.yRot = (float) main.y;
+                model.rightArm.zRot = (float) main.z;
+                model.leftArm.xRot = (float) off.x;
+                model.leftArm.yRot = (float) off.y;
+                model.leftArm.zRot = (float) off.z;
+                entity.leftHandItemState.clear();
+            } else {
+
+            }
         } else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
-            model.leftArm.xRot = (float) main.x;
-            model.leftArm.yRot = -(float) main.y;
-            model.leftArm.zRot = -(float) main.z;
-            model.rightArm.xRot = (float) off.x;
-            model.rightArm.yRot = (float) off.y;
-            model.rightArm.zRot = (float) off.z;
-            entity.rightHandItemState.clear();
+            if (entity.attackArm.compareTo(arm) == 0) {
+                model.leftArm.xRot = (float) main.x;
+                model.leftArm.yRot = -(float) main.y;
+                model.leftArm.zRot = -(float) main.z;
+                model.rightArm.xRot = (float) off.x;
+                model.rightArm.yRot = (float) off.y;
+                model.rightArm.zRot = (float) off.z;
+                entity.rightHandItemState.clear();
+            } else {
+
+            }
         }
     }
 }
