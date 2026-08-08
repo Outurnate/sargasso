@@ -27,7 +27,7 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         float secondArmZ;
         SuperSargassoSea.LOGGER.error("t" + entity.attackTime);
         if (!(entity.attackTime <= 0.0F)) {
-            mainArmX = Mth.HALF_PI * 1.5F;
+            mainArmX = Mth.HALF_PI * 0.75F;
             mainArmY = 0;
             mainArmZ = 0;
             secondArmX = 0;
