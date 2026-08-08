@@ -54,6 +54,8 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_floors"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_FIRST_FLOOR = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_first_floor"));
+    public static final ResourceKey<StructureTemplatePool> OFFICE_TERMINATORS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_terminators"));
 
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
@@ -61,6 +63,8 @@ public class LocalStructureTemplatePoolsProvider {
         HolderGetter<StructureProcessorList> structureProcessorListRegistry = bootstrap
             .lookup(Registries.PROCESSOR_LIST);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
+        Holder<StructureTemplatePool> officeTerminators = structureTemplatePoolsRegistry
+            .getOrThrow(OFFICE_TERMINATORS);
         Holder<StructureProcessorList> heavy_glitch = structureProcessorListRegistry
             .getOrThrow(LocalStructureProcessorListProvider.HEAVY_GLITCH);
         Holder<StructureProcessorList> medium_glitch = structureProcessorListRegistry
@@ -123,7 +127,7 @@ public class LocalStructureTemplatePoolsProvider {
         bootstrap.register(
             OFFICE_FLOORS,
             new StructureTemplatePool(
-                empty,
+                officeTerminators,
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
@@ -139,6 +143,15 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
+                        1)),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            OFFICE_TERMINATORS,
+            new StructureTemplatePool(
+                empty,
+                List.of(
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
     }
