@@ -26,10 +26,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SwingAnimationType;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
@@ -209,6 +207,7 @@ public class LocalItems {
             .durability(500)
             .component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
             .repairable(Items.DIRT)
+            .enchantable(15)
             .attributes(
                 ItemAttributeModifiers.builder()
                     .add(
@@ -226,11 +225,11 @@ public class LocalItems {
                             AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                     .build())
-            .enchantable(15)
             .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
-            .component(
-                DataComponents.SWING_ANIMATION,
-                new SwingAnimation(SwingAnimationType.STAB, (int) (0.65F * 20.0F)))
+            /*
+             * .component( DataComponents.SWING_ANIMATION, new
+             * SwingAnimation(SwingAnimationType.STAB, (int) (0.65F * 20.0F)))
+             */
             .component(DataComponents.WEAPON, new Weapon(1)));
 
     private static int getBatteryCapacity() {
