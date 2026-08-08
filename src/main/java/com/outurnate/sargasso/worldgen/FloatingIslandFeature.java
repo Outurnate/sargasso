@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
@@ -88,7 +89,7 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             BlockPos origin;
             boolean success = false;
             do {
-                origin = centres.get(random.nextInt(centres.size()));
+                origin = surface.stream().skip(random.nextInt(surface.size())).findFirst().orElseThrow();
                 for (BlockPos centre : centres) {
                     if (origin.distSqr(centre) < (maxDist * maxDist)) {
                         success = true;
@@ -100,11 +101,10 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
         }
 
         // coat surface
-        for (BlockPos surfacePos : surface) {
-            if (random.nextInt(4) != 0) {
-                this.setBlock(level, surfacePos.above(), context.config().ground);
-            }
-        }
+        /*
+         * for (BlockPos surfacePos : surface) { if (random.nextInt(4) != 0) {
+         * this.setBlock(level, surfacePos.above(), context.config().ground); } }
+         */
 
         // main building
         int buildingCentreIndex = random.nextInt(centres.size());
@@ -121,15 +121,16 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
                 BlockPos centre = centres.get(buildingCentreIndex);
                 centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
-            }
-        }
+                BoundingBox box = template.getBoundingBox(settings, centre);
 
-        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
-            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
-        ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
-        for (int i = 0; i < centres.size(); ++i) {
-            if (i != buildingCentreIndex) {
-                tree.place(level, context.chunkGenerator(), random, centres.get(i).above());
+                Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+                    .lookupOrThrow(Registries.CONFIGURED_FEATURE);
+                ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
+                for (BlockPos surfacePos : surface) {
+                    if (!box.isInside(surfacePos) && random.nextInt(10) == 0) {
+                        tree.place(level, context.chunkGenerator(), random, surfacePos.above());
+                    }
+                }
             }
         }
 
