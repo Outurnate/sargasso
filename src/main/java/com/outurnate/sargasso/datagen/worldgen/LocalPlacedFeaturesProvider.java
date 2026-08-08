@@ -5,7 +5,6 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.EndFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
@@ -51,7 +50,7 @@ public class LocalPlacedFeaturesProvider {
         PlacementUtils.register(
             bootstrap,
             FLOATING_ISLAND,
-            configuredFeatureRegistry.getOrThrow(EndFeatures.END_ISLAND),
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND),
             RarityFilter.onAverageOnceEvery(14),
             PlacementUtils.countExtra(1, 0.25F, 1),
             InSquarePlacement.spread(),

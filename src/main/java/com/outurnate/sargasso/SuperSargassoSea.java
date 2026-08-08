@@ -9,6 +9,7 @@ import com.outurnate.sargasso.registry.LocalConsumeEffects;
 import com.outurnate.sargasso.registry.LocalCreativeTabs;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
+import com.outurnate.sargasso.registry.LocalFeatures;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
 import com.outurnate.sargasso.registry.LocalMobEffects;
@@ -48,5 +49,6 @@ public class SuperSargassoSea {
         LocalConsumeEffects.register(modEventBus);
         LocalParticleTypes.register(modEventBus);
         LocalRecipeSerializers.register(modEventBus);
+        LocalFeatures.register(modEventBus);
     }
 }
