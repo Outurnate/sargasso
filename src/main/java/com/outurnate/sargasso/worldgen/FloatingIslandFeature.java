@@ -1,13 +1,18 @@
 package com.outurnate.sargasso.worldgen;
 
 import com.mojang.serialization.Codec;
-import com.outurnate.sargasso.worldgen.FloatingIslandFeature.StructureReferenceFeatureConfiguration;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.worldgen.FloatingIslandFeature.FloatingIslandFeatureConfiguration;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.Mth;
@@ -17,6 +22,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -24,23 +30,37 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
-public class FloatingIslandFeature extends Feature<StructureReferenceFeatureConfiguration> {
-    public static class StructureReferenceFeatureConfiguration implements FeatureConfiguration {
-        public static final Codec<StructureReferenceFeatureConfiguration> CODEC = Identifier.CODEC
-            .fieldOf("reference").xmap(StructureReferenceFeatureConfiguration::new, c -> c.reference).codec();
-        public final Identifier reference;
+public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfiguration> {
+    public static class FloatingIslandFeatureConfiguration implements FeatureConfiguration {
+        public static final Codec<FloatingIslandFeatureConfiguration> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                Identifier.CODEC.fieldOf("building").forGetter(config -> config.building),
+                ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("tree")
+                    .forGetter(config -> config.tree),
+                ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("ground")
+                    .forGetter(config -> config.ground))
+                .apply(instance, FloatingIslandFeatureConfiguration::new));
 
-        public StructureReferenceFeatureConfiguration(Identifier reference) {
-            this.reference = reference;
+        public final Identifier building;
+        public final ResourceKey<ConfiguredFeature<?, ?>> tree;
+        public final ResourceKey<ConfiguredFeature<?, ?>> ground;
+
+        public FloatingIslandFeatureConfiguration(
+            Identifier building,
+            ResourceKey<ConfiguredFeature<?, ?>> tree,
+            ResourceKey<ConfiguredFeature<?, ?>> ground) {
+            this.building = building;
+            this.tree = tree;
+            this.ground = ground;
         }
     }
 
     public FloatingIslandFeature() {
-        super(StructureReferenceFeatureConfiguration.CODEC);
+        super(FloatingIslandFeatureConfiguration.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<StructureReferenceFeatureConfiguration> context) {
+    public boolean place(FeaturePlaceContext<FloatingIslandFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
         ChunkPos genChunk = ChunkPos.containing(context.origin());
@@ -51,6 +71,7 @@ public class FloatingIslandFeature extends Feature<StructureReferenceFeatureConf
         HashSet<BlockPos> surface = new HashSet<>();
         ArrayList<BlockPos> centres = new ArrayList<>();
 
+        // main blobs
         int blobs = random.nextInt(2, 5);
         for (int i = 0; i < blobs; ++i) {
             int size = random.nextInt(5, 7);
@@ -59,6 +80,7 @@ public class FloatingIslandFeature extends Feature<StructureReferenceFeatureConf
             placeIsland(surface, level, random, origin, size);
         }
 
+        // downward spikes
         int spikes = random.nextInt(blobs * 2, blobs * 3);
         for (int j = 0; j < spikes; ++j) {
             BlockPos origin = surface.stream().skip(random.nextInt(surface.size())).findFirst()
@@ -66,19 +88,30 @@ public class FloatingIslandFeature extends Feature<StructureReferenceFeatureConf
             placeSpike(null, level, random, origin);
         }
 
+        // main building
+        int buildingIndex = random.nextInt(centres.size());
         if (level instanceof WorldGenRegion region) {
             if (region.getServer() instanceof MinecraftServer server) {
                 StructureTemplateManager structureManager = server.getStructureManager();
                 StructureTemplate template = structureManager.get(
-                    context.config().reference)
+                    context.config().building)
                     .orElseThrow();
                 StructurePlaceSettings settings = new StructurePlaceSettings();
                 Rotation rotation = Rotation.getRandom(random);
                 settings.setRotation(rotation);
                 Vec3i size = template.getSize(rotation);
-                BlockPos centre = centres.get(random.nextInt(centres.size()));
+                BlockPos centre = centres.get(buildingIndex);
                 centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
+            }
+        }
+
+        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
+        ConfiguredFeature<?, ?> ground = configuredFeatures.getOrThrow(context.config().ground).value();
+        for (int i = 0; i < centres.size(); ++i) {
+            if (i != buildingIndex) {
+                ground.place(level, context.chunkGenerator(), random, centres.get(i));
             }
         }
 
