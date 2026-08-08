@@ -21,8 +21,11 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
@@ -195,7 +198,14 @@ public class LocalItems {
     public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
         "hammer",
         Item::new,
-        p -> p);
+        p -> p
+            .rarity(Rarity.EPIC)
+            .durability(500)
+            .component(DataComponents.TOOL, MaceItem.createToolProperties())
+            .repairable(Items.DIRT)
+            .attributes(MaceItem.createAttributes())
+            .enchantable(15)
+            .component(DataComponents.WEAPON, new Weapon(1)));
 
     private static int getBatteryCapacity() {
         try {
