@@ -176,7 +176,7 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             default -> throw new IllegalStateException();
         };
 
-        int thickLength = random.nextInt(5, 10);
+        int thickLength = random.nextInt(2, 10);
         int totalLength = (thickLength * 2) + random.nextInt(3);
 
         for (int i = 0; i < totalLength; i++) {

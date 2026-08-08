@@ -51,10 +51,10 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             FLOATING_ISLAND,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND),
-            RarityFilter.onAverageOnceEvery(14),
-            PlacementUtils.countExtra(1, 0.25F, 1),
+            RarityFilter.onAverageOnceEvery(20),
+            // PlacementUtils.countExtra(1, 0.25F, 1),
             InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(55), VerticalAnchor.absolute(300)),
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
             BiomeFilter.biome());
     }
 }

@@ -32,7 +32,7 @@ public class LocalBiomesProvider {
     public static final ResourceKey<Biome> RARE = ResourceKey
         .create(Registries.BIOME, SuperSargassoSea.ID("rare"));
 
-    private static Biome buildDefault(BootstrapContext<Biome> bootstrap) {
+    private static Biome buildDefault(BootstrapContext<Biome> bootstrap, boolean hasFloatingIslands) {
         HolderGetter<PlacedFeature> placedFeaturesRegistry = bootstrap
             .lookup(Registries.PLACED_FEATURE);
         HolderGetter<ConfiguredWorldCarver<?>> configuredCarverRegistry = bootstrap
@@ -102,9 +102,11 @@ public class LocalBiomesProvider {
         generation.addFeature(
             GenerationStep.Decoration.VEGETAL_DECORATION,
             LocalPlacedFeaturesProvider.PATCH_DEBRIS);
-        generation.addFeature(
-            GenerationStep.Decoration.RAW_GENERATION,
-            LocalPlacedFeaturesProvider.FLOATING_ISLAND);
+        if (hasFloatingIslands) {
+            generation.addFeature(
+                GenerationStep.Decoration.RAW_GENERATION,
+                LocalPlacedFeaturesProvider.FLOATING_ISLAND);
+        }
 
         return new Biome.BiomeBuilder()
             .hasPrecipitation(true)
@@ -127,15 +129,15 @@ public class LocalBiomesProvider {
     public static void provide(BootstrapContext<Biome> bootstrap) {
         bootstrap.register(
             LOWLANDS,
-            buildDefault(bootstrap));
+            buildDefault(bootstrap, false));
         bootstrap.register(
             HILLS,
-            buildDefault(bootstrap));
+            buildDefault(bootstrap, true));
         bootstrap.register(
             PEAKS,
-            buildDefault(bootstrap));
+            buildDefault(bootstrap, false));
         bootstrap.register(
             RARE,
-            buildDefault(bootstrap));
+            buildDefault(bootstrap, true));
     }
 }
