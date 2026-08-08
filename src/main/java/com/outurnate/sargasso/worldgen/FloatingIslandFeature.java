@@ -23,7 +23,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
 
         int blobs = random.nextInt(2, 5);
         for (int i = 0; i < blobs; ++i) {
-            BlockPos root = origin.offset(random.nextInt(5, 10), random.nextInt(5, 10), 0);
+            BlockPos root = origin.offset(i * 15, 0, 0);
             placeIsland(level, random, root, 4, 7);
         }
 

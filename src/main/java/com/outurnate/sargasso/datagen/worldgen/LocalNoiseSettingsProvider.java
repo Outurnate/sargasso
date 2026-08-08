@@ -91,7 +91,7 @@ public class LocalNoiseSettingsProvider {
                 SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())),
             SurfaceRules.ifTrue(
                 SurfaceRules
-                    .verticalGradient("deepslate", VerticalAnchor.absolute(60), VerticalAnchor.absolute(70)),
+                    .verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(10)),
                 SurfaceRules.state(Blocks.STONE.defaultBlockState())));
         bootstrap.register(
             SEA,
