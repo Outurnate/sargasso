@@ -37,7 +37,7 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
                 double x = Math.cos(angle) * size;
                 double z = Math.sin(angle) * size;
                 origin = origin.offset((int) Math.ceil(x), 0, (int) Math.ceil(z));
-                placeIsland(level, random, origin, 3, 3);
+                placeIsland(level, random, origin, 1, 3);
             }
         }
 
