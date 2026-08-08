@@ -2,10 +2,13 @@ package com.outurnate.sargasso.worldgen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.worldgen.FloatingIslandFeature.FloatingIslandFeatureConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -30,6 +33,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.phys.Vec2;
 
 public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfiguration> {
     public static class FloatingIslandFeatureConfiguration implements FeatureConfiguration {
@@ -80,11 +84,14 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             placeIsland(surface, level, random, origin, size);
         }
 
+        List<Vec2> polygon = centres.stream().map(x -> new Vec2(x.getX(), x.getZ())).toList();
+        List<BlockPos> centerSurface = surface.stream()
+            .filter(s -> Utils.pointInPolygon(s.getX(), s.getZ(), polygon)).toList();
+
         // downward spikes
         int spikes = random.nextInt(blobs * 2, blobs * 3);
         for (int j = 0; j < spikes; ++j) {
-            BlockPos origin = surface.stream().skip(random.nextInt(surface.size())).findFirst()
-                .orElse(context.origin());
+            BlockPos origin = centerSurface.get(random.nextInt(centerSurface.size()));
             placeSpike(null, level, random, origin);
         }
 

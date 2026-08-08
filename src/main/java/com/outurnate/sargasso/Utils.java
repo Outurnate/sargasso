@@ -4,6 +4,7 @@ package com.outurnate.sargasso;
 import com.outurnate.sargasso.registry.LocalDimensions;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -135,6 +137,22 @@ public class Utils {
             r = randomSource.nextLong() & Long.MAX_VALUE;
         } while (r >= limit);
         return r % max;
+    }
+
+    public static boolean pointInPolygon(double x, double y, List<Vec2> polygon) {
+        boolean inside = false;
+
+        for (int i = 0, j = polygon.size() - 1; i < polygon.size(); j = i++) {
+            Vec2 a = polygon.get(i);
+            Vec2 b = polygon.get(j);
+
+            if ((a.y > y) != (b.y > y)
+                && x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x) {
+                inside = !inside;
+            }
+        }
+
+        return inside;
     }
 
     public static <T> Function<BlockState, T> propLookup(
