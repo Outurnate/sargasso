@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -19,13 +20,21 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
         BlockPos origin = context.origin();
-        float size = random.nextInt(3) + 4.0F;
+        float size = random.nextInt(6) + 12.0F;
 
         for (int y = 0; size > 0.5F; y--) {
             for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
                 for (int z = Mth.floor(-size); z <= Mth.ceil(size); z++) {
                     if (x * x + z * z <= (size + 1.0F) * (size + 1.0F)) {
-                        this.setBlock(level, origin.offset(x, y, z), Blocks.END_STONE.defaultBlockState());
+                        Block block;
+                        if (y == 0) {
+                            block = Blocks.GRASS_BLOCK;
+                        } else if (y < 5 && random.nextInt(y) == 0) {
+                            block = Blocks.DIRT;
+                        } else {
+                            block = Blocks.STONE;
+                        }
+                        this.setBlock(level, origin.offset(x, y, z), block.defaultBlockState());
                     }
                 }
             }
