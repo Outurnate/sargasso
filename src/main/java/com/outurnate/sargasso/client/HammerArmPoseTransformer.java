@@ -29,8 +29,8 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         if (!(entity.attackTime <= 0.0F)) {
             mainArmX = -Mth.HALF_PI;
             mainArmY = Mth.HALF_PI / 2;
-            mainArmZ = Mth.HALF_PI;
-            secondArmX = Mth.HALF_PI / 2;
+            mainArmZ = Mth.HALF_PI / 2;
+            secondArmX = Mth.PI * -1.5F;
             secondArmY = 0;
             secondArmZ = 0;
         } else {
