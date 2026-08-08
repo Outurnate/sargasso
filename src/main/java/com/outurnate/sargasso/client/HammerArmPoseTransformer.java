@@ -49,10 +49,9 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         new HammerArmPoseTransformer());
 
     private static final Animation MAIN_HAND_ANIM = new Animation(
-        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -1.0, Math.PI * -0.5, Math.PI * 0.5)),
-        new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.75, 0.0, 0.0)),
-        new Animation.Keyframe(0.9F, new Vec3(Math.PI * -0.75, 0.0, 0.0)),
-        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -1.0, Math.PI * -0.5, Math.PI * 0.5)));
+        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, 0.0, 0.0)),
+        new Animation.Keyframe(0.1F, new Vec3(Math.PI * 0.75, 0.0, 0.0)),
+        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.75, 0.0, 0.0)));
 
     private static final Animation OFF_HAND_ANIM = new Animation(
         new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.5, 0.0, 0.0)),
