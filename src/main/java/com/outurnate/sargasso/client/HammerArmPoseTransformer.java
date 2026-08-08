@@ -49,13 +49,14 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         new HammerArmPoseTransformer());
 
     private static final Animation MAIN_HAND_ANIM = new Animation(
+        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.125, 0.0)),
+        new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * -0.125, 0.0)),
+        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.125, 0.0)));
+
+    private static final Animation OFF_HAND_ANIM = new Animation(
         new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * 0.125, 0.0)),
         new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * 0.125, 0.0)),
         new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.75, Math.PI * 0.125, 0.0)));
-
-    private static final Animation OFF_HAND_ANIM = new Animation(
-        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.5, 0.0, 0.0)),
-        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.5, 0.0, 0.0)));
 
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
