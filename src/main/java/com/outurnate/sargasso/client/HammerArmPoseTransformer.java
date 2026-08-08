@@ -1,5 +1,7 @@
 package com.outurnate.sargasso.client;
 
+import com.outurnate.sargasso.SuperSargassoSea;
+
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
@@ -13,6 +15,10 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         true,
         true,
         new HammerArmPoseTransformer());
+
+    public HammerArmPoseTransformer() {
+        SuperSargassoSea.LOGGER.error("butt");
+    }
 
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
