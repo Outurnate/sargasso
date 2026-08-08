@@ -26,8 +26,8 @@ public class FloatingIslandFeature extends Feature<NoneFeatureConfiguration> {
             int size = random.nextInt(5, 7);
             double angle = random.nextDouble() * Math.PI * 2.0;
             float x = Mth.cos(angle) * size;
-            float y = Mth.sin(angle) * size;
-            origin = origin.offset((int) Math.ceil(x), (int) Math.ceil(y), 0);
+            float z = Mth.sin(angle) * size;
+            origin = origin.offset((int) Math.ceil(x), 0, (int) Math.ceil(z));
             placeIsland(level, random, origin, size);
         }
 
