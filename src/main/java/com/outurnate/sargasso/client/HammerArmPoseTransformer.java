@@ -48,37 +48,34 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
         true,
         new HammerArmPoseTransformer());
 
-    private static final Animation swingAnimation = new Animation(
+    private static final Animation MAIN_HAND_ANIM = new Animation(
         new Animation.Keyframe(0.0F, new Vec3(Math.PI * -1.0, Math.PI * -0.5, Math.PI * 0.5)),
         new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.75, 0.0, 0.0)),
         new Animation.Keyframe(0.9F, new Vec3(Math.PI * -0.75, 0.0, 0.0)),
         new Animation.Keyframe(1.0F, new Vec3(Math.PI * -1.0, Math.PI * -0.5, Math.PI * 0.5)));
 
+    private static final Animation OFF_HAND_ANIM = new Animation(
+        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.5, 0.0, 0.0)),
+        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.5, 0.0, 0.0)));
+
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
-        float mainArmX;
-        float mainArmY;
-        float mainArmZ;
-        float secondArmX;
-        float secondArmY;
-        float secondArmZ;
         SuperSargassoSea.LOGGER.error("t" + entity.attackTime);
+        Vec3 main;
+        Vec3 off;
         if (!(entity.attackTime <= 0.0F)) {
-            Vec3 main = swingAnimation.sample(entity.attackTime);
-            mainArmX = (float) main.x;
-            mainArmY = (float) main.y;
-            mainArmZ = (float) main.z;
-            secondArmX = 0;
-            secondArmY = 0;
-            secondArmZ = 0;
+            main = MAIN_HAND_ANIM.sample(entity.attackTime);
+            off = OFF_HAND_ANIM.sample(entity.attackTime);
         } else {
-            mainArmX = -Mth.HALF_PI;
-            mainArmY = -Mth.HALF_PI / 2;
-            mainArmZ = Mth.HALF_PI;
-            secondArmX = -Mth.HALF_PI / 2;
-            secondArmY = 0;
-            secondArmZ = 0;
+            main = MAIN_HAND_ANIM.sample(0.0F);
+            off = OFF_HAND_ANIM.sample(0.0F);
         }
+        float mainArmX = (float) main.x;
+        float mainArmY = (float) main.y;
+        float mainArmZ = (float) main.z;
+        float secondArmX = (float) off.x;
+        float secondArmY = (float) off.y;
+        float secondArmZ = (float) off.z;
         // entity.attackArm == arm
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
             model.rightArm.xRot = mainArmX;
