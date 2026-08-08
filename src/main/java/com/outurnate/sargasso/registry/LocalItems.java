@@ -10,7 +10,7 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
 import com.outurnate.sargasso.item.SnowBootsItem;
-
+import java.util.List;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,13 +18,19 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SwingAnimationType;
 import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.SwingAnimation;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -201,10 +207,30 @@ public class LocalItems {
         p -> p
             .rarity(Rarity.EPIC)
             .durability(500)
-            .component(DataComponents.TOOL, MaceItem.createToolProperties())
+            .component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
             .repairable(Items.DIRT)
-            .attributes(MaceItem.createAttributes())
+            .attributes(
+                ItemAttributeModifiers.builder()
+                    .add(
+                        Attributes.ATTACK_DAMAGE,
+                        new AttributeModifier(
+                            Item.BASE_ATTACK_DAMAGE_ID,
+                            5.0,
+                            AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND)
+                    .add(
+                        Attributes.ATTACK_SPEED,
+                        new AttributeModifier(
+                            Item.BASE_ATTACK_SPEED_ID,
+                            -3.4F,
+                            AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND)
+                    .build())
             .enchantable(15)
+            .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
+            .component(
+                DataComponents.SWING_ANIMATION,
+                new SwingAnimation(SwingAnimationType.STAB, (int) (0.65F * 20.0F)))
             .component(DataComponents.WEAPON, new Weapon(1)));
 
     private static int getBatteryCapacity() {
