@@ -88,8 +88,18 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             placeSpike(null, level, random, origin);
         }
 
+        // coat surface
+        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
+        ConfiguredFeature<?, ?> ground = configuredFeatures.getValueOrThrow(context.config().ground);
+        for (BlockPos surfacePos : surface) {
+            if (random.nextInt(4) != 0) {
+                ground.place(level, context.chunkGenerator(), random, surfacePos.above());
+            }
+        }
+
         // main building
-        int buildingIndex = random.nextInt(centres.size());
+        int buildingCentreIndex = random.nextInt(centres.size());
         if (level instanceof WorldGenRegion region) {
             if (region.getServer() instanceof MinecraftServer server) {
                 StructureTemplateManager structureManager = server.getStructureManager();
@@ -100,18 +110,16 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
                 Rotation rotation = Rotation.getRandom(random);
                 settings.setRotation(rotation);
                 Vec3i size = template.getSize(rotation);
-                BlockPos centre = centres.get(buildingIndex);
+                BlockPos centre = centres.get(buildingCentreIndex);
                 centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
             }
         }
 
-        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
-            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
-        ConfiguredFeature<?, ?> ground = configuredFeatures.getOrThrow(context.config().ground).value();
+        ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
         for (int i = 0; i < centres.size(); ++i) {
-            if (i != buildingIndex) {
-                ground.place(level, context.chunkGenerator(), random, centres.get(i));
+            if (i != buildingCentreIndex) {
+                tree.place(level, context.chunkGenerator(), random, centres.get(i));
             }
         }
 
