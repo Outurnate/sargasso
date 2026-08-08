@@ -1,6 +1,5 @@
 package com.outurnate.sargasso.client;
 
-import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.HumanoidModel.ArmPose;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
@@ -60,10 +59,8 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
 
     @Override
     public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
-        SuperSargassoSea.LOGGER.error("t" + entity.attackTime);
         Vec3 main = MAIN_HAND_ANIM.sample(entity.attackTime);
         Vec3 off = OFF_HAND_ANIM.sample(entity.attackTime);
-        // entity.attackArm == arm
         if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
             if (entity.attackArm.compareTo(arm) == 0) {
                 model.rightArm.xRot = (float) main.x;
@@ -73,8 +70,6 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
                 model.leftArm.yRot = (float) off.y;
                 model.leftArm.zRot = (float) off.z;
                 entity.leftHandItemState.clear();
-            } else {
-
             }
         } else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
             if (entity.attackArm.compareTo(arm) == 0) {
@@ -82,11 +77,9 @@ public class HammerArmPoseTransformer implements IArmPoseTransformer {
                 model.leftArm.yRot = -(float) main.y;
                 model.leftArm.zRot = -(float) main.z;
                 model.rightArm.xRot = (float) off.x;
-                model.rightArm.yRot = (float) off.y;
-                model.rightArm.zRot = (float) off.z;
+                model.rightArm.yRot = -(float) off.y;
+                model.rightArm.zRot = -(float) off.z;
                 entity.rightHandItemState.clear();
-            } else {
-
             }
         }
     }
