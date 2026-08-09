@@ -41,6 +41,11 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_vertical"));
     public static final ResourceKey<StructureTemplatePool> ESCHER_INVERTED = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_inverted"));
+    public static final ResourceKey<StructureTemplatePool> ESCHER_HORIZONTAL_TERMINATORS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_horizontal_terminators"));
+    // TODO no vertical terminators
+    public static final ResourceKey<StructureTemplatePool> ESCHER_INVERTED_TERMINATORS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_inverted_terminators"));
 
     private static List<Pair<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>> pool(
         String... names) {
@@ -131,9 +136,23 @@ public class LocalStructureTemplatePoolsProvider {
                 pool("office_road_1", "office_road_2", "office_road_3"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
-            ESCHER_HORIZONTAL,
+            ESCHER_HORIZONTAL_TERMINATORS,
             new StructureTemplatePool(
                 empty,
+                pool(
+                    "escher_end"),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            ESCHER_INVERTED_TERMINATORS,
+            new StructureTemplatePool(
+                empty,
+                pool(
+                    "escher_inverted_end"),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            ESCHER_HORIZONTAL,
+            new StructureTemplatePool(
+                structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
                 pool(
                     "escher_cross",
                     "escher_6",
@@ -151,16 +170,13 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 pool(
                     "escher_to_vert",
-                    "escher_vertical_3",
-                    "escher_vertical_4",
-                    "escher_vertical_5",
                     "escher_vertical_6",
                     "escher_vert_to_invert"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             ESCHER_INVERTED,
             new StructureTemplatePool(
-                empty,
+                structureTemplatePoolsRegistry.getOrThrow(ESCHER_INVERTED_TERMINATORS),
                 pool(
                     "escher_vert_to_invert",
                     "escher_inverted_cross",
