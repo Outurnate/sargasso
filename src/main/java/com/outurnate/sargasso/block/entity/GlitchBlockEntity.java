@@ -17,6 +17,7 @@ import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
@@ -115,7 +116,9 @@ public class GlitchBlockEntity extends BlockEntity {
             }
             if (exposedDirections.size() != 0) {
                 if (exposedDirections.contains(Direction.DOWN) && level.getRandom().nextBoolean()) {
-                    level.setBlock(pos.below(), LocalBlocks.FLOTSAM.get().defaultBlockState(), 0);
+                    // level.setBlock(pos.below(), LocalBlocks.FLOTSAM.get().defaultBlockState(),
+                    // 3);
+                    FallingBlockEntity.fall(level, pos, LocalBlocks.FLOTSAM.get().defaultBlockState());
                 } else {
                     Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
                     Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());

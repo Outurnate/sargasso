@@ -40,7 +40,6 @@ public class LocalBlocks {
         p -> new DebrisBlock(p),
         p -> p
             .mapColor(MapColor.DIRT)
-            .replaceable()
             .noCollision()
             .instabreak()
             .noOcclusion()
