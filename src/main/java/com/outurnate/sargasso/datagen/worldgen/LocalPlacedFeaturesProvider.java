@@ -30,6 +30,12 @@ public class LocalPlacedFeaturesProvider {
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga"));
     public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains"));
+    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA_BARE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga_bare"));
+    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS_BARE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains_bare"));
+    public static final ResourceKey<PlacedFeature> PORTAL = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
 
     public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
@@ -51,9 +57,16 @@ public class LocalPlacedFeaturesProvider {
 
         PlacementUtils.register(
             bootstrap,
+            PORTAL,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.DEBRIS),
+            RarityFilter.onAverageOnceEvery(100),
+            HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING));
+
+        PlacementUtils.register(
+            bootstrap,
             FLOATING_ISLAND_TAIGA,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA),
-            RarityFilter.onAverageOnceEvery(40),
+            RarityFilter.onAverageOnceEvery(80),
             InSquarePlacement.spread(),
             HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
             BiomeFilter.biome());
@@ -62,7 +75,25 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             FLOATING_ISLAND_PLAINS,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS),
-            RarityFilter.onAverageOnceEvery(40),
+            RarityFilter.onAverageOnceEvery(80),
+            InSquarePlacement.spread(),
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+            BiomeFilter.biome());
+
+        PlacementUtils.register(
+            bootstrap,
+            FLOATING_ISLAND_TAIGA_BARE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA_BARE),
+            RarityFilter.onAverageOnceEvery(80),
+            InSquarePlacement.spread(),
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+            BiomeFilter.biome());
+
+        PlacementUtils.register(
+            bootstrap,
+            FLOATING_ISLAND_PLAINS_BARE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS_BARE),
+            RarityFilter.onAverageOnceEvery(80),
             InSquarePlacement.spread(),
             HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
             BiomeFilter.biome());

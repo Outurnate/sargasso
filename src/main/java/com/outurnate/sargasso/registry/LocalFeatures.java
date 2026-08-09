@@ -2,6 +2,7 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.worldgen.FloatingIslandFeature;
+import com.outurnate.sargasso.worldgen.PortalFeature;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -16,6 +17,10 @@ public class LocalFeatures {
         .register(
             "floating_island",
             FloatingIslandFeature::new);
+    public static final DeferredHolder<Feature<?>, PortalFeature> PORTAL = REGISTRY
+        .register(
+            "portal",
+            PortalFeature::new);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

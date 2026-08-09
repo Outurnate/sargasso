@@ -32,7 +32,10 @@ public class LocalBiomesProvider {
     public static final ResourceKey<Biome> RARE = ResourceKey
         .create(Registries.BIOME, SuperSargassoSea.ID("rare"));
 
-    private static Biome buildDefault(BootstrapContext<Biome> bootstrap, boolean hasFloatingIslands) {
+    private static Biome buildDefault(
+        BootstrapContext<Biome> bootstrap,
+        boolean hasFloatingIslands,
+        boolean hasPortals) {
         HolderGetter<PlacedFeature> placedFeaturesRegistry = bootstrap
             .lookup(Registries.PLACED_FEATURE);
         HolderGetter<ConfiguredWorldCarver<?>> configuredCarverRegistry = bootstrap
@@ -109,6 +112,17 @@ public class LocalBiomesProvider {
             generation.addFeature(
                 GenerationStep.Decoration.RAW_GENERATION,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_PLAINS);
+            generation.addFeature(
+                GenerationStep.Decoration.RAW_GENERATION,
+                LocalPlacedFeaturesProvider.FLOATING_ISLAND_TAIGA_BARE);
+            generation.addFeature(
+                GenerationStep.Decoration.RAW_GENERATION,
+                LocalPlacedFeaturesProvider.FLOATING_ISLAND_PLAINS_BARE);
+        }
+        if (hasPortals) {
+            generation.addFeature(
+                GenerationStep.Decoration.RAW_GENERATION,
+                LocalPlacedFeaturesProvider.PORTAL);
         }
 
         return new Biome.BiomeBuilder()
@@ -132,15 +146,15 @@ public class LocalBiomesProvider {
     public static void provide(BootstrapContext<Biome> bootstrap) {
         bootstrap.register(
             LOWLANDS,
-            buildDefault(bootstrap, false));
+            buildDefault(bootstrap, false, false));
         bootstrap.register(
             HILLS,
-            buildDefault(bootstrap, true));
+            buildDefault(bootstrap, true, false));
         bootstrap.register(
             PEAKS,
-            buildDefault(bootstrap, false));
+            buildDefault(bootstrap, false, true));
         bootstrap.register(
             RARE,
-            buildDefault(bootstrap, true));
+            buildDefault(bootstrap, true, false));
     }
 }

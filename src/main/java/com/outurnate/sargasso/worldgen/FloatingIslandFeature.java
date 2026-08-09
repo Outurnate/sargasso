@@ -145,7 +145,7 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
         for (BlockPos surfacePos : surface) {
             if (!box.isInside(surfacePos)
                 && !placedTrees.stream().anyMatch(pos -> pos.distManhattan(surfacePos) < 2)
-                && random.nextInt(context.config().treeChance) == 0) {
+                && (context.config().treeChance != 0 && random.nextInt(context.config().treeChance) == 0)) {
                 placedTrees.add(surfacePos);
                 tree.place(level, context.chunkGenerator(), random, surfacePos.above());
             }
