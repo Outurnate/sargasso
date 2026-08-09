@@ -3,6 +3,7 @@ package com.outurnate.sargasso.block.entity;
 
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
+import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalItems;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class GlitchBlockEntity extends BlockEntity {
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         RandomSource rand = level.getRandom();
-        if (rand.nextFloat() > 0.9999) {
+        if (rand.nextFloat() > 0.999) {
             List<Direction> exposedDirections = new ArrayList<>();
             if (level.getBlockState(pos.above()).is(Blocks.AIR)) {
                 exposedDirections.add(Direction.UP);
@@ -113,18 +114,22 @@ public class GlitchBlockEntity extends BlockEntity {
                 exposedDirections.add(Direction.SOUTH);
             }
             if (exposedDirections.size() != 0) {
-                Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
-                Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
-                if (proj != null) {
-                    Utils.VelocityHeading movement = Utils
-                        .randomVelInDirection(rand, chosenDirection, 1.0, 2.0, 0.0, 45.0);
-                    proj.setDeltaMovement(movement.velocity());
-                    proj.needsSync = true;
-                    proj.setYRot(movement.yrot());
-                    proj.setXRot(movement.xrot());
-                    proj.yRotO = proj.getYRot();
-                    proj.xRotO = proj.getXRot();
-                    level.addFreshEntity(proj);
+                if (exposedDirections.contains(Direction.DOWN) && level.getRandom().nextBoolean()) {
+                    level.setBlock(pos.below(), LocalBlocks.FLOTSAM.get().defaultBlockState(), 0);
+                } else {
+                    Direction chosenDirection = exposedDirections.get(rand.nextInt(exposedDirections.size()));
+                    Entity proj = entities.getRandom(level.getRandom()).get().apply(level, pos.getCenter());
+                    if (proj != null) {
+                        Utils.VelocityHeading movement = Utils
+                            .randomVelInDirection(rand, chosenDirection, 1.0, 2.0, 0.0, 45.0);
+                        proj.setDeltaMovement(movement.velocity());
+                        proj.needsSync = true;
+                        proj.setYRot(movement.yrot());
+                        proj.setXRot(movement.xrot());
+                        proj.yRotO = proj.getYRot();
+                        proj.xRotO = proj.getXRot();
+                        level.addFreshEntity(proj);
+                    }
                 }
             }
         }
