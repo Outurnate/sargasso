@@ -45,7 +45,7 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_segment"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
-    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(15);
+    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(6);
     public static final ResourceKey<StructureTemplatePool> OFFICE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey
