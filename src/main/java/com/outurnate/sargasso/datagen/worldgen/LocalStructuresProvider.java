@@ -3,11 +3,16 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.LocalBiomeTagsProvider;
+
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.EntityType;
@@ -92,10 +97,16 @@ public class LocalStructuresProvider {
                                         .of(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 1, 1)))))
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
-                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth(), // for first floor, and
+                Optional.<Identifier>empty(),
+                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth(), // 2 + for first floor, and
                                                                                    // ground floor
                 ConstantHeight.ZERO,
                 false,
-                Types.WORLD_SURFACE_WG));
+                Optional.of(Types.WORLD_SURFACE_WG),
+                new JigsawStructure.MaxDistance(100),
+                List.of(),
+                JigsawStructure.DEFAULT_DIMENSION_PADDING,
+                JigsawStructure.DEFAULT_LIQUID_SETTINGS));
+
     }
 }
