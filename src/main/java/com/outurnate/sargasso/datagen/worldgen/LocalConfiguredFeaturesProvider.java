@@ -66,7 +66,7 @@ public class LocalConfiguredFeaturesProvider {
                     TreeFeatures.SPRUCE,
                     Blocks.SHORT_GRASS.defaultBlockState(),
                     20,
-                    20)));
+                    15)));
         bootstrap.register(
             FLOATING_ISLAND_PLAINS,
             new ConfiguredFeature<>(

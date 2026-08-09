@@ -106,6 +106,9 @@ public class LocalBiomesProvider {
             generation.addFeature(
                 GenerationStep.Decoration.RAW_GENERATION,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_TAIGA);
+            generation.addFeature(
+                GenerationStep.Decoration.RAW_GENERATION,
+                LocalPlacedFeaturesProvider.FLOATING_ISLAND_PLAINS);
         }
 
         return new Biome.BiomeBuilder()
