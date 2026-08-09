@@ -41,6 +41,8 @@ public class LocalStructuresProvider {
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("apothecary"));
     public static final ResourceKey<Structure> OFFICE = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("office"));
+    public static final ResourceKey<Structure> ESCHER = ResourceKey
+        .create(Registries.STRUCTURE, SuperSargassoSea.ID("escher"));
 
     public static void provide(BootstrapContext<Structure> bootstrap) {
         HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
@@ -98,8 +100,7 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
                 Optional.<Identifier>empty(),
-                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth() + 2, // for first floor, and
-                                                                                       // ground floor
+                8,
                 ConstantHeight.ZERO,
                 false,
                 Optional.of(Types.WORLD_SURFACE_WG),
@@ -107,6 +108,19 @@ public class LocalStructuresProvider {
                 List.of(),
                 JigsawStructure.DEFAULT_DIMENSION_PADDING,
                 JigsawStructure.DEFAULT_LIQUID_SETTINGS));
-
+        bootstrap.register(
+            ESCHER,
+            new JigsawStructure(
+                new StructureSettings.Builder(
+                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)))
+                        .generationStep(Decoration.SURFACE_STRUCTURES)
+                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .build(),
+                structureTemplatePoolRegistry
+                    .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER_HORIZONTAL),
+                20,
+                ConstantHeight.of(VerticalAnchor.absolute(200)),
+                false,
+                Types.WORLD_SURFACE_WG));
     }
 }

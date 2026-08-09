@@ -3,9 +3,11 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.Utils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -13,38 +15,16 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 public class LocalStructureTemplatePoolsProvider {
-    public static record CalculatedWeights(int segment, int end, int maxDepth) {
-        public CalculatedWeights(int maxDepth) {
-            // first step, we need to figure out the probability of a segment vs an end
-            // piece
-            // let t be the chance that we'll get an end piece before reaching max depth
-            double t = 0.9999F;
-            // let p be the probability that we'll roll an end jigsaw piece
-            double p = 1.0 - Math.pow(1.0 - t, 1.0 / maxDepth);
-
-            // the max weight allowed
-            int totalWeight = 150;
-
-            int endProbability = (int) (p * totalWeight);
-            int segmentProbability = (int) totalWeight - endProbability;
-
-            // datagen does something silly - it allocates objects in a loop
-            // "weight" times. this saves some memory during datagen
-            int factor = Utils.gcd(endProbability, segmentProbability);
-            this(segmentProbability / factor, endProbability / factor, maxDepth);
-        }
-    }
-
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS_SEGMENT = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_segment"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
-    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(6);
     public static final ResourceKey<StructureTemplatePool> OFFICE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey
@@ -55,6 +35,21 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_terminators"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_ROADS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office_roads"));
+    public static final ResourceKey<StructureTemplatePool> ESCHER_HORIZONTAL = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_horizontal"));
+    public static final ResourceKey<StructureTemplatePool> ESCHER_VERTICAL = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_vertical"));
+    public static final ResourceKey<StructureTemplatePool> ESCHER_INVERTED = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_inverted"));
+
+    private static List<Pair<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>> pool(
+        String... names) {
+        return Arrays.stream(names).map(
+            name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name),
+                1))
+            .toList();
+    }
 
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
@@ -109,43 +104,73 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        OFFICE_GENSETTINGS.segment),
+                        10),
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
-                        OFFICE_GENSETTINGS.end)),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof_1"),
+                        1),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof_2"),
+                        1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             OFFICE_FIRST_FLOOR,
             new StructureTemplatePool(
                 empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        1)),
+                pool("office_floor"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             OFFICE_TERMINATORS,
             new StructureTemplatePool(
                 empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
-                        1)),
+                pool("office_roof_1", "office_roof_2"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             OFFICE_ROADS,
             new StructureTemplatePool(
                 empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_road_1"),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_road_2"),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_road_3"),
-                        1)),
+                pool("office_road_1", "office_road_2", "office_road_3"),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            ESCHER_HORIZONTAL,
+            new StructureTemplatePool(
+                empty,
+                pool(
+                    "escher_cross",
+                    "escher_6",
+                    "escher_5",
+                    "escher_4",
+                    "escher_3",
+                    "escher_left",
+                    "escher_right",
+                    "escher_end",
+                    "escher_to_vert"),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            ESCHER_VERTICAL,
+            new StructureTemplatePool(
+                empty,
+                pool(
+                    "escher_to_vert",
+                    "escher_vertical_3",
+                    "escher_vertical_4",
+                    "escher_vertical_5",
+                    "escher_vertical_6",
+                    "escher_vert_to_invert"),
+                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(
+            ESCHER_INVERTED,
+            new StructureTemplatePool(
+                empty,
+                pool(
+                    "escher_vert_to_invert",
+                    "escher_inverted_cross",
+                    "escher_inverted_3",
+                    "escher_inverted_4",
+                    "escher_inverted_5",
+                    "escher_inverted_6",
+                    "escher_inverted_right",
+                    "escher_inverted_left",
+                    "escher_inverted_end"),
                 StructureTemplatePool.Projection.RIGID));
     }
 }
