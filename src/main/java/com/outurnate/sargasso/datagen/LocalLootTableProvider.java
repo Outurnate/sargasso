@@ -151,7 +151,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                     // crap items pool
                     .withPool(
                         LootPool.lootPool()
-                            .setRolls(UniformGenerator.between(15, 24))
+                            .setRolls(UniformGenerator.between(10, 14))
                             .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
                             .add(
                                 LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1)

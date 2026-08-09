@@ -58,7 +58,7 @@ public class LocalPlacedFeaturesProvider {
         PlacementUtils.register(
             bootstrap,
             PORTAL,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.DEBRIS),
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PORTAL),
             RarityFilter.onAverageOnceEvery(1),
             HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
             BiomeFilter.biome());
