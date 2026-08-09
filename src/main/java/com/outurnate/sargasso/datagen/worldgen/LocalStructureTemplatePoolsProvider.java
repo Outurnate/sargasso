@@ -14,7 +14,6 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 public class LocalStructureTemplatePoolsProvider {
     public static record CalculatedWeights(int segment, int end, int maxDepth) {
@@ -58,17 +57,9 @@ public class LocalStructureTemplatePoolsProvider {
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
             .lookup(Registries.TEMPLATE_POOL);
-        HolderGetter<StructureProcessorList> structureProcessorListRegistry = bootstrap
-            .lookup(Registries.PROCESSOR_LIST);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
         Holder<StructureTemplatePool> officeTerminators = structureTemplatePoolsRegistry
             .getOrThrow(OFFICE_TERMINATORS);
-        Holder<StructureProcessorList> heavy_glitch = structureProcessorListRegistry
-            .getOrThrow(LocalStructureProcessorListProvider.HEAVY_GLITCH);
-        Holder<StructureProcessorList> medium_glitch = structureProcessorListRegistry
-            .getOrThrow(LocalStructureProcessorListProvider.MEDIUM_GLITCH);
-        Holder<StructureProcessorList> mild_glitch = structureProcessorListRegistry
-            .getOrThrow(LocalStructureProcessorListProvider.MILD_GLITCH);
 
         bootstrap.register(
             FORTRESS,
@@ -76,7 +67,7 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 List.of(
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", heavy_glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
@@ -85,16 +76,10 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 List.of(
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", medium_glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress"),
                         1),
                     Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end", medium_glitch),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress", mild_glitch),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end", mild_glitch),
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end"),
                         1)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(

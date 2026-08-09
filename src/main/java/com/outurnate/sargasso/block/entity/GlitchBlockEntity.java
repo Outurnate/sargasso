@@ -116,8 +116,6 @@ public class GlitchBlockEntity extends BlockEntity {
             }
             if (exposedDirections.size() != 0) {
                 if (exposedDirections.contains(Direction.DOWN) && level.getRandom().nextBoolean()) {
-                    // level.setBlock(pos.below(), LocalBlocks.FLOTSAM.get().defaultBlockState(),
-                    // 3);
                     FallingBlockEntity
                         .fall(level, pos.below(), LocalBlocks.FLOTSAM.get().defaultBlockState());
                 } else {
