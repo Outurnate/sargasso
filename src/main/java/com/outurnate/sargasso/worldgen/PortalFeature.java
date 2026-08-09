@@ -5,6 +5,7 @@ import com.outurnate.sargasso.registry.LocalBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -20,10 +21,12 @@ public class PortalFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos origin = context.origin();
 
         int size = 10;
-        int y = 30;
+        int height = 30;
         for (int x = 0; x < size; ++x) {
             for (int z = 0; z < size; ++z) {
-                BlockPos pos = origin.offset(x, y, z);
+                BlockPos pos = origin.offset(x, height, z);
+                int surface = level.getHeight(Types.MOTION_BLOCKING, pos);
+                this.setBlock(level, pos.offset(0, surface, 0), LocalBlocks.DEBRIS.get().defaultBlockState());
                 if (x == 0 || z == 0 || x == (size - 1) || z == (size - 1)) {
                     this.setBlock(level, pos, Blocks.REINFORCED_DEEPSLATE.defaultBlockState());
                     this.setBlock(level, pos.above(), Blocks.REINFORCED_DEEPSLATE.defaultBlockState());

@@ -122,11 +122,10 @@ public class LocalStructureTemplatePoolsProvider {
                 List.of(
                     Pair.of(
                         SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        OFFICE_GENSETTINGS.segment)/*
-                                                    * , Pair.of(
-                                                    * SinglePoolElement.single(SuperSargassoSea.MODID +
-                                                    * ":office_roof"), OFFICE_GENSETTINGS.end)
-                                                    */),
+                        OFFICE_GENSETTINGS.segment),
+                    Pair.of(
+                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof"),
+                        OFFICE_GENSETTINGS.end)),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             OFFICE_FIRST_FLOOR,

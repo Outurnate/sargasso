@@ -98,8 +98,8 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
                 Optional.<Identifier>empty(),
-                8, // 2 + for first floor, and
-                   // ground floor
+                LocalStructureTemplatePoolsProvider.OFFICE_GENSETTINGS.maxDepth() + 2, // for first floor, and
+                                                                                       // ground floor
                 ConstantHeight.ZERO,
                 false,
                 Optional.of(Types.WORLD_SURFACE_WG),
