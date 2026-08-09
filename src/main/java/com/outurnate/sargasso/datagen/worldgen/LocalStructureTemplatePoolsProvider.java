@@ -39,8 +39,6 @@ public class LocalStructureTemplatePoolsProvider {
         }
     }
 
-    public static final ResourceKey<StructureTemplatePool> LIBRARY = ResourceKey
-        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("library"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS_SEGMENT = ResourceKey
@@ -72,13 +70,6 @@ public class LocalStructureTemplatePoolsProvider {
         Holder<StructureProcessorList> mild_glitch = structureProcessorListRegistry
             .getOrThrow(LocalStructureProcessorListProvider.MILD_GLITCH);
 
-        bootstrap.register(
-            LIBRARY,
-            new StructureTemplatePool(
-                empty,
-                List.of(
-                    Pair.of(SinglePoolElement.single(SuperSargassoSea.MODID + ":bookshelf_test"), 1)),
-                StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             FORTRESS,
             new StructureTemplatePool(

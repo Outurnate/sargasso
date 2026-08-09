@@ -30,8 +30,6 @@ import net.minecraft.world.level.levelgen.structure.structures.NetherFossilStruc
 public class LocalStructuresProvider {
     public static final ResourceKey<Structure> FOSSIL = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("fossil"));
-    public static final ResourceKey<Structure> LIBRARY = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("library"));
     public static final ResourceKey<Structure> FORTRESS = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<Structure> APOTHECARY = ResourceKey
@@ -52,19 +50,6 @@ public class LocalStructuresProvider {
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
                 UniformHeight.of(VerticalAnchor.absolute(32), VerticalAnchor.belowTop(2))));
-        bootstrap.register(
-            LIBRARY,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.LIBRARY),
-                1,
-                ConstantHeight.ZERO,
-                false,
-                Types.WORLD_SURFACE_WG));
         bootstrap.register(
             FORTRESS,
             new JigsawStructure(

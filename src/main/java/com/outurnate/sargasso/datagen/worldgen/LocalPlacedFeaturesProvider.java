@@ -59,7 +59,7 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             PORTAL,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.DEBRIS),
-            RarityFilter.onAverageOnceEvery(100),
+            RarityFilter.onAverageOnceEvery(1),
             HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING));
 
         PlacementUtils.register(

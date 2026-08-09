@@ -15,8 +15,6 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 public class LocalStructureSetsProvider {
     public static final ResourceKey<StructureSet> FOSSIL = ResourceKey
         .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fossil"));
-    public static final ResourceKey<StructureSet> LIBRARY = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("library"));
     public static final ResourceKey<StructureSet> FORTRESS = ResourceKey
         .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureSet> APOTHECARY = ResourceKey
@@ -35,15 +33,6 @@ public class LocalStructureSetsProvider {
                     8,
                     RandomSpreadType.LINEAR,
                     14353921)));
-        bootstrap.register(
-            LIBRARY,
-            new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.LIBRARY),
-                new RandomSpreadStructurePlacement(
-                    5,
-                    2,
-                    RandomSpreadType.LINEAR,
-                    153270)));
         bootstrap.register(
             FORTRESS,
             new StructureSet(
