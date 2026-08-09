@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -35,25 +36,35 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 
 public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfiguration> {
     public static class FloatingIslandFeatureConfiguration implements FeatureConfiguration {
+        @SuppressWarnings("null")
         public static final Codec<FloatingIslandFeatureConfiguration> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                Identifier.CODEC.fieldOf("building").forGetter(config -> config.building),
+                WeightedList.codec(Identifier.CODEC).fieldOf("buildings")
+                    .forGetter(config -> config.building),
                 ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("tree")
                     .forGetter(config -> config.tree),
-                BlockState.CODEC.fieldOf("ground").forGetter(config -> config.ground))
+                BlockState.CODEC.fieldOf("ground").forGetter(config -> config.ground),
+                Codec.INT.fieldOf("treeChance").forGetter(config -> config.treeChance),
+                Codec.INT.fieldOf("buildingChance").forGetter(config -> config.buildingChance))
                 .apply(instance, FloatingIslandFeatureConfiguration::new));
 
-        public final Identifier building;
+        public final WeightedList<Identifier> building;
         public final ResourceKey<ConfiguredFeature<?, ?>> tree;
         public final BlockState ground;
+        public final int treeChance;
+        public final int buildingChance;
 
         public FloatingIslandFeatureConfiguration(
-            Identifier building,
+            WeightedList<Identifier> building,
             ResourceKey<ConfiguredFeature<?, ?>> tree,
-            BlockState ground) {
+            BlockState ground,
+            int treeChance,
+            int buildingChance) {
             this.building = building;
             this.tree = tree;
             this.ground = ground;
+            this.treeChance = treeChance;
+            this.buildingChance = buildingChance;
         }
     }
 
@@ -107,36 +118,36 @@ public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfigur
             }
         }
 
-        int buildingCentreIndex = random.nextInt(centres.size());
-        if (level instanceof WorldGenRegion region) {
+        BoundingBox box = new BoundingBox(BlockPos.ZERO);
+        if (random.nextInt(context.config().buildingChance) == 0 && level instanceof WorldGenRegion region) {
             if (region.getServer() instanceof MinecraftServer server) {
                 // main building
                 StructureTemplateManager structureManager = server.getStructureManager();
                 StructureTemplate template = structureManager.get(
-                    context.config().building)
+                    context.config().building.getRandomOrThrow(random))
                     .orElseThrow();
                 StructurePlaceSettings settings = new StructurePlaceSettings();
                 Rotation rotation = Rotation.getRandom(random);
                 settings.setRotation(rotation);
                 Vec3i size = template.getSize(rotation);
-                BlockPos centre = centres.get(buildingCentreIndex);
+                BlockPos centre = centres.get(random.nextInt(centres.size()));
                 centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
                 template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
-                BoundingBox box = template.getBoundingBox(settings, centre);
+                box = template.getBoundingBox(settings, centre);
+            }
+        }
 
-                // trees
-                ArrayList<BlockPos> placedTrees = new ArrayList<>();
-                Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
-                    .lookupOrThrow(Registries.CONFIGURED_FEATURE);
-                ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
-                for (BlockPos surfacePos : surface) {
-                    if (!box.isInside(surfacePos)
-                        && !placedTrees.stream().anyMatch(pos -> pos.distManhattan(surfacePos) < 2)
-                        && random.nextInt(10) == 0) {
-                        placedTrees.add(surfacePos);
-                        tree.place(level, context.chunkGenerator(), random, surfacePos.above());
-                    }
-                }
+        // trees
+        ArrayList<BlockPos> placedTrees = new ArrayList<>();
+        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
+        ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
+        for (BlockPos surfacePos : surface) {
+            if (!box.isInside(surfacePos)
+                && !placedTrees.stream().anyMatch(pos -> pos.distManhattan(surfacePos) < 2)
+                && random.nextInt(context.config().treeChance) == 0) {
+                placedTrees.add(surfacePos);
+                tree.place(level, context.chunkGenerator(), random, surfacePos.above());
             }
         }
 

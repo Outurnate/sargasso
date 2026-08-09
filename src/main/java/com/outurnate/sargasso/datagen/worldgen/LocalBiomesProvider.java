@@ -105,7 +105,7 @@ public class LocalBiomesProvider {
         if (hasFloatingIslands) {
             generation.addFeature(
                 GenerationStep.Decoration.RAW_GENERATION,
-                LocalPlacedFeaturesProvider.FLOATING_ISLAND);
+                LocalPlacedFeaturesProvider.FLOATING_ISLAND_TAIGA);
         }
 
         return new Biome.BiomeBuilder()

@@ -22,8 +22,10 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStatePr
 public class LocalConfiguredFeaturesProvider {
     public static final ResourceKey<ConfiguredFeature<?, ?>> DEBRIS = ResourceKey
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("debris"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FLOATING_ISLAND = ResourceKey
-        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("floating_island"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLOATING_ISLAND_TAIGA = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("floating_island_taiga"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FLOATING_ISLAND_PLAINS = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("floating_island_plains"));
 
     public static void provide(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
         bootstrap.register(
@@ -35,13 +37,66 @@ public class LocalConfiguredFeaturesProvider {
                         WeightedList.<BlockState>builder()
                             .add(LocalBlocks.DEBRIS.get().defaultBlockState(), 1)))));
         bootstrap.register(
-            FLOATING_ISLAND,
+            FLOATING_ISLAND_TAIGA,
             new ConfiguredFeature<>(
                 LocalFeatures.FLOATING_ISLAND.get(),
                 new FloatingIslandFeatureConfiguration(
-                    Identifier
-                        .fromNamespaceAndPath("minecraft", "village/snowy/houses/snowy_small_house_1"),
+                    WeightedList.<Identifier>builder()
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/taiga/houses/taiga_small_house_1"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/taiga/houses/taiga_small_house_2"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/taiga/houses/taiga_small_house_3"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/taiga/houses/taiga_small_house_4"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/taiga/houses/taiga_small_house_5"))
+                        .build(),
                     TreeFeatures.SPRUCE,
-                    Blocks.SHORT_GRASS.defaultBlockState())));
+                    Blocks.SHORT_GRASS.defaultBlockState(),
+                    20,
+                    20)));
+        bootstrap.register(
+            FLOATING_ISLAND_PLAINS,
+            new ConfiguredFeature<>(
+                LocalFeatures.FLOATING_ISLAND.get(),
+                new FloatingIslandFeatureConfiguration(
+                    WeightedList.<Identifier>builder()
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/plains/houses/plains_small_house_1"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/plains/houses/plains_small_house_2"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/plains/houses/plains_small_house_3"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/plains/houses/plains_small_house_4"))
+                        .add(
+                            Identifier.fromNamespaceAndPath(
+                                "minecraft",
+                                "village/plains/houses/plains_small_house_5"))
+                        .build(),
+                    TreeFeatures.OAK,
+                    Blocks.SHORT_GRASS.defaultBlockState(),
+                    30,
+                    20)));
     }
 }

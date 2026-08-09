@@ -26,8 +26,10 @@ import net.minecraft.world.level.levelgen.placement.RarityFilter;
 public class LocalPlacedFeaturesProvider {
     public static final ResourceKey<PlacedFeature> PATCH_DEBRIS = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("patch_debris"));
-    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island"));
+    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga"));
+    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains"));
 
     public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
@@ -49,10 +51,18 @@ public class LocalPlacedFeaturesProvider {
 
         PlacementUtils.register(
             bootstrap,
-            FLOATING_ISLAND,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND),
-            RarityFilter.onAverageOnceEvery(20),
-            // PlacementUtils.countExtra(1, 0.25F, 1),
+            FLOATING_ISLAND_TAIGA,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA),
+            RarityFilter.onAverageOnceEvery(40),
+            InSquarePlacement.spread(),
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+            BiomeFilter.biome());
+
+        PlacementUtils.register(
+            bootstrap,
+            FLOATING_ISLAND_PLAINS,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS),
+            RarityFilter.onAverageOnceEvery(40),
             InSquarePlacement.spread(),
             HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
             BiomeFilter.biome());
