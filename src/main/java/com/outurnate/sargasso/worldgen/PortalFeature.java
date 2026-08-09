@@ -1,5 +1,6 @@
 package com.outurnate.sargasso.worldgen;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 
 import net.minecraft.core.BlockPos;
@@ -32,6 +33,8 @@ public class PortalFeature extends Feature<NoneFeatureConfiguration> {
                 this.setBlock(level, pos.above(), Blocks.BEDROCK.defaultBlockState());
             }
         }
+
+        SuperSargassoSea.LOGGER.error("at" + origin.toString());
 
         return true;
     }

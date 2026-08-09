@@ -22,7 +22,7 @@ public class LocalStructureTemplatePoolsProvider {
             // first step, we need to figure out the probability of a segment vs an end
             // piece
             // let t be the chance that we'll get an end piece before reaching max depth
-            double t = 0.999F;
+            double t = 0.9999F;
             // let p be the probability that we'll roll an end jigsaw piece
             double p = 1.0 - Math.pow(1.0 - t, 1.0 / maxDepth);
 
@@ -45,7 +45,7 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress_segment"));
     public static final ResourceKey<StructureTemplatePool> APOTHECARY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("apothecary"));
-    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(18);
+    public static final CalculatedWeights OFFICE_GENSETTINGS = new CalculatedWeights(15);
     public static final ResourceKey<StructureTemplatePool> OFFICE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("office"));
     public static final ResourceKey<StructureTemplatePool> OFFICE_FLOORS = ResourceKey

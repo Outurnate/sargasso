@@ -143,6 +143,29 @@ public class LocalLootTableProvider extends LootTableProvider {
             consumer.accept(
                 BOOKS,
                 LootTable.lootTable().withPool(generateLootPoolOfBooks()));
+
+            consumer.accept(
+                OFFICE,
+                LootTable.lootTable()
+                    // crap items pool
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(3, 7))
+                            .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+                            .add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
+                            .add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
+                            .add(LootItem.lootTableItem(Items.PAPER).setWeight(15))
+                            .add(LootItem.lootTableItem(LocalItems.QUARTER.get()).setWeight(7))
+                            .add(LootItem.lootTableItem(LocalItems.DEBRIS.get()).setWeight(7)))
+                    // good items pool
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(1, 2))
+                            .add(LootItem.lootTableItem(LocalItems.AA_BATTERY.get()).setWeight(16))
+                            .add(LootItem.lootTableItem(LocalItems.RECHARGABLE_AA_BATTERY.get()).setWeight(2))
+                            .add(LootItem.lootTableItem(LocalItems.RECORD_UNCHECKED.get()).setWeight(2))));
+
             consumer.accept(
                 CURIOS,
                 LootTable.lootTable()
@@ -502,6 +525,10 @@ public class LocalLootTableProvider extends LootTableProvider {
     public static final ResourceKey<LootTable> CURIOS = ResourceKey.create(
         Registries.LOOT_TABLE,
         SuperSargassoSea.ID("chests/curios"));
+
+    public static final ResourceKey<LootTable> OFFICE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/office"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(
