@@ -117,7 +117,7 @@ public class LocalStructuresProvider {
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
                 structureTemplatePoolRegistry
-                    .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER_HORIZONTAL),
+                    .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
                 20,
                 ConstantHeight.of(VerticalAnchor.absolute(200)),
                 false,
