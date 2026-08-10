@@ -172,7 +172,8 @@ public class LocalStructureTemplatePoolsProvider {
                     "escher_left",
                     "escher_right",
                     "escher_end",
-                    "escher_to_vert"),
+                    "escher_to_vert",
+                    "escher_vert_to_hor"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
             ESCHER_VERTICAL,
@@ -185,6 +186,7 @@ public class LocalStructureTemplatePoolsProvider {
                     "escher_vertical_5",
                     "escher_vertical_6",
                     "escher_vert_to_invert",
+                    "escher_vert_to_hor",
                     "escher_inverted_end"),
                 StructureTemplatePool.Projection.RIGID));
         bootstrap.register(
