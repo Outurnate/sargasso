@@ -118,8 +118,14 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry
                     .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
+                Optional.<Identifier>empty(),
                 20,
                 ConstantHeight.of(VerticalAnchor.absolute(200)),
-                false));
+                false,
+                Optional.empty(),
+                new JigsawStructure.MaxDistance(128),
+                List.of(),
+                JigsawStructure.DEFAULT_DIMENSION_PADDING,
+                JigsawStructure.DEFAULT_LIQUID_SETTINGS));
     }
 }
