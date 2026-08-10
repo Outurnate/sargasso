@@ -120,7 +120,6 @@ public class LocalStructuresProvider {
                     .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
                 20,
                 ConstantHeight.of(VerticalAnchor.absolute(200)),
-                false,
-                Types.WORLD_SURFACE_WG));
+                false));
     }
 }
