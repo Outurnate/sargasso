@@ -207,7 +207,7 @@ public class LocalStructureTemplatePoolsProvider {
             new StructureTemplatePool(
                 empty,
                 pool(
-                    "escher"),
+                    "escher_cross"),
                 StructureTemplatePool.Projection.RIGID));
     }
 }
