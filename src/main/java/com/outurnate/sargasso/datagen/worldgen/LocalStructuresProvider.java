@@ -130,7 +130,7 @@ public class LocalStructuresProvider {
                 ConstantHeight.of(VerticalAnchor.absolute(200)),
                 false,
                 Optional.empty(),
-                new JigsawStructure.MaxDistance(110, 128),
+                new JigsawStructure.MaxDistance(115, 128),
                 List.of(),
                 JigsawStructure.DEFAULT_DIMENSION_PADDING,
                 JigsawStructure.DEFAULT_LIQUID_SETTINGS));
