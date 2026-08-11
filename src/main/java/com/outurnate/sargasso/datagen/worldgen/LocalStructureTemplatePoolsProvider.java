@@ -117,13 +117,13 @@ public class LocalStructureTemplatePoolsProvider {
             ESCHER_HORIZONTAL,
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
-                Pair.of("escher/cross", 4),
+                Pair.of("escher/cross", 2),
                 Pair.of("escher/6", 1),
                 Pair.of("escher/5", 1),
                 Pair.of("escher/4", 1),
                 Pair.of("escher/3", 1),
-                Pair.of("escher/left", 8),
-                Pair.of("escher/right", 8),
+                Pair.of("escher/left", 1),
+                Pair.of("escher/right", 1),
                 Pair.of("escher/to_vert", 4),
                 Pair.of("escher/vert_to_hor", 4),
                 Pair.of("escher/acropolis", 1),
@@ -132,13 +132,13 @@ public class LocalStructureTemplatePoolsProvider {
             ESCHER_VERTICAL,
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_VERTICAL_TERMINATORS),
-                Pair.of("escher/to_vert", 4),
-                Pair.of("escher/vertical_3", 2),
-                Pair.of("escher/vertical_4", 2),
-                Pair.of("escher/vertical_5", 2),
-                Pair.of("escher/vertical_6", 2),
-                Pair.of("escher/vert_to_invert", 4),
-                Pair.of("escher/vert_to_hor", 4)));
+                Pair.of("escher/to_vert", 1),
+                Pair.of("escher/vertical_3", 4),
+                Pair.of("escher/vertical_4", 4),
+                Pair.of("escher/vertical_5", 4),
+                Pair.of("escher/vertical_6", 4),
+                Pair.of("escher/vert_to_invert", 1),
+                Pair.of("escher/vert_to_hor", 1)));
         bootstrap.register(
             ESCHER_INVERTED,
             pool(
@@ -151,6 +151,11 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/inverted_6", 1),
                 Pair.of("escher/inverted_right", 8),
                 Pair.of("escher/inverted_left", 8)));
-        bootstrap.register(ESCHER, pool(empty, "escher/cube"));
+        bootstrap.register(
+            ESCHER,
+            pool(
+                empty,
+                Pair.of("escher/cube", 1),
+                Pair.of("escher/cross", 1)));
     }
 }
