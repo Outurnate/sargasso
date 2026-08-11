@@ -114,7 +114,14 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .spawnOverrides(
+                            Map.of(
+                                MobCategory.MONSTER,
+                                new StructureSpawnOverride(
+                                    StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+                                    WeightedList.of(
+                                        new MobSpawnSettings.SpawnerData(EntityType.BREEZE, 1, 1)))))
                         .build(),
                 structureTemplatePoolRegistry
                     .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
@@ -123,7 +130,7 @@ public class LocalStructuresProvider {
                 ConstantHeight.of(VerticalAnchor.absolute(200)),
                 false,
                 Optional.empty(),
-                new JigsawStructure.MaxDistance(128),
+                new JigsawStructure.MaxDistance(110, 128),
                 List.of(),
                 JigsawStructure.DEFAULT_DIMENSION_PADDING,
                 JigsawStructure.DEFAULT_LIQUID_SETTINGS));

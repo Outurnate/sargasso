@@ -1,12 +1,14 @@
-- structures, structures, structures (2/3)
 - something that uses power from your inventory
 - normalize translation keys and centralize them
 - redstone emp
 - frankenstein's lab
 - grabthar's hammer
-- temples of syrinx
-- escher structure
-- islands
+- structure: temples of syrinx
+- structure: escher
+- structure: islands
+- structure: bazaar
+- structure: forge
+- structure: shipwrecks
 
 DONE
 - something fixed in one place that you can build a factory around
