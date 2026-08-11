@@ -16,6 +16,8 @@ import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 public class LocalTrialSpawnerProvider {
     public static final ResourceKey<TrialSpawnerConfig> ESCHER = ResourceKey
         .create(Registries.TRIAL_SPAWNER_CONFIG, SuperSargassoSea.ID("escher"));
+    public static final ResourceKey<TrialSpawnerConfig> ESCHER_OMINOUS = ResourceKey
+        .create(Registries.TRIAL_SPAWNER_CONFIG, SuperSargassoSea.ID("escher_ominous"));
 
     private static <T extends Entity> CompoundTag entity(EntityType<T> type) {
         CompoundTag tag = new CompoundTag();
@@ -29,7 +31,14 @@ public class LocalTrialSpawnerProvider {
             TrialSpawnerConfig.builder()
                 .spawnPotentialsDefinition(
                     WeightedList.<SpawnData>builder()
-                        .add(new SpawnData(entity(EntityType.BREEZE), Optional.empty(), Optional.empty()), 1)
+                        .add(new SpawnData(entity(EntityType.SHULKER), Optional.empty(), Optional.empty()), 1)
+                        .build())
+                .build());
+        bootstrap.register(
+            ESCHER_OMINOUS,
+            TrialSpawnerConfig.builder()
+                .spawnPotentialsDefinition(
+                    WeightedList.<SpawnData>builder()
                         .add(new SpawnData(entity(EntityType.SHULKER), Optional.empty(), Optional.empty()), 1)
                         .build())
                 .build());

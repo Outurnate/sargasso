@@ -220,6 +220,8 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.QUARTER.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.KEY.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.KEY_OMINOUS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
 
         Item foxEars = LocalItems.FOX_EARS.get();

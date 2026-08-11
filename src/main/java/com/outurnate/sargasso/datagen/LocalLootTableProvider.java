@@ -146,6 +146,16 @@ public class LocalLootTableProvider extends LootTableProvider {
                 LootTable.lootTable().withPool(generateLootPoolOfBooks()));
 
             consumer.accept(
+                ESCHER,
+                LootTable.lootTable()
+                    .withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.DIRT))));
+
+            consumer.accept(
+                ESCHER_OMINOUS,
+                LootTable.lootTable()
+                    .withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.DIRT))));
+
+            consumer.accept(
                 OFFICE,
                 LootTable.lootTable()
                     // crap items pool
@@ -541,6 +551,14 @@ public class LocalLootTableProvider extends LootTableProvider {
     public static final ResourceKey<LootTable> OFFICE = ResourceKey.create(
         Registries.LOOT_TABLE,
         SuperSargassoSea.ID("chests/office"));
+
+    public static final ResourceKey<LootTable> ESCHER = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/escher"));
+
+    public static final ResourceKey<LootTable> ESCHER_OMINOUS = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/escher_ominous"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(

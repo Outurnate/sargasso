@@ -236,6 +236,16 @@ public class LocalItems {
                     (int) (20.0F * (1.0F / (4.0F + HAMMER_ATTACK_SPEED)))))
             .component(DataComponents.WEAPON, new Weapon(1)));
 
+    public static final DeferredItem<Item> KEY = REGISTRY.registerItem(
+        "key",
+        Item::new,
+        p -> p);
+
+    public static final DeferredItem<Item> KEY_OMINOUS = REGISTRY.registerItem(
+        "key_ominous",
+        Item::new,
+        p -> p);
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();

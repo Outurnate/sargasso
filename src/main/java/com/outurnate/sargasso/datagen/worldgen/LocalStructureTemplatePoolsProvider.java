@@ -104,7 +104,13 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("office/road_1", 1),
                 Pair.of("office/road_2", 1),
                 Pair.of("office/road_3", 1)));
-        bootstrap.register(ESCHER_HORIZONTAL_TERMINATORS, pool(empty, "escher/end"));
+        bootstrap.register(
+            ESCHER_HORIZONTAL_TERMINATORS,
+            pool(
+                empty,
+                Pair.of("escher/end", 1),
+                Pair.of("escher/pool", 1),
+                Pair.of("escher/acropolis", 1)));
         bootstrap.register(ESCHER_VERTICAL_TERMINATORS, pool(empty, "escher/vert_end"));
         bootstrap.register(ESCHER_INVERTED_TERMINATORS, pool(empty, "escher/inverted_end"));
         bootstrap.register(
@@ -119,7 +125,9 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/left", 8),
                 Pair.of("escher/right", 8),
                 Pair.of("escher/to_vert", 4),
-                Pair.of("escher/vert_to_hor", 4)));
+                Pair.of("escher/vert_to_hor", 4),
+                Pair.of("escher/acropolis", 1),
+                Pair.of("escher/pool", 1)));
         bootstrap.register(
             ESCHER_VERTICAL,
             pool(
@@ -143,6 +151,6 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/inverted_6", 1),
                 Pair.of("escher/inverted_right", 8),
                 Pair.of("escher/inverted_left", 8)));
-        bootstrap.register(ESCHER, pool(empty, "escher/cross"));
+        bootstrap.register(ESCHER, pool(empty, "escher/cube"));
     }
 }
