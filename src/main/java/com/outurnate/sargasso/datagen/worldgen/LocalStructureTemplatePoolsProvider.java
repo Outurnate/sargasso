@@ -5,7 +5,6 @@ import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 
 import net.minecraft.core.Holder;
@@ -50,166 +49,103 @@ public class LocalStructureTemplatePoolsProvider {
     public static final ResourceKey<StructureTemplatePool> ESCHER = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher"));
 
-    private static List<Pair<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>> pool(
-        String... names) {
-        return Arrays.stream(names).map(
-            name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name),
-                1))
-            .toList();
+    @SafeVarargs
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        Pair<String, Integer>... names) {
+        return new StructureTemplatePool(
+            fallback,
+            Arrays.stream(names).map(
+                name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst()),
+                    name.getSecond()))
+                .toList(),
+            StructureTemplatePool.Projection.RIGID);
+    }
+
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        String name) {
+        return pool(fallback, Pair.of(name, 1));
     }
 
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
             .lookup(Registries.TEMPLATE_POOL);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
-        Holder<StructureTemplatePool> officeTerminators = structureTemplatePoolsRegistry
-            .getOrThrow(OFFICE_TERMINATORS);
 
-        bootstrap.register(
-            FORTRESS,
-            new StructureTemplatePool(
-                empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress"),
-                        1)),
-                StructureTemplatePool.Projection.RIGID));
+        bootstrap.register(FORTRESS, pool(empty, "fortress"));
         bootstrap.register(
             FORTRESS_SEGMENT,
-            new StructureTemplatePool(
+            pool(
                 empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress"),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":fortress_end"),
-                        1)),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            APOTHECARY,
-            new StructureTemplatePool(
-                empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":apothecary"),
-                        1)),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            OFFICE,
-            new StructureTemplatePool(
-                empty,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_base"),
-                        1)),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("fortress", 1),
+                Pair.of("fortress_end", 1)));
+        bootstrap.register(APOTHECARY, pool(empty, "apothecary"));
+        bootstrap.register(OFFICE, pool(empty, "office_base"));
         bootstrap.register(
             OFFICE_FLOORS,
-            new StructureTemplatePool(
-                officeTerminators,
-                List.of(
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_floor"),
-                        10),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof_1"),
-                        1),
-                    Pair.of(
-                        SinglePoolElement.single(SuperSargassoSea.MODID + ":office_roof_2"),
-                        1)),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            OFFICE_FIRST_FLOOR,
-            new StructureTemplatePool(
-                empty,
-                pool("office_floor"),
-                StructureTemplatePool.Projection.RIGID));
+            pool(
+                structureTemplatePoolsRegistry.getOrThrow(OFFICE_TERMINATORS),
+                Pair.of("office_floor", 10),
+                Pair.of("office_roof_1", 1),
+                Pair.of("office_roof_2", 1)));
+        bootstrap.register(OFFICE_FIRST_FLOOR, pool(empty, "office_floor"));
         bootstrap.register(
             OFFICE_TERMINATORS,
-            new StructureTemplatePool(
+            pool(
                 empty,
-                pool("office_roof_1", "office_roof_2"),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("office_roof_1", 1),
+                Pair.of("office_roof_2", 1)));
         bootstrap.register(
             OFFICE_ROADS,
-            new StructureTemplatePool(
+            pool(
                 empty,
-                pool("office_road_1", "office_road_2", "office_road_3"),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            ESCHER_HORIZONTAL_TERMINATORS,
-            new StructureTemplatePool(
-                empty,
-                pool(
-                    "escher_end"),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            ESCHER_VERTICAL_TERMINATORS,
-            new StructureTemplatePool(
-                empty,
-                pool(
-                    "escher_vert_end"),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            ESCHER_INVERTED_TERMINATORS,
-            new StructureTemplatePool(
-                empty,
-                pool(
-                    "escher_inverted_end"),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("office_road_1", 1),
+                Pair.of("office_road_2", 1),
+                Pair.of("office_road_3", 1)));
+        bootstrap.register(ESCHER_HORIZONTAL_TERMINATORS, pool(empty, "escher_end"));
+        bootstrap.register(ESCHER_VERTICAL_TERMINATORS, pool(empty, "escher_vert_end"));
+        bootstrap.register(ESCHER_INVERTED_TERMINATORS, pool(empty, "escher_inverted_end"));
         bootstrap.register(
             ESCHER_HORIZONTAL,
-            new StructureTemplatePool(
+            pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
-                pool(
-                    "escher_cross",
-                    "escher_6",
-                    "escher_5",
-                    "escher_4",
-                    "escher_3",
-                    "escher_left",
-                    "escher_right",
-                    "escher_end",
-                    "escher_to_vert",
-                    "escher_vert_to_hor"),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("escher_cross", 4),
+                Pair.of("escher_6", 1),
+                Pair.of("escher_5", 1),
+                Pair.of("escher_4", 1),
+                Pair.of("escher_3", 1),
+                Pair.of("escher_left", 4),
+                Pair.of("escher_right", 4),
+                Pair.of("escher_end", 4),
+                Pair.of("escher_to_vert", 4),
+                Pair.of("escher_vert_to_hor", 4)));
         bootstrap.register(
             ESCHER_VERTICAL,
-            new StructureTemplatePool(
+            pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_VERTICAL_TERMINATORS),
-                pool(
-                    "escher_to_vert",
-                    "escher_vertical_3",
-                    "escher_vertical_4",
-                    "escher_vertical_5",
-                    "escher_vertical_6",
-                    "escher_vert_to_invert",
-                    "escher_vert_to_hor",
-                    "escher_inverted_end"),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("escher_to_vert", 4),
+                Pair.of("escher_vertical_3", 1),
+                Pair.of("escher_vertical_4", 1),
+                Pair.of("escher_vertical_5", 1),
+                Pair.of("escher_vertical_6", 1),
+                Pair.of("escher_vert_to_invert", 4),
+                Pair.of("escher_vert_to_hor", 4),
+                Pair.of("escher_inverted_end", 4)));
         bootstrap.register(
             ESCHER_INVERTED,
-            new StructureTemplatePool(
+            pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_INVERTED_TERMINATORS),
-                pool(
-                    "escher_vert_to_invert",
-                    "escher_inverted_cross",
-                    "escher_inverted_3",
-                    "escher_inverted_4",
-                    "escher_inverted_5",
-                    "escher_inverted_6",
-                    "escher_inverted_right",
-                    "escher_inverted_left",
-                    "escher_inverted_end"),
-                StructureTemplatePool.Projection.RIGID));
-        bootstrap.register(
-            ESCHER,
-            new StructureTemplatePool(
-                empty,
-                pool(
-                    "escher_cross"),
-                StructureTemplatePool.Projection.RIGID));
+                Pair.of("escher_vert_to_invert", 4),
+                Pair.of("escher_inverted_cross", 4),
+                Pair.of("escher_inverted_3", 1),
+                Pair.of("escher_inverted_4", 1),
+                Pair.of("escher_inverted_5", 1),
+                Pair.of("escher_inverted_6", 1),
+                Pair.of("escher_inverted_right", 4),
+                Pair.of("escher_inverted_left", 4),
+                Pair.of("escher_inverted_end", 4)));
+        bootstrap.register(ESCHER, pool(empty, "escher_cross"));
     }
 }
