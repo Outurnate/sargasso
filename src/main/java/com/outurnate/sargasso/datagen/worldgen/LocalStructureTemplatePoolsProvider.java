@@ -116,8 +116,8 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher_5", 1),
                 Pair.of("escher_4", 1),
                 Pair.of("escher_3", 1),
-                Pair.of("escher_left", 4),
-                Pair.of("escher_right", 4),
+                Pair.of("escher_left", 8),
+                Pair.of("escher_right", 8),
                 Pair.of("escher_end", 4),
                 Pair.of("escher_to_vert", 4),
                 Pair.of("escher_vert_to_hor", 4)));
@@ -143,8 +143,8 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher_inverted_4", 1),
                 Pair.of("escher_inverted_5", 1),
                 Pair.of("escher_inverted_6", 1),
-                Pair.of("escher_inverted_right", 4),
-                Pair.of("escher_inverted_left", 4),
+                Pair.of("escher_inverted_right", 8),
+                Pair.of("escher_inverted_left", 8),
                 Pair.of("escher_inverted_end", 4)));
         bootstrap.register(ESCHER, pool(empty, "escher_cross"));
     }
