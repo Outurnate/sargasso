@@ -118,7 +118,6 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher_3", 1),
                 Pair.of("escher_left", 8),
                 Pair.of("escher_right", 8),
-                Pair.of("escher_end", 4),
                 Pair.of("escher_to_vert", 4),
                 Pair.of("escher_vert_to_hor", 4)));
         bootstrap.register(
@@ -126,13 +125,12 @@ public class LocalStructureTemplatePoolsProvider {
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_VERTICAL_TERMINATORS),
                 Pair.of("escher_to_vert", 4),
-                Pair.of("escher_vertical_3", 1),
-                Pair.of("escher_vertical_4", 1),
-                Pair.of("escher_vertical_5", 1),
-                Pair.of("escher_vertical_6", 1),
+                Pair.of("escher_vertical_3", 2),
+                Pair.of("escher_vertical_4", 2),
+                Pair.of("escher_vertical_5", 2),
+                Pair.of("escher_vertical_6", 2),
                 Pair.of("escher_vert_to_invert", 4),
-                Pair.of("escher_vert_to_hor", 4),
-                Pair.of("escher_inverted_end", 4)));
+                Pair.of("escher_vert_to_hor", 4)));
         bootstrap.register(
             ESCHER_INVERTED,
             pool(
@@ -144,8 +142,7 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher_inverted_5", 1),
                 Pair.of("escher_inverted_6", 1),
                 Pair.of("escher_inverted_right", 8),
-                Pair.of("escher_inverted_left", 8),
-                Pair.of("escher_inverted_end", 4)));
+                Pair.of("escher_inverted_left", 8)));
         bootstrap.register(ESCHER, pool(empty, "escher_cross"));
     }
 }
