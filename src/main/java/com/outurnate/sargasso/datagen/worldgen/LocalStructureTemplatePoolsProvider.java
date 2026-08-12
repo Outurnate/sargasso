@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 public class LocalStructureTemplatePoolsProvider {
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
@@ -52,6 +53,28 @@ public class LocalStructureTemplatePoolsProvider {
     @SafeVarargs
     private static StructureTemplatePool pool(
         Holder<StructureTemplatePool> fallback,
+        Holder<StructureProcessorList> processors,
+        Pair<String, Integer>... names) {
+        return new StructureTemplatePool(
+            fallback,
+            Arrays.stream(names).map(
+                name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst(), processors),
+                    name.getSecond()))
+                .toList(),
+            StructureTemplatePool.Projection.RIGID);
+    }
+
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        Holder<StructureProcessorList> processors,
+        String name) {
+        return pool(fallback, processors, Pair.of(name, 1));
+    }
+
+    @SafeVarargs
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
         Pair<String, Integer>... names) {
         return new StructureTemplatePool(
             fallback,
@@ -72,6 +95,8 @@ public class LocalStructureTemplatePoolsProvider {
     public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
         HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
             .lookup(Registries.TEMPLATE_POOL);
+        HolderGetter<StructureProcessorList> structureProcessorRegistry = bootstrap
+            .lookup(Registries.PROCESSOR_LIST);
         Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
 
         bootstrap.register(FORTRESS, pool(empty, "fortress/segment"));
@@ -87,10 +112,16 @@ public class LocalStructureTemplatePoolsProvider {
             OFFICE_FLOORS,
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(OFFICE_TERMINATORS),
+                structureProcessorRegistry.getOrThrow(LocalStructureProcessorListProvider.REMOVE_CHESTS),
                 Pair.of("office/floor", 10),
                 Pair.of("office/roof_1", 1),
                 Pair.of("office/roof_2", 1)));
-        bootstrap.register(OFFICE_FIRST_FLOOR, pool(empty, "office/floor"));
+        bootstrap.register(
+            OFFICE_FIRST_FLOOR,
+            pool(
+                empty,
+                structureProcessorRegistry.getOrThrow(LocalStructureProcessorListProvider.REMOVE_CHESTS),
+                "office/floor"));
         bootstrap.register(
             OFFICE_TERMINATORS,
             pool(
@@ -118,8 +149,6 @@ public class LocalStructureTemplatePoolsProvider {
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
                 Pair.of("escher/cross", 2),
-                // Pair.of("escher/6", 2),
-                // Pair.of("escher/5", 2),
                 Pair.of("escher/cube", 1),
                 Pair.of("escher/4", 1),
                 Pair.of("escher/3", 1),
@@ -136,8 +165,6 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/to_vert", 1),
                 Pair.of("escher/vertical_3", 1),
                 Pair.of("escher/vertical_4", 1),
-                // Pair.of("escher/vertical_5", 2),
-                // Pair.of("escher/vertical_6", 2),
                 Pair.of("escher/cube", 1),
                 Pair.of("escher/vert_to_invert", 1),
                 Pair.of("escher/vert_to_hor", 1)));
@@ -149,8 +176,6 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/inverted_cross", 4),
                 Pair.of("escher/inverted_3", 1),
                 Pair.of("escher/inverted_4", 1),
-                // Pair.of("escher/inverted_5", 2),
-                // Pair.of("escher/inverted_6", 2),
                 Pair.of("escher/cube", 1),
                 Pair.of("escher/inverted_right", 8),
                 Pair.of("escher/inverted_left", 8)));
