@@ -118,37 +118,37 @@ public class LocalStructureTemplatePoolsProvider {
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
                 Pair.of("escher/cross", 2),
-                Pair.of("escher/6", 1),
-                Pair.of("escher/5", 1),
+                Pair.of("escher/6", 2),
+                Pair.of("escher/5", 2),
                 Pair.of("escher/4", 1),
                 Pair.of("escher/3", 1),
                 Pair.of("escher/left", 1),
                 Pair.of("escher/right", 1),
                 Pair.of("escher/to_vert", 4),
                 Pair.of("escher/vert_to_hor", 4),
-                Pair.of("escher/acropolis", 1),
-                Pair.of("escher/pool", 1)));
+                Pair.of("escher/acropolis", 2),
+                Pair.of("escher/pool", 2)));
         bootstrap.register(
             ESCHER_VERTICAL,
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_VERTICAL_TERMINATORS),
                 Pair.of("escher/to_vert", 1),
-                Pair.of("escher/vertical_3", 4),
-                Pair.of("escher/vertical_4", 4),
-                Pair.of("escher/vertical_5", 4),
-                Pair.of("escher/vertical_6", 4),
+                Pair.of("escher/vertical_3", 1),
+                Pair.of("escher/vertical_4", 1),
+                Pair.of("escher/vertical_5", 2),
+                Pair.of("escher/vertical_6", 2),
                 Pair.of("escher/vert_to_invert", 1),
                 Pair.of("escher/vert_to_hor", 1)));
         bootstrap.register(
             ESCHER_INVERTED,
             pool(
                 structureTemplatePoolsRegistry.getOrThrow(ESCHER_INVERTED_TERMINATORS),
-                Pair.of("escher/vert_to_invert", 4),
+                Pair.of("escher/vert_to_invert", 1),
                 Pair.of("escher/inverted_cross", 4),
                 Pair.of("escher/inverted_3", 1),
                 Pair.of("escher/inverted_4", 1),
-                Pair.of("escher/inverted_5", 1),
-                Pair.of("escher/inverted_6", 1),
+                Pair.of("escher/inverted_5", 2),
+                Pair.of("escher/inverted_6", 2),
                 Pair.of("escher/inverted_right", 8),
                 Pair.of("escher/inverted_left", 8)));
         bootstrap.register(
