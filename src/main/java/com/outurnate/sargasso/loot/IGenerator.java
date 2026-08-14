@@ -2,8 +2,11 @@
 package com.outurnate.sargasso.loot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
+
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
@@ -17,12 +20,20 @@ public interface IGenerator {
             public List<ComponentContents> generate(
                 RandomSource random,
                 Map<String, ComponentContents> params) {
-                if (alts.length == 0)
+                if (alts.length == 0) {
                     return List.of(PlainTextContents.EMPTY);
+                }
                 int choice = random.nextInt(alts.length);
                 return alts[choice].generate(random, params);
             }
         };
+    }
+
+    public static IGenerator alt(LoreSet defs, IGenerator... appends) {
+        return alt(
+            Stream.concat(
+                defs.keys().map(IGenerator::terminal),
+                Arrays.stream(appends)).toArray(IGenerator[]::new));
     }
 
     private static List<ComponentContents> flatten(List<ComponentContents> components) {
@@ -112,7 +123,7 @@ public interface IGenerator {
     }
 
     public static IGenerator sub(String key) {
-        return sub(key, null);
+        return sub(key, (TranslatableContents) null);
     }
 
     public static IGenerator sub(String key, TranslatableContents defaultValue) {
@@ -139,10 +150,6 @@ public interface IGenerator {
                 return List.of(object);
             }
         };
-    }
-
-    public static IGenerator[] terminal(List<TranslatableContents> def) {
-        return def.stream().map(IGenerator::terminal).toArray(IGenerator[]::new);
     }
 
     public static IGenerator terminal(String object) {

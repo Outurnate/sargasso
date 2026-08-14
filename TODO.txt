@@ -4,7 +4,6 @@
 - frankenstein's lab
 - grabthar's hammer
 - structure: temples of syrinx
-- structure: escher
 - structure: islands
 - structure: bazaar
 - structure: forge
@@ -32,3 +31,4 @@ DONE
 - fox ears: tooltips not working
 - fox ears: when attached to items, doesn't show in UI
 - fox ears: comically tall
+- structure: escher

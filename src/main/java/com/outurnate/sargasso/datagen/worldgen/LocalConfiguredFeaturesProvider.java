@@ -45,7 +45,7 @@ public class LocalConfiguredFeaturesProvider {
                             .add(LocalBlocks.DEBRIS.get().defaultBlockState(), 1)))));
 
         WeightedList<Identifier> taigaBuildings = WeightedList.<Identifier>builder()
-            .add(Identifier.fromNamespaceAndPath("minecraft", "village/taiga/houses/taiga_small_house_1"))
+            .add(SuperSargassoSea.ID("island/taiga_1"))
             .add(Identifier.fromNamespaceAndPath("minecraft", "village/taiga/houses/taiga_small_house_2"))
             .add(Identifier.fromNamespaceAndPath("minecraft", "village/taiga/houses/taiga_small_house_3"))
             .add(Identifier.fromNamespaceAndPath("minecraft", "village/taiga/houses/taiga_small_house_4"))

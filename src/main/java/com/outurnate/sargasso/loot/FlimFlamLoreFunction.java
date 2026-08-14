@@ -15,7 +15,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -42,17 +41,7 @@ public class FlimFlamLoreFunction extends LootItemConditionalFunction {
         Map<String, ComponentContents> params) {
         try {
             return generator.generate(random, params).stream()
-                .map(content -> {
-                    if (content instanceof TranslatableContents translatableContents) {
-                        // we do this to strip out the fallbacks - shorter NBT
-                        return MutableComponent.create(
-                            new TranslatableContents(
-                                translatableContents.getKey(),
-                                null,
-                                TranslatableContents.NO_ARGS));
-                    }
-                    return MutableComponent.create(content);
-                })
+                .map(MutableComponent::create)
                 .reduce(Component.empty(), MutableComponent::append);
         } catch (Exception e) {
             LOGGER.error(e.toString());
