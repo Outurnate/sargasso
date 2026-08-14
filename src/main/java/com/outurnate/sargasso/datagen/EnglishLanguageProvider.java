@@ -44,8 +44,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         }
     }
 
-    private void addLore(TranslatableContents lore, String value) {
-        this.add(lore.getKey(), value);
+    private void addMisc(TranslatableContents contents, String value) {
+        this.add(contents.getKey(), value);
     }
 
     private void addPotion(String name, List<Holder<Potion>> potions) {
@@ -64,13 +64,12 @@ public class EnglishLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         this.add("itemGroup.sargasso", "Super Sargasso Sea");
 
-        this.add("sound.sargasso.cream_apply", "Bedrock cream applied");
-        this.add("sound.sargasso.glitch_teleport", "Glitched");
-        this.add("sound.sargasso.toaster", "Time travel happened");
-        this.add("sound.sargasso.pylon", "Pylon equipped");
-        this.add("sound.sargasso.zap", "Electric arc");
-        this.add("jukebox_song.sargasso.unchecked", "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
-        this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
+        this.addMisc(LocalSoundDefinitionsProvider.creamApply, "Bedrock cream applied");
+        this.addMisc(LocalSoundDefinitionsProvider.glitchTeleport, "Glitched");
+        this.addMisc(LocalSoundDefinitionsProvider.toaster, "Time travel happened");
+        this.addMisc(LocalSoundDefinitionsProvider.pylon, "Pylon equipped");
+        this.addMisc(LocalSoundDefinitionsProvider.zap, "Electric arc");
+        this.addMisc(LocalJukeboxSongProvider.unchecked, "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
 
         this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
         this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
@@ -98,6 +97,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addBlock(LocalBlocks.TOASTER, "Chronometric Flux Toaster");
         this.addBlock(LocalBlocks.PYLON, "Pylon");
         this.addBlock(LocalBlocks.SHOCK_THERAPIST, "Shock Therapist");
+
+        this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
         this.addItem(LocalItems.BEDROCK_CREAM, "Professor Murgatroyd's Miracle Bedrock Cream");
         this.addItem(LocalItems.BEDROCK_SLOP, "Bedrock Slop");
         this.addItem(LocalItems.BREADROCK, "Breadrock");
@@ -519,31 +520,31 @@ public class EnglishLanguageProvider extends LanguageProvider {
             "Made in China",
             "Batteries not included",
             "Patent pending");
-        this.addLore(FlimFlamLore.classicHeroesThe, "the");
-        this.addLore(FlimFlamLore.levelPrefix, "(lvl. ");
-        this.addLore(FlimFlamLore.levelSuffix, ")");
-        this.addLore(FlimFlamLore.noStory, "that nobody cares about");
-        this.addLore(FlimFlamLore.kingdomAnd, "and");
-        this.addLore(FlimFlamLore.kingdomOf, "of");
-        this.addLore(FlimFlamLore.mountainPrefix, "Mt.");
-        this.addLore(FlimFlamLore.actorOf, "of");
-        this.addLore(FlimFlamLore.storyIntro, "that previously belonged to");
-        this.addLore(FlimFlamLore.loanedTo, "loaned to");
-        this.addLore(FlimFlamLore.forgottenIn, "forgotten in");
-        this.addLore(FlimFlamLore.originBy, "by");
-        this.addLore(FlimFlamLore.thing, "thing");
-        this.addLore(FlimFlamLore.infinitiveSuffix, "ing");
-        this.addLore(FlimFlamLore.gizmo, "gizmo");
-        this.addLore(FlimFlamLore.itemOf, "of");
-        this.addLore(FlimFlamLore.defaultPlayer, "Frank");
-        this.addLore(FlimFlamLore.ownerBy, "by");
-        this.addLore(FlimFlamLore.named, "named");
-        this.addLore(FlimFlamLore.organizationSpecialityAnd, "and");
-        this.addLore(FlimFlamLore.universityOf, "university of");
-        this.addLore(FlimFlamLore.instituteOf, "of");
-        this.addLore(FlimFlamLore.foundationInfix, "-a-");
-        this.addLore(FlimFlamLore.foundationSuffix, "foundation");
-        this.addLore(FlimFlamLore.restoredBy, "restored by");
-        this.addLore(FlimFlamLore.recently, "Recently");
+        this.addMisc(FlimFlamLore.classicHeroesThe, "the");
+        this.addMisc(FlimFlamLore.levelPrefix, "(lvl. ");
+        this.addMisc(FlimFlamLore.levelSuffix, ")");
+        this.addMisc(FlimFlamLore.noStory, "that nobody cares about");
+        this.addMisc(FlimFlamLore.kingdomAnd, "and");
+        this.addMisc(FlimFlamLore.kingdomOf, "of");
+        this.addMisc(FlimFlamLore.mountainPrefix, "Mt.");
+        this.addMisc(FlimFlamLore.actorOf, "of");
+        this.addMisc(FlimFlamLore.storyIntro, "that previously belonged to");
+        this.addMisc(FlimFlamLore.loanedTo, "loaned to");
+        this.addMisc(FlimFlamLore.forgottenIn, "forgotten in");
+        this.addMisc(FlimFlamLore.originBy, "by");
+        this.addMisc(FlimFlamLore.thing, "thing");
+        this.addMisc(FlimFlamLore.infinitiveSuffix, "ing");
+        this.addMisc(FlimFlamLore.gizmo, "gizmo");
+        this.addMisc(FlimFlamLore.itemOf, "of");
+        this.addMisc(FlimFlamLore.defaultPlayer, "Frank");
+        this.addMisc(FlimFlamLore.ownerBy, "by");
+        this.addMisc(FlimFlamLore.named, "named");
+        this.addMisc(FlimFlamLore.organizationSpecialityAnd, "and");
+        this.addMisc(FlimFlamLore.universityOf, "university of");
+        this.addMisc(FlimFlamLore.instituteOf, "of");
+        this.addMisc(FlimFlamLore.foundationInfix, "-a-");
+        this.addMisc(FlimFlamLore.foundationSuffix, "foundation");
+        this.addMisc(FlimFlamLore.restoredBy, "restored by");
+        this.addMisc(FlimFlamLore.recently, "Recently");
     }
 }

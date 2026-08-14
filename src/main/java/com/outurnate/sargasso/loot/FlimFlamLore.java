@@ -9,6 +9,7 @@ import static com.outurnate.sargasso.loot.IGenerator.sub;
 import static com.outurnate.sargasso.loot.IGenerator.terminal;
 import static com.outurnate.sargasso.loot.IGenerator.word;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import net.minecraft.network.chat.contents.TranslatableContents;
 
 public class FlimFlamLore {
@@ -198,6 +199,6 @@ public class FlimFlamLore {
     }
 
     private static TranslatableContents t(String key) {
-        return new TranslatableContents(key, null, new Object[0]);
+        return new TranslatableContents("lore." + SuperSargassoSea.MODID + "." + key, null, new Object[0]);
     }
 }
