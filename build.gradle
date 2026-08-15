@@ -30,17 +30,6 @@ repositories {
 	maven {
 		url 'https://github.com/psiegman/mvn-repo/raw/master/releases'
 	}
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
 }
 
 base {
@@ -148,7 +137,6 @@ dependencies {
 	// http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
 	// http://www.gradle.org/docs/current/userguide/dependency_management.html
 	implementation 'nl.siegmann.epublib:epublib-core:3.1'
-	implementation "maven.modrinth:fusion-connected-textures:${fusion_version}-neoforge-mc${minecraft_version_short}"
 }
 
 def mod_credits = AttributionManifest.credits(file("assets.yml"))

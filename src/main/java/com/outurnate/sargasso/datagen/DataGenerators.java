@@ -35,7 +35,6 @@ public class DataGenerators {
         event.createProvider(LocalAdvancementProvider::new);
         event.createProvider(LocalParticleDescriptionProvider::new);
         event.createProvider(EnglishLanguageProvider::new);
-        event.createProvider(LocalTextureMetadataProvider::new);
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.BIOME, LocalBiomesProvider::provide)
