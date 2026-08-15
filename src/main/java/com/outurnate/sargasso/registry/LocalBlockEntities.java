@@ -34,7 +34,7 @@ public class LocalBlockEntities {
             () -> new BlockEntityType<>(
                 ReinforcedStarMetalBlockEntity::new,
                 false,
-                LocalBlocks.SHOCK_THERAPIST.get()));
+                LocalBlocks.REINFORCED_STARMETAL_BLOCK.get()));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
