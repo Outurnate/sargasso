@@ -75,6 +75,14 @@ public class LocalItems {
         "starmetal_block",
         LocalBlocks.STARMETAL_BLOCK);
 
+    public static final DeferredItem<BlockItem> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
+        "reinforced_starmetal_block",
+        LocalBlocks.REINFORCED_STARMETAL_BLOCK);
+
+    public static final DeferredItem<BlockItem> GLITCH = REGISTRY.registerSimpleBlockItem(
+        "glitch",
+        LocalBlocks.GLITCH);
+
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
         p -> p.food(
