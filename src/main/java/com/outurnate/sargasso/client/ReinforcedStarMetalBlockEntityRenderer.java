@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ReinforcedStarMetalBlockEntity;
@@ -13,14 +14,13 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class ReinforcedStarMetalBlockEntityRenderer
     implements BlockEntityRenderer<ReinforcedStarMetalBlockEntity, BlockEntityRenderState> {
     private static void vertex(
         VertexConsumer consumer,
-        Matrix4f pose,
+        Pose pose,
         float x,
         float y,
         float z,
@@ -52,10 +52,8 @@ public class ReinforcedStarMetalBlockEntityRenderer
         SuperSargassoSea.LOGGER.error("ass");
         submitNodeCollector.submitCustomGeometry(
             poseStack,
-            RenderTypes.armorEntityGlint(),
-            (pose, vertexConsumer) -> {
-                Matrix4f matrix = pose.pose();
-
+            RenderTypes.debugFilledBox(),
+            (pose, buffer) -> {
                 float x0 = 0;
                 float y0 = 0;
                 float z0 = 0;
@@ -64,35 +62,35 @@ public class ReinforcedStarMetalBlockEntityRenderer
                 float y1 = 2;
                 float z1 = 1;
 
-                vertex(vertexConsumer, matrix, x0, y0, z0, 0, 0);
-                vertex(vertexConsumer, matrix, x1, y0, z0, 1, 0);
-                vertex(vertexConsumer, matrix, x1, y1, z0, 1, 1);
-                vertex(vertexConsumer, matrix, x0, y1, z0, 0, 1);
+                vertex(buffer, pose, x0, y0, z0, 0, 0);
+                vertex(buffer, pose, x1, y0, z0, 1, 0);
+                vertex(buffer, pose, x1, y1, z0, 1, 1);
+                vertex(buffer, pose, x0, y1, z0, 0, 1);
 
-                vertex(vertexConsumer, matrix, x1, y0, z1, 0, 0);
-                vertex(vertexConsumer, matrix, x0, y0, z1, 1, 0);
-                vertex(vertexConsumer, matrix, x0, y1, z1, 1, 1);
-                vertex(vertexConsumer, matrix, x1, y1, z1, 0, 1);
+                vertex(buffer, pose, x1, y0, z1, 0, 0);
+                vertex(buffer, pose, x0, y0, z1, 1, 0);
+                vertex(buffer, pose, x0, y1, z1, 1, 1);
+                vertex(buffer, pose, x1, y1, z1, 0, 1);
 
-                vertex(vertexConsumer, matrix, x0, y0, z1, 0, 0);
-                vertex(vertexConsumer, matrix, x0, y0, z0, 1, 0);
-                vertex(vertexConsumer, matrix, x0, y1, z0, 1, 1);
-                vertex(vertexConsumer, matrix, x0, y1, z1, 0, 1);
+                vertex(buffer, pose, x0, y0, z1, 0, 0);
+                vertex(buffer, pose, x0, y0, z0, 1, 0);
+                vertex(buffer, pose, x0, y1, z0, 1, 1);
+                vertex(buffer, pose, x0, y1, z1, 0, 1);
 
-                vertex(vertexConsumer, matrix, x1, y0, z0, 0, 0);
-                vertex(vertexConsumer, matrix, x1, y0, z1, 1, 0);
-                vertex(vertexConsumer, matrix, x1, y1, z1, 1, 1);
-                vertex(vertexConsumer, matrix, x1, y1, z0, 0, 1);
+                vertex(buffer, pose, x1, y0, z0, 0, 0);
+                vertex(buffer, pose, x1, y0, z1, 1, 0);
+                vertex(buffer, pose, x1, y1, z1, 1, 1);
+                vertex(buffer, pose, x1, y1, z0, 0, 1);
 
-                vertex(vertexConsumer, matrix, x0, y1, z0, 0, 0);
-                vertex(vertexConsumer, matrix, x1, y1, z0, 1, 0);
-                vertex(vertexConsumer, matrix, x1, y1, z1, 1, 1);
-                vertex(vertexConsumer, matrix, x0, y1, z1, 0, 1);
+                vertex(buffer, pose, x0, y1, z0, 0, 0);
+                vertex(buffer, pose, x1, y1, z0, 1, 0);
+                vertex(buffer, pose, x1, y1, z1, 1, 1);
+                vertex(buffer, pose, x0, y1, z1, 0, 1);
 
-                vertex(vertexConsumer, matrix, x0, y0, z1, 0, 0);
-                vertex(vertexConsumer, matrix, x1, y0, z1, 1, 0);
-                vertex(vertexConsumer, matrix, x1, y0, z0, 1, 1);
-                vertex(vertexConsumer, matrix, x0, y0, z0, 0, 1);
+                vertex(buffer, pose, x0, y0, z1, 0, 0);
+                vertex(buffer, pose, x1, y0, z1, 1, 0);
+                vertex(buffer, pose, x1, y0, z0, 1, 1);
+                vertex(buffer, pose, x0, y0, z0, 0, 1);
             });
     }
 }
