@@ -125,8 +125,7 @@ public class LocalBlocks {
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
             .strength(1.0F)
-            .sound(SoundType.IRON)
-            .noOcclusion());
+            .sound(SoundType.IRON));
 
     public static final DeferredBlock<Block> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerBlock(
         "reinforced_starmetal_block",
