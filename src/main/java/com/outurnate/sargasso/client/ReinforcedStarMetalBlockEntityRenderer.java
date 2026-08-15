@@ -36,6 +36,7 @@ public class ReinforcedStarMetalBlockEntityRenderer
     }
 
     public ReinforcedStarMetalBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
+        SuperSargassoSea.LOGGER.error("AAAAAAAAAAA");
     }
 
     @Override
