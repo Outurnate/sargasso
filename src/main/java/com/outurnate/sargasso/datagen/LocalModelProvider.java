@@ -57,7 +57,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
@@ -167,6 +166,7 @@ public class LocalModelProvider extends ModelProvider {
 
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createTrivialCube(LocalBlocks.STARMETAL_BLOCK.get());
+        blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
         Identifier toaster = SuperSargassoSea.ID("block/toaster");
@@ -254,39 +254,5 @@ public class LocalModelProvider extends ModelProvider {
                 new Constant(black),
                 new Constant(black),
                 new Constant(gray)));
-
-        Identifier reinforcedStarMetal = ExtendedModelTemplateBuilder.builder()
-            .requiredTextureSlot(TextureSlot.PARTICLE)
-            .requiredTextureSlot(TextureSlot.LAYER0)
-            .requiredTextureSlot(TextureSlot.LAYER1)
-            .element(
-                e -> e
-                    .from(0, 0, 0)
-                    .to(16, 16, 16)
-                    .allFaces((dir, face) -> face.texture(TextureSlot.LAYER0)))
-            .element(
-                e -> e
-                    .from(0, 0, 0)
-                    .to(16, 16, 16)
-                    .allFaces((dir, face) -> face.texture(TextureSlot.LAYER1)))
-            .build()
-            .create(
-                LocalBlocks.REINFORCED_STARMETAL_BLOCK.get(),
-                new TextureMapping()
-                    .put(
-                        TextureSlot.PARTICLE,
-                        TextureMapping.getBlockTexture(LocalBlocks.STARMETAL_BLOCK.get()))
-                    .put(
-                        TextureSlot.LAYER0,
-                        TextureMapping.getBlockTexture(LocalBlocks.STARMETAL_BLOCK.get()))
-                    .put(
-                        TextureSlot.LAYER1,
-                        new Material(
-                            Identifier.fromNamespaceAndPath("sargasso", "block/enchanted_glint_armor"))),
-                blockModels.modelOutput);
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.REINFORCED_STARMETAL_BLOCK.get(),
-                plainVariant(reinforcedStarMetal)));
     }
 }
