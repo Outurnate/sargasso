@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
+import com.outurnate.sargasso.block.ReinforcedStarMetalBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ToasterBlock;
 
@@ -129,7 +130,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerBlock(
         "reinforced_starmetal_block",
-        p -> new Block(p),
+        p -> new ReinforcedStarMetalBlock(p),
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
