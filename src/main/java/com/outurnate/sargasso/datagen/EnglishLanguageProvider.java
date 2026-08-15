@@ -4,6 +4,7 @@ package com.outurnate.sargasso.datagen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.loot.LoreSet;
+import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
@@ -11,13 +12,13 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalPotions;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.alchemy.Potion;
@@ -26,6 +27,11 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 public class EnglishLanguageProvider extends LanguageProvider {
     public EnglishLanguageProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, SuperSargassoSea.MODID, "en_us");
+    }
+
+    private void addAdvancement(Identifier name, String title, String description) {
+        this.add(name.toLanguageKey("advancements", "title"), title);
+        this.add(name.toLanguageKey("advancements", "description"), description);
     }
 
     private void addDamageType(ResourceKey<DamageType> damageType, String translation) {
@@ -91,7 +97,7 @@ public class EnglishLanguageProvider extends LanguageProvider {
 
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
-        this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Debris");
+        this.addBlock(LocalBlocks.CREAMY_BEDROCK, "Creamy Bedrock");
         this.addBlock(LocalBlocks.GLITCH, "Glitch in Reality");
         this.addBlock(LocalBlocks.PORTAL, "Portal");
         this.addBlock(LocalBlocks.TOASTER, "Chronometric Flux Toaster");
@@ -140,9 +146,13 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addEntityType(LocalEntities.REDSTONE_EMP, "Redstone Pulse Device");
         this.addEntityType(LocalEntities.REDSTONE_BUG, "Redstone Bug");
 
-        for (Entry<String, String> entry : LocalAdvancementProvider.getEnglishTranslations().entrySet()) {
-            this.add(entry.getKey(), entry.getValue());
-        }
+        this.addAdvancement(
+            LocalAdvancements.ENTER,
+            "The Super Sargasso Sea",
+            "Not all those who wander are lost...but you sure are");
+        this.addAdvancement(LocalAdvancements.LEAVE, "Through the Nether", "Twisting, turning...");
+        this.addAdvancement(LocalAdvancements.TOAST, "Time Travel!", "Experience a temporal anomaly");
+        this.addAdvancement(LocalAdvancements.PYLON, "Groove Crusader", "Acquire a cool hat");
 
         this.addLore(
             FlimFlamLore.heroesPrefixEntries,
