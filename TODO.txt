@@ -1,5 +1,4 @@
 - something that uses power from your inventory
-- normalize translation keys and centralize them
 - redstone emp
 - frankenstein's lab
 - grabthar's hammer
@@ -8,8 +7,11 @@
 - structure: bazaar
 - structure: forge
 - structure: shipwrecks
+- caves
+- ore
 
 DONE
+- normalize translation keys and centralize them
 - something fixed in one place that you can build a factory around
 - still have topless buildings
 - fix dupe bug

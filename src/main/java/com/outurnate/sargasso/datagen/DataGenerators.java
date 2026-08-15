@@ -34,6 +34,8 @@ public class DataGenerators {
         event.createProvider(LocalSoundDefinitionsProvider::new);
         event.createProvider(LocalAdvancementProvider::new);
         event.createProvider(LocalParticleDescriptionProvider::new);
+        event.createProvider(EnglishLanguageProvider::new);
+        event.createProvider(LocalTextureMetadataProvider::new);
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.BIOME, LocalBiomesProvider::provide)
@@ -58,8 +60,5 @@ public class DataGenerators {
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalBiomeTagsProvider::new);
         event.createProvider(LocalEntityTypeTagsProvider::new);
-
-        // CALL LAST, AS EARLIER STEPS POPULATE MAPS
-        event.createProvider(EnglishLanguageProvider::new);
     }
 }

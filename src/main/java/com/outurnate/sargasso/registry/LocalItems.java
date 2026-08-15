@@ -71,6 +71,10 @@ public class LocalItems {
         LocalBlocks.PYLON,
         p -> p.component(DataComponents.EQUIPPABLE, pylon()));
 
+    public static final DeferredItem<BlockItem> STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
+        "starmetal_block",
+        LocalBlocks.STARMETAL_BLOCK);
+
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
         p -> p.food(

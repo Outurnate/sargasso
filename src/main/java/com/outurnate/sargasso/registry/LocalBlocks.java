@@ -118,6 +118,27 @@ public class LocalBlocks {
                     ? 15
                     : 0));
 
+    public static final DeferredBlock<Block> STARMETAL_BLOCK = REGISTRY.registerBlock(
+        "starmetal_block",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_GRAY)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .strength(1.0F)
+            .sound(SoundType.IRON)
+            .noOcclusion());
+
+    public static final DeferredBlock<Block> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerBlock(
+        "reinforced_starmetal_block",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_GRAY)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .strength(-1.0F, 3600000.0F)
+            .sound(SoundType.IRON)
+            .noLootTable()
+            .isValidSpawn(Blocks::never));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

@@ -25,3 +25,17 @@ enumExtensions="META-INF/enumextensions.json"
 
 [[mixins]]
 config="META-INF/${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+modId="fusion"
+type="optional"
+versionRange="[1.0.0,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="patchouli"
+type="optional"
+versionRange="[1.0.0,)"
+ordering="NONE"
+side="BOTH"
