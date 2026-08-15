@@ -3,13 +3,11 @@ package com.outurnate.sargasso.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ReinforcedStarMetalBlockEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.neoforged.api.distmarker.Dist;
@@ -49,10 +47,9 @@ public class ReinforcedStarMetalBlockEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
-        SuperSargassoSea.LOGGER.error("ass");
         submitNodeCollector.submitCustomGeometry(
             poseStack,
-            RenderTypes.debugFilledBox(),
+            LocalRenderTypes.GLITCH,
             (pose, buffer) -> {
                 float x0 = 0;
                 float y0 = 0;
