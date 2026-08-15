@@ -250,6 +250,44 @@ public class LocalItems {
         Item::new,
         p -> p);
 
+    public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerItem(
+        "starmetal_ingot",
+        Item::new,
+        p -> p);
+
+    // copper
+    public static final DeferredItem<Item> BROKEN_COG = REGISTRY.registerItem(
+        "broken_cog",
+        Item::new,
+        p -> p);
+
+    public static final DeferredItem<Item> LOOSE_WIRE = REGISTRY.registerItem(
+        "loose_wire",
+        Item::new,
+        p -> p);
+
+    // iron
+    public static final DeferredItem<Item> RUSTED_BOLT = REGISTRY.registerItem(
+        "rusted_bolt",
+        Item::new,
+        p -> p);
+
+    public static final DeferredItem<Item> LEAKY_BUCKET = REGISTRY.registerItem(
+        "leaky_bucket",
+        Item::new,
+        p -> p);
+
+    // gold
+    public static final DeferredItem<Item> CIRCUIT_BOARD = REGISTRY.registerItem(
+        "circuit_board",
+        Item::new,
+        p -> p);
+
+    public static final DeferredItem<Item> CLOCKSPRING = REGISTRY.registerItem(
+        "clockspring",
+        Item::new,
+        p -> p);
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();

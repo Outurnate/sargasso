@@ -1,9 +1,12 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.google.common.collect.ImmutableList;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.recipe.ApplyCosmeticRecipe;
 import com.outurnate.sargasso.registry.LocalItems;
+
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.core.HolderLookup;
@@ -13,16 +16,19 @@ import net.minecraft.data.recipes.CustomCraftingRecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.DyeRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 public class LocalRecipeProvider extends RecipeProvider {
-
     public static class Runner extends RecipeProvider.Runner {
         public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
             super(output, lookupProvider);
@@ -105,6 +111,35 @@ public class LocalRecipeProvider extends RecipeProvider {
             .requires(LocalItems.QUARTER.get())
             .unlockedBy(getHasName(LocalItems.QUARTER), this.has(LocalItems.QUARTER))
             .save(this.output);
+        nineBlockStorageRecipes(
+            RecipeCategory.MISC,
+            LocalItems.STARMETAL_INGOT,
+            RecipeCategory.BUILDING_BLOCKS,
+            LocalItems.STARMETAL_BLOCK);
+        oreBlasting(
+            ImmutableList.of(LocalItems.BROKEN_COG, LocalItems.LOOSE_WIRE),
+            RecipeCategory.MISC,
+            CookingBookCategory.MISC,
+            Items.COPPER_NUGGET,
+            1.0F,
+            100,
+            "copper_junk");
+        oreBlasting(
+            ImmutableList.of(LocalItems.RUSTED_BOLT, LocalItems.LEAKY_BUCKET),
+            RecipeCategory.MISC,
+            CookingBookCategory.MISC,
+            Items.IRON_NUGGET,
+            1.0F,
+            100,
+            "iron_junk");
+        oreBlasting(
+            ImmutableList.of(LocalItems.CIRCUIT_BOARD, LocalItems.CLOCKSPRING),
+            RecipeCategory.MISC,
+            CookingBookCategory.MISC,
+            Items.GOLD_NUGGET,
+            1.0F,
+            100,
+            "gold_junk");
     }
 
     private void cosmetic(Ingredient target, Item cosmetic, String group) {
@@ -134,6 +169,56 @@ public class LocalRecipeProvider extends RecipeProvider {
             .unlockedBy(getHasName(target), this.has(target))
             .group(group)
             .save(this.output, SuperSargassoSea.MODID + ":" + getItemName(target) + "_dyed");
+    }
+
+    private String getSimpleRecipeNameModded(ItemLike itemLike) {
+        return SuperSargassoSea.MODID + ":" + getItemName(itemLike);
+    }
+
+    @Override
+    protected void nineBlockStorageRecipes(
+        RecipeCategory unpackedFormCategory,
+        ItemLike unpackedForm,
+        RecipeCategory packedFormCategory,
+        ItemLike packedForm) {
+        this.nineBlockStorageRecipes(
+            unpackedFormCategory,
+            unpackedForm,
+            packedFormCategory,
+            packedForm,
+            getSimpleRecipeNameModded(packedForm),
+            null,
+            getSimpleRecipeNameModded(unpackedForm),
+            null);
+    }
+
+    @Override
+    protected <T extends AbstractCookingRecipe> void oreCooking(
+        AbstractCookingRecipe.Factory<T> factory,
+        List<ItemLike> smeltables,
+        RecipeCategory craftingCategory,
+        CookingBookCategory cookingCategory,
+        ItemLike result,
+        float experience,
+        int cookingTime,
+        String group,
+        String fromDesc) {
+        for (ItemLike item : smeltables) {
+            SimpleCookingRecipeBuilder
+                .generic(
+                    Ingredient.of(item),
+                    craftingCategory,
+                    cookingCategory,
+                    result,
+                    experience,
+                    cookingTime,
+                    factory)
+                .group(group)
+                .unlockedBy(getHasName(item), this.has(item))
+                .save(
+                    this.output,
+                    SuperSargassoSea.MODID + ":" + getItemName(result) + fromDesc + "_" + getItemName(item));
+        }
     }
 
     private void studdedLeatherSmithing(Item base, RecipeCategory category, Item result) {
