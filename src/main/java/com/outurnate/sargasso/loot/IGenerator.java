@@ -32,7 +32,8 @@ public interface IGenerator {
     public static IGenerator alt(LoreSet defs, IGenerator... appends) {
         return alt(
             Stream.concat(
-                defs.keys().map(IGenerator::terminal),
+                defs.keys().map(key -> new TranslatableContents(key, null, new Object[0]))
+                    .map(IGenerator::terminal),
                 Arrays.stream(appends)).toArray(IGenerator[]::new));
     }
 
