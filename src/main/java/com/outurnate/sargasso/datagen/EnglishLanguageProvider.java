@@ -34,6 +34,10 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add(name.toLanguageKey("advancements", "description"), description);
     }
 
+    private void addCustomPotion(String key, String name) {
+        this.add("item.minecraft.potion.effect." + key, name);
+    }
+
     private void addDamageType(ResourceKey<DamageType> damageType, String translation) {
         this.add(damageType.identifier().toLanguageKey("death.attack"), translation);
     }
@@ -76,24 +80,34 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addMisc(LocalSoundDefinitionsProvider.pylon, "Pylon equipped");
         this.addMisc(LocalSoundDefinitionsProvider.zap, "Electric arc");
         this.addMisc(LocalJukeboxSongProvider.unchecked, "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
+        this.addCustomPotion(
+            LocalLootTableProvider.LocalLootTableSubProvider.POTION_BHJ,
+            "Bone Hurting Juice");
+        this.addCustomPotion(
+            LocalLootTableProvider.LocalLootTableSubProvider.POTION_FIZZY,
+            "Fizzy Lifting Drink");
+        this.addMisc(
+            LocalLootTableProvider.LocalLootTableSubProvider.LORE_FIZZY,
+            "Burp, Charlie! You've got to burp!");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.LORE_BHJ, "oof ouch my bones");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_LIAR_PANTS, "Liar's Pants");
+        this.addMisc(
+            LocalLootTableProvider.LocalLootTableSubProvider.NAME_ROCKET_BOOTS,
+            "Dwarven Rocket Boots");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_SHRINK_HELM, "Sir George's Helm");
+        this.addMisc(
+            LocalLootTableProvider.LocalLootTableSubProvider.LORE_SHRINK_HELM,
+            "The helm of Sire George the shrunk, a legendary knight");
 
-        this.add("item.minecraft.potion.effect.fizzy_lifting", "Fizzy Lifting Drink");
-        this.add("sargasso.lore.fizzy_lifting", "Burp, Charlie! You've got to burp!");
-
-        this.add("item.minecraft.potion.effect.bhj", "Bone Hurting Juice");
-        this.add("sargasso.lore.bhj", "oof ouch my bones");
-
-        this.add("sargasso.lore.george", "The helm of Sire George the shrunk, a legendary knight");
-        this.add("sargasso.lore.george_name", "Sir George's Helm");
-
-        this.add("sargasso.lore.liar_pants", "Liar's Pants");
-
-        this.add("sargasso.lore.rocket_boots", "Dwarven Rocket Boots");
-
-        this.add("sargasso.lore.no_toast", "Nothing happens.");
         this.add(
-            "sargasso.lore.toast",
+            "chat." + SuperSargassoSea.MODID + ".no_toast",
+            "Nothing happens.");
+        this.add(
+            "chat." + SuperSargassoSea.MODID + ".toast",
             "You have a strange feeling that the bread you ate %s was (and always has been) toast.");
+        this.add(
+            "chat." + SuperSargassoSea.MODID + ".voltmeter",
+            "The potatoes in your body current produce %s FE/t");
 
         this.addBlock(LocalBlocks.FLOTSAM, "Flotsam");
         this.addBlock(LocalBlocks.DEBRIS, "Debris");
@@ -126,9 +140,6 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.QUARTER, "25¢ Coin");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
-        this.add(
-            "chat." + SuperSargassoSea.MODID + ".voltmeter",
-            "The potatoes in your body current produce %s FE/t");
 
         this.addPotion(
             "Juice that makes your head explode",

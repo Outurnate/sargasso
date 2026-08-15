@@ -40,7 +40,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ARGB;
@@ -128,9 +129,38 @@ public class LocalLootTableProvider extends LootTableProvider {
         }
 
         public static final Logger LOGGER = LogUtils.getLogger();
+        public static final TranslatableContents LORE_FIZZY = l("fizzy_lifting");
+        public static final TranslatableContents LORE_BHJ = l("bhj");
+        public static final String POTION_FIZZY = "fizzy_lifting";
+        public static final String POTION_BHJ = "bhj";
+
+        public static final TranslatableContents NAME_LIAR_PANTS = n("liar_pants");
+
+        public static final TranslatableContents NAME_ROCKET_BOOTS = n("rocket_boots");
+
+        public static final TranslatableContents LORE_SHRINK_HELM = l("george");
+        public static final TranslatableContents NAME_SHRINK_HELM = n("george");
+
+        private static TranslatableContents l(String name) {
+            return new TranslatableContents(
+                "lore." + SuperSargassoSea.MODID + "." + name,
+                null,
+                new Object[0]);
+        }
+
+        private static TranslatableContents n(String name) {
+            return new TranslatableContents(
+                "item." + SuperSargassoSea.MODID + ".custom." + name,
+                null,
+                new Object[0]);
+        }
+
         private final EpubReader reader = new EpubReader();
+
         private final HolderLookup.Provider lookupProvider;
+
         private final HolderGetter<TrimMaterial> trimMaterialProvider;
+
         private final HolderGetter<TrimPattern> trimPatternProvider;
 
         protected LocalLootTableSubProvider(HolderLookup.Provider lookupProvider) {
@@ -227,10 +257,11 @@ public class LocalLootTableProvider extends LootTableProvider {
                                     .setWeight(5))
                             .add(
                                 generateLootItemCustomPotion(
-                                    "bhj",
+                                    POTION_BHJ,
                                     255,
                                     60,
                                     0,
+                                    LORE_BHJ,
                                     new MobEffectInstance(
                                         MobEffects.SPEED,
                                         36000,
@@ -261,10 +292,11 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .setRolls(UniformGenerator.between(0, 1))
                             .add(
                                 generateLootItemCustomPotion(
-                                    "fizzy_lifting",
+                                    POTION_FIZZY,
                                     0,
                                     0,
                                     255,
+                                    LORE_FIZZY,
                                     new MobEffectInstance(
                                         MobEffects.LEVITATION,
                                         4000,
@@ -278,7 +310,7 @@ public class LocalLootTableProvider extends LootTableProvider {
             return LootItem.lootTableItem(Items.LEATHER_LEGGINGS)
                 .apply(
                     SetNameFunction
-                        .setName(Component.translatable("sargasso.lore.liar_pants"), Target.ITEM_NAME))
+                        .setName(MutableComponent.create(NAME_LIAR_PANTS), Target.ITEM_NAME))
                 .apply(
                     SetAttributesFunction.setAttributes()
                         .withModifier(
@@ -295,6 +327,7 @@ public class LocalLootTableProvider extends LootTableProvider {
             int red,
             int green,
             int blue,
+            TranslatableContents lore,
             MobEffectInstance... effects) {
             return LootItem.lootTableItem(Items.POTION)
                 .apply(
@@ -307,7 +340,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                             Optional.of(name))))
                 .apply(
                     SetLoreFunction.setLore()
-                        .addLine(Component.translatable("sargasso.lore." + name)))
+                        .addLine(MutableComponent.create(lore)))
                 .apply(
                     SetComponentsFunction.setComponent(
                         DataComponents.TOOLTIP_DISPLAY,
@@ -426,11 +459,11 @@ public class LocalLootTableProvider extends LootTableProvider {
         }
 
         private LootItem.Builder<?> generateRocketBoots() {
-            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "liar");
+            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "rocket");
             return LootItem.lootTableItem(Items.GOLDEN_BOOTS)
                 .apply(
                     SetNameFunction
-                        .setName(Component.translatable("sargasso.lore.rocket_boots"), Target.ITEM_NAME))
+                        .setName(MutableComponent.create(NAME_ROCKET_BOOTS), Target.ITEM_NAME))
                 .apply(
                     SetComponentsFunction.setComponent(
                         DataComponents.TRIM,
@@ -468,7 +501,7 @@ public class LocalLootTableProvider extends LootTableProvider {
             enchantments.set(enchantmentProvider.getOrThrow(Enchantments.UNBREAKING), 3);
             enchantments.set(enchantmentProvider.getOrThrow(Enchantments.MENDING), 1);
 
-            Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "george");
+            Identifier modifierIdentifier = SuperSargassoSea.ID("george");
             return LootItem.lootTableItem(Items.DIAMOND_HELMET)
                 .apply(
                     SetComponentsFunction
@@ -483,10 +516,10 @@ public class LocalLootTableProvider extends LootTableProvider {
                         new ArmorTrim(
                             trimMaterialProvider.getOrThrow(TrimMaterials.NETHERITE),
                             trimPatternProvider.getOrThrow(TrimPatterns.SILENCE))))
-                .apply(SetLoreFunction.setLore().addLine(Component.translatable("sargasso.lore.george")))
+                .apply(SetLoreFunction.setLore().addLine(MutableComponent.create(LORE_SHRINK_HELM)))
                 .apply(
                     SetNameFunction
-                        .setName(Component.translatable("sargasso.lore.george_name"), Target.ITEM_NAME))
+                        .setName(MutableComponent.create(NAME_SHRINK_HELM), Target.ITEM_NAME))
                 .apply(
                     SetAttributesFunction.setAttributes()
                         .withModifier(

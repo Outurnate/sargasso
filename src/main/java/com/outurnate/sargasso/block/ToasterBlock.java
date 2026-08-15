@@ -88,7 +88,7 @@ public class ToasterBlock extends Block {
             if (serverPlayer.hasData(LocalAttachmentTypes.BREAD_EATEN)) {
                 LocalAdvancements.Award(serverPlayer, LocalAdvancements.TOAST, "impossible");
                 message = Component.translatable(
-                    "sargasso.lore.toast",
+                    "chat." + SuperSargassoSea.MODID + ".toast",
                     DurationContents
                         .localizedDate(serverPlayer.getData(LocalAttachmentTypes.BREAD_EATEN)));
                 serverLevel.playSound(
@@ -102,7 +102,7 @@ public class ToasterBlock extends Block {
                     1.0F);
                 serverPlayer.removeData(LocalAttachmentTypes.BREAD_EATEN);
             } else {
-                message = Component.translatable("sargasso.lore.no_toast");
+                message = Component.translatable("chat." + SuperSargassoSea.MODID + ".no_toast");
             }
             serverPlayer.sendSystemMessage(message);
         }
