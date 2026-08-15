@@ -282,7 +282,7 @@ public class LocalModelProvider extends ModelProvider {
                     .put(
                         TextureSlot.LAYER1,
                         new Material(
-                            Identifier.fromNamespaceAndPath("minecraft", "misc/enchanted_glint_armor"))),
+                            Identifier.fromNamespaceAndPath("sargasso", "block/enchanted_glint_armor"))),
                 blockModels.modelOutput);
         blockModels.blockStateOutput.accept(
             createSimpleBlock(
