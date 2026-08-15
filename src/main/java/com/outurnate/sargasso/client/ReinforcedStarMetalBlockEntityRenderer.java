@@ -2,6 +2,7 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.ReinforcedStarMetalBlockEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -48,6 +49,7 @@ public class ReinforcedStarMetalBlockEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
+        SuperSargassoSea.LOGGER.error("ass");
         submitNodeCollector.submitCustomGeometry(
             poseStack,
             RenderTypes.armorEntityGlint(),
@@ -59,7 +61,7 @@ public class ReinforcedStarMetalBlockEntityRenderer
                 float z0 = 0;
 
                 float x1 = 1;
-                float y1 = 1;
+                float y1 = 2;
                 float z1 = 1;
 
                 vertex(vertexConsumer, matrix, x0, y0, z0, 0, 0);
