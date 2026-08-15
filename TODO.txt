@@ -9,6 +9,8 @@
 - structure: shipwrecks
 - caves
 - ore
+- review default tagging
+- finish textures!
 
 DONE
 - normalize translation keys and centralize them

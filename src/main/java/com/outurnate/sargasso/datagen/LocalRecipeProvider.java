@@ -121,7 +121,7 @@ public class LocalRecipeProvider extends RecipeProvider {
             RecipeCategory.MISC,
             CookingBookCategory.MISC,
             Items.COPPER_NUGGET,
-            1.0F,
+            0.1F,
             100,
             "copper_junk");
         oreBlasting(
@@ -129,7 +129,7 @@ public class LocalRecipeProvider extends RecipeProvider {
             RecipeCategory.MISC,
             CookingBookCategory.MISC,
             Items.IRON_NUGGET,
-            1.0F,
+            0.1F,
             100,
             "iron_junk");
         oreBlasting(
@@ -137,7 +137,7 @@ public class LocalRecipeProvider extends RecipeProvider {
             RecipeCategory.MISC,
             CookingBookCategory.MISC,
             Items.GOLD_NUGGET,
-            1.0F,
+            0.1F,
             100,
             "gold_junk");
     }
