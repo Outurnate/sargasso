@@ -111,11 +111,13 @@ public class LocalRecipeProvider extends RecipeProvider {
             .requires(LocalItems.QUARTER.get())
             .unlockedBy(getHasName(LocalItems.QUARTER), this.has(LocalItems.QUARTER))
             .save(this.output);
-        nineBlockStorageRecipes(
-            RecipeCategory.MISC,
-            LocalItems.STARMETAL_INGOT,
-            RecipeCategory.BUILDING_BLOCKS,
-            LocalItems.STARMETAL_BLOCK);
+        shaped(RecipeCategory.DECORATIONS, LocalItems.STARMETAL_BLOCK, 2)
+            .define('I', LocalItems.STARMETAL_INGOT)
+            .pattern(" I ")
+            .pattern("I I")
+            .pattern(" I ")
+            .unlockedBy(getHasName(LocalItems.STARMETAL_INGOT), this.has(LocalItems.STARMETAL_INGOT))
+            .save(this.output);
         oreBlasting(
             ImmutableList.of(LocalItems.BROKEN_COG, LocalItems.LOOSE_WIRE),
             RecipeCategory.MISC,
@@ -140,6 +142,14 @@ public class LocalRecipeProvider extends RecipeProvider {
             0.1F,
             100,
             "gold_junk");
+        oreBlasting(
+            ImmutableList.of(LocalItems.STARMETAL_SCRAP),
+            RecipeCategory.MISC,
+            CookingBookCategory.MISC,
+            LocalItems.STARMETAL_INGOT,
+            0.1F,
+            100,
+            "starmetal_recycle");
     }
 
     private void cosmetic(Ingredient target, Item cosmetic, String group) {

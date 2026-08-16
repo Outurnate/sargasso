@@ -75,9 +75,13 @@ public class LocalItems {
         "starmetal_block",
         LocalBlocks.STARMETAL_BLOCK);
 
-    public static final DeferredItem<BlockItem> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
-        "reinforced_starmetal_block",
-        LocalBlocks.REINFORCED_STARMETAL_BLOCK);
+    public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+        "petrified_flotsam",
+        LocalBlocks.PETRIFIED_FLOTSAM);
+
+    public static final DeferredItem<BlockItem> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+        "rich_petrified_flotsam",
+        LocalBlocks.RICH_PETRIFIED_FLOTSAM);
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",
@@ -289,6 +293,11 @@ public class LocalItems {
 
     public static final DeferredItem<Item> CLOCKSPRING = REGISTRY.registerItem(
         "clockspring",
+        Item::new,
+        p -> p);
+
+    public static final DeferredItem<Item> STARMETAL_SCRAP = REGISTRY.registerItem(
+        "starmetal_scrap",
         Item::new,
         p -> p);
 

@@ -8,7 +8,6 @@ import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HammerClientItemExtensions;
 import com.outurnate.sargasso.client.RedstoneBugRenderer;
-import com.outurnate.sargasso.client.ReinforcedStarMetalBlockEntityRenderer;
 import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
@@ -62,9 +61,6 @@ public class SuperSargassoSeaClient {
         event.registerBlockEntityRenderer(
             LocalBlockEntities.SHOCK_THERAPIST.get(),
             ShockTherapistEntityRenderer::new);
-        event.registerBlockEntityRenderer(
-            LocalBlockEntities.REINFORCED_STAR_METAL.get(),
-            ReinforcedStarMetalBlockEntityRenderer::new);
         event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);

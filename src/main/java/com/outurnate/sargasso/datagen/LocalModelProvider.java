@@ -167,6 +167,8 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createTrivialCube(LocalBlocks.STARMETAL_BLOCK.get());
         blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
+        blockModels.createTrivialCube(LocalBlocks.PETRIFIED_FLOTSAM.get());
+        blockModels.createTrivialCube(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
         Identifier toaster = SuperSargassoSea.ID("block/toaster");
@@ -231,6 +233,7 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.RUSTED_BOLT.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.LOOSE_WIRE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
 
         Item foxEars = LocalItems.FOX_EARS.get();

@@ -31,6 +31,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -67,8 +68,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
+import net.minecraft.world.level.storage.loot.entries.EntryGroup;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction.ModifierBuilder;
@@ -97,13 +101,43 @@ public class LocalLootTableProvider extends LootTableProvider {
             super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
         }
 
+        private LootTable.Builder createFlotsamOreDrops(Block block) {
+            return LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(block)
+                                .when(this.hasSilkTouch())
+                                .otherwise(
+                                    EntryGroup.list(
+                                        createOreEntry(block, LocalItems.LEAKY_BUCKET, 2.0F),
+                                        createOreEntry(block, LocalItems.RUSTED_BOLT, 4.0F),
+                                        createOreEntry(block, LocalItems.BROKEN_COG, 3.0F),
+                                        createOreEntry(block, LocalItems.LOOSE_WIRE, 5.0F),
+                                        createOreEntry(block, LocalItems.CIRCUIT_BOARD, 1.0F),
+                                        createOreEntry(block, LocalItems.CLOCKSPRING, 1.0F)))));
+        }
+
+        private LootPoolEntryContainer.Builder<?> createOreEntry(Block block, ItemLike ore, float max) {
+            HolderLookup.RegistryLookup<Enchantment> enchantments = this.registries
+                .lookupOrThrow(Registries.ENCHANTMENT);
+            return (LootPoolEntryContainer.Builder<?>) this.applyExplosionDecay(
+                block,
+                LootItem.lootTableItem(ore)
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, max)))
+                    .apply(ApplyBonusCount.addOreBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE))));
+        }
+
         @Override
         protected void generate() {
             this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.DEBRIS.get()));
             this.add(LocalBlocks.TOASTER.get(), this.createSingleItemTable(LocalItems.TOASTER.get()));
             this.add(
                 LocalBlocks.STARMETAL_BLOCK.get(),
-                this.createSingleItemTable(LocalItems.STARMETAL_BLOCK.get()));
+                this.createSilkTouchDispatchTable(
+                    LocalBlocks.STARMETAL_BLOCK.get(),
+                    LootItem.lootTableItem(LocalItems.STARMETAL_SCRAP.get())));
             this.add(LocalBlocks.PYLON.get(), this.createSingleItemTable(LocalItems.PYLON.get()));
             this.add(
                 LocalBlocks.SHOCK_THERAPIST.get(),
@@ -119,6 +153,15 @@ public class LocalLootTableProvider extends LootTableProvider {
                     LocalBlocks.FLOTSAM.get(),
                     LootItem.lootTableItem(LocalItems.DEBRIS.get())
                         .apply(LostItemFunction.createBuilder())));
+            this.add(
+                LocalBlocks.PETRIFIED_FLOTSAM.get(),
+                this.createSilkTouchDispatchTable(
+                    LocalBlocks.PETRIFIED_FLOTSAM.get(),
+                    LootItem.lootTableItem(LocalItems.DEBRIS.get())
+                        .apply(LostItemFunction.createBuilder())));
+            this.add(
+                LocalBlocks.RICH_PETRIFIED_FLOTSAM.get(),
+                this.createFlotsamOreDrops(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get()));
         }
 
         @Override

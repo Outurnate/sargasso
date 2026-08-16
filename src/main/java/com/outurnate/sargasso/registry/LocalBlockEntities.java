@@ -3,7 +3,6 @@ package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
-import com.outurnate.sargasso.block.entity.ReinforcedStarMetalBlockEntity;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -28,13 +27,6 @@ public class LocalBlockEntities {
                 ShockTherapistBlockEntity::new,
                 false,
                 LocalBlocks.SHOCK_THERAPIST.get()));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ReinforcedStarMetalBlockEntity>> REINFORCED_STAR_METAL = REGISTRY
-        .register(
-            "reinforced_star_metal",
-            () -> new BlockEntityType<>(
-                ReinforcedStarMetalBlockEntity::new,
-                false,
-                LocalBlocks.REINFORCED_STARMETAL_BLOCK.get()));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

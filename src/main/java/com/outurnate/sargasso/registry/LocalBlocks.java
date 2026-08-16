@@ -5,7 +5,6 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
-import com.outurnate.sargasso.block.ReinforcedStarMetalBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.ToasterBlock;
 
@@ -130,7 +129,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerBlock(
         "reinforced_starmetal_block",
-        p -> new ReinforcedStarMetalBlock(p),
+        p -> new Block(p),
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -138,6 +137,24 @@ public class LocalBlocks {
             .sound(SoundType.IRON)
             .noLootTable()
             .isValidSpawn(Blocks::never));
+
+    public static final DeferredBlock<Block> PETRIFIED_FLOTSAM = REGISTRY.registerBlock(
+        "petrified_flotsam",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_BROWN)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .strength(1.0F)
+            .sound(SoundType.STONE));
+
+    public static final DeferredBlock<Block> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerBlock(
+        "rich_petrified_flotsam",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_BROWN)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .strength(1.0F)
+            .sound(SoundType.STONE));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

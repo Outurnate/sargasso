@@ -16,6 +16,7 @@ import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.placement.CaveSurface;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 
 public class LocalNoiseSettingsProvider {
@@ -87,17 +88,17 @@ public class LocalNoiseSettingsProvider {
                 SurfaceRules.verticalGradient(
                     "bedrock_floor",
                     VerticalAnchor.bottom(),
-                    VerticalAnchor.aboveBottom(5)),
-                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())),
+                    VerticalAnchor.aboveBottom(1)),
+                SurfaceRules.state(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get().defaultBlockState())),
             SurfaceRules.ifTrue(
                 SurfaceRules
-                    .verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(10)),
-                SurfaceRules.state(Blocks.STONE.defaultBlockState())));
+                    .stoneDepthCheck(0, false, CaveSurface.FLOOR),
+                SurfaceRules.state(LocalBlocks.FLOTSAM.get().defaultBlockState())));
         bootstrap.register(
             SEA,
             new NoiseGeneratorSettings(
                 noiseSettings,
-                LocalBlocks.FLOTSAM.get().defaultBlockState(),
+                LocalBlocks.PETRIFIED_FLOTSAM.get().defaultBlockState(),
                 Blocks.WATER.defaultBlockState(),
                 noiseRouter,
                 surfaceRules,
