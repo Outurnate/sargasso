@@ -155,10 +155,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                         .apply(LostItemFunction.createBuilder())));
             this.add(
                 LocalBlocks.PETRIFIED_FLOTSAM.get(),
-                this.createSilkTouchDispatchTable(
-                    LocalBlocks.PETRIFIED_FLOTSAM.get(),
-                    LootItem.lootTableItem(LocalItems.DEBRIS.get())
-                        .apply(LostItemFunction.createBuilder())));
+                this.createSingleItemTable(LocalItems.PETRIFIED_FLOTSAM.get()));
             this.add(
                 LocalBlocks.RICH_PETRIFIED_FLOTSAM.get(),
                 this.createFlotsamOreDrops(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get()));
