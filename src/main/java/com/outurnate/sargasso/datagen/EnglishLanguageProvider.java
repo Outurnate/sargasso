@@ -21,6 +21,7 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.item.alchemy.Potion;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -58,6 +59,10 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.add(contents.getKey(), value);
     }
 
+    private void addPainting(ResourceKey<PaintingVariant> variant, String title) {
+        this.add(variant.identifier().toLanguageKey("painting", "title"), title);
+    }
+
     private void addPotion(String name, List<Holder<Potion>> potions) {
         for (Holder<Potion> potion : potions) {
             String key = potion.value().name();
@@ -73,6 +78,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         this.add("itemGroup.sargasso", "Super Sargasso Sea");
+
+        this.addPainting(LocalPaintingVariantsProvider.GENE, "Gene");
 
         this.addMisc(LocalSoundDefinitionsProvider.creamApply, "Bedrock cream applied");
         this.addMisc(LocalSoundDefinitionsProvider.glitchTeleport, "Glitched");
@@ -117,6 +124,10 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addBlock(LocalBlocks.TOASTER, "Chronometric Flux Toaster");
         this.addBlock(LocalBlocks.PYLON, "Pylon");
         this.addBlock(LocalBlocks.SHOCK_THERAPIST, "Shock Therapist");
+        this.addBlock(LocalBlocks.PETRIFIED_FLOTSAM, "Petrified Flotsam");
+        this.addBlock(LocalBlocks.RICH_PETRIFIED_FLOTSAM, "Rich Petrified Flotsam");
+        this.addBlock(LocalBlocks.STARMETAL_BLOCK, "Starmetal Block");
+        this.addBlock(LocalBlocks.REINFORCED_STARMETAL_BLOCK, "Reinforced Starmetal Block");
 
         this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
         this.addItem(LocalItems.BEDROCK_CREAM, "Professor Murgatroyd's Miracle Bedrock Cream");
@@ -138,6 +149,8 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.FOX_EARS, "Fox Ears");
         this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");
         this.addItem(LocalItems.QUARTER, "25¢ Coin");
+        this.addItem(LocalItems.KEY, "Sky Key");
+        this.addItem(LocalItems.KEY_OMINOUS, "Ominous Sky Key");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 
