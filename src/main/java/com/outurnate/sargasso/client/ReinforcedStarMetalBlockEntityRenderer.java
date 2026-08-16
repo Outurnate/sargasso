@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.neoforged.api.distmarker.Dist;
@@ -49,7 +50,7 @@ public class ReinforcedStarMetalBlockEntityRenderer
         CameraRenderState camera) {
         submitNodeCollector.submitCustomGeometry(
             poseStack,
-            LocalRenderTypes.GLITCH,
+            RenderTypes.glint(),
             (pose, buffer) -> {
                 float x0 = 0;
                 float y0 = 0;
@@ -59,35 +60,35 @@ public class ReinforcedStarMetalBlockEntityRenderer
                 float y1 = 2;
                 float z1 = 1;
 
-                vertex(buffer, pose, x0, y0, z0, 0, 0);
-                vertex(buffer, pose, x1, y0, z0, 1, 0);
                 vertex(buffer, pose, x1, y1, z0, 1, 1);
                 vertex(buffer, pose, x0, y1, z0, 0, 1);
+                vertex(buffer, pose, x0, y0, z0, 0, 0);
+                vertex(buffer, pose, x1, y0, z0, 1, 0);
 
-                vertex(buffer, pose, x1, y0, z1, 0, 0);
-                vertex(buffer, pose, x0, y0, z1, 1, 0);
                 vertex(buffer, pose, x0, y1, z1, 1, 1);
                 vertex(buffer, pose, x1, y1, z1, 0, 1);
+                vertex(buffer, pose, x1, y0, z1, 0, 0);
+                vertex(buffer, pose, x0, y0, z1, 1, 0);
 
-                vertex(buffer, pose, x0, y0, z1, 0, 0);
-                vertex(buffer, pose, x0, y0, z0, 1, 0);
                 vertex(buffer, pose, x0, y1, z0, 1, 1);
                 vertex(buffer, pose, x0, y1, z1, 0, 1);
+                vertex(buffer, pose, x0, y0, z1, 0, 0);
+                vertex(buffer, pose, x0, y0, z0, 1, 0);
 
-                vertex(buffer, pose, x1, y0, z0, 0, 0);
-                vertex(buffer, pose, x1, y0, z1, 1, 0);
                 vertex(buffer, pose, x1, y1, z1, 1, 1);
                 vertex(buffer, pose, x1, y1, z0, 0, 1);
+                vertex(buffer, pose, x1, y0, z0, 0, 0);
+                vertex(buffer, pose, x1, y0, z1, 1, 0);
 
-                vertex(buffer, pose, x0, y1, z0, 0, 0);
-                vertex(buffer, pose, x1, y1, z0, 1, 0);
                 vertex(buffer, pose, x1, y1, z1, 1, 1);
                 vertex(buffer, pose, x0, y1, z1, 0, 1);
+                vertex(buffer, pose, x0, y1, z0, 0, 0);
+                vertex(buffer, pose, x1, y1, z0, 1, 0);
 
-                vertex(buffer, pose, x0, y0, z1, 0, 0);
-                vertex(buffer, pose, x1, y0, z1, 1, 0);
                 vertex(buffer, pose, x1, y0, z0, 1, 1);
                 vertex(buffer, pose, x0, y0, z0, 0, 1);
+                vertex(buffer, pose, x0, y0, z1, 0, 0);
+                vertex(buffer, pose, x1, y0, z1, 1, 0);
             });
     }
 }
