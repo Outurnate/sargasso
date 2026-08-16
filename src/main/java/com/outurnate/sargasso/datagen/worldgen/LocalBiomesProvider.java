@@ -102,6 +102,7 @@ public class LocalBiomesProvider {
             placedFeaturesRegistry,
             configuredCarverRegistry);
         BiomeDefaultFeatures.addFossilDecoration(generation);
+        generation.addCarver(LocalConfiguredCarversProvider.CAVE);
         generation.addFeature(
             GenerationStep.Decoration.VEGETAL_DECORATION,
             LocalPlacedFeaturesProvider.PATCH_DEBRIS);

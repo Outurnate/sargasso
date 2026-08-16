@@ -9,6 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 
 public class LocalTags {
     public static final TagKey<Item> ALWAYS_LOST = TagKey
@@ -27,4 +28,6 @@ public class LocalTags {
         .create(Registries.ITEM, SuperSargassoSea.ID("fox_trust_hat"));
     public static final TagKey<EntityType<?>> CAN_WEAR_PYLON = TagKey
         .create(Registries.ENTITY_TYPE, SuperSargassoSea.ID("can_wear_pylon"));
+    public static final TagKey<Block> SEA_CARVER_REPLACEABLES = TagKey
+        .create(Registries.BLOCK, SuperSargassoSea.ID("sea_carver_replaceables"));
 }

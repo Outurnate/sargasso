@@ -3,6 +3,7 @@ package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
+import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredCarversProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDensityFunctionProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalDimensionTypesProvider;
@@ -53,11 +54,13 @@ public class DataGenerators {
                 .add(Registries.NOISE, LocalNoisesProvider::provide)
                 .add(Registries.DENSITY_FUNCTION, LocalDensityFunctionProvider::provide)
                 .add(Registries.JUKEBOX_SONG, LocalJukeboxSongProvider::provide)
-                .add(Registries.TRIAL_SPAWNER_CONFIG, LocalTrialSpawnerProvider::provide));
+                .add(Registries.TRIAL_SPAWNER_CONFIG, LocalTrialSpawnerProvider::provide)
+                .add(Registries.CONFIGURED_CARVER, LocalConfiguredCarversProvider::provide));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
         event.createProvider(LocalBiomeTagsProvider::new);
         event.createProvider(LocalEntityTypeTagsProvider::new);
+        event.createProvider(LocalBlockTagsProvider::new);
     }
 }

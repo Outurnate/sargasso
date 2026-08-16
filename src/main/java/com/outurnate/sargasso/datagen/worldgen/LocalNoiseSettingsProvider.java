@@ -92,7 +92,7 @@ public class LocalNoiseSettingsProvider {
                 SurfaceRules.state(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get().defaultBlockState())),
             SurfaceRules.ifTrue(
                 SurfaceRules
-                    .stoneDepthCheck(0, false, CaveSurface.FLOOR),
+                    .stoneDepthCheck(10, false, CaveSurface.FLOOR),
                 SurfaceRules.state(LocalBlocks.FLOTSAM.get().defaultBlockState())));
         bootstrap.register(
             SEA,
