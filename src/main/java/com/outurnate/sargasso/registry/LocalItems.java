@@ -126,7 +126,8 @@ public class LocalItems {
         "lightning_bottle",
         LightningBottleItem::new,
         p -> p
-            .useCooldown(2.0F));
+            .useCooldown(2.0F)
+            .rarity(Rarity.UNCOMMON));
 
     public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
         "potato_battery",
@@ -156,7 +157,8 @@ public class LocalItems {
         "rechargable_aa_battery",
         EnergyItem::new,
         p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), 0));
+            .component(LocalDataComponentTypes.ENERGY.get(), 0)
+            .rarity(Rarity.UNCOMMON));
 
     public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
         "studded_leather_helmet",
@@ -199,7 +201,7 @@ public class LocalItems {
         props -> new Item(
             props
                 .stacksTo(1)
-                .rarity(Rarity.RARE)
+                .rarity(Rarity.UNCOMMON)
                 .jukeboxPlayable(LocalJukeboxSongs.UNCHECKED)));
 
     public static final DeferredItem<Item> REDSTONE_EMP = REGISTRY.registerItem(
