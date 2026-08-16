@@ -55,7 +55,8 @@ public class DataGenerators {
                 .add(Registries.DENSITY_FUNCTION, LocalDensityFunctionProvider::provide)
                 .add(Registries.JUKEBOX_SONG, LocalJukeboxSongProvider::provide)
                 .add(Registries.TRIAL_SPAWNER_CONFIG, LocalTrialSpawnerProvider::provide)
-                .add(Registries.CONFIGURED_CARVER, LocalConfiguredCarversProvider::provide));
+                .add(Registries.CONFIGURED_CARVER, LocalConfiguredCarversProvider::provide)
+                .add(Registries.PAINTING_VARIANT, LocalPaintingVariantsProvider::provide));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
