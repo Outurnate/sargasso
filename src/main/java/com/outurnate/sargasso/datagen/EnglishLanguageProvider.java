@@ -151,6 +151,12 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addItem(LocalItems.QUARTER, "25¢ Coin");
         this.addItem(LocalItems.KEY, "Sky Key");
         this.addItem(LocalItems.KEY_OMINOUS, "Ominous Sky Key");
+        this.addItem(LocalItems.LOOSE_WIRE, "Loose Wire");
+        this.addItem(LocalItems.CLOCKSPRING, "Clock Spring");
+        this.addItem(LocalItems.CIRCUIT_BOARD, "Circuit Board");
+        this.addItem(LocalItems.BROKEN_COG, "Broken Cog");
+        this.addItem(LocalItems.RUSTED_BOLT, "Rusted Bolt");
+        this.addItem(LocalItems.LEAKY_BUCKET, "Leaky Bucket");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 
