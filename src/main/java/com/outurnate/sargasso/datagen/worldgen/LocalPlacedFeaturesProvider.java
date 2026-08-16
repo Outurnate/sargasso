@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import java.util.List;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -36,6 +37,8 @@ public class LocalPlacedFeaturesProvider {
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains_bare"));
     public static final ResourceKey<PlacedFeature> PORTAL = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
+    public static final ResourceKey<PlacedFeature> JUNK_ORE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("junk_ore"));
 
     public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
@@ -98,5 +101,15 @@ public class LocalPlacedFeaturesProvider {
             InSquarePlacement.spread(),
             HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
             BiomeFilter.biome());
+
+        PlacementUtils.register(
+            bootstrap,
+            JUNK_ORE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.JUNK_ORE),
+            List.of(
+                CountPlacement.of(10),
+                InSquarePlacement.spread(),
+                HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
+                BiomeFilter.biome()));
     }
 }

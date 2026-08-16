@@ -5,7 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalFeatures;
 import com.outurnate.sargasso.worldgen.FloatingIslandFeature.FloatingIslandFeatureConfiguration;
-
+import java.util.List;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.TreeFeatures;
@@ -17,8 +17,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 
 public class LocalConfiguredFeaturesProvider {
     public static final ResourceKey<ConfiguredFeature<?, ?>> DEBRIS = ResourceKey
@@ -33,6 +35,8 @@ public class LocalConfiguredFeaturesProvider {
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("floating_island_taiga_bare"));
     public static final ResourceKey<ConfiguredFeature<?, ?>> PORTAL = ResourceKey
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("portal"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> JUNK_ORE = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("junk_ore"));
 
     public static void provide(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
         bootstrap.register(
@@ -104,5 +108,15 @@ public class LocalConfiguredFeaturesProvider {
             new ConfiguredFeature<>(
                 LocalFeatures.PORTAL.get(),
                 NoneFeatureConfiguration.INSTANCE));
+        bootstrap.register(
+            JUNK_ORE,
+            new ConfiguredFeature<>(
+                Feature.ORE,
+                new OreConfiguration(
+                    List.of(
+                        OreConfiguration.target(
+                            new BlockMatchTest(LocalBlocks.PETRIFIED_FLOTSAM.get()),
+                            LocalBlocks.RICH_PETRIFIED_FLOTSAM.get().defaultBlockState())),
+                    17)));
     }
 }

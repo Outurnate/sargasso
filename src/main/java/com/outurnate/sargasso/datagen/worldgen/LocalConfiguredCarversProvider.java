@@ -28,14 +28,14 @@ public class LocalConfiguredCarversProvider {
             WorldCarver.CAVE
                 .configured(
                     new CaveCarverConfiguration(
-                        0.15F,
+                        0.25F,
                         UniformHeight.of(VerticalAnchor.aboveBottom(1), VerticalAnchor.absolute(70)),
                         UniformFloat.of(0.1F, 0.9F),
                         VerticalAnchor.aboveBottom(0),
                         CarverDebugSettings.of(false, Blocks.CRIMSON_BUTTON.defaultBlockState()),
                         blocks.getOrThrow(LocalTags.SEA_CARVER_REPLACEABLES),
+                        UniformFloat.of(0.6F, 1.5F),
                         UniformFloat.of(0.7F, 1.4F),
-                        UniformFloat.of(0.8F, 1.3F),
                         UniformFloat.of(-1.0F, -0.4F))));
     }
 }
