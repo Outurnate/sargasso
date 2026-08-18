@@ -32,13 +32,13 @@ public class ThrownHammer extends AbstractArrow {
     private boolean dealtDamage = false;
     public int clientSideReturnTridentTickCount;
 
-    public ThrownHammer(double x, double y, double z, Level level, ItemStack pickupItemStack) {
-        super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, null);
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
-    }
-
     public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
         super(type, level);
+    }
+
+    public ThrownHammer(Level level, double x, double y, double z, ItemStack pickupItemStack) {
+        super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, null);
+        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
     }
 
     public ThrownHammer(Level level, LivingEntity mob, ItemStack pickupItemStack) {
