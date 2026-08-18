@@ -138,7 +138,7 @@ public class ThrownHammer extends AbstractArrow {
 
         if (hitResult.getType() != HitResult.Type.MISS) {
             this.deflect(ProjectileDeflection.REVERSE, entityHit, this.owner, false);
-            this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
+            // this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
             this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO hammer
         }
     }
