@@ -55,7 +55,7 @@ public class HammerItem extends Item implements ProjectileItem {
         if (entity instanceof Player player) {
             Holder<SoundEvent> sound = EnchantmentHelper
                 .pickHighestLevel(itemStack, EnchantmentEffectComponents.TRIDENT_SOUND)
-                .orElse(SoundEvents.TRIDENT_THROW);
+                .orElse(SoundEvents.TRIDENT_THROW); // TODO hammer
             if (level instanceof ServerLevel serverLevel) {
                 itemStack.hurtWithoutBreaking(1, player);
                 ItemStack thrownItemStack = itemStack.consumeAndReturn(1, player);

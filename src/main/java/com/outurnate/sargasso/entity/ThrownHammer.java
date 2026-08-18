@@ -17,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
-import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -28,9 +27,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class ThrownHammer extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData
-        .defineId(ThrownTrident.class, EntityDataSerializers.BYTE);
+        .defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
     private boolean dealtDamage = false;
-    public int clientSideReturnTridentTickCount;
+    public int clientSideReturnHammerTickCount;
 
     public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
         super(type, level);
@@ -60,7 +59,7 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND;
+        return SoundEvents.TRIDENT_HIT_GROUND; // TODO sound
     }
 
     @Override
@@ -68,9 +67,9 @@ public class ThrownHammer extends AbstractArrow {
         return new ItemStack(LocalItems.HAMMER.get());
     }
 
-    private byte getLoyaltyFromItem(ItemStack tridentItem) {
+    private byte getLoyaltyFromItem(ItemStack hammerItem) {
         return this.level() instanceof ServerLevel serverLevel ? (byte) Mth.clamp(
-            EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverLevel, tridentItem, this),
+            EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverLevel, hammerItem, this),
             0,
             127) : 0;
     }
@@ -92,7 +91,7 @@ public class ThrownHammer extends AbstractArrow {
         float dmg = 8.0F;
         Entity currentOwner = this.getOwner();
         DamageSource damageSource = this.damageSources()
-            .trident(this, (Entity) (currentOwner == null ? this : currentOwner));
+            .trident(this, (Entity) (currentOwner == null ? this : currentOwner)); // TODO hammer
         if (this.level() instanceof ServerLevel serverLevel) {
             dmg = EnchantmentHelper
                 .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
@@ -121,7 +120,7 @@ public class ThrownHammer extends AbstractArrow {
 
         this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
-        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
+        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO hammer
     }
 
     @Override
@@ -171,11 +170,11 @@ public class ThrownHammer extends AbstractArrow {
                 this.setPosRaw(this.getX(), this.getY() + vec.y * 0.015 * loyalty, this.getZ());
                 double accel = 0.05 * loyalty;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec.normalize().scale(accel)));
-                if (this.clientSideReturnTridentTickCount == 0) {
-                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
+                if (this.clientSideReturnHammerTickCount == 0) {
+                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F); // TODO hammer
                 }
 
-                this.clientSideReturnTridentTickCount++;
+                this.clientSideReturnHammerTickCount++;
             }
         }
 
