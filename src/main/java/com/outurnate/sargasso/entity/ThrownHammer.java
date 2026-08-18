@@ -31,6 +31,7 @@ import net.minecraft.world.phys.Vec3;
 public class ThrownHammer extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData
         .defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
+    private Vec3 incomingVelocity = Vec3.ZERO;
     private boolean dealtDamage = false;
     public int clientSideReturnHammerTickCount;
 
@@ -93,10 +94,9 @@ public class ThrownHammer extends AbstractArrow {
         if (hitResult.getDirection() == Direction.UP) {
             super.onHitBlock(hitResult);
         } else {
-            Vec3 velocity = getDeltaMovement();
             Vec3 normal = hitResult.getDirection().getUnitVec3();
-            double dot = velocity.dot(normal);
-            Vec3 reflected = velocity.subtract(normal.scale(2.0 * dot));
+            double dot = incomingVelocity.dot(normal);
+            Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
             setDeltaMovement(reflected.scale(0.8));
         }
     }
@@ -160,6 +160,8 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     public void tick() {
+        incomingVelocity = getDeltaMovement();
+
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
