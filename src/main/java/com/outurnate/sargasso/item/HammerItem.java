@@ -7,6 +7,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -73,5 +75,16 @@ public class HammerItem extends Item implements ProjectileItem {
             }
         }
         return false;
+    }
+
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        ItemStack itemInHand = player.getItemInHand(hand);
+        if (itemInHand.nextDamageWillBreak()) {
+            return InteractionResult.FAIL;
+        } else {
+            player.startUsingItem(hand);
+            return InteractionResult.CONSUME;
+        }
     }
 }
