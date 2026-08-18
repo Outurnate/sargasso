@@ -93,11 +93,12 @@ public class ThrownHammer extends AbstractArrow {
         Vec3 normal = hitResult.getDirection().getUnitVec3();
         double dot = incomingVelocity.dot(normal);
         Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
-        setDeltaMovement(reflected.scale(0.5));
+        setDeltaMovement(reflected.scale(0.1));
         setPos(position().add(normal.scale(0.01)));
         if (incomingVelocity.length() < 0.1) {
             super.onHitBlock(hitResult);
         }
+        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO sound
     }
 
     @Override
@@ -135,7 +136,7 @@ public class ThrownHammer extends AbstractArrow {
 
         this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
-        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
+        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO sound
     }
 
     @Override
