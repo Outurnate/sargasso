@@ -25,7 +25,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwingAnimationType;
 import net.minecraft.world.item.component.Consumable;
@@ -216,6 +215,11 @@ public class LocalItems {
         Item::new,
         p -> p);
 
+    public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerItem(
+        "starmetal_ingot",
+        Item::new,
+        p -> p);
+
     private static float HAMMER_ATTACK_SPEED = -3.4F;
     public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
         "hammer",
@@ -224,7 +228,7 @@ public class LocalItems {
             .rarity(Rarity.EPIC)
             .durability(2048)
             .component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
-            .repairable(Items.NETHERITE_INGOT)
+            .repairable(STARMETAL_INGOT.get())
             .enchantable(15)
             .attributes(
                 ItemAttributeModifiers.builder()
@@ -258,11 +262,6 @@ public class LocalItems {
 
     public static final DeferredItem<Item> KEY_OMINOUS = REGISTRY.registerItem(
         "key_ominous",
-        Item::new,
-        p -> p);
-
-    public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerItem(
-        "starmetal_ingot",
         Item::new,
         p -> p);
 
