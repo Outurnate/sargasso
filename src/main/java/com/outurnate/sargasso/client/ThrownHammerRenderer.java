@@ -42,7 +42,7 @@ public class ThrownHammerRenderer extends EntityRenderer<ThrownHammer, ThrownHam
         CameraRenderState camera) {
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot - 90.0F));
         state.self.submit(
             poseStack,
             submitNodeCollector,
