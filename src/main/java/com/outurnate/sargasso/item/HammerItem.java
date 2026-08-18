@@ -66,6 +66,7 @@ public class HammerItem extends Item implements ProjectileItem {
             }
 
             level.playSound(null, hammer, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.resetAttackStrengthTicker();
             return InteractionResult.CONSUME;
         }
 
