@@ -1,5 +1,7 @@
 package com.outurnate.sargasso.item;
 
+import com.outurnate.sargasso.entity.ThrownHammer;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
@@ -29,19 +31,19 @@ public class HammerItem extends Item implements ProjectileItem {
 
     @Override
     public Projectile asProjectile(Level level, Position position, ItemStack itemStack, Direction direction) {
-        ThrownTrident trident = new ThrownTrident(
+        ThrownTrident hammer = new ThrownTrident(
             level,
             position.x(),
             position.y(),
             position.z(),
             itemStack.copyWithCount(1));
-        trident.pickup = AbstractArrow.Pickup.ALLOWED;
-        return trident;
+        hammer.pickup = AbstractArrow.Pickup.ALLOWED;
+        return hammer;
     }
 
     @Override
     public ItemUseAnimation getUseAnimation(ItemStack itemStack) {
-        return ItemUseAnimation.TRIDENT;
+        return ItemUseAnimation.BOW;
     }
 
     @Override
@@ -58,8 +60,8 @@ public class HammerItem extends Item implements ProjectileItem {
             if (level instanceof ServerLevel serverLevel) {
                 itemStack.hurtWithoutBreaking(1, player);
                 ItemStack thrownItemStack = itemStack.consumeAndReturn(1, player);
-                ThrownTrident trident = Projectile.spawnProjectileFromRotation(
-                    ThrownTrident::new,
+                ThrownHammer hammer = Projectile.spawnProjectileFromRotation(
+                    ThrownHammer::new,
                     serverLevel,
                     thrownItemStack,
                     player,
@@ -67,10 +69,10 @@ public class HammerItem extends Item implements ProjectileItem {
                     2.5F,
                     1.0F);
                 if (player.hasInfiniteMaterials()) {
-                    trident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                    hammer.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
 
-                level.playSound(null, trident, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, hammer, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 return true;
             }
         }

@@ -10,6 +10,7 @@ import com.outurnate.sargasso.client.HammerClientItemExtensions;
 import com.outurnate.sargasso.client.RedstoneBugRenderer;
 import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
+import com.outurnate.sargasso.client.ThrownHammerRenderer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
@@ -65,6 +66,7 @@ public class SuperSargassoSeaClient {
         event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
+        event.registerEntityRenderer(LocalEntities.HAMMER.get(), ThrownHammerRenderer::new);
     }
 
     @SubscribeEvent
