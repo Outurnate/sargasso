@@ -63,7 +63,7 @@ public class ThrownHammer extends AbstractArrow {
     }
 
     @Override
-    protected ItemStack getDefaultPickupItem() {
+    public ItemStack getDefaultPickupItem() {
         return new ItemStack(LocalItems.HAMMER.get());
     }
 
