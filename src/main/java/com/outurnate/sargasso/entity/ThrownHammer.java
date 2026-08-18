@@ -2,6 +2,7 @@ package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
+
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -9,20 +10,24 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownHammer extends AbstractArrow {
@@ -83,6 +88,25 @@ public class ThrownHammer extends AbstractArrow {
         Entity currentOwner = this.getOwner();
         return currentOwner == null || !currentOwner.isAlive() ? false
             : !(currentOwner instanceof ServerPlayer) || !currentOwner.isSpectator();
+    }
+
+    @Override
+    protected void onHit(HitResult hitResult) {
+        HitResult.Type type = hitResult.getType();
+        if (type == HitResult.Type.ENTITY) {
+            EntityHitResult entityHitResult = (EntityHitResult) hitResult;
+            Entity entityHit = entityHitResult.getEntity();
+            if (entityHit.is(EntityTypeTags.REDIRECTABLE_PROJECTILE)
+                && entityHit instanceof Projectile projectile) {
+                projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.owner, true);
+            }
+
+            this.onHitEntity(entityHitResult);
+            this.level().gameEvent(
+                GameEvent.PROJECTILE_LAND,
+                hitResult.getLocation(),
+                GameEvent.Context.of(this, null));
+        }
     }
 
     @Override
