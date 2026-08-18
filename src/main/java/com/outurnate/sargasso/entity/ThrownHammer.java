@@ -3,6 +3,7 @@ package com.outurnate.sargasso.entity;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,24 +11,21 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownHammer extends AbstractArrow {
@@ -91,61 +89,54 @@ public class ThrownHammer extends AbstractArrow {
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
-        // HitResult.Type type = hitResult.getType();
-        Entity entityHit = null;
-        if (hitResult instanceof EntityHitResult entityHitResult) {
-            entityHit = entityHitResult.getEntity();
-            if (entityHit.is(EntityTypeTags.REDIRECTABLE_PROJECTILE)
-                && entityHit instanceof Projectile projectile) {
-                projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.owner, true);
-            }
-
-            float dmg = 8.0F;
-            Entity currentOwner = this.getOwner();
-            DamageSource damageSource = this.damageSources()
-                .trident(this, (Entity) (currentOwner == null ? this : currentOwner)); // TODO hammer
-            if (this.level() instanceof ServerLevel serverLevel) {
-                dmg = EnchantmentHelper
-                    .modifyDamage(serverLevel, this.getWeaponItem(), entityHit, damageSource, dmg);
-            }
-
-            this.dealtDamage = true;
-            if (entityHit.hurtOrSimulate(damageSource, dmg)) {
-                if (entityHit.is(EntityType.ENDERMAN)) {
-                    return;
-                }
-
-                if (this.level() instanceof ServerLevel serverLevel) {
-                    EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
-                        serverLevel,
-                        entityHit,
-                        damageSource,
-                        this.getWeaponItem(),
-                        weapon -> this.kill(serverLevel));
-                }
-
-                if (entityHit instanceof LivingEntity mob) {
-                    this.doKnockback(mob, damageSource);
-                    this.doPostHurtEffects(mob);
-                }
-            }
-            this.level().gameEvent(
-                GameEvent.PROJECTILE_LAND,
-                hitResult.getLocation(),
-                GameEvent.Context.of(this, null));
-        }
-
-        if (hitResult.getType() != HitResult.Type.MISS) {
-            this.deflect(ProjectileDeflection.REVERSE, entityHit, this.owner, false);
-            // this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
-            this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO hammer
+    protected void onHitBlock(BlockHitResult hitResult) {
+        if (hitResult.getDirection() == Direction.UP) {
+            super.onHitBlock(hitResult);
+        } else {
+            Vec3 velocity = getDeltaMovement();
+            Vec3 normal = hitResult.getDirection().getUnitVec3();
+            double dot = velocity.dot(normal);
+            Vec3 reflected = velocity.subtract(normal.scale(2.0 * dot));
+            setDeltaMovement(reflected.scale(0.8));
         }
     }
 
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
+        Entity entity = hitResult.getEntity();
+        float dmg = 8.0F;
+        Entity currentOwner = this.getOwner();
+        DamageSource damageSource = this.damageSources()
+            .trident(this, (Entity) (currentOwner == null ? this : currentOwner));
+        if (this.level() instanceof ServerLevel serverLevel) {
+            dmg = EnchantmentHelper
+                .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
+        }
 
+        this.dealtDamage = true;
+        if (entity.hurtOrSimulate(damageSource, dmg)) {
+            if (entity.is(EntityType.ENDERMAN)) {
+                return;
+            }
+
+            if (this.level() instanceof ServerLevel serverLevel) {
+                EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
+                    serverLevel,
+                    entity,
+                    damageSource,
+                    this.getWeaponItem(),
+                    weapon -> this.kill(serverLevel));
+            }
+
+            if (entity instanceof LivingEntity mob) {
+                this.doKnockback(mob, damageSource);
+                this.doPostHurtEffects(mob);
+            }
+        }
+
+        this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
+        this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
+        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
     }
 
     @Override
