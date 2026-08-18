@@ -3,7 +3,6 @@ package com.outurnate.sargasso.entity;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -91,14 +90,14 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected void onHitBlock(BlockHitResult hitResult) {
-        if (hitResult.getDirection() == Direction.UP) {
-            super.onHitBlock(hitResult);
-        } else {
-            Vec3 normal = hitResult.getDirection().getUnitVec3();
-            double dot = incomingVelocity.dot(normal);
-            Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
-            setDeltaMovement(reflected.scale(0.8));
-        }
+        // if (hitResult.getDirection() == Direction.UP) {
+        // super.onHitBlock(hitResult);
+        // } else {
+        Vec3 normal = hitResult.getDirection().getUnitVec3();
+        double dot = incomingVelocity.dot(normal);
+        Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
+        setDeltaMovement(reflected.scale(0.8));
+        // }
     }
 
     @Override
