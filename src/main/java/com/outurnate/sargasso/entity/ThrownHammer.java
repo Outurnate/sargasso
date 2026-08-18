@@ -92,59 +92,60 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected void onHit(HitResult hitResult) {
-        HitResult.Type type = hitResult.getType();
-        if (type == HitResult.Type.ENTITY) {
-            EntityHitResult entityHitResult = (EntityHitResult) hitResult;
-            Entity entityHit = entityHitResult.getEntity();
+        // HitResult.Type type = hitResult.getType();
+        Entity entityHit = null;
+        if (hitResult instanceof EntityHitResult entityHitResult) {
+            entityHit = entityHitResult.getEntity();
             if (entityHit.is(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 && entityHit instanceof Projectile projectile) {
                 projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.owner, true);
             }
 
-            this.onHitEntity(entityHitResult);
+            float dmg = 8.0F;
+            Entity currentOwner = this.getOwner();
+            DamageSource damageSource = this.damageSources()
+                .trident(this, (Entity) (currentOwner == null ? this : currentOwner)); // TODO hammer
+            if (this.level() instanceof ServerLevel serverLevel) {
+                dmg = EnchantmentHelper
+                    .modifyDamage(serverLevel, this.getWeaponItem(), entityHit, damageSource, dmg);
+            }
+
+            this.dealtDamage = true;
+            if (entityHit.hurtOrSimulate(damageSource, dmg)) {
+                if (entityHit.is(EntityType.ENDERMAN)) {
+                    return;
+                }
+
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
+                        serverLevel,
+                        entityHit,
+                        damageSource,
+                        this.getWeaponItem(),
+                        weapon -> this.kill(serverLevel));
+                }
+
+                if (entityHit instanceof LivingEntity mob) {
+                    this.doKnockback(mob, damageSource);
+                    this.doPostHurtEffects(mob);
+                }
+            }
             this.level().gameEvent(
                 GameEvent.PROJECTILE_LAND,
                 hitResult.getLocation(),
                 GameEvent.Context.of(this, null));
         }
+
+        if (hitResult.getType() != HitResult.Type.MISS) {
+            this.deflect(ProjectileDeflection.REVERSE, entityHit, this.owner, false);
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
+            this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO hammer
+        }
     }
 
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
-        Entity entity = hitResult.getEntity();
-        float dmg = 8.0F;
-        Entity currentOwner = this.getOwner();
-        DamageSource damageSource = this.damageSources()
-            .trident(this, (Entity) (currentOwner == null ? this : currentOwner)); // TODO hammer
-        if (this.level() instanceof ServerLevel serverLevel) {
-            dmg = EnchantmentHelper
-                .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
-        }
 
-        this.dealtDamage = true;
-        if (entity.hurtOrSimulate(damageSource, dmg)) {
-            if (entity.is(EntityType.ENDERMAN)) {
-                return;
-            }
-
-            if (this.level() instanceof ServerLevel serverLevel) {
-                EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
-                    serverLevel,
-                    entity,
-                    damageSource,
-                    this.getWeaponItem(),
-                    weapon -> this.kill(serverLevel));
-            }
-
-            if (entity instanceof LivingEntity mob) {
-                this.doKnockback(mob, damageSource);
-                this.doPostHurtEffects(mob);
-            }
-        }
-
-        this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
-        this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
-        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO hammer
     }
 
     @Override

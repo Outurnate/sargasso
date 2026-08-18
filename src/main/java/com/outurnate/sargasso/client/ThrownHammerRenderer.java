@@ -43,7 +43,7 @@ public class ThrownHammerRenderer extends EntityRenderer<ThrownHammer, ThrownHam
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot - 90.0F));
-        poseStack.translate(0.0F, -1.0F, 0.0F);
+        poseStack.translate(0.0F, -2.0F, 0.0F);
         state.self.submit(
             poseStack,
             submitNodeCollector,
