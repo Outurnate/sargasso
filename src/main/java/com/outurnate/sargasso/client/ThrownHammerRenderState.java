@@ -6,5 +6,5 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 public class ThrownHammerRenderState extends EntityRenderState {
     public float xRot;
     public float yRot;
-    public ItemStackRenderState self;
+    public ItemStackRenderState self = new ItemStackRenderState();
 }
