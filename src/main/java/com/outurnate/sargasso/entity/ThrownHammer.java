@@ -90,14 +90,14 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected void onHitBlock(BlockHitResult hitResult) {
-        // if (hitResult.getDirection() == Direction.UP) {
-        // super.onHitBlock(hitResult);
-        // } else {
         Vec3 normal = hitResult.getDirection().getUnitVec3();
         double dot = incomingVelocity.dot(normal);
         Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
-        setDeltaMovement(reflected.scale(0.8));
-        // }
+        setDeltaMovement(reflected.scale(0.5));
+        setPos(position().add(normal.scale(0.01)));
+        if (incomingVelocity.length() < 0.1) {
+            super.onHitBlock(hitResult);
+        }
     }
 
     @Override
