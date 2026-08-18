@@ -6,6 +6,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
+import com.outurnate.sargasso.item.HammerItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
@@ -218,7 +219,7 @@ public class LocalItems {
     private static float HAMMER_ATTACK_SPEED = -3.4F;
     public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
         "hammer",
-        Item::new,
+        HammerItem::new,
         p -> p
             .rarity(Rarity.EPIC)
             .durability(2048)
