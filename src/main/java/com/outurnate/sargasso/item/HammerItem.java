@@ -42,6 +42,11 @@ public class HammerItem extends Item implements ProjectileItem {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
+
+        if (itemInHand.nextDamageWillBreak()) {
+            return InteractionResult.FAIL;
+        }
+
         if (player.getAttackStrengthScale(0.0F) < itemInHand
             .getOrDefault(DataComponents.MINIMUM_ATTACK_CHARGE, 0.0F)) {
             return InteractionResult.FAIL;
@@ -66,10 +71,9 @@ public class HammerItem extends Item implements ProjectileItem {
             }
 
             level.playSound(null, hammer, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            player.resetAttackStrengthTicker();
-            return InteractionResult.CONSUME;
         }
 
-        return InteractionResult.PASS;
+        player.resetAttackStrengthTicker();
+        return InteractionResult.CONSUME;
     }
 }
