@@ -86,6 +86,10 @@ public class EnglishLanguageProvider extends LanguageProvider {
         this.addMisc(LocalSoundDefinitionsProvider.toaster, "Time travel happened");
         this.addMisc(LocalSoundDefinitionsProvider.pylon, "Pylon equipped");
         this.addMisc(LocalSoundDefinitionsProvider.zap, "Electric arc");
+        this.addMisc(LocalSoundDefinitionsProvider.hammer_hit, "Hammer slams");
+        this.addMisc(LocalSoundDefinitionsProvider.hammer_hit_ground, "Hammer thuds");
+        this.addMisc(LocalSoundDefinitionsProvider.hammer_return, "Hammer returns");
+        this.addMisc(LocalSoundDefinitionsProvider.hammer_throw, "Hammer clangs");
         this.addMisc(LocalJukeboxSongProvider.unchecked, "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
         this.addCustomPotion(
             LocalLootTableProvider.LocalLootTableSubProvider.POTION_BHJ,

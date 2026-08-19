@@ -1,18 +1,17 @@
 - something that uses power from your inventory
 - redstone emp
-- frankenstein's lab
-- grabthar's hammer
-- structure: temples of syrinx
+- structures: frankenstein's lab
+- grabthar's hammer (sounds)
 - structure: islands
 - structure: bazaar
 - structure: forge
 - structure: shipwrecks
-- caves
-- ore
 - review default tagging
 - finish textures!
 
 DONE
+- caves
+- ore
 - normalize translation keys and centralize them
 - something fixed in one place that you can build a factory around
 - still have topless buildings

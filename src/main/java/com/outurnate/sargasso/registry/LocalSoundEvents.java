@@ -31,6 +31,18 @@ public class LocalSoundEvents {
     public static final Holder<SoundEvent> ZAP = REGISTRY.register(
         "zap",
         SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> HAMMER_HIT = REGISTRY.register(
+        "hammer_hit",
+        SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> HAMMER_HIT_GROUND = REGISTRY.register(
+        "hammer_hit_ground",
+        SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> HAMMER_THROW = REGISTRY.register(
+        "hammer_throw",
+        SoundEvent::createVariableRangeEvent);
+    public static final Holder<SoundEvent> HAMMER_RETURN = REGISTRY.register(
+        "hammer_return",
+        SoundEvent::createVariableRangeEvent);
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

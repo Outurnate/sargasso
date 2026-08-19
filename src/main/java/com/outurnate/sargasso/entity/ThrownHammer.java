@@ -2,6 +2,7 @@ package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -9,7 +10,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -62,7 +62,7 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND; // TODO sound
+        return LocalSoundEvents.HAMMER_HIT_GROUND.value();
     }
 
     @Override
@@ -98,9 +98,10 @@ public class ThrownHammer extends AbstractArrow {
         if (incomingVelocity.length() < 0.1) {
             super.onHitBlock(hitResult);
         }
-        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO sound
+        this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
         Entity entity = hitResult.getEntity();
@@ -136,7 +137,7 @@ public class ThrownHammer extends AbstractArrow {
 
         this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
-        this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F); // TODO sound
+        this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 
     @Override
@@ -189,7 +190,7 @@ public class ThrownHammer extends AbstractArrow {
                 double accel = 0.05 * loyalty;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec.normalize().scale(accel)));
                 if (this.clientSideReturnHammerTickCount == 0) {
-                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F); // TODO hammer
+                    this.playSound(LocalSoundEvents.HAMMER_RETURN.value(), 10.0F, 1.0F);
                 }
 
                 this.clientSideReturnHammerTickCount++;

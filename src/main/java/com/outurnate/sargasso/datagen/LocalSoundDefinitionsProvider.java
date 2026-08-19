@@ -17,6 +17,10 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
     public static final TranslatableContents toaster = t("toaster");
     public static final TranslatableContents pylon = t("pylon");
     public static final TranslatableContents zap = t("zap");
+    public static final TranslatableContents hammer_hit = t("hammer_hit");
+    public static final TranslatableContents hammer_hit_ground = t("hammer_hit_ground");
+    public static final TranslatableContents hammer_throw = t("hammer_throw");
+    public static final TranslatableContents hammer_return = t("hammer_return");
 
     private static TranslatableContents t(String key) {
         return new TranslatableContents("sound." + SuperSargassoSea.MODID + "." + key, null, new Object[0]);
@@ -76,6 +80,46 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
                     sound("sargasso:zap3"),
                     sound("sargasso:zap4"))
                 .subtitle(zap.getKey())
+                .replace(true));
+        add(
+            LocalSoundEvents.HAMMER_HIT,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:zap1"),
+                    sound("sargasso:zap2"),
+                    sound("sargasso:zap3"),
+                    sound("sargasso:zap4"))
+                .subtitle(hammer_hit.getKey())
+                .replace(true));
+        add(
+            LocalSoundEvents.HAMMER_HIT_GROUND,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:zap1"),
+                    sound("sargasso:zap2"),
+                    sound("sargasso:zap3"),
+                    sound("sargasso:zap4"))
+                .subtitle(hammer_hit_ground.getKey())
+                .replace(true));
+        add(
+            LocalSoundEvents.HAMMER_RETURN,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:zap1"),
+                    sound("sargasso:zap2"),
+                    sound("sargasso:zap3"),
+                    sound("sargasso:zap4"))
+                .subtitle(hammer_return.getKey())
+                .replace(true));
+        add(
+            LocalSoundEvents.HAMMER_THROW,
+            SoundDefinition.definition()
+                .with(
+                    sound("sargasso:zap1"),
+                    sound("sargasso:zap2"),
+                    sound("sargasso:zap3"),
+                    sound("sargasso:zap4"))
+                .subtitle(hammer_throw.getKey())
                 .replace(true));
     }
 }

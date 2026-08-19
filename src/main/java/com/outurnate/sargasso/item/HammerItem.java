@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.item;
 
 import com.outurnate.sargasso.entity.ThrownHammer;
+import com.outurnate.sargasso.registry.LocalSoundEvents;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -8,7 +9,6 @@ import net.minecraft.core.Position;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -54,7 +54,7 @@ public class HammerItem extends Item implements ProjectileItem {
 
         Holder<SoundEvent> sound = EnchantmentHelper
             .pickHighestLevel(itemInHand, EnchantmentEffectComponents.TRIDENT_SOUND)
-            .orElse(SoundEvents.TRIDENT_THROW); // TODO hammer
+            .orElse(LocalSoundEvents.HAMMER_THROW);
         if (level instanceof ServerLevel serverLevel) {
             itemInHand.hurtWithoutBreaking(1, player);
             ItemStack thrownItemStack = itemInHand.consumeAndReturn(1, player);
