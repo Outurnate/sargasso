@@ -22,11 +22,6 @@ public class EnteringEntry extends EntryProvider {
     }
 
     @Override
-    protected String entryDescription() {
-        return "More often than not, the path to this dimension is found accidentally. Falling out of the world, or perhaps, encountering a space where reality is a bit thinner, can land you here.";
-    }
-
-    @Override
     protected BookIconModel entryIcon() {
         return BookIconModel.create(LocalItems.FLOTSAM);
     }
@@ -46,13 +41,12 @@ public class EnteringEntry extends EntryProvider {
         this.page(
             "info",
             () -> BookTextPageModel.create()
-                .withTitle(this.context().pageTitle())
                 .withText(this.context().pageText()));
+        this.pageText(
+            "More often than not, the path to this dimension is found accidentally. Falling out of the world, or perhaps, encountering a space where reality is a bit thinner, can land you here.");
         this.page(
             "image",
             () -> BookImagePageModel.create()
-                .withText(this.context().pageText())
-                .withTitle(this.context().pageTitle())
                 .withImages(Identifier.parse("sargasso:textures/gui/thinner.png")));
     }
 }
