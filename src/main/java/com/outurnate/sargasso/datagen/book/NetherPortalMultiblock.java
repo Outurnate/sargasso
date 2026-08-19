@@ -20,9 +20,10 @@ public class NetherPortalMultiblock extends MultiblockProvider {
                 .layer("OPPPO")
                 .layer("OP0PO")
                 .layer("OPPPO")
+                .layer("OPPPO")
                 .layer("OOOOO")
                 .block('O', () -> Blocks.OBSIDIAN)
-                .block('0', () -> Blocks.NETHER_PORTAL)
-                .block('P', () -> Blocks.NETHER_PORTAL));
+                .blockstate('0', () -> Blocks.NETHER_PORTAL, "[axis=z]")
+                .blockstate('P', () -> Blocks.NETHER_PORTAL, "[axis=z]"));
     }
 }
