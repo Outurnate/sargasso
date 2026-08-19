@@ -16,12 +16,11 @@ public class NetherPortalMultiblock extends MultiblockProvider {
         this.add(
             this.modLoc("nether_portal"),
             new DenseMultiblockBuilder()
-                .layer(
-                    "OOOOO",
-                    "OPPPO",
-                    "OP0PO",
-                    "OPPPO",
-                    "OOOOO")
+                .layer("OOOOO")
+                .layer("OPPPO")
+                .layer("OP0PO")
+                .layer("OPPPO")
+                .layer("OOOOO")
                 .block('O', () -> Blocks.OBSIDIAN)
                 .block('0', () -> Blocks.NETHER_PORTAL)
                 .block('P', () -> Blocks.NETHER_PORTAL));

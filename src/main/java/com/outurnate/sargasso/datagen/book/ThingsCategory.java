@@ -3,6 +3,7 @@ package com.outurnate.sargasso.datagen.book;
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
+import com.outurnate.sargasso.datagen.book.things.BatteriesEntry;
 import com.outurnate.sargasso.registry.LocalItems;
 
 public class ThingsCategory extends CategoryProvider {
@@ -27,5 +28,6 @@ public class ThingsCategory extends CategoryProvider {
 
     @Override
     protected void generateEntries() {
+        this.add(new BatteriesEntry(this).generate());
     }
 }

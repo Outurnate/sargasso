@@ -4,6 +4,7 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.outurnate.sargasso.datagen.book.dimension.EnteringEntry;
+import com.outurnate.sargasso.datagen.book.dimension.FlotsamEntry;
 import com.outurnate.sargasso.datagen.book.dimension.LeavingEntry;
 import com.outurnate.sargasso.registry.LocalItems;
 
@@ -36,5 +37,6 @@ public class DimensionCategory extends CategoryProvider {
     protected void generateEntries() {
         this.add(new EnteringEntry(this).generate());
         this.add(new LeavingEntry(this).generate());
+        this.add(new FlotsamEntry(this).generate());
     }
 }
