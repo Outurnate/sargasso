@@ -1,6 +1,8 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.klikli_dev.modonomicon.api.datagen.AbstractModonomiconLanguageProvider;
+import com.klikli_dev.modonomicon.api.datagen.ModonomiconLanguageProvider;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.loot.LoreSet;
@@ -23,11 +25,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 import net.minecraft.world.item.alchemy.Potion;
-import net.neoforged.neoforge.common.data.LanguageProvider;
 
-public class EnglishLanguageProvider extends LanguageProvider {
-    public EnglishLanguageProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
-        super(output, SuperSargassoSea.MODID, "en_us");
+public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider {
+    public EnglishLanguageProvider(
+        PackOutput output,
+        CompletableFuture<Provider> lookupProvider,
+        ModonomiconLanguageProvider cachedProvider) {
+        super(output, SuperSargassoSea.MODID, "en_us", cachedProvider);
     }
 
     private void addAdvancement(Identifier name, String title, String description) {

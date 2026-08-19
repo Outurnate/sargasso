@@ -1,7 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.klikli_dev.modonomicon.api.datagen.LanguageProviderCache;
+import com.klikli_dev.modonomicon.api.datagen.NeoBookProvider;
+import com.klikli_dev.modonomicon.api.datagen.research.ResearchCache;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.book.LocalBook;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredCarversProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
@@ -29,13 +33,19 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent.Client event) {
+        LanguageProviderCache langCache = new LanguageProviderCache("en_us");
+        ResearchCache researchCache = new ResearchCache();
+        event.getGenerator()
+            .addProvider(true, NeoBookProvider.of(event, langCache, researchCache, new LocalBook()));
+
         event.createProvider(LocalModelProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
         event.createProvider(LocalSoundDefinitionsProvider::new);
         event.createProvider(LocalAdvancementProvider::new);
         event.createProvider(LocalParticleDescriptionProvider::new);
-        event.createProvider(EnglishLanguageProvider::new);
+        event.createProvider(
+            (output, lookupProvider) -> new EnglishLanguageProvider(output, lookupProvider, langCache));
         event.createDatapackRegistryObjects(
             new RegistrySetBuilder()
                 .add(Registries.BIOME, LocalBiomesProvider::provide)
