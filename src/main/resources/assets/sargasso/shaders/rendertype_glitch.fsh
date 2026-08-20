@@ -21,7 +21,7 @@ float tv_static(vec2 pos, float evolve) {
 out vec4 fragColor;
 
 void main() {
-    float scale = 2.0;
+    float scale = 0.5;
     vec2 coord = (round(texProj0.xy / scale) + vec2(1.0, 1.0)) * scale;
     vec3 color = vec3(tv_static(coord, GameTime));
     fragColor = apply_fog(vec4(color, 1.0), sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);
