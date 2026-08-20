@@ -150,13 +150,14 @@ public class GlitchBlockEntityRenderer
         RenderType renderType;
 
         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-            renderType = RenderTypes.entityTranslucentEmissive(staticIdentifier);
+            renderType = RenderTypes.entityCutout(staticIdentifier);
             RandomSource rand = RandomSource.createThreadLocalInstance();
             for (int y = 0; y < staticImage.getHeight(); ++y) {
                 for (int x = 0; x < staticImage.getWidth(); ++x) {
                     staticImage.setPixelABGR(x, y, rand.nextBoolean() ? 0xFFFFFFFF : 0xFF000000);
                 }
             }
+            staticTexture.upload();
         } else {
             renderType = LocalRenderTypes.GLITCH;
         }
