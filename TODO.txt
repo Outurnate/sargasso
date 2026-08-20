@@ -8,6 +8,7 @@
 - structure: shipwrecks
 - review default tagging
 - finish textures!
+- glitch block improvements
 
 DONE
 - caves

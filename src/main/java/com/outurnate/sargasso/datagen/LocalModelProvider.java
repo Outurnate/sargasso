@@ -169,7 +169,7 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
         blockModels.createTrivialCube(LocalBlocks.PETRIFIED_FLOTSAM.get());
         blockModels.createTrivialCube(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get());
-        blockModels.createTrivialCube(LocalBlocks.GLITCH.get());
+        blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
         Identifier toaster = SuperSargassoSea.ID("block/toaster");
         blockModels.blockStateOutput.accept(

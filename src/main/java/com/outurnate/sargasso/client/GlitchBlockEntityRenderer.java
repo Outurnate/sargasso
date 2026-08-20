@@ -1,7 +1,9 @@
 /* (C)2026 */
 package com.outurnate.sargasso.client;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
 import com.outurnate.sargasso.client.iris.IrisCompat;
 
@@ -9,14 +11,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
@@ -42,6 +50,8 @@ public class GlitchBlockEntityRenderer
                 faceInfo.getVertexInfo(3).select(FROM, TO));
         });
     private static final List<Direction> ALL_FACES = List.of(Direction.values());
+
+    private static final Identifier staticIdentifier = SuperSargassoSea.ID("dynamic/static");
 
     public static void getExtents(Consumer<Vector3fc> output) {
         FACES.values().forEach(vertices -> vertices.forEach(output));
@@ -70,7 +80,12 @@ public class GlitchBlockEntityRenderer
         submitCube(ALL_FACES, renderType, poseStack, submitNodeCollector);
     }
 
+    private final NativeImage staticImage = new NativeImage(16, 16, false);
+
+    private final DynamicTexture staticTexture = new DynamicTexture(() -> "static", staticImage);
+
     public GlitchBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
+        Minecraft.getInstance().getTextureManager().register(staticIdentifier, staticTexture);
     }
 
     @Override
@@ -85,10 +100,6 @@ public class GlitchBlockEntityRenderer
         float partialTicks,
         Vec3 cameraPosition,
         ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-            return;
-        }
-
         BlockEntityRenderer.super.extractRenderState(
             blockEntity,
             state,
@@ -115,12 +126,22 @@ public class GlitchBlockEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
+        RenderType renderType;
+
         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-            return;
+            renderType = RenderTypes.entityTranslucentEmissive(staticIdentifier);
+            RandomSource rand = RandomSource.createThreadLocalInstance();
+            for (int y = 0; y < staticImage.getHeight(); ++y) {
+                for (int x = 0; x < staticImage.getWidth(); ++x) {
+                    staticImage.setPixelABGR(x, y, rand.nextBoolean() ? 0xFFFFFFFF : 0xFF000000);
+                }
+            }
+        } else {
+            renderType = LocalRenderTypes.GLITCH;
         }
 
         poseStack.pushPose();
-        submitCube(state.facesToShow, LocalRenderTypes.GLITCH, poseStack, submitNodeCollector);
+        submitCube(state.facesToShow, renderType, poseStack, submitNodeCollector);
         poseStack.popPose();
     }
 }
