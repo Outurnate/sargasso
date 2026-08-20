@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -53,6 +54,13 @@ public class GlitchBlockEntityRenderer
 
     private static final Identifier staticIdentifier = SuperSargassoSea.ID("dynamic/static");
 
+    private static final float[][] UVS = {
+        { 0.0F, 0.0F },
+        { 0.0F, 1.0F },
+        { 1.0F, 1.0F },
+        { 1.0F, 0.0F }
+    };
+
     public static void getExtents(Consumer<Vector3fc> output) {
         FACES.values().forEach(vertices -> vertices.forEach(output));
     }
@@ -65,8 +73,21 @@ public class GlitchBlockEntityRenderer
         if (!facesToShow.isEmpty()) {
             submitNodeCollector.submitCustomGeometry(poseStack, renderType, (pose, buffer) -> {
                 for (Direction direction : facesToShow) {
+                    int i = 0;
                     for (Vector3fc faceVertex : FACES.get(direction)) {
-                        buffer.addVertex(pose, faceVertex);
+                        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
+                            buffer.addVertex(pose, faceVertex);
+                        } else {
+                            int fullBright = 0x00F000F0;
+                            buffer
+                                .addVertex(pose, faceVertex)
+                                .setNormal(pose, direction.getUnitVec3f())
+                                .setUv(UVS[i][0], UVS[i][1])
+                                .setColor(-1)
+                                .setOverlay(OverlayTexture.NO_OVERLAY)
+                                .setLight(fullBright);
+                            ++i;
+                        }
                     }
                 }
             });
