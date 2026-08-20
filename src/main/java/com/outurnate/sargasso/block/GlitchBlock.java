@@ -3,6 +3,7 @@ package com.outurnate.sargasso.block;
 
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
+import com.outurnate.sargasso.client.iris.IrisCompat;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
@@ -91,7 +92,7 @@ public class GlitchBlock extends Block implements EntityBlock {
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.INVISIBLE;
+        return IrisCompat.INSTANCE.shouldUseFallbackRendering() ? RenderShape.MODEL : RenderShape.INVISIBLE;
     }
 
     @Override

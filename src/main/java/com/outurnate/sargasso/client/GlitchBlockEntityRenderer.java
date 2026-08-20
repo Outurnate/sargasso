@@ -3,6 +3,8 @@ package com.outurnate.sargasso.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
+import com.outurnate.sargasso.client.iris.IrisCompat;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +85,10 @@ public class GlitchBlockEntityRenderer
         float partialTicks,
         Vec3 cameraPosition,
         ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
+            return;
+        }
+
         BlockEntityRenderer.super.extractRenderState(
             blockEntity,
             state,
@@ -109,6 +115,10 @@ public class GlitchBlockEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
+        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
+            return;
+        }
+
         poseStack.pushPose();
         submitCube(state.facesToShow, LocalRenderTypes.GLITCH, poseStack, submitNodeCollector);
         poseStack.popPose();
