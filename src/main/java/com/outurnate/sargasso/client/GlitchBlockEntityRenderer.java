@@ -76,8 +76,6 @@ public class GlitchBlockEntityRenderer
                     int i = 0;
                     for (Vector3fc faceVertex : FACES.get(direction)) {
                         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-                            buffer.addVertex(pose, faceVertex);
-                        } else {
                             int fullBright = 0x00F000F0;
                             buffer
                                 .addVertex(pose, faceVertex)
@@ -87,6 +85,8 @@ public class GlitchBlockEntityRenderer
                                 .setOverlay(OverlayTexture.NO_OVERLAY)
                                 .setLight(fullBright);
                             ++i;
+                        } else {
+                            buffer.addVertex(pose, faceVertex);
                         }
                     }
                 }
