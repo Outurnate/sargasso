@@ -40,7 +40,7 @@ public class ThingsCategory extends CategoryProvider {
                     "rechargable_aa_battery",
                     "Rechargable AA Battery",
                     LocalItems.RECHARGABLE_AA_BATTERY,
-                    "There are rechargable variants. It can be recharged with $(l:things/potato_battery)Potato Batteries");
+                    "There are rechargable variants. It can be recharged with [Potato Batteries](entry://things/potato_battery)");
             }
         }.generate());
         this.add(new BaseEntry(this, "cream", "Bedrock Cream", LocalItems.BEDROCK_CREAM) {
@@ -146,7 +146,7 @@ public class ThingsCategory extends CategoryProvider {
             protected void generatePages() {
                 this.spotlightPage(
                     "toaster",
-                    "C. Flux Toaster",
+                    "Chronometric Flux Toaster",
                     LocalItems.TOASTER,
                     "This device possesses a function that can't possibly be useful to anyone. Using the principals of chronometric science, it toasts bread after it's been eaten. It somehow does this despite having no discernable power source.");
             }

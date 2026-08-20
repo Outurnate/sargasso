@@ -34,7 +34,7 @@ ordering="NONE"
 side="CLIENT"
 
 [[dependencies.${mod_id}]]
-modId="patchouli"
+modId="modonomicon"
 type="optional"
 versionRange="[1.0.0,)"
 ordering="NONE"
