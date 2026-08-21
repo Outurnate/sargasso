@@ -1,7 +1,6 @@
 /* (C)2026 */
 package com.outurnate.sargasso.client;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -21,7 +19,6 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
@@ -52,7 +49,7 @@ public class GlitchBlockEntityRenderer
         });
     private static final List<Direction> ALL_FACES = List.of(Direction.values());
 
-    private static final Identifier staticIdentifier = SuperSargassoSea.ID("dynamic/static");
+    private static final Identifier staticIdentifier = SuperSargassoSea.ID("block/glitch");
 
     private static final float[][] UVS = {
         { 0.0F, 0.0F },
@@ -60,6 +57,12 @@ public class GlitchBlockEntityRenderer
         { 1.0F, 1.0F },
         { 1.0F, 0.0F }
     };
+
+    // texture is 256x256, UVs are in [0-1] range
+    // this divides it into 8x8 grid
+    private final static int GRID_SIZE = 8;
+
+    private final static float GRID_SEGMENT = (1.0F / (float) GRID_SIZE);
 
     public static void getExtents(Consumer<Vector3fc> output) {
         FACES.values().forEach(vertices -> vertices.forEach(output));
@@ -70,17 +73,20 @@ public class GlitchBlockEntityRenderer
         RenderType renderType,
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector) {
+        RandomSource rand = RandomSource.createThreadLocalInstance();
         if (!facesToShow.isEmpty()) {
             submitNodeCollector.submitCustomGeometry(poseStack, renderType, (pose, buffer) -> {
                 for (Direction direction : facesToShow) {
                     int i = 0;
+                    float minU = rand.nextInt(GRID_SIZE) * GRID_SEGMENT;
+                    float minV = rand.nextInt(GRID_SIZE) * GRID_SEGMENT;
                     for (Vector3fc faceVertex : FACES.get(direction)) {
                         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
                             int fullBright = 0x00F000F0;
                             buffer
                                 .addVertex(pose, faceVertex)
                                 .setNormal(pose, direction.getUnitVec3f())
-                                .setUv(UVS[i][0], UVS[i][1])
+                                .setUv(minU + (GRID_SEGMENT * UVS[i][0]), minV + (GRID_SEGMENT * UVS[i][1]))
                                 .setColor(-1)
                                 .setOverlay(OverlayTexture.NO_OVERLAY)
                                 .setLight(fullBright);
@@ -101,12 +107,7 @@ public class GlitchBlockEntityRenderer
         submitCube(ALL_FACES, renderType, poseStack, submitNodeCollector);
     }
 
-    private final NativeImage staticImage = new NativeImage(16, 16, false);
-
-    private final DynamicTexture staticTexture = new DynamicTexture(() -> "static", staticImage);
-
     public GlitchBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
-        Minecraft.getInstance().getTextureManager().register(staticIdentifier, staticTexture);
     }
 
     @Override
@@ -151,13 +152,6 @@ public class GlitchBlockEntityRenderer
 
         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
             renderType = RenderTypes.entityCutout(staticIdentifier);
-            RandomSource rand = RandomSource.createThreadLocalInstance();
-            for (int y = 0; y < staticImage.getHeight(); ++y) {
-                for (int x = 0; x < staticImage.getWidth(); ++x) {
-                    staticImage.setPixelABGR(x, y, rand.nextBoolean() ? 0xFFFFFFFF : 0xFF000000);
-                }
-            }
-            staticTexture.upload();
         } else {
             renderType = LocalRenderTypes.GLITCH;
         }
