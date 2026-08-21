@@ -85,10 +85,7 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.HAMMER_HIT,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:zap1"),
-                    sound("sargasso:zap2"),
-                    sound("sargasso:zap3"),
-                    sound("sargasso:zap4"))
+                    sound("sargasso:hammer_hit"))
                 .subtitle(hammer_hit.getKey())
                 .replace(true));
         add(
@@ -104,20 +101,14 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.HAMMER_RETURN,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:zap1"),
-                    sound("sargasso:zap2"),
-                    sound("sargasso:zap3"),
-                    sound("sargasso:zap4"))
+                    sound("sargasso:hammer_hit_ground1"))
                 .subtitle(hammer_return.getKey())
                 .replace(true));
         add(
             LocalSoundEvents.HAMMER_THROW,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:zap1"),
-                    sound("sargasso:zap2"),
-                    sound("sargasso:zap3"),
-                    sound("sargasso:zap4"))
+                    sound("sargasso:hammer_hit_ground1"))
                 .subtitle(hammer_throw.getKey())
                 .replace(true));
     }
