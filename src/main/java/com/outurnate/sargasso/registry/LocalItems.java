@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.registry;
 
+import com.klikli_dev.modonomicon.item.ModonomiconCustomItemBase;
 import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
@@ -302,6 +303,10 @@ public class LocalItems {
         "starmetal_scrap",
         Item::new,
         p -> p);
+
+    public static final DeferredItem<Item> ATLAS = REGISTRY.registerItem(
+        "atlas",
+        (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
 
     private static int getBatteryCapacity() {
         try {

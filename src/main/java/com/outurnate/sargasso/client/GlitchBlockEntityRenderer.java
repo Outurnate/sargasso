@@ -152,11 +152,6 @@ public class GlitchBlockEntityRenderer
         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
             submitCube(
                 state.facesToShow,
-                RenderTypes.entityTranslucentEmissive(staticIdentifier),
-                poseStack,
-                submitNodeCollector);
-            submitCube(
-                state.facesToShow,
                 RenderTypes.entityCutout(staticIdentifier),
                 poseStack,
                 submitNodeCollector);

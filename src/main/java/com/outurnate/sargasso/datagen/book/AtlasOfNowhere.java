@@ -5,9 +5,9 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.outurnate.sargasso.SuperSargassoSea;
 
-public class LocalBook extends SingleBookSubProvider {
-    public LocalBook() {
-        super("book", SuperSargassoSea.MODID);
+public class AtlasOfNowhere extends SingleBookSubProvider {
+    public AtlasOfNowhere() {
+        super("atlas", SuperSargassoSea.MODID);
     }
 
     @Override
