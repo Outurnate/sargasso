@@ -151,7 +151,7 @@ public class GlitchBlockEntityRenderer
         RenderType renderType;
 
         if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-            renderType = RenderTypes.entityCutout(staticIdentifier);
+            renderType = RenderTypes.entityTranslucentEmissive(staticIdentifier);
         } else {
             renderType = LocalRenderTypes.GLITCH;
         }
