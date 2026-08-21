@@ -49,7 +49,7 @@ public class GlitchBlockEntityRenderer
         });
     private static final List<Direction> ALL_FACES = List.of(Direction.values());
 
-    private static final Identifier staticIdentifier = SuperSargassoSea.ID("textures/block/glitch");
+    private static final Identifier staticIdentifier = SuperSargassoSea.ID("textures/block/glitch.png");
 
     private static final float[][] UVS = {
         { 0.0F, 0.0F },
