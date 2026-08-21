@@ -39,3 +39,9 @@ rules:
     license: CC0-1.0
     attribution: 'jacobs ladder from side.wav'
     url: "https://freesound.org/people/parabolix/sounds/449013/"
+  - glob: assets/sargasso/sounds/hammer_hit_ground*.ogg
+    source: Freesound
+    author: NeoSpica
+    license: CC0-1.0
+    attribution: 'Rock Smash'
+    url: "https://freesound.org/people/NeoSpica/sounds/512243/"

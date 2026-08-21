@@ -95,10 +95,9 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.HAMMER_HIT_GROUND,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:zap1"),
-                    sound("sargasso:zap2"),
-                    sound("sargasso:zap3"),
-                    sound("sargasso:zap4"))
+                    sound("sargasso:hammer_hit_ground1"),
+                    sound("sargasso:hammer_hit_ground2"),
+                    sound("sargasso:hammer_hit_ground3"))
                 .subtitle(hammer_hit_ground.getKey())
                 .replace(true));
         add(
