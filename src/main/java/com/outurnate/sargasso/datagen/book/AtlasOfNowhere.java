@@ -4,6 +4,7 @@ import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalItems;
 
 public class AtlasOfNowhere extends SingleBookSubProvider {
     public AtlasOfNowhere() {
@@ -12,7 +13,9 @@ public class AtlasOfNowhere extends SingleBookSubProvider {
 
     @Override
     protected BookModel additionalSetup(BookModel book) {
-        return book.withDisplayMode(BookDisplayMode.INDEX);
+        return book
+            .withDisplayMode(BookDisplayMode.INDEX)
+            .withCustomBookItem(LocalItems.ATLAS.getId());
     }
 
     @Override
