@@ -148,16 +148,22 @@ public class GlitchBlockEntityRenderer
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {
-        RenderType renderType;
-
-        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
-            renderType = RenderTypes.entityTranslucentEmissive(staticIdentifier);
-        } else {
-            renderType = LocalRenderTypes.GLITCH;
-        }
-
         poseStack.pushPose();
-        submitCube(state.facesToShow, renderType, poseStack, submitNodeCollector);
+        if (IrisCompat.INSTANCE.shouldUseFallbackRendering()) {
+            submitCube(
+                state.facesToShow,
+                RenderTypes.entityTranslucentEmissive(staticIdentifier),
+                poseStack,
+                submitNodeCollector);
+            submitCube(
+                state.facesToShow,
+                RenderTypes.entityCutout(staticIdentifier),
+                poseStack,
+                submitNodeCollector);
+        } else {
+            submitCube(state.facesToShow, LocalRenderTypes.GLITCH, poseStack, submitNodeCollector);
+        }
         poseStack.popPose();
+
     }
 }
