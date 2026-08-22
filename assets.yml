@@ -51,3 +51,9 @@ rules:
     license: CC0-1.0
     attribution: 'Thud.wav'
     url: "https://freesound.org/people/Bird_man/sounds/275160/"
+  - glob: assets/sargasso/sounds/hammer_return*.ogg
+    source: Freesound
+    author: oscaraudiogeek
+    license: CC0-1.0
+    attribution: 'Low Metallic ring.wav'
+    url: "https://freesound.org/people/oscaraudiogeek/sounds/342603/"

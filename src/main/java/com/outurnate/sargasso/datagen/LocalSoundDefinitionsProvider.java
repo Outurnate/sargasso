@@ -101,14 +101,16 @@ public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
             LocalSoundEvents.HAMMER_RETURN,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:hammer_hit_ground1"))
+                    sound("sargasso:hammer_return1"),
+                    sound("sargasso:hammer_return2"),
+                    sound("sargasso:hammer_return3"))
                 .subtitle(hammer_return.getKey())
                 .replace(true));
         add(
             LocalSoundEvents.HAMMER_THROW,
             SoundDefinition.definition()
                 .with(
-                    sound("sargasso:hammer_hit_ground1"))
+                    sound("minecraft:random/bow"))
                 .subtitle(hammer_throw.getKey())
                 .replace(true));
     }
