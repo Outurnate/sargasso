@@ -28,5 +28,13 @@ public class LocalDamageTypesProvider {
                 0.1F,
                 DamageEffects.HURT,
                 DeathMessageType.DEFAULT));
+        bootstrap.register(
+            LocalDamageTypes.HAMMER,
+            new DamageType(
+                LocalDamageTypes.HAMMER.identifier().toLanguageKey(),
+                DamageScaling.NEVER,
+                0.1F,
+                DamageEffects.HURT,
+                DeathMessageType.DEFAULT));
     }
 }

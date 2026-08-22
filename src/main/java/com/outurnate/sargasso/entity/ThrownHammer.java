@@ -4,6 +4,8 @@ import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -98,6 +100,14 @@ public class ThrownHammer extends AbstractArrow {
         if (incomingVelocity.length() < 0.1) {
             super.onHitBlock(hitResult);
         }
+        this.level().addParticle(
+            new BlockParticleOption(ParticleTypes.BLOCK, this.level().getBlockState(hitResult.getBlockPos())),
+            this.getX(),
+            this.getY(),
+            this.getZ(),
+            this.getX(),
+            this.getY(),
+            this.getZ());
         this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 

@@ -178,6 +178,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
 
         this.addDamageType(LocalDamageTypes.ELECTRIC_SHOCK, "%s was electrocuted");
         this.addDamageType(LocalDamageTypes.HEAD_EXPLOSION, "%s's head exploded");
+        this.addDamageType(LocalDamageTypes.HAMMER, "%s was bludgeoned");
 
         this.addEntityType(LocalEntities.LIGHTNING_BOTTLE, "Thrown Lightning in a Bottle");
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");

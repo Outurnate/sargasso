@@ -12,4 +12,6 @@ public class LocalDamageTypes {
         .create(Registries.DAMAGE_TYPE, SuperSargassoSea.ID("head_explosion"));
     public static final ResourceKey<DamageType> ELECTRIC_SHOCK = ResourceKey
         .create(Registries.DAMAGE_TYPE, SuperSargassoSea.ID("electric_shock"));
+    public static final ResourceKey<DamageType> HAMMER = ResourceKey
+        .create(Registries.DAMAGE_TYPE, SuperSargassoSea.ID("hammer"));
 }
