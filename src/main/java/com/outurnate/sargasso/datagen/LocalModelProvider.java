@@ -5,6 +5,7 @@ import static java.util.Map.entry;
 import static net.minecraft.client.data.models.BlockModelGenerators.NOP;
 import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_180;
+import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
@@ -102,42 +103,24 @@ public class LocalModelProvider extends ModelProvider {
 
     private void createThreeAxisRotate(Block block, BlockModelGenerators blockModelGenerators) {
         Variant normal = plainModel(TexturedModel.CUBE.create(block, blockModelGenerators.modelOutput));
-        VariantMutator[] xMutators = new VariantMutator[] {
-            null,
+        VariantMutator[] mutators = new VariantMutator[] {
             X_ROT_90,
-            X_ROT_180
-        };
-        VariantMutator[] yMutators = new VariantMutator[] {
-            null,
+            X_ROT_180,
+            X_ROT_270,
             Y_ROT_90,
             Y_ROT_180,
-            Y_ROT_270
-        };
-        VariantMutator[] zMutators = new VariantMutator[] {
-            null,
+            Y_ROT_270,
             Z_ROT_90,
-            Z_ROT_180
+            Z_ROT_180,
+            Z_ROT_270
         };
-        List<Variant> mutators = new ArrayList<>();
-        for (VariantMutator x : xMutators) {
-            for (VariantMutator y : yMutators) {
-                for (VariantMutator z : zMutators) {
-                    Variant current = normal;
-                    if (x != null) {
-                        current = current.with(x);
-                    }
-                    if (y != null) {
-                        current = current.with(y);
-                    }
-                    if (z != null) {
-                        current = current.with(z);
-                    }
-                    mutators.add(current);
-                }
-            }
+        List<Variant> mutated = new ArrayList<>();
+        mutated.add(normal);
+        for (VariantMutator mutator : mutators) {
+            mutated.add(normal.with(mutator));
         }
         blockModelGenerators.blockStateOutput
-            .accept(MultiVariantGenerator.dispatch(block, variants(mutators.toArray(Variant[]::new))));
+            .accept(MultiVariantGenerator.dispatch(block, variants(mutated.toArray(Variant[]::new))));
     }
 
     private MultiPartGenerator generateShockTherapist() {
