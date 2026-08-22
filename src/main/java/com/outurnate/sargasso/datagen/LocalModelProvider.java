@@ -239,7 +239,7 @@ public class LocalModelProvider extends ModelProvider {
         Identifier atlas = SuperSargassoSea.ID("atlas");
         ModelTemplates.FLAT_ITEM.create(
             atlas,
-            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas)),
+            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas.withPrefix("item/"))),
             itemModels.modelOutput);
 
         Item foxEars = LocalItems.FOX_EARS.get();
