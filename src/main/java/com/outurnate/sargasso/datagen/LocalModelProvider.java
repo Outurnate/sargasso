@@ -236,10 +236,10 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
 
-        Identifier atlas = SuperSargassoSea.ID("atlas");
+        Identifier atlas = SuperSargassoSea.ID("item/atlas");
         ModelTemplates.FLAT_ITEM.create(
             atlas,
-            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas.withPrefix("item/"))),
+            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas)),
             itemModels.modelOutput);
 
         Item foxEars = LocalItems.FOX_EARS.get();
