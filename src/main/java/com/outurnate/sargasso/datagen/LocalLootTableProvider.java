@@ -1,6 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.klikli_dev.modonomicon.registry.ItemRegistry;
 import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.util.BookGenerator;
@@ -52,6 +53,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -346,6 +348,17 @@ public class LocalLootTableProvider extends LootTableProvider {
                                         4)))
                             .add(generateShrinkingHelm())
                             .add(generateRocketBoots())));
+
+            HolderGetter<Item> items = this.lookupProvider.lookup(Registries.ITEM).get();
+            consumer.accept(
+                ATLAS,
+                LootTable.lootTable()
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(
+                                LootItem.lootTableItem(
+                                    items.getOrThrow(ItemRegistry.MODONOMICON.getResourceKey()).value()))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
@@ -635,6 +648,10 @@ public class LocalLootTableProvider extends LootTableProvider {
     public static final ResourceKey<LootTable> ESCHER_OMINOUS = ResourceKey.create(
         Registries.LOOT_TABLE,
         SuperSargassoSea.ID("chests/escher_ominous"));
+
+    public static final ResourceKey<LootTable> ATLAS = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("atlas"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(

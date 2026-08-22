@@ -71,18 +71,17 @@ public class ThrownHammer extends AbstractArrow {
 
     @Override
     protected void doKnockback(LivingEntity mob, DamageSource damageSource) {
-        // TODO review
+        float minimumKnockback = 1.0F;
         double knockback = this.getWeaponItem() != null && this.level() instanceof ServerLevel serverLevel
-            ? EnchantmentHelper.modifyKnockback(serverLevel, this.getWeaponItem(), mob, damageSource, 1.0F)
-            : 1.0F;
-        if (knockback > 0.0) {
-            double knockbackResistance = Math
-                .max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-            Vec3 movement = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize()
-                .scale(knockback * 0.6 * knockbackResistance);
-            if (movement.lengthSqr() > 0.0) {
-                mob.push(movement.x, 0.1, movement.z);
-            }
+            ? EnchantmentHelper
+                .modifyKnockback(serverLevel, this.getWeaponItem(), mob, damageSource, minimumKnockback)
+            : minimumKnockback;
+        double knockbackResistance = Math
+            .max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+        Vec3 movement = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize()
+            .scale(knockback * 0.6 * knockbackResistance);
+        if (movement.lengthSqr() > 0.0) {
+            mob.push(movement.x, 0.1, movement.z);
         }
     }
 

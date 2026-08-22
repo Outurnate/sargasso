@@ -191,6 +191,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
             "The Super Sargasso Sea",
             "Not all those who wander are lost...but you sure are");
         this.addAdvancement(LocalAdvancements.LEAVE, "Through the Nether", "Twisting, turning...");
+        this.addAdvancement(LocalAdvancements.LEAVE_OTHER, "Another Way Out", "Clever!");
         this.addAdvancement(LocalAdvancements.TOAST, "Time Travel!", "Experience a temporal anomaly");
         this.addAdvancement(LocalAdvancements.PYLON, "Groove Crusader", "Acquire a cool hat");
 

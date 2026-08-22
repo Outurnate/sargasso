@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.criterion.ChangeDimensionTrigger;
@@ -23,11 +24,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 public class LocalAdvancementProvider extends AdvancementProvider {
     private static AdvancementHolder advancement(
         Identifier name,
         ItemStackTemplate icon,
+        boolean hidden,
         Function<Advancement.Builder, Advancement.Builder> build) {
         Advancement.Builder init = Advancement.Builder.advancement()
             .display(
@@ -38,9 +41,16 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                 AdvancementType.TASK,
                 true,
                 true,
-                false);
+                hidden);
         build.apply(init);
         return init.build(name);
+    }
+
+    private static AdvancementHolder advancement(
+        Identifier name,
+        ItemStackTemplate icon,
+        Function<Advancement.Builder, Advancement.Builder> build) {
+        return advancement(name, icon, false, build);
     }
 
     public LocalAdvancementProvider(PackOutput output, CompletableFuture<Provider> registries) {
@@ -58,7 +68,23 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                 .parent(enter)
                 .addCriterion(
                     "leave_sea",
-                    ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA)));
+                    ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA))
+                .addCriterion(
+                    "enter_nether",
+                    ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(Level.NETHER)));
+        AdvancementHolder leaveOther = advancement(
+            LocalAdvancements.LEAVE_OTHER,
+            new ItemStackTemplate(Items.OAK_DOOR),
+            true,
+            b -> b
+                .parent(enter)
+                .addCriterion(
+                    "leave_sea",
+                    ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA))
+                .addCriterion(
+                    "enter_overworld",
+                    ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(Level.OVERWORLD))
+                .rewards(AdvancementRewards.Builder.loot(LocalLootTableProvider.ATLAS)));
         AdvancementHolder toast = advancement(
             LocalAdvancements.TOAST,
             new ItemStackTemplate(LocalItems.TOASTER.get()),
@@ -81,6 +107,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
             public void generate(Provider registries, Consumer<AdvancementHolder> output) {
                 output.accept(enter);
                 output.accept(leave);
+                output.accept(leaveOther);
                 output.accept(toast);
                 output.accept(pylon);
             }

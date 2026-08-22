@@ -150,6 +150,15 @@ public class LocalRecipeProvider extends RecipeProvider {
             0.1F,
             100,
             "starmetal_recycle");
+        shaped(RecipeCategory.COMBAT, LocalItems.HAMMER, 1)
+            .define('I', LocalItems.STARMETAL_INGOT)
+            .define('B', LocalItems.STARMETAL_BLOCK)
+            .define('H', Items.HEAVY_CORE)
+            .pattern("BHB")
+            .pattern(" I ")
+            .pattern(" I ")
+            .unlockedBy(getHasName(Items.HEAVY_CORE), this.has(Items.HEAVY_CORE))
+            .save(this.output);
     }
 
     private void cosmetic(Ingredient target, Item cosmetic, String group) {
