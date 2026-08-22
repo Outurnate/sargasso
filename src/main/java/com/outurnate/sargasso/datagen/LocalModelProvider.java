@@ -236,6 +236,12 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
 
+        Identifier atlas = SuperSargassoSea.ID("atlas");
+        ModelTemplates.FLAT_ITEM.create(
+            atlas,
+            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas)),
+            itemModels.modelOutput);
+
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
         int white = ARGB.color(255, 255, 255);
