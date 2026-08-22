@@ -1,11 +1,8 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
-import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
-import com.klikli_dev.modonomicon.registry.ItemRegistry;
 import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.datagen.book.AtlasOfNowhere;
 import com.outurnate.sargasso.datagen.util.BookGenerator;
 import com.outurnate.sargasso.loot.FlimFlamLoreFunction;
 import com.outurnate.sargasso.loot.LostItemFunction;
@@ -55,7 +52,6 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -351,7 +347,6 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(generateShrinkingHelm())
                             .add(generateRocketBoots())));
 
-            HolderGetter<Item> items = this.lookupProvider.lookup(Registries.ITEM).get();
             consumer.accept(
                 ATLAS,
                 LootTable.lootTable()
@@ -359,12 +354,7 @@ public class LocalLootTableProvider extends LootTableProvider {
                         LootPool.lootPool()
                             .setRolls(ConstantValue.exactly(1.0F))
                             .add(
-                                LootItem.lootTableItem(
-                                    items.getOrThrow(ItemRegistry.MODONOMICON.getResourceKey()).value())
-                                    .apply(
-                                        SetComponentsFunction.setComponent(
-                                            DataComponentRegistry.BOOK_ID.get(),
-                                            AtlasOfNowhere.ID)))));
+                                LootItem.lootTableItem(LocalItems.ATLAS))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {

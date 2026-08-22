@@ -157,7 +157,9 @@ public class LocalModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        createRotatedAndTextureRandomizedBlock(blockModels, LocalBlocks.FLOTSAM.get(), 4);
+        // createRotatedAndTextureRandomizedBlock(blockModels,
+        // LocalBlocks.FLOTSAM.get(), 4);
+        blockModels.createTrivialCube(LocalBlocks.FLOTSAM.get());
         createRotatedAndModelRandomizedBlock(
             blockModels,
             LocalBlocks.DEBRIS.get(),
@@ -234,13 +236,8 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.LOOSE_WIRE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
-
-        Identifier atlas = SuperSargassoSea.ID("item/atlas");
-        ModelTemplates.FLAT_ITEM.create(
-            atlas,
-            new TextureMapping().put(TextureSlot.LAYER0, new Material(atlas)),
-            itemModels.modelOutput);
 
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
