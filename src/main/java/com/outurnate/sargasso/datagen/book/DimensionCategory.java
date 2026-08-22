@@ -4,7 +4,6 @@ import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconProviderBase;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookImagePageModel;
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookMultiblockPageModel;
 import com.outurnate.sargasso.registry.LocalItems;
 
 import net.minecraft.resources.Identifier;
@@ -64,9 +63,9 @@ public class DimensionCategory extends CategoryProvider {
                     "info",
                     "Though there may be other ways out, this book only knows of one method. You must travel back to the Overworld via the Nether. Previous travellers have left behind ruined portals you may be able to repair.");
                 this.page(
-                    "portal",
-                    () -> BookMultiblockPageModel.create()
-                        .withMultiblockId(this.modLoc("nether_portal")));
+                    "image",
+                    () -> BookImagePageModel.create()
+                        .withImages(Identifier.parse("sargasso:textures/gui/thinner.png")));
             }
         }.generate());
     }

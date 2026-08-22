@@ -151,5 +151,15 @@ public class ThingsCategory extends CategoryProvider {
                     "This device possesses a function that can't possibly be useful to anyone. Using the principals of chronometric science, it toasts bread after it's been eaten. It somehow does this despite having no discernable power source.");
             }
         }.generate());
+        this.add(new BaseEntry(this, "redstone_emp", "Redstone Pulse Device", LocalItems.REDSTONE_EMP) {
+            @Override
+            protected void generatePages() {
+                this.spotlightPage(
+                    "redstone_emp",
+                    "Redstone Pulse Device",
+                    LocalItems.REDSTONE_EMP,
+                    "This item, when thrown, emits a pulse that temporarily disrupts the normal functioning of redstone apparatus. Caution should be used, as not all redstone contraptions respond well to such disruption.");
+            }
+        }.generate());
     }
 }

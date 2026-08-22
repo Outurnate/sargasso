@@ -6,7 +6,6 @@ import com.klikli_dev.modonomicon.api.datagen.NeoBookProvider;
 import com.klikli_dev.modonomicon.api.datagen.research.ResearchCache;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.book.AtlasOfNowhere;
-import com.outurnate.sargasso.datagen.book.NetherPortalMultiblock;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredCarversProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
@@ -39,7 +38,6 @@ public class DataGenerators {
         event.getGenerator()
             .addProvider(true, NeoBookProvider.of(event, langCache, researchCache, new AtlasOfNowhere()));
 
-        event.createProvider(NetherPortalMultiblock::new);
         event.createProvider(LocalModelProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
         event.createProvider(LocalLootTableProvider::new);
