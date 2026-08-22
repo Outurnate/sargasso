@@ -1,12 +1,15 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,6 +19,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -102,13 +106,13 @@ public class ThrownHammer extends AbstractArrow {
         if (incomingVelocity.length() < 0.1) {
             super.onHitBlock(hitResult);
         }
-        SuperSargassoSea.LOGGER.error("called on client?");
         RandomSource rand = this.level().getRandom();
-        for (int i = 0; i < 10; ++i) {
+        ParticleOptions options = new BlockParticleOption(
+            ParticleTypes.BLOCK,
+            this.level().getBlockState(hitResult.getBlockPos()));
+        for (int i = 0; i < 15; ++i) {
             this.level().addParticle(
-                new BlockParticleOption(
-                    ParticleTypes.BLOCK,
-                    this.level().getBlockState(hitResult.getBlockPos())),
+                options,
                 this.getX(),
                 this.getY(),
                 this.getZ(),
@@ -125,8 +129,10 @@ public class ThrownHammer extends AbstractArrow {
         Entity entity = hitResult.getEntity();
         float dmg = 8.0F;
         Entity currentOwner = this.getOwner();
-        DamageSource damageSource = this.damageSources()
-            .trident(this, (Entity) (currentOwner == null ? this : currentOwner));
+        Registry<DamageType> damageTypes = level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+        DamageSource damageSource = new DamageSource(
+            damageTypes.getOrThrow(LocalDamageTypes.HAMMER),
+            (Entity) (currentOwner == null ? this : currentOwner));
         if (this.level() instanceof ServerLevel serverLevel) {
             dmg = EnchantmentHelper
                 .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);

@@ -165,6 +165,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addItem(LocalItems.BROKEN_COG, "Broken Cog");
         this.addItem(LocalItems.RUSTED_BOLT, "Rusted Bolt");
         this.addItem(LocalItems.LEAKY_BUCKET, "Leaky Bucket");
+        this.addItem(LocalItems.HAMMER, "Hammer");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 

@@ -254,7 +254,8 @@ public class LocalItems {
                 new SwingAnimation(
                     SwingAnimationType.STAB,
                     (int) (20.0F * (1.0F / (4.0F + HAMMER_ATTACK_SPEED)))))
-            .component(DataComponents.WEAPON, new Weapon(1)));
+            .component(DataComponents.WEAPON, new Weapon(1))
+            .delayedHolderComponent(DataComponents.DAMAGE_TYPE, LocalDamageTypes.HAMMER));
 
     public static final DeferredItem<Item> KEY = REGISTRY.registerItem(
         "key",
