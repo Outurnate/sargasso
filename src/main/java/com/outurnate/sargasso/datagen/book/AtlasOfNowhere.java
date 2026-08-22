@@ -18,7 +18,8 @@ public class AtlasOfNowhere extends SingleBookSubProvider {
     protected BookModel additionalSetup(BookModel book) {
         return book
             .withDisplayMode(BookDisplayMode.INDEX)
-            .withCustomBookItem(ID);
+            .withCustomBookItem(ID)
+            .withGenerateBookItem(false);
     }
 
     @Override
