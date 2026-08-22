@@ -5,7 +5,6 @@ import static java.util.Map.entry;
 import static net.minecraft.client.data.models.BlockModelGenerators.NOP;
 import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_180;
-import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
@@ -106,8 +105,7 @@ public class LocalModelProvider extends ModelProvider {
         VariantMutator[] xMutators = new VariantMutator[] {
             null,
             X_ROT_90,
-            X_ROT_180,
-            X_ROT_270
+            X_ROT_180
         };
         VariantMutator[] yMutators = new VariantMutator[] {
             null,
@@ -118,8 +116,7 @@ public class LocalModelProvider extends ModelProvider {
         VariantMutator[] zMutators = new VariantMutator[] {
             null,
             Z_ROT_90,
-            Z_ROT_180,
-            Z_ROT_270
+            Z_ROT_180
         };
         List<Variant> mutators = new ArrayList<>();
         for (VariantMutator x : xMutators) {
