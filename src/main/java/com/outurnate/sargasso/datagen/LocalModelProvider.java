@@ -41,13 +41,11 @@ import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.item.CompositeModel;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -64,8 +62,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
-    private static final VariantMutator IDENT = VariantMutator.Z_ROT.withValue(Quadrant.R0);
-
     private static final VariantMutator Z_ROT_90 = VariantMutator.Z_ROT.withValue(Quadrant.R90);
 
     private static final VariantMutator Z_ROT_180 = VariantMutator.Z_ROT.withValue(Quadrant.R180);
@@ -101,32 +97,6 @@ public class LocalModelProvider extends ModelProvider {
                     WeightedList.of(allVariants.stream().map(v -> new Weighted<>(v, 1)).toList()))));
     }
 
-    private static void createRotatedAndTextureRandomizedBlock(
-        BlockModelGenerators blockModels,
-        Block block,
-        int numVariants) {
-        ArrayList<Variant> allVariants = new ArrayList<Variant>();
-        for (int i = 0; i < numVariants; ++i) {
-            String suffix = i == 0 ? "" : String.valueOf(i);
-            TexturedModel model = TexturedModel.CUBE.get(block);
-            Material allMaterial = model.getMapping().get(TextureSlot.ALL);
-            TextureMapping mapping = model.getMapping().copyAndUpdate(
-                TextureSlot.ALL,
-                new Material(allMaterial.sprite().withSuffix(suffix), allMaterial.forceTranslucent()));
-            Variant base = plainModel(
-                model.getTemplate().createWithSuffix(block, suffix, mapping, blockModels.modelOutput));
-            allVariants.add(base);
-            allVariants.add(base.with(Y_ROT_90));
-            allVariants.add(base.with(Y_ROT_180));
-            allVariants.add(base.with(Y_ROT_270));
-        }
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                block,
-                new MultiVariant(
-                    WeightedList.of(allVariants.stream().map(v -> new Weighted<>(v, 1)).toList()))));
-    }
-
     public LocalModelProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, SuperSargassoSea.MODID);
     }
@@ -134,19 +104,19 @@ public class LocalModelProvider extends ModelProvider {
     private void createThreeAxisRotate(Block block, BlockModelGenerators blockModelGenerators) {
         Variant normal = plainModel(TexturedModel.CUBE.create(block, blockModelGenerators.modelOutput));
         VariantMutator[] xMutators = new VariantMutator[] {
-            IDENT,
+            null,
             X_ROT_90,
             X_ROT_180,
             X_ROT_270
         };
         VariantMutator[] yMutators = new VariantMutator[] {
-            IDENT,
+            null,
             Y_ROT_90,
             Y_ROT_180,
             Y_ROT_270
         };
         VariantMutator[] zMutators = new VariantMutator[] {
-            IDENT,
+            null,
             Z_ROT_90,
             Z_ROT_180,
             Z_ROT_270
@@ -155,11 +125,17 @@ public class LocalModelProvider extends ModelProvider {
         for (VariantMutator x : xMutators) {
             for (VariantMutator y : yMutators) {
                 for (VariantMutator z : zMutators) {
-                    mutators.add(
-                        normal
-                            .with(x)
-                            .with(y)
-                            .with(z));
+                    Variant current = normal;
+                    if (x != null) {
+                        current = current.with(x);
+                    }
+                    if (y != null) {
+                        current = current.with(y);
+                    }
+                    if (z != null) {
+                        current = current.with(z);
+                    }
+                    mutators.add(current);
                 }
             }
         }
