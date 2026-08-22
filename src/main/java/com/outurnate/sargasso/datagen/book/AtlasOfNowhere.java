@@ -6,16 +6,21 @@ import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalCreativeTabs;
 
+import net.minecraft.resources.Identifier;
+
 public class AtlasOfNowhere extends SingleBookSubProvider {
+    public static final Identifier ID = SuperSargassoSea.ID("atlas");
+
     public AtlasOfNowhere() {
-        super("atlas", SuperSargassoSea.MODID);
+        super(ID.getPath(), ID.getNamespace());
     }
 
     @Override
     protected BookModel additionalSetup(BookModel book) {
         return book
             .withDisplayMode(BookDisplayMode.INDEX)
-            .withCreativeTab(LocalCreativeTabs.TAB.getId());
+            .withCreativeTab(LocalCreativeTabs.TAB.getId())
+            .withModel(ID);
     }
 
     @Override

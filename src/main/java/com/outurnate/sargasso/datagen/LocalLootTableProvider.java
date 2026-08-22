@@ -1,9 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen;
 
+import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import com.klikli_dev.modonomicon.registry.ItemRegistry;
 import com.mojang.logging.LogUtils;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.book.AtlasOfNowhere;
 import com.outurnate.sargasso.datagen.util.BookGenerator;
 import com.outurnate.sargasso.loot.FlimFlamLoreFunction;
 import com.outurnate.sargasso.loot.LostItemFunction;
@@ -358,7 +360,11 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1.0F))
                             .add(
                                 LootItem.lootTableItem(
-                                    items.getOrThrow(ItemRegistry.MODONOMICON.getResourceKey()).value()))));
+                                    items.getOrThrow(ItemRegistry.MODONOMICON.getResourceKey()).value())
+                                    .apply(
+                                        SetComponentsFunction.setComponent(
+                                            DataComponentRegistry.BOOK_ID.get(),
+                                            AtlasOfNowhere.ID)))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
