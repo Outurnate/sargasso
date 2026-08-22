@@ -5,7 +5,6 @@ import static java.util.Map.entry;
 import static net.minecraft.client.data.models.BlockModelGenerators.NOP;
 import static net.minecraft.client.data.models.BlockModelGenerators.ROTATION_HORIZONTAL_FACING;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_180;
-import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_270;
 import static net.minecraft.client.data.models.BlockModelGenerators.X_ROT_90;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_180;
 import static net.minecraft.client.data.models.BlockModelGenerators.Y_ROT_270;
@@ -14,9 +13,7 @@ import static net.minecraft.client.data.models.BlockModelGenerators.condition;
 import static net.minecraft.client.data.models.BlockModelGenerators.createSimpleBlock;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainModel;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
-import static net.minecraft.client.data.models.BlockModelGenerators.variants;
 
-import com.mojang.math.Quadrant;
 import com.mojang.math.Transformation;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
@@ -36,12 +33,10 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.item.CompositeModel;
@@ -62,12 +57,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
-    private static final VariantMutator Z_ROT_90 = VariantMutator.Z_ROT.withValue(Quadrant.R90);
-
-    private static final VariantMutator Z_ROT_180 = VariantMutator.Z_ROT.withValue(Quadrant.R180);
-
-    private static final VariantMutator Z_ROT_270 = VariantMutator.Z_ROT.withValue(Quadrant.R270);
-
     private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
         Identifier model = itemModels.generateLayeredItem(
             item,
@@ -99,28 +88,6 @@ public class LocalModelProvider extends ModelProvider {
 
     public LocalModelProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, SuperSargassoSea.MODID);
-    }
-
-    private void createThreeAxisRotate(Block block, BlockModelGenerators blockModelGenerators) {
-        Variant normal = plainModel(TexturedModel.CUBE.create(block, blockModelGenerators.modelOutput));
-        VariantMutator[] mutators = new VariantMutator[] {
-            X_ROT_90,
-            X_ROT_180,
-            X_ROT_270,
-            Y_ROT_90,
-            Y_ROT_180,
-            Y_ROT_270,
-            Z_ROT_90,
-            Z_ROT_180,
-            Z_ROT_270
-        };
-        List<Variant> mutated = new ArrayList<>();
-        mutated.add(normal);
-        for (VariantMutator mutator : mutators) {
-            mutated.add(normal.with(mutator));
-        }
-        blockModelGenerators.blockStateOutput
-            .accept(MultiVariantGenerator.dispatch(block, variants(mutated.toArray(Variant[]::new))));
     }
 
     private MultiPartGenerator generateShockTherapist() {
@@ -161,7 +128,7 @@ public class LocalModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        createThreeAxisRotate(LocalBlocks.FLOTSAM.get(), blockModels);
+        blockModels.createRotatedVariantBlock(LocalBlocks.FLOTSAM.get());
         createRotatedAndModelRandomizedBlock(
             blockModels,
             LocalBlocks.DEBRIS.get(),
