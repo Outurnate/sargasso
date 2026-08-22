@@ -20,7 +20,7 @@ public class AtlasOfNowhere extends SingleBookSubProvider {
         return book
             .withDisplayMode(BookDisplayMode.INDEX)
             .withCreativeTab(LocalCreativeTabs.TAB.getId())
-            .withModel(ID);
+            .withModel(ID.withPrefix("item/"));
     }
 
     @Override
