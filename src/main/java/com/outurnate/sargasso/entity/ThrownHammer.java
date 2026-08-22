@@ -47,12 +47,12 @@ public class ThrownHammer extends AbstractArrow {
     }
 
     public ThrownHammer(Level level, double x, double y, double z, ItemStack pickupItemStack) {
-        super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, null);
+        super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, pickupItemStack);
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
     }
 
     public ThrownHammer(Level level, LivingEntity mob, ItemStack pickupItemStack) {
-        super(LocalEntities.HAMMER.get(), mob, level, pickupItemStack, null);
+        super(LocalEntities.HAMMER.get(), mob, level, pickupItemStack, pickupItemStack);
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
     }
 
