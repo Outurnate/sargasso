@@ -1,5 +1,6 @@
 package com.outurnate.sargasso.entity;
 
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -100,14 +102,20 @@ public class ThrownHammer extends AbstractArrow {
         if (incomingVelocity.length() < 0.1) {
             super.onHitBlock(hitResult);
         }
-        this.level().addParticle(
-            new BlockParticleOption(ParticleTypes.BLOCK, this.level().getBlockState(hitResult.getBlockPos())),
-            this.getX(),
-            this.getY(),
-            this.getZ(),
-            this.getX(),
-            this.getY(),
-            this.getZ());
+        SuperSargassoSea.LOGGER.error("called on client?");
+        RandomSource rand = this.level().getRandom();
+        for (int i = 0; i < 10; ++i) {
+            this.level().addParticle(
+                new BlockParticleOption(
+                    ParticleTypes.BLOCK,
+                    this.level().getBlockState(hitResult.getBlockPos())),
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                rand.nextDouble() - 0.5,
+                rand.nextDouble() - 0.5,
+                rand.nextDouble() - 0.5);
+        }
         this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 
