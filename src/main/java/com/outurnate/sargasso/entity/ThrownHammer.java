@@ -23,6 +23,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
@@ -66,6 +67,23 @@ public class ThrownHammer extends AbstractArrow {
     protected void defineSynchedData(SynchedEntityData.Builder entityData) {
         super.defineSynchedData(entityData);
         entityData.define(ID_LOYALTY, (byte) 0);
+    }
+
+    @Override
+    protected void doKnockback(LivingEntity mob, DamageSource damageSource) {
+        // TODO review
+        double knockback = this.getWeaponItem() != null && this.level() instanceof ServerLevel serverLevel
+            ? EnchantmentHelper.modifyKnockback(serverLevel, this.getWeaponItem(), mob, damageSource, 1.0F)
+            : 1.0F;
+        if (knockback > 0.0) {
+            double knockbackResistance = Math
+                .max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+            Vec3 movement = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize()
+                .scale(knockback * 0.6 * knockbackResistance);
+            if (movement.lengthSqr() > 0.0) {
+                mob.push(movement.x, 0.1, movement.z);
+            }
+        }
     }
 
     @Override
