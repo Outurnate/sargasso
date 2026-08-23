@@ -1,15 +1,19 @@
 - something that uses power from your inventory
-- structures: frankenstein's lab
 - grabthar's hammer (sounds)
 - structure: islands
 - structure: bazaar
 - structure: forge
 - structure: shipwrecks
+- structure: look for removed game structures
+- structure: starmetal ruins
+- escher structure loot table
 - review default tagging
 - finish textures!
 - review enchantments
+- balancing pass
 
 DONE
+- structures: frankenstein's lab
 - glitch block improvements
 - redstone emp
 - caves

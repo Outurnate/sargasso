@@ -6,7 +6,6 @@ import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import java.util.function.Function;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -15,6 +14,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -143,6 +144,11 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     }
 
     @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(HORIZONTAL_FACING, mirror.mirror(state.getValue(HORIZONTAL_FACING)));
+    }
+
+    @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos worldPosition, BlockState blockState) {
         return new ShockTherapistBlockEntity(worldPosition, blockState);
     }
@@ -150,5 +156,10 @@ public class ShockTherapistBlock extends Block implements EntityBlock {
     @Override
     protected boolean propagatesSkylightDown(BlockState state) {
         return true;
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 }
