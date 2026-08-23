@@ -1,5 +1,4 @@
 - something that uses power from your inventory
-- grabthar's hammer (sounds)
 - structure: islands
 - structure: bazaar
 - structure: forge
@@ -13,6 +12,7 @@
 - balancing pass
 
 DONE
+- grabthar's hammer (sounds)
 - structures: frankenstein's lab
 - glitch block improvements
 - redstone emp
