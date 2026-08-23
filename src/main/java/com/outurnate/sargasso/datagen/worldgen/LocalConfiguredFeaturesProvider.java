@@ -53,14 +53,12 @@ public class LocalConfiguredFeaturesProvider {
             .add(SuperSargassoSea.ID("island/taiga_2"))
             .add(SuperSargassoSea.ID("island/taiga_3"))
             .add(SuperSargassoSea.ID("island/taiga_4"))
-            .add(Identifier.fromNamespaceAndPath("minecraft", "village/taiga/houses/taiga_small_house_5"))
             .build();
         WeightedList<Identifier> plainsBuildings = WeightedList.<Identifier>builder()
             .add(SuperSargassoSea.ID("island/oak_1"))
             .add(SuperSargassoSea.ID("island/oak_2"))
             .add(SuperSargassoSea.ID("island/oak_3"))
             .add(SuperSargassoSea.ID("island/oak_4"))
-            .add(Identifier.fromNamespaceAndPath("minecraft", "village/plains/houses/plains_small_house_5"))
             .build();
 
         bootstrap.register(

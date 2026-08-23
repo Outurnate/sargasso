@@ -1,5 +1,4 @@
 - something that uses power from your inventory
-- structure: islands
 - structure: bazaar
 - structure: shipwrecks
 - structure: look for removed game structures
@@ -10,6 +9,7 @@
 - balancing pass
 
 DONE
+- structure: islands
 - finish textures!
 - grabthar's hammer (sounds)
 - structures: frankenstein's lab
