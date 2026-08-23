@@ -7,11 +7,11 @@
 - structure: starmetal ruins
 - escher structure loot table
 - review default tagging
-- finish textures!
 - review enchantments
 - balancing pass
 
 DONE
+- finish textures!
 - grabthar's hammer (sounds)
 - structures: frankenstein's lab
 - glitch block improvements
