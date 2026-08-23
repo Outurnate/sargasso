@@ -141,6 +141,13 @@ public class LocalStructuresProvider {
                     biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_CASTLE))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .spawnOverrides(
+                            Map.of(
+                                MobCategory.MONSTER,
+                                new StructureSpawnOverride(
+                                    StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+                                    WeightedList.of(
+                                        new MobSpawnSettings.SpawnerData(EntityType.PILLAGER, 2, 4)))))
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.CASTLE),
                 1,

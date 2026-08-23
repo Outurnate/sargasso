@@ -1,0 +1,29 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["nbtlib"]
+# ///
+
+import sys
+import nbtlib
+
+if len(sys.argv) != 2:
+    print("Usage: bookshelf-populate <structure.nbt>")
+    sys.exit(1)
+
+path = sys.argv[1]
+
+nbt = nbtlib.load(path)
+
+count = 0
+for block in nbt["blocks"]:
+    be = block.get("nbt")
+    if be and be.get("id") == "minecraft:chiseled_bookshelf":
+        be["components"] = nbtlib.Compound({
+            "minecraft:container_loot": nbtlib.Compound({
+                "loot_table": nbtlib.String("sargasso:books")
+            })
+        })
+        count += 1
+
+nbt.save()
+print(f"Updated {count} block(s) in {path}")

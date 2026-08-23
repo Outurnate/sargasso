@@ -6,22 +6,24 @@
 import sys
 import nbtlib
 
-if len(sys.argv) != 3:
-    print("Usage: add_loot.py <structure.nbt> <loot_table_id>")
+if not (len(sys.argv) == 3 or len(sys.argv) == 4):
+    print("Usage: add_loot.py <structure.nbt> <loot_table_id> [block_id]")
     sys.exit(1)
 
 path = sys.argv[1]
 loot_table = sys.argv[2]
+block_id = "minecraft:chest"
+if len(sys.argv) == 4:
+    block_id = sys.argv[3]
 
 nbt = nbtlib.load(path)
 
 count = 0
 for block in nbt["blocks"]:
     be = block.get("nbt")
-    if be and be.get("id") == "minecraft:chest":
+    if be and be.get("id") == block_id:
         be["LootTable"] = nbtlib.String(loot_table)
-        be["LootTableSeed"] = nbtlib.Long(0)
         count += 1
 
 nbt.save()
-print(f"Updated {count} chest(s) in {path}")
+print(f"Updated {count} block(s) in {path}")

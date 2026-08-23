@@ -355,6 +355,35 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .setRolls(ConstantValue.exactly(1.0F))
                             .add(
                                 LootItem.lootTableItem(LocalItems.ATLAS))));
+
+            LootPool.Builder baseCastlePool = LootPool.lootPool()
+                .setRolls(UniformGenerator.between(1, 6))
+                .add(
+                    LootItem.lootTableItem(Items.WHEAT).setWeight(7)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))))
+                .add(
+                    LootItem.lootTableItem(Items.CARROT).setWeight(5)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))))
+                .add(
+                    LootItem.lootTableItem(Items.POTATO).setWeight(5)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))))
+                .add(
+                    LootItem.lootTableItem(Items.ARROW).setWeight(2)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 7))))
+                .add(
+                    LootItem.lootTableItem(Items.STRING).setWeight(2)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 7))));
+            consumer.accept(CASTLE, LootTable.lootTable().withPool(baseCastlePool));
+            consumer.accept(
+                CASTLE_BARREL,
+                LootTable.lootTable()
+                    .withPool(baseCastlePool)
+                    .withPool(
+                        LootPool.lootPool()
+                            .setRolls(UniformGenerator.between(1, 2))
+                            .add(LootItem.lootTableItem(Items.CROSSBOW).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.TRIPWIRE_HOOK).setWeight(2))
+                            .add(LootItem.lootTableItem(Items.IRON_INGOT).setWeight(2))));
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
@@ -648,6 +677,14 @@ public class LocalLootTableProvider extends LootTableProvider {
     public static final ResourceKey<LootTable> ATLAS = ResourceKey.create(
         Registries.LOOT_TABLE,
         SuperSargassoSea.ID("atlas"));
+
+    public static final ResourceKey<LootTable> CASTLE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/castle"));
+
+    public static final ResourceKey<LootTable> CASTLE_BARREL = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("chests/castle_barrel"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(
