@@ -1,7 +1,6 @@
 - something that uses power from your inventory
 - structure: islands
 - structure: bazaar
-- structure: forge
 - structure: shipwrecks
 - structure: look for removed game structures
 - structure: starmetal ruins
