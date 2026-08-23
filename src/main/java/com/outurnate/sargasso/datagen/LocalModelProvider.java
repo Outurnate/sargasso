@@ -128,13 +128,13 @@ public class LocalModelProvider extends ModelProvider {
 
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        blockModels.createRotatedVariantBlock(LocalBlocks.FLOTSAM.get());
         createRotatedAndModelRandomizedBlock(
             blockModels,
             LocalBlocks.DEBRIS.get(),
             Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "block/debris"),
             3);
 
+        blockModels.createTrivialCube(LocalBlocks.FLOTSAM.get());
         blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
         blockModels.createTrivialCube(LocalBlocks.STARMETAL_BLOCK.get());
         blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());

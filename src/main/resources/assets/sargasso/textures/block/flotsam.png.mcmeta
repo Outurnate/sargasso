@@ -1,7 +1,7 @@
 {
   "fusion": {
     "type": "random",
-    "rows": 1,
+    "rows": 4,
     "columns": 4,
     "randomness_source": "position_facing",
     "seed": 845679

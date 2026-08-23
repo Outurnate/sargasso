@@ -83,10 +83,10 @@ public class LocalEntities {
             ThrownHammer::new,
             MobCategory.MISC)
             .noLootTable()
-            .sized(0.5F, 0.5F)
+            .sized(1.0F, 1.0F)
             .eyeHeight(0.13F)
             .clientTrackingRange(4)
-            .updateInterval(20)
+            .updateInterval(10)
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
