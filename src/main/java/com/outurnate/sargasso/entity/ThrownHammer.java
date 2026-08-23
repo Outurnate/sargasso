@@ -25,7 +25,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -78,7 +77,8 @@ public class ThrownHammer extends AbstractArrow {
             : minimumKnockback;
         double knockbackResistance = Math
             .max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-        Vec3 movement = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize()
+        float deflection = random.nextBoolean() ? -Mth.HALF_PI : Mth.HALF_PI;
+        Vec3 movement = this.getDeltaMovement().yRot(deflection).multiply(1.0, 0.0, 1.0).normalize()
             .scale(knockback * 0.6 * knockbackResistance);
         if (movement.lengthSqr() > 0.0) {
             mob.push(movement.x, 0.1, movement.z);
@@ -176,8 +176,8 @@ public class ThrownHammer extends AbstractArrow {
             }
         }
 
-        this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
-        this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
+        // this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
+        // this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
         this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 

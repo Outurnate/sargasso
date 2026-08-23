@@ -1,5 +1,4 @@
 - something that uses power from your inventory
-- redstone emp
 - structures: frankenstein's lab
 - grabthar's hammer (sounds)
 - structure: islands
@@ -8,9 +7,11 @@
 - structure: shipwrecks
 - review default tagging
 - finish textures!
-- glitch block improvements
+- review enchantments
 
 DONE
+- glitch block improvements
+- redstone emp
 - caves
 - ore
 - normalize translation keys and centralize them
