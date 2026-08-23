@@ -49,6 +49,8 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher_inverted_terminators"));
     public static final ResourceKey<StructureTemplatePool> ESCHER = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher"));
+    public static final ResourceKey<StructureTemplatePool> CASTLE = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("castle"));
 
     @SafeVarargs
     private static StructureTemplatePool pool(
@@ -185,5 +187,6 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 Pair.of("escher/cube", 1),
                 Pair.of("escher/cross", 1)));
+        bootstrap.register(CASTLE, pool(empty, "castle"));
     }
 }

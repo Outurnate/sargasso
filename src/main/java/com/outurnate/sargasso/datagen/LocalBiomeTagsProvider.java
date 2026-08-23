@@ -19,6 +19,8 @@ import net.minecraft.world.level.biome.Biomes;
 public class LocalBiomeTagsProvider extends BiomeTagsProvider {
     public static final TagKey<Biome> HAS_APOTHECARY = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/apothecary"));
+    public static final TagKey<Biome> HAS_CASTLE = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/castle"));
     public static final TagKey<Biome> SEA = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("sea"));
 
@@ -30,6 +32,8 @@ public class LocalBiomeTagsProvider extends BiomeTagsProvider {
     protected void addTags(HolderLookup.Provider registries) {
         this.tag(HAS_APOTHECARY)
             .add(Biomes.SWAMP);
+        this.tag(HAS_CASTLE)
+            .add(LocalBiomesProvider.LOWLANDS);
         this.tag(SEA)
             .add(LocalBiomesProvider.HILLS)
             .add(LocalBiomesProvider.LOWLANDS)

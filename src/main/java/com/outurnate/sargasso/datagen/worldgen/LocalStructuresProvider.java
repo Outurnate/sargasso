@@ -43,6 +43,8 @@ public class LocalStructuresProvider {
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("office"));
     public static final ResourceKey<Structure> ESCHER = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("escher"));
+    public static final ResourceKey<Structure> CASTLE = ResourceKey
+        .create(Registries.STRUCTURE, SuperSargassoSea.ID("castle"));
 
     public static void provide(BootstrapContext<Structure> bootstrap) {
         HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
@@ -114,14 +116,12 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .spawnOverrides(
                             Map.of(
                                 MobCategory.MONSTER,
                                 new StructureSpawnOverride(
                                     StructureSpawnOverride.BoundingBoxType.STRUCTURE,
-                                    WeightedList.of(
-                                        new MobSpawnSettings.SpawnerData(EntityType.BREEZE, 1, 1)))))
+                                    WeightedList.of())))
                         .build(),
                 structureTemplatePoolRegistry
                     .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
@@ -134,5 +134,18 @@ public class LocalStructuresProvider {
                 List.of(),
                 JigsawStructure.DEFAULT_DIMENSION_PADDING,
                 JigsawStructure.DEFAULT_LIQUID_SETTINGS));
+        bootstrap.register(
+            CASTLE,
+            new JigsawStructure(
+                new StructureSettings.Builder(
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_CASTLE))
+                        .generationStep(Decoration.SURFACE_STRUCTURES)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .build(),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.CASTLE),
+                1,
+                ConstantHeight.ZERO,
+                false,
+                Types.WORLD_SURFACE_WG));
     }
 }
