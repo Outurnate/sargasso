@@ -169,6 +169,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addItem(LocalItems.RUSTED_BOLT, "Rusted Bolt");
         this.addItem(LocalItems.LEAKY_BUCKET, "Leaky Bucket");
         this.addItem(LocalItems.HAMMER, "Hammer");
+        this.addItem(LocalItems.STARMETAL_SCRAP, "Starmetal Scrap");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 
