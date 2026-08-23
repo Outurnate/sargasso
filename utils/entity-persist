@@ -1,0 +1,36 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["nbtlib"]
+# ///
+
+import sys
+import nbtlib
+
+if len(sys.argv) != 2:
+    print("Usage: entity-persist <structure.nbt>")
+    sys.exit(1)
+
+path = sys.argv[1]
+
+nbt = nbtlib.load(path)
+
+count = 0
+def update_persistence_required(value):
+    global count
+    if isinstance(value, nbtlib.Compound):
+        if "PersistenceRequired" in value and value["PersistenceRequired"] == 0:
+            count += 1
+            value["PersistenceRequired"] = nbtlib.Byte(1)
+
+        for child in value.values():
+            update_persistence_required(child)
+
+    elif isinstance(value, list):
+        for child in value:
+            update_persistence_required(child)
+
+for entity in nbt["entities"]:
+    update_persistence_required(entity)
+
+nbt.save()
+print(f"Updated {count} entities(s) in {path}")

@@ -1,0 +1,28 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["nbtlib"]
+# ///
+
+import sys
+import nbtlib
+
+if len(sys.argv) != 2:
+    print("Usage: hide-item-frames <structure.nbt>")
+    sys.exit(1)
+
+path = sys.argv[1]
+
+nbt = nbtlib.load(path)
+
+count = 0
+for entity in nbt["entities"]:
+    data = entity.get("nbt")
+    if data is None:
+        continue
+    if data.get("id") in ("minecraft:item_frame", "minecraft:glow_item_frame"):
+        if data.get("Item"):
+            data["Invisible"] = nbtlib.Byte(1)
+            count += 1
+
+nbt.save()
+print(f"Updated {count} entities(s) in {path}")
