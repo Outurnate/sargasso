@@ -113,6 +113,9 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addMisc(
             LocalLootTableProvider.LocalLootTableSubProvider.LORE_SHRINK_HELM,
             "The helm of Sire George the shrunk, a legendary knight");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_0, "Astral Hammer");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_1, "Grabthar's Hammer");
+        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_2, "Skullcracker");
 
         this.add(
             "chat." + SuperSargassoSea.MODID + ".no_toast",
@@ -185,6 +188,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addEntityType(LocalEntities.ELECTRIC_MINE, "Electric Mine");
         this.addEntityType(LocalEntities.REDSTONE_EMP, "Redstone Pulse Device");
         this.addEntityType(LocalEntities.REDSTONE_BUG, "Redstone Bug");
+        this.addEntityType(LocalEntities.HAMMER, "Hammer");
 
         this.addAdvancement(
             LocalAdvancements.ENTER,

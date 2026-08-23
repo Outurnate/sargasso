@@ -161,5 +161,15 @@ public class ThingsCategory extends CategoryProvider {
                     "This item, when thrown, emits a pulse that temporarily disrupts the normal functioning of redstone apparatus. Caution should be used, as not all redstone contraptions respond well to such disruption.");
             }
         }.generate());
+        this.add(new BaseEntry(this, "hammer", "Hammer", LocalItems.HAMMER) {
+            @Override
+            protected void generatePages() {
+                this.spotlightPage(
+                    "hammer",
+                    "Hammer",
+                    LocalItems.HAMMER,
+                    "A heavy hammer. Slow, but can deal heavy damage to a single foe. When thrown, it can strike many enemies in its path.");
+            }
+        }.generate());
     }
 }

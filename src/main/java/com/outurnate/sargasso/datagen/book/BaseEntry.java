@@ -50,6 +50,7 @@ public abstract class BaseEntry extends EntryProvider {
             () -> BookEntityPageModel.create()
                 .withEntityName(this.context().pageTitle())
                 .withEntityId(entity)
+                .withOffset(1.0F)
                 .withText(this.context().pageText()));
         this.pageTitle(title);
         this.pageText(text);

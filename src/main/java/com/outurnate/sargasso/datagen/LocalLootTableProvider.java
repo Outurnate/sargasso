@@ -178,9 +178,10 @@ public class LocalLootTableProvider extends LootTableProvider {
         public static final String POTION_BHJ = "bhj";
 
         public static final TranslatableContents NAME_LIAR_PANTS = n("liar_pants");
-
+        public static final TranslatableContents NAME_HAMMER_0 = n("hammer.0");
+        public static final TranslatableContents NAME_HAMMER_1 = n("hammer.1");
+        public static final TranslatableContents NAME_HAMMER_2 = n("hammer.2");
         public static final TranslatableContents NAME_ROCKET_BOOTS = n("rocket_boots");
-
         public static final TranslatableContents LORE_SHRINK_HELM = l("george");
         public static final TranslatableContents NAME_SHRINK_HELM = n("george");
 
@@ -226,7 +227,7 @@ public class LocalLootTableProvider extends LootTableProvider {
             consumer.accept(
                 ESCHER_OMINOUS,
                 LootTable.lootTable()
-                    .withPool(LootPool.lootPool().add(LootItem.lootTableItem(Items.DIRT))));
+                    .withPool(generateHammers()));
 
             consumer.accept(
                 OFFICE,
@@ -384,6 +385,38 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(LootItem.lootTableItem(Items.CROSSBOW).setWeight(2))
                             .add(LootItem.lootTableItem(Items.TRIPWIRE_HOOK).setWeight(2))
                             .add(LootItem.lootTableItem(Items.IRON_INGOT).setWeight(2))));
+        }
+
+        private LootPool.Builder generateHammers() {
+            TranslatableContents[] names = new TranslatableContents[] {
+                NAME_HAMMER_0,
+                NAME_HAMMER_1,
+                NAME_HAMMER_2 };
+            LootPool.Builder pool = LootPool.lootPool();
+            pool.setRolls(UniformGenerator.between(0.0F, 1.0F));
+            for (TranslatableContents name : names) {
+                pool.add(
+                    LootItem.lootTableItem(LocalItems.HAMMER)
+                        .apply(SetNameFunction.setName(MutableComponent.create(name), Target.ITEM_NAME)));
+                pool.add(
+                    LootItem.lootTableItem(LocalItems.HAMMER)
+                        .apply(SetNameFunction.setName(MutableComponent.create(name), Target.ITEM_NAME))
+                        .apply(
+                            EnchantWithLevelsFunction
+                                .enchantWithLevels(lookupProvider, UniformGenerator.between(15.0F, 30.0F))));
+                pool.add(
+                    LootItem.lootTableItem(LocalItems.HAMMER)
+                        .apply(SetNameFunction.setName(MutableComponent.create(name), Target.ITEM_NAME))
+                        .apply(FlimFlamLoreFunction.setFlimFlam())
+                        .apply(
+                            EnchantWithLevelsFunction
+                                .enchantWithLevels(lookupProvider, UniformGenerator.between(15.0F, 30.0F))));
+                pool.add(
+                    LootItem.lootTableItem(LocalItems.HAMMER)
+                        .apply(SetNameFunction.setName(MutableComponent.create(name), Target.ITEM_NAME))
+                        .apply(FlimFlamLoreFunction.setFlimFlam()));
+            }
+            return pool;
         }
 
         private LootItem.Builder<?> generateLiarsPants() {
