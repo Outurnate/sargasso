@@ -25,6 +25,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownHammer extends AbstractArrow {
@@ -109,6 +111,21 @@ public class ThrownHammer extends AbstractArrow {
     @Override
     public ItemStack getWeaponItem() {
         return this.getPickupItemStackOrigin();
+    }
+
+    @Override
+    protected ProjectileDeflection hitTargetOrDeflectSelf(HitResult hitResult) {
+        if (this.shouldBounceOnWorldBorder() && hitResult instanceof BlockHitResult blockHit
+            && blockHit.isWorldBorderHit()) {
+            ProjectileDeflection deflection = ProjectileDeflection.REVERSE;
+            if (this.deflect(deflection, null, this.owner, false)) {
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.2));
+                return deflection;
+            }
+        }
+
+        this.onHit(hitResult);
+        return ProjectileDeflection.NONE;
     }
 
     private boolean isAcceptibleReturnOwner() {
