@@ -1,5 +1,6 @@
 package com.outurnate.sargasso.entity;
 
+import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
@@ -39,6 +40,7 @@ public class ThrownHammer extends AbstractArrow {
         .defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
     private Vec3 incomingVelocity = Vec3.ZERO;
     public int clientSideReturnHammerTickCount;
+    private int hitEntities = 0;
 
     public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
         super(type, level);
@@ -152,7 +154,13 @@ public class ThrownHammer extends AbstractArrow {
                 return;
             }
 
+            this.hitEntities++;
+
             if (this.level() instanceof ServerLevel serverLevel) {
+                if (hitEntities > 10
+                    && this.owner.getEntity(serverLevel, Entity.class) instanceof ServerPlayer player) {
+                    LocalAdvancements.Award(player, LocalAdvancements.STRIKE, "impossible");
+                }
                 EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
                     serverLevel,
                     entity,

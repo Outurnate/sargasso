@@ -10,6 +10,7 @@ public class LocalAdvancements {
     public static final Identifier LEAVE_OTHER = SuperSargassoSea.ID("leave_other");
     public static final Identifier TOAST = SuperSargassoSea.ID("toast");
     public static final Identifier PYLON = SuperSargassoSea.ID("pylon");
+    public static final Identifier STRIKE = SuperSargassoSea.ID("strike");
 
     public static void Award(ServerPlayer serverPlayer, Identifier advancement, String criteria) {
         serverPlayer.getAdvancements().award(

@@ -102,6 +102,15 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                 .addCriterion(
                     "pylon",
                     InventoryChangeTrigger.TriggerInstance.hasItems(LocalItems.PYLON.get())));
+        AdvancementHolder strike = advancement(
+            LocalAdvancements.STRIKE,
+            new ItemStackTemplate(LocalItems.HAMMER.get()),
+            b -> b
+                .parent(enter)
+                .addCriterion(
+                    "impossible",
+                    CriteriaTriggers.IMPOSSIBLE
+                        .createCriterion(new ImpossibleTrigger.TriggerInstance())));
         super(output, registries, List.of(new AdvancementSubProvider() {
             @Override
             public void generate(Provider registries, Consumer<AdvancementHolder> output) {
@@ -110,6 +119,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                 output.accept(leaveOther);
                 output.accept(toast);
                 output.accept(pylon);
+                output.accept(strike);
             }
         }));
     }

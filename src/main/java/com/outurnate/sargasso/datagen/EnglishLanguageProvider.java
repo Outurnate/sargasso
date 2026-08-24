@@ -200,6 +200,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addAdvancement(LocalAdvancements.LEAVE_OTHER, "Another Way Out", "Clever!");
         this.addAdvancement(LocalAdvancements.TOAST, "Time Travel!", "Experience a temporal anomaly");
         this.addAdvancement(LocalAdvancements.PYLON, "Groove Crusader", "Acquire a cool hat");
+        this.addAdvancement(LocalAdvancements.STRIKE, "STRIKE!", "Hit ten mobs with one hammer toss");
 
         this.addLore(
             FlimFlamLore.heroesPrefixEntries,
