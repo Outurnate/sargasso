@@ -25,7 +25,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -33,7 +32,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownHammer extends AbstractArrow {
@@ -76,10 +74,6 @@ public class ThrownHammer extends AbstractArrow {
             .scale(knockback * 0.6 * knockbackResistance);
         if (movement.lengthSqr() > 0.0) {
             mob.push(movement.x, 0.1, movement.z);
-            // get the mob out of the way so we fly straight
-            while (mob.getBoundingBox().intersects(this.getBoundingBox())) {
-                mob.setPos(mob.getX() + movement.x, mob.getY(), mob.getZ() + movement.z);
-            }
         }
     }
 
@@ -103,21 +97,6 @@ public class ThrownHammer extends AbstractArrow {
     @Override
     public ItemStack getWeaponItem() {
         return this.getPickupItemStackOrigin();
-    }
-
-    @Override
-    protected ProjectileDeflection hitTargetOrDeflectSelf(HitResult hitResult) {
-        if (this.shouldBounceOnWorldBorder() && hitResult instanceof BlockHitResult blockHit
-            && blockHit.isWorldBorderHit()) {
-            ProjectileDeflection deflection = ProjectileDeflection.REVERSE;
-            if (this.deflect(deflection, null, this.owner, false)) {
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.2));
-                return deflection;
-            }
-        }
-
-        this.onHit(hitResult);
-        return ProjectileDeflection.NONE;
     }
 
     private boolean isAcceptibleReturnOwner() {
@@ -188,8 +167,6 @@ public class ThrownHammer extends AbstractArrow {
             }
         }
 
-        // this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
-        // this.setDeltaMovement(this.getDeltaMovement().multiply(0.02, 0.2, 0.02));
         this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
     }
 
