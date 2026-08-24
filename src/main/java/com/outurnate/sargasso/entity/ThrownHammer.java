@@ -82,6 +82,10 @@ public class ThrownHammer extends AbstractArrow {
             .scale(knockback * 0.6 * knockbackResistance);
         if (movement.lengthSqr() > 0.0) {
             mob.push(movement.x, 0.1, movement.z);
+            // get the mob out of the way so we fly straight
+            while (mob.getBoundingBox().intersects(this.getBoundingBox())) {
+                mob.setPos(mob.getX() + movement.x, mob.getY(), mob.getZ() + movement.z);
+            }
         }
     }
 
