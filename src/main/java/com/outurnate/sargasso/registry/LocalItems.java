@@ -55,6 +55,22 @@ public class LocalItems {
         "flotsam",
         LocalBlocks.FLOTSAM);
 
+    public static final DeferredItem<BlockItem> STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
+        "starmetal_block",
+        LocalBlocks.STARMETAL_BLOCK);
+
+    public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+        "petrified_flotsam",
+        LocalBlocks.PETRIFIED_FLOTSAM);
+
+    public static final DeferredItem<BlockItem> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+        "rich_petrified_flotsam",
+        LocalBlocks.RICH_PETRIFIED_FLOTSAM);
+
+    public static final DeferredItem<BlockItem> SORTING_BIN = REGISTRY.registerSimpleBlockItem(
+        "sorting_bin",
+        LocalBlocks.SORTING_BIN);
+
     public static final DeferredItem<BlockItem> DEBRIS = REGISTRY.registerSimpleBlockItem(
         "debris",
         LocalBlocks.DEBRIS);
@@ -71,18 +87,6 @@ public class LocalItems {
         "pylon",
         LocalBlocks.PYLON,
         p -> p.component(DataComponents.EQUIPPABLE, pylon()));
-
-    public static final DeferredItem<BlockItem> STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
-        "starmetal_block",
-        LocalBlocks.STARMETAL_BLOCK);
-
-    public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
-        "petrified_flotsam",
-        LocalBlocks.PETRIFIED_FLOTSAM);
-
-    public static final DeferredItem<BlockItem> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
-        "rich_petrified_flotsam",
-        LocalBlocks.RICH_PETRIFIED_FLOTSAM);
 
     public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
         "bedrock_slop",

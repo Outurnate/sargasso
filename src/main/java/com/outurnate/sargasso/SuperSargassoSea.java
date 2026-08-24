@@ -14,9 +14,12 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalLootItemFunctions;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
+import com.outurnate.sargasso.registry.LocalPoiTypes;
 import com.outurnate.sargasso.registry.LocalPotions;
 import com.outurnate.sargasso.registry.LocalRecipeSerializers;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
+import com.outurnate.sargasso.registry.LocalVillagerProfessions;
+
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -51,5 +54,7 @@ public class SuperSargassoSea {
         LocalParticleTypes.register(modEventBus);
         LocalRecipeSerializers.register(modEventBus);
         LocalFeatures.register(modEventBus);
+        LocalVillagerProfessions.register(modEventBus);
+        LocalPoiTypes.register(modEventBus);
     }
 }

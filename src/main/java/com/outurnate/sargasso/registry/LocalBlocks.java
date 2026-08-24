@@ -156,6 +156,15 @@ public class LocalBlocks {
             .strength(1.0F)
             .sound(SoundType.STONE));
 
+    public static final DeferredBlock<Block> SORTING_BIN = REGISTRY.registerBlock(
+        "sorting_bin",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.COLOR_BLACK)
+            .instrument(NoteBlockInstrument.BANJO)
+            .strength(1.0F)
+            .sound(SoundType.STONE));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

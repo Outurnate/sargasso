@@ -133,6 +133,7 @@ public class LocalLootTableProvider extends LootTableProvider {
         protected void generate() {
             this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.DEBRIS.get()));
             this.add(LocalBlocks.TOASTER.get(), this.createSingleItemTable(LocalItems.TOASTER.get()));
+            this.add(LocalBlocks.SORTING_BIN.get(), this.createSingleItemTable(LocalItems.SORTING_BIN.get()));
             this.add(
                 LocalBlocks.STARMETAL_BLOCK.get(),
                 this.createSilkTouchDispatchTable(
