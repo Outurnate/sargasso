@@ -31,7 +31,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -41,7 +40,6 @@ public class ThrownHammer extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData
         .defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
     private Vec3 incomingVelocity = Vec3.ZERO;
-    private boolean dealtDamage = false;
     public int clientSideReturnHammerTickCount;
 
     public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
@@ -56,12 +54,6 @@ public class ThrownHammer extends AbstractArrow {
     public ThrownHammer(Level level, LivingEntity mob, ItemStack pickupItemStack) {
         super(LocalEntities.HAMMER.get(), mob, level, pickupItemStack, pickupItemStack);
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
-    }
-
-    @Override
-    protected void addAdditionalSaveData(ValueOutput output) {
-        super.addAdditionalSaveData(output);
-        output.putBoolean("DealtDamage", this.dealtDamage);
     }
 
     @Override
@@ -176,7 +168,6 @@ public class ThrownHammer extends AbstractArrow {
                 .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
         }
 
-        this.dealtDamage = true;
         if (entity.hurtOrSimulate(damageSource, dmg)) {
             if (entity.is(EntityType.ENDERMAN)) {
                 return;
@@ -212,7 +203,6 @@ public class ThrownHammer extends AbstractArrow {
     @Override
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
-        this.dealtDamage = input.getBooleanOr("DealtDamage", false);
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
     }
 
@@ -225,13 +215,9 @@ public class ThrownHammer extends AbstractArrow {
     public void tick() {
         incomingVelocity = getDeltaMovement();
 
-        if (this.inGroundTime > 4) {
-            this.dealtDamage = true;
-        }
-
         Entity currentOwner = this.getOwner();
         int loyalty = this.entityData.get(ID_LOYALTY);
-        if (loyalty > 0 && (this.dealtDamage || this.isNoPhysics()) && currentOwner != null) {
+        if (loyalty > 0 && (this.inGroundTime > 4 || this.isNoPhysics()) && currentOwner != null) {
             if (!this.isAcceptibleReturnOwner()) {
                 if (this.level() instanceof ServerLevel level
                     && this.pickup == AbstractArrow.Pickup.ALLOWED) {
