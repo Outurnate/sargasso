@@ -21,7 +21,7 @@ public class LocalEquipmentInfoProvider extends EquipmentAssetProvider {
             EquipmentClientInfo.builder()
                 .addLayers(
                     EquipmentClientInfo.LayerType.HUMANOID,
-                    new EquipmentClientInfo.Layer(SuperSargassoSea.ID("studded_leather/outer")))
+                    new EquipmentClientInfo.Layer(SuperSargassoSea.ID("studded_leather/inner")))
                 .addLayers(
                     EquipmentClientInfo.LayerType.HUMANOID_LEGGINGS,
                     new EquipmentClientInfo.Layer(SuperSargassoSea.ID("studded_leather/inner")))
