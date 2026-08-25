@@ -45,6 +45,7 @@ public class DataGenerators {
         event.createProvider(LocalAdvancementProvider::new);
         event.createProvider(LocalParticleDescriptionProvider::new);
         event.createProvider(LocalEquipmentInfoProvider::new);
+        event.createProvider(LocalPoiTypeTagsProvider::new);
         event.createProvider(
             (output, lookupProvider) -> new EnglishLanguageProvider(output, lookupProvider, langCache));
         event.createDatapackRegistryObjects(
