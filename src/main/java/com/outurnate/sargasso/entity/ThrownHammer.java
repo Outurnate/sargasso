@@ -1,10 +1,10 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.registry.LocalAdvancements;
-import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
+import com.outurnate.sargasso.repository.LocalAdvancements;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;

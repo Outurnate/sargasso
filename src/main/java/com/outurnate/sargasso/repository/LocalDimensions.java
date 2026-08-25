@@ -1,5 +1,5 @@
 /* (C)2026 */
-package com.outurnate.sargasso.registry;
+package com.outurnate.sargasso.repository;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 

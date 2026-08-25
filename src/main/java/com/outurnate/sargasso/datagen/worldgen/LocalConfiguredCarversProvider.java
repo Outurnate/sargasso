@@ -1,7 +1,7 @@
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalTags;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;

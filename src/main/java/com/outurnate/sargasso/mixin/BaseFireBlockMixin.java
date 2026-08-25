@@ -1,7 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.mixin;
 
-import com.outurnate.sargasso.registry.LocalDimensions;
+import com.outurnate.sargasso.repository.LocalDimensions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import org.spongepowered.asm.mixin.Mixin;

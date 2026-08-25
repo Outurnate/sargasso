@@ -5,7 +5,7 @@ import com.google.common.base.MoreObjects;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.loot.LostItemsSavedData.LostPool;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalTags;
 
 import java.util.List;
 

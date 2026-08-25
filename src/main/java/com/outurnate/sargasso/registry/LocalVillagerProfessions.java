@@ -2,6 +2,8 @@ package com.outurnate.sargasso.registry;
 
 import com.google.common.collect.ImmutableSet;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.repository.LocalTradeSets;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

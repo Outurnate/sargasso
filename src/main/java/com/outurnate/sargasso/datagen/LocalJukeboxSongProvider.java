@@ -1,8 +1,8 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.registry.LocalJukeboxSongs;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
+import com.outurnate.sargasso.repository.LocalJukeboxSongs;
 
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.MutableComponent;

@@ -1,7 +1,7 @@
 package com.outurnate.sargasso.mixin;
 
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalTags;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;

@@ -1,7 +1,7 @@
 /* (C)2026 */
 package com.outurnate.sargasso.effects;
 
-import com.outurnate.sargasso.registry.LocalDamageTypes;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;

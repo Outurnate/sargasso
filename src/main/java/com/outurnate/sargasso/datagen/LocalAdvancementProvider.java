@@ -1,9 +1,10 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.registry.LocalAdvancements;
-import com.outurnate.sargasso.registry.LocalDimensions;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.repository.LocalAdvancements;
+import com.outurnate.sargasso.repository.LocalDimensions;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;

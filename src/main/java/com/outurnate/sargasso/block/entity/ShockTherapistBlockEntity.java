@@ -11,8 +11,9 @@ import com.outurnate.sargasso.block.ShockTherapistBlock.Phase;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
-import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

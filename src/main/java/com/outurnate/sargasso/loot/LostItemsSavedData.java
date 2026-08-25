@@ -1,13 +1,12 @@
 /* (C)2026 */
 package com.outurnate.sargasso.loot;
 
-import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.outurnate.sargasso.ExtraExtraCodecs;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalTags;
 
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
@@ -28,7 +27,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.item.ItemExpireEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import org.slf4j.Logger;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LostItemsSavedData extends SavedData {
@@ -42,8 +40,6 @@ public class LostItemsSavedData extends SavedData {
             return name().toLowerCase(Locale.ROOT);
         }
     }
-
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     private static Codec<EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStack>>> INNER_CODEC = Codec
         .simpleMap(
@@ -71,8 +67,6 @@ public class LostItemsSavedData extends SavedData {
             || lostStack.is(LocalTags.ALWAYS_LOST)) {
             return;
         }
-
-        LOGGER.debug("adding " + lostStack.toString() + " " + lostStack.getCount());
 
         int originalCount = lostStack.getCount();
         lostStack.setCount(1);

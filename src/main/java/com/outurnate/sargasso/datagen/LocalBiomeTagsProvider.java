@@ -3,7 +3,7 @@ package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalTags;
 
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;

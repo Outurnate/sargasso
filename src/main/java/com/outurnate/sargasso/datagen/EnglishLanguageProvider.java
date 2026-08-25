@@ -6,13 +6,14 @@ import com.klikli_dev.modonomicon.api.datagen.ModonomiconLanguageProvider;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.loot.LoreSet;
-import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalBlocks;
-import com.outurnate.sargasso.registry.LocalDamageTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalPotions;
+import com.outurnate.sargasso.repository.LocalAdvancements;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 

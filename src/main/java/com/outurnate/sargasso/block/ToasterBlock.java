@@ -5,10 +5,11 @@ import com.mojang.serialization.MapCodec;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.Utils;
 import com.outurnate.sargasso.network.chat.DurationContents;
-import com.outurnate.sargasso.registry.LocalAdvancements;
 import com.outurnate.sargasso.registry.LocalAttachmentTypes;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
-import com.outurnate.sargasso.registry.LocalTags;
+import com.outurnate.sargasso.repository.LocalAdvancements;
+import com.outurnate.sargasso.repository.LocalTags;
+
 import java.time.Instant;
 import java.util.Map;
 import net.minecraft.core.BlockPos;

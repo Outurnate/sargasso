@@ -1,13 +1,11 @@
 /* (C)2026 */
 package com.outurnate.sargasso;
 
-import com.outurnate.sargasso.registry.LocalDimensions;
-
+import com.outurnate.sargasso.repository.LocalDimensions;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;

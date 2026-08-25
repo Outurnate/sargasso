@@ -7,6 +7,8 @@
 - review default tagging
 - review enchantments
 - balancing pass
+- alpha grass
+- evelasting food item
 
 DONE
 - structure: islands

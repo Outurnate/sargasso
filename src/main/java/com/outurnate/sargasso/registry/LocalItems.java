@@ -12,6 +12,11 @@ import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
 import com.outurnate.sargasso.item.SnowBootsItem;
+import com.outurnate.sargasso.repository.LocalArmorMaterials;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
+import com.outurnate.sargasso.repository.LocalJukeboxSongs;
+import com.outurnate.sargasso.repository.LocalTags;
+
 import java.util.List;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;

@@ -2,7 +2,7 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.registry.LocalDamageTypes;
+import com.outurnate.sargasso.repository.LocalDamageTypes;
 
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
