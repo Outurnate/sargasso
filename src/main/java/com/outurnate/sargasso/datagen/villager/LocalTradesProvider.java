@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.datagen.villager;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.repository.LocalTradeSets;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -76,9 +77,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
     }
 
     public static void provideTradeSets(BootstrapContext<TradeSet> bootstrap) {
-        for (int level : scavengerTrades.keySet()) {
-            ResourceKey<TradeSet> key = ResourceKey
-                .create(Registries.TRADE_SET, SuperSargassoSea.ID("scavenger/level_" + level));
+        LocalTradeSets.SCAVENGER.forEach((level, key) -> {
             bootstrap.register(
                 key,
                 new TradeSet(
@@ -87,7 +86,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
                     ConstantValue.exactly(2.0F),
                     false,
                     Optional.of(key.identifier().withPrefix("trade_set/"))));
-        }
+        });
     }
 
     @SuppressWarnings("unchecked")
