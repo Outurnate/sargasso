@@ -51,6 +51,17 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
                         List.of()));
             }
         }
+        for (TradeCost tradeCost : generateCosts(1)) {
+            levelOne.add(
+                new VillagerTrade(
+                    tradeCost,
+                    new ItemStackTemplate(Items.POTION, 1),
+                    12,
+                    30,
+                    0.05F,
+                    Optional.empty(),
+                    List.of()));
+        }
         scavengerTrades.put(1, levelOne);
     }
 
@@ -67,7 +78,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
 
     private static ItemStackTemplate[] generateGives(int scale) {
         return new ItemStackTemplate[] {
-            new ItemStackTemplate(LocalItems.BROKEN_COG.getDelegate(), 1 * scale),
+            new ItemStackTemplate(LocalItems.BROKEN_COG, 1 * scale),
             new ItemStackTemplate(LocalItems.LOOSE_WIRE, 1 * scale),
             new ItemStackTemplate(LocalItems.RUSTED_BOLT, 2 * scale),
             new ItemStackTemplate(LocalItems.LEAKY_BUCKET, 2 * scale),
