@@ -239,7 +239,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
             TagAppender<ResourceKey<VillagerTrade>, VillagerTrade> tag = this
                 .tag(getTradeTagKey("scavenger", level));
             for (VillagerTrade trade : trades) {
-                tag.add(getTradeKey("scavenger", 1, trade));
+                tag.add(getTradeKey("scavenger", level, trade));
             }
         });
     }
