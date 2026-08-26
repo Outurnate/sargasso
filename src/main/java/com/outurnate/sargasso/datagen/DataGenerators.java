@@ -6,6 +6,7 @@ import com.klikli_dev.modonomicon.api.datagen.NeoBookProvider;
 import com.klikli_dev.modonomicon.api.datagen.research.ResearchCache;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.book.AtlasOfNowhere;
+import com.outurnate.sargasso.datagen.villager.LocalTradesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalBiomesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredCarversProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalConfiguredFeaturesProvider;
@@ -34,9 +35,10 @@ public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent.Client event) {
         LanguageProviderCache langCache = new LanguageProviderCache("en_us");
-        ResearchCache researchCache = new ResearchCache();
         event.getGenerator()
-            .addProvider(true, NeoBookProvider.of(event, langCache, researchCache, new AtlasOfNowhere()));
+            .addProvider(
+                true,
+                NeoBookProvider.of(event, langCache, new ResearchCache(), new AtlasOfNowhere()));
 
         event.createProvider(LocalModelProvider::new);
         event.createProvider(LocalRecipeProvider.Runner::new);
@@ -46,6 +48,7 @@ public class DataGenerators {
         event.createProvider(LocalParticleDescriptionProvider::new);
         event.createProvider(LocalEquipmentInfoProvider::new);
         event.createProvider(LocalPoiTypeTagsProvider::new);
+        event.createProvider(LocalTradesProvider::new);
         event.createProvider(
             (output, lookupProvider) -> new EnglishLanguageProvider(output, lookupProvider, langCache));
         event.createDatapackRegistryObjects(
@@ -69,7 +72,8 @@ public class DataGenerators {
                 .add(Registries.TRIAL_SPAWNER_CONFIG, LocalTrialSpawnerProvider::provide)
                 .add(Registries.CONFIGURED_CARVER, LocalConfiguredCarversProvider::provide)
                 .add(Registries.PAINTING_VARIANT, LocalPaintingVariantsProvider::provide)
-                .add(Registries.VILLAGER_TRADE, LocalTradesProvider::provide));
+                .add(Registries.VILLAGER_TRADE, LocalTradesProvider::provideTrades)
+                .add(Registries.TRADE_SET, LocalTradesProvider::provideTradeSets));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
