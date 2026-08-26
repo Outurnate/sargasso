@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagAppender;
@@ -22,6 +24,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.trading.TradeCost;
 import net.minecraft.world.item.trading.TradeSet;
 import net.minecraft.world.item.trading.VillagerTrade;
@@ -55,7 +59,11 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
             levelOne.add(
                 new VillagerTrade(
                     tradeCost,
-                    new ItemStackTemplate(Items.POTION, 1),
+                    new ItemStackTemplate(
+                        Items.POTION,
+                        1,
+                        DataComponentPatch.builder()
+                            .set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER)).build()),
                     12,
                     30,
                     0.05F,
@@ -63,8 +71,79 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
                     List.of()));
         }
         scavengerTrades.put(1, levelOne);
-        scavengerTrades.put(2, levelOne);
-        scavengerTrades.put(3, levelOne);
+
+        List<VillagerTrade> levelTwo = new ArrayList<>();
+        for (TradeCost tradeCost : generateCosts(2)) {
+            for (ItemStackTemplate gives : generateGives(2)) {
+                if (!tradeCost.item().is(gives.item())) {
+                    levelTwo.add(
+                        new VillagerTrade(
+                            tradeCost,
+                            gives,
+                            12,
+                            60,
+                            0.0F,
+                            Optional.empty(),
+                            List.of()));
+                }
+            }
+        }
+        scavengerTrades.put(2, levelTwo);
+
+        List<VillagerTrade> levelThree = new ArrayList<>();
+        TradeCost[] buildingMats = new TradeCost[] {
+            new TradeCost(Items.BRICK, 6),
+            new TradeCost(Items.GRANITE, 24),
+            new TradeCost(Items.ANDESITE, 24),
+            new TradeCost(Items.DIORITE, 24),
+            new TradeCost(Items.GLASS_PANE, 32)
+        };
+        for (TradeCost tradeCost : buildingMats) {
+            for (ItemStackTemplate gives : generateGives(3)) {
+                levelThree.add(
+                    new VillagerTrade(
+                        tradeCost,
+                        gives,
+                        12,
+                        90,
+                        0.05F,
+                        Optional.empty(),
+                        List.of()));
+            }
+        }
+        ItemStackTemplate[] armor = new ItemStackTemplate[] {
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_HELMET,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 54).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_CHESTPLATE,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 45).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_LEGGINGS,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 64).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_BOOTS,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 84).build())
+        };
+        for (TradeCost tradeCost : generateCosts(3)) {
+            for (ItemStackTemplate gives : armor) {
+                levelThree.add(
+                    new VillagerTrade(
+                        tradeCost,
+                        gives,
+                        1,
+                        90,
+                        0.05F,
+                        Optional.empty(),
+                        List.of()));
+            }
+        }
+        scavengerTrades.put(3, levelThree);
+
         scavengerTrades.put(4, levelOne);
         scavengerTrades.put(5, levelOne);
     }
