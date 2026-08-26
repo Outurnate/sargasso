@@ -1,9 +1,11 @@
-package com.outurnate.sargasso.datagen.villager;
+package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.repository.LocalTradeSets;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -26,21 +28,52 @@ import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 public class LocalTradesProvider extends VillagerTradesTagsProvider {
-    private static final Int2ObjectArrayMap<VillagerTrade[]> scavengerTrades = new Int2ObjectArrayMap<>();
+    private static final Int2ObjectArrayMap<List<VillagerTrade>> scavengerTrades = new Int2ObjectArrayMap<>();
 
     static {
-        scavengerTrades.put(
-            1,
-            new VillagerTrade[] {
-                new VillagerTrade(
-                    new TradeCost(Items.PUFFERFISH, 4),
-                    new ItemStackTemplate(Items.EMERALD),
-                    12,
-                    30,
-                    0.05F,
-                    Optional.empty(),
-                    List.of())
-            });
+        List<VillagerTrade> levelOne = new ArrayList<>();
+        TradeCost[] foods = new TradeCost[] {
+            new TradeCost(Items.BEEF, 1),
+            new TradeCost(Items.PORKCHOP, 2),
+            new TradeCost(Items.CHICKEN, 2),
+            new TradeCost(Items.SALMON, 1)
+        };
+        for (TradeCost tradeCost : foods) {
+            for (ItemStackTemplate gives : generateGives(1)) {
+                levelOne.add(
+                    new VillagerTrade(
+                        tradeCost,
+                        gives,
+                        12,
+                        30,
+                        0.05F,
+                        Optional.empty(),
+                        List.of()));
+            }
+        }
+        scavengerTrades.put(1, levelOne);
+    }
+
+    private static TradeCost[] generateCosts(int scale) {
+        return new TradeCost[] {
+            new TradeCost(LocalItems.BROKEN_COG, 1 * scale),
+            new TradeCost(LocalItems.LOOSE_WIRE, 1 * scale),
+            new TradeCost(LocalItems.RUSTED_BOLT, 2 * scale),
+            new TradeCost(LocalItems.LEAKY_BUCKET, 2 * scale),
+            new TradeCost(LocalItems.CLOCKSPRING, 3 * scale),
+            new TradeCost(LocalItems.CIRCUIT_BOARD, 3 * scale)
+        };
+    }
+
+    private static ItemStackTemplate[] generateGives(int scale) {
+        return new ItemStackTemplate[] {
+            new ItemStackTemplate(LocalItems.BROKEN_COG.getDelegate(), 1 * scale),
+            new ItemStackTemplate(LocalItems.LOOSE_WIRE, 1 * scale),
+            new ItemStackTemplate(LocalItems.RUSTED_BOLT, 2 * scale),
+            new ItemStackTemplate(LocalItems.LEAKY_BUCKET, 2 * scale),
+            new ItemStackTemplate(LocalItems.CLOCKSPRING, 3 * scale),
+            new ItemStackTemplate(LocalItems.CIRCUIT_BOARD, 3 * scale)
+        };
     }
 
     @SuppressWarnings("deprecation")
