@@ -63,6 +63,10 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
                     List.of()));
         }
         scavengerTrades.put(1, levelOne);
+        scavengerTrades.put(2, levelOne);
+        scavengerTrades.put(3, levelOne);
+        scavengerTrades.put(4, levelOne);
+        scavengerTrades.put(5, levelOne);
     }
 
     private static TradeCost[] generateCosts(int scale) {
