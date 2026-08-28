@@ -166,7 +166,7 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
                 7,
-                ConstantHeight.of(VerticalAnchor.belowTop(2)),
+                ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));
     }
