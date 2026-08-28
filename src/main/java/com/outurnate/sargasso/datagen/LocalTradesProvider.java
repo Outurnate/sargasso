@@ -115,19 +115,19 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
             new ItemStackTemplate(
                 LocalItems.STUDDED_LEATHER_HELMET,
                 1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 54).build()),
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 154).build()),
             new ItemStackTemplate(
                 LocalItems.STUDDED_LEATHER_CHESTPLATE,
                 1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 45).build()),
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 145).build()),
             new ItemStackTemplate(
                 LocalItems.STUDDED_LEATHER_LEGGINGS,
                 1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 64).build()),
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 164).build()),
             new ItemStackTemplate(
                 LocalItems.STUDDED_LEATHER_BOOTS,
                 1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 84).build())
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 184).build())
         };
         for (TradeCost tradeCost : generateCosts(3)) {
             for (ItemStackTemplate gives : armor) {
@@ -150,23 +150,23 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
 
     private static TradeCost[] generateCosts(int scale) {
         return new TradeCost[] {
-            new TradeCost(LocalItems.BROKEN_COG, 1 * scale),
-            new TradeCost(LocalItems.LOOSE_WIRE, 1 * scale),
+            new TradeCost(LocalItems.BROKEN_COG, 3 * scale),
+            new TradeCost(LocalItems.LOOSE_WIRE, 3 * scale),
             new TradeCost(LocalItems.RUSTED_BOLT, 2 * scale),
             new TradeCost(LocalItems.LEAKY_BUCKET, 2 * scale),
-            new TradeCost(LocalItems.CLOCKSPRING, 3 * scale),
-            new TradeCost(LocalItems.CIRCUIT_BOARD, 3 * scale)
+            new TradeCost(LocalItems.CLOCKSPRING, 1 * scale),
+            new TradeCost(LocalItems.CIRCUIT_BOARD, 1 * scale)
         };
     }
 
     private static ItemStackTemplate[] generateGives(int scale) {
         return new ItemStackTemplate[] {
-            new ItemStackTemplate(LocalItems.BROKEN_COG, 1 * scale),
-            new ItemStackTemplate(LocalItems.LOOSE_WIRE, 1 * scale),
+            new ItemStackTemplate(LocalItems.BROKEN_COG, 3 * scale),
+            new ItemStackTemplate(LocalItems.LOOSE_WIRE, 3 * scale),
             new ItemStackTemplate(LocalItems.RUSTED_BOLT, 2 * scale),
             new ItemStackTemplate(LocalItems.LEAKY_BUCKET, 2 * scale),
-            new ItemStackTemplate(LocalItems.CLOCKSPRING, 3 * scale),
-            new ItemStackTemplate(LocalItems.CIRCUIT_BOARD, 3 * scale)
+            new ItemStackTemplate(LocalItems.CLOCKSPRING, 1 * scale),
+            new ItemStackTemplate(LocalItems.CIRCUIT_BOARD, 1 * scale)
         };
     }
 

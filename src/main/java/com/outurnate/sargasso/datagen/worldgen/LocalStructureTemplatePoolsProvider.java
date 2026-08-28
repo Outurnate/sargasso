@@ -51,6 +51,12 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("escher"));
     public static final ResourceKey<StructureTemplatePool> CASTLE = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("castle"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_QUARTERS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_quarters"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings"));
 
     @SafeVarargs
     private static StructureTemplatePool pool(
@@ -188,5 +194,8 @@ public class LocalStructureTemplatePoolsProvider {
                 Pair.of("escher/cube", 1),
                 Pair.of("escher/cross", 1)));
         bootstrap.register(CASTLE, pool(empty, "castle"));
+        bootstrap.register(VILLAGE, pool(empty, "village/base"));
+        bootstrap.register(VILLAGE_QUARTERS, pool(empty, "village/quarter"));
+        bootstrap.register(VILLAGE_BUILDINGS, pool(empty, "village/building_a"));
     }
 }
