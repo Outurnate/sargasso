@@ -155,6 +155,11 @@ public class LocalModelProvider extends ModelProvider {
                 plainVariant(pylon)));
 
         blockModels.blockStateOutput.accept(generateShockTherapist());
+        Identifier alpha_grass = SuperSargassoSea.ID("block/alpha_grass");
+        blockModels.blockStateOutput.accept(
+            createSimpleBlock(
+                LocalBlocks.ALPHA_GRASS.get(),
+                plainVariant(alpha_grass)));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),

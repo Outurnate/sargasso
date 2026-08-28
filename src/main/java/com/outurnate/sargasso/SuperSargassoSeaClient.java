@@ -12,13 +12,16 @@ import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.client.ThrownHammerRenderer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
+import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
+import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -39,6 +42,11 @@ public class SuperSargassoSeaClient {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new HammerClientItemExtensions(), LocalItems.HAMMER.get());
+    }
+
+    @SubscribeEvent
+    public static void registerColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
+        event.register(List.of(state -> ARGB.color(0, 255, 0)), LocalBlocks.ALPHA_GRASS.get());
     }
 
     @SubscribeEvent

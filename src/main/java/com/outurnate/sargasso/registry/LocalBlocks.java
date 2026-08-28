@@ -165,6 +165,12 @@ public class LocalBlocks {
             .strength(1.0F)
             .sound(SoundType.STONE));
 
+    public static final DeferredBlock<Block> ALPHA_GRASS = REGISTRY.registerBlock(
+        "alpha_grass",
+        p -> new Block(p),
+        p -> p
+            .mapColor(MapColor.GRASS).strength(0.6F).sound(SoundType.GRASS));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

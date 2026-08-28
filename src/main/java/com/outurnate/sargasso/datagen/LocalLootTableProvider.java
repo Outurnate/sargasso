@@ -65,6 +65,7 @@ import net.minecraft.world.item.equipment.trim.TrimPattern;
 import net.minecraft.world.item.equipment.trim.TrimPatterns;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
@@ -134,6 +135,11 @@ public class LocalLootTableProvider extends LootTableProvider {
             this.add(LocalBlocks.DEBRIS.get(), this.createSingleItemTable(LocalItems.DEBRIS.get()));
             this.add(LocalBlocks.TOASTER.get(), this.createSingleItemTable(LocalItems.TOASTER.get()));
             this.add(LocalBlocks.SORTING_BIN.get(), this.createSingleItemTable(LocalItems.SORTING_BIN.get()));
+            this.add(
+                LocalBlocks.ALPHA_GRASS.get(),
+                this.createSilkTouchDispatchTable(
+                    Blocks.GRASS_BLOCK,
+                    LootItem.lootTableItem(Blocks.DIRT)));
             this.add(
                 LocalBlocks.STARMETAL_BLOCK.get(),
                 this.createSilkTouchDispatchTable(
