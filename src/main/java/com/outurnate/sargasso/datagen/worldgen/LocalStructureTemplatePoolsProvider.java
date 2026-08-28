@@ -61,6 +61,10 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_walls"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_CORNERS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_corners"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_PATH_FOUNDATIONS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_path_foundations"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_PATHS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_paths"));
 
     @SafeVarargs
     private static StructureTemplatePool pool(
@@ -203,5 +207,7 @@ public class LocalStructureTemplatePoolsProvider {
         bootstrap.register(VILLAGE_BUILDINGS, pool(empty, "village/building_a"));
         bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
         bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
+        bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
+        bootstrap.register(VILLAGE_PATHS, pool(empty, "village/path"));
     }
 }
