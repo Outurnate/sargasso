@@ -46,7 +46,7 @@ public class SuperSargassoSeaClient {
 
     @SubscribeEvent
     public static void registerColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
-        event.register(List.of(state -> ARGB.color(0, 255, 0)), LocalBlocks.ALPHA_GRASS.get());
+        event.register(List.of(state -> ARGB.color(10, 245, 10)), LocalBlocks.ALPHA_GRASS.get());
     }
 
     @SubscribeEvent
