@@ -19,11 +19,16 @@ public class ForeverFoodItem extends Item {
         super.onUseTick(level, livingEntity, itemStack, ticksRemaining);
         if (itemStack.get(DataComponents.CONSUMABLE) instanceof Consumable self) {
             SuperSargassoSea.LOGGER.error("use " + livingEntity.useItemRemaining);
-            if (self.shouldEmitParticlesAndSounds(ticksRemaining)) {
+            // n.b. bastardized version of shouldEmitParticlesAndSounds
+            // does NOT take into account any effects that slow consumption
+            // food item bobbing has an 8 tick period
+            // this SHOULD loop it, but also wait until the food item is
+            // in front of the mouth before looping
+            int waitTicksBeforeUseEffects = (int) (self.consumeTicks() * 0.21875F);
+            if ((self.consumeTicks() - ticksRemaining) > waitTicksBeforeUseEffects && ticksRemaining % 8 == 0
+                && (self.consumeTicks() - ticksRemaining + 8) > waitTicksBeforeUseEffects) {
                 SuperSargassoSea.LOGGER.error("use incr");
-                if ((ticksRemaining % 8) == 0) {
-                    livingEntity.useItemRemaining += 8;
-                }
+                livingEntity.useItemRemaining += 8;
             }
         }
     }
