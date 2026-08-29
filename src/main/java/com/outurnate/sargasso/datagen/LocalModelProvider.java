@@ -213,6 +213,7 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
+        itemModels.generateFlatItem(LocalItems.INFINITE_BEEF.get(), ModelTemplates.FLAT_ITEM);
 
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);

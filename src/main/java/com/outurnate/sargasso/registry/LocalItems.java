@@ -318,6 +318,15 @@ public class LocalItems {
         "atlas",
         (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
 
+    public static final DeferredItem<Item> INFINITE_BEEF = REGISTRY.registerSimpleItem(
+        "infinite_beef",
+        p -> p
+            .component(
+                DataComponents.CONSUMABLE,
+                Consumable.builder()
+                    .consumeSeconds(Float.MAX_VALUE)
+                    .build()));
+
     private static int getBatteryCapacity() {
         try {
             return Config.BATTERY_CAPACITY.getAsInt();
