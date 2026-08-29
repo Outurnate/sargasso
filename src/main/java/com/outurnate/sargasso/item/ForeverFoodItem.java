@@ -17,7 +17,7 @@ public class ForeverFoodItem extends Item {
         super.onUseTick(level, livingEntity, itemStack, ticksRemaining);
         if (itemStack.get(DataComponents.CONSUMABLE) instanceof Consumable self) {
             if (self.shouldEmitParticlesAndSounds(ticksRemaining)) {
-                livingEntity.useItemRemaining -= 4;
+                livingEntity.useItemRemaining += 4;
             }
         }
     }
