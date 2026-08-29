@@ -119,6 +119,7 @@ public class LocalItems {
                 .saturationModifier(0.2F)
                 .build(),
             Consumable.builder()
+                .consumeSeconds(3.2F)
                 .onConsume(
                     new ApplyStatusEffectsConsumeEffect(
                         new MobEffectInstance(
@@ -328,7 +329,7 @@ public class LocalItems {
                     .saturationModifier(0.2F)
                     .build(),
                 Consumable.builder()
-                    .consumeSeconds(60 * 60)
+                    .consumeSeconds(60.0F)
                     .build()));
 
     private static int getBatteryCapacity() {
