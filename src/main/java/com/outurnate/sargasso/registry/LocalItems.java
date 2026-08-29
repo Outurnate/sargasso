@@ -328,7 +328,7 @@ public class LocalItems {
                     .saturationModifier(0.2F)
                     .build(),
                 Consumable.builder()
-                    .consumeSeconds(Float.MAX_VALUE)
+                    .consumeSeconds(60 * 60 * 24 * 365.2425F) // gotta make sure it's exactly a year
                     .build()));
 
     private static int getBatteryCapacity() {
