@@ -24,9 +24,10 @@ public class ForeverFoodItem extends Item {
             // food item bobbing has an 8 tick period
             // this SHOULD loop it, but also wait until the food item is
             // in front of the mouth before looping
-            int waitTicksBeforeUseEffects = (int) (self.consumeTicks() * 0.21875F);
-            if ((self.consumeTicks() - ticksRemaining) > waitTicksBeforeUseEffects && ticksRemaining % 8 == 0
-                && (self.consumeTicks() - ticksRemaining + 8) > waitTicksBeforeUseEffects) {
+            // by default the full animation takes 32 ticks
+            int waitTicksBeforeUseEffects = (int) (self.consumeTicks() * (14.0F / 32.0F));
+            if ((self.consumeTicks() - ticksRemaining) > waitTicksBeforeUseEffects
+                && ticksRemaining % 8 == 0) {
                 SuperSargassoSea.LOGGER.error("use incr");
                 livingEntity.useItemRemaining += 8;
             }
