@@ -165,7 +165,7 @@ public class LocalStructuresProvider {
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
-                7,
+                14,
                 ConstantHeight.ZERO,
                 false,
                 Types.WORLD_SURFACE_WG));
