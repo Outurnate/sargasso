@@ -321,8 +321,12 @@ public class LocalItems {
     public static final DeferredItem<Item> INFINITE_BEEF = REGISTRY.registerSimpleItem(
         "infinite_beef",
         p -> p
-            .component(
-                DataComponents.CONSUMABLE,
+            .food(
+                new FoodProperties.Builder()
+                    .alwaysEdible()
+                    .nutrition(2)
+                    .saturationModifier(0.2F)
+                    .build(),
                 Consumable.builder()
                     .consumeSeconds(Float.MAX_VALUE)
                     .build()));
