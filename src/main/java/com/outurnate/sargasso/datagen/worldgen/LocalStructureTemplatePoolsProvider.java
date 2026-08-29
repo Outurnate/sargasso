@@ -73,6 +73,10 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_center_foundations"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_CENTERS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_centers"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_JUNK_CORNERS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_junk_corners"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_GRAVEL = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_gravel"));
 
     @SafeVarargs
     private static StructureTemplatePool pool(
@@ -240,7 +244,12 @@ public class LocalStructureTemplatePoolsProvider {
             VILLAGE_JUNKS,
             pool(
                 empty,
-                "village/junk_1"));
+                "village/junk_1",
+                "village/junk_2",
+                "village/junk_3",
+                "village/junk_4",
+                "village/junk_5",
+                "village/junk_6"));
         bootstrap.register(
             VILLAGE_ALLEYS,
             pool(
@@ -257,5 +266,16 @@ public class LocalStructureTemplatePoolsProvider {
             pool(
                 empty,
                 "village/center_1"));
+        bootstrap.register(
+            VILLAGE_JUNK_CORNERS,
+            pool(
+                empty,
+                "village/junk_corner_1",
+                "village/junk_corner_2",
+                "village/junk_corner_3",
+                "village/junk_corner_4",
+                "village/junk_corner_5",
+                "village/junk_corner_6"));
+        bootstrap.register(VILLAGE_GRAVEL, pool(empty, "village/gravel"));
     }
 }
