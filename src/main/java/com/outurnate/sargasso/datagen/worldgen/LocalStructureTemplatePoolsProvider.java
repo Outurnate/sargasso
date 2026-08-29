@@ -65,6 +65,10 @@ public class LocalStructureTemplatePoolsProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_path_foundations"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_PATHS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_paths"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_JUNKS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_junks"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_ALLEYS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_alleys"));
 
     @SafeVarargs
     private static StructureTemplatePool pool(
@@ -100,6 +104,16 @@ public class LocalStructureTemplatePoolsProvider {
                     name.getSecond()))
                 .toList(),
             StructureTemplatePool.Projection.RIGID);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        String... names) {
+        return pool(
+            fallback,
+            (Pair<String, Integer>[]) Arrays.stream(names).map((name) -> Pair.of(name, 1))
+                .toArray(size -> (Pair<String, Integer>[]) new Pair[size]));
     }
 
     private static StructureTemplatePool pool(
@@ -142,15 +156,15 @@ public class LocalStructureTemplatePoolsProvider {
             OFFICE_TERMINATORS,
             pool(
                 empty,
-                Pair.of("office/roof_1", 1),
-                Pair.of("office/roof_2", 1)));
+                "office/roof_1",
+                "office/roof_2"));
         bootstrap.register(
             OFFICE_ROADS,
             pool(
                 empty,
-                Pair.of("office/road_1", 1),
-                Pair.of("office/road_2", 1),
-                Pair.of("office/road_3", 1)));
+                "office/road_1",
+                "office/road_2",
+                "office/road_3"));
         bootstrap.register(
             ESCHER_HORIZONTAL_TERMINATORS,
             pool(
@@ -199,8 +213,8 @@ public class LocalStructureTemplatePoolsProvider {
             ESCHER,
             pool(
                 empty,
-                Pair.of("escher/cube", 1),
-                Pair.of("escher/cross", 1)));
+                "escher/cube",
+                "escher/cross"));
         bootstrap.register(CASTLE, pool(empty, "castle"));
         bootstrap.register(VILLAGE, pool(empty, "village/base"));
         bootstrap.register(VILLAGE_QUARTERS, pool(empty, "village/quarter"));
@@ -208,6 +222,30 @@ public class LocalStructureTemplatePoolsProvider {
         bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
         bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
-        bootstrap.register(VILLAGE_PATHS, pool(empty, "village/path"));
+        bootstrap.register(
+            VILLAGE_PATHS,
+            pool(
+                empty,
+                "village/path_1",
+                "village/path_2",
+                "village/path_3",
+                "village/path_4",
+                "village/path_5",
+                "village/path_6"));
+        bootstrap.register(
+            VILLAGE_JUNKS,
+            pool(
+                empty,
+                "village/junk_1"));
+        bootstrap.register(
+            VILLAGE_ALLEYS,
+            pool(
+                empty,
+                "village/alley_1",
+                "village/alley_2",
+                "village/alley_3",
+                "village/alley_4",
+                "village/alley_5",
+                "village/alley_6"));
     }
 }
