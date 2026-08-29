@@ -31,8 +31,10 @@ public class ForeverFoodItem extends Item {
                 if (livingEntity instanceof Player player
                     && itemStack.get(DataComponents.FOOD) instanceof FoodProperties food) {
                     FoodData foodData = player.getFoodData();
+                    float originalSaturation = foodData.getSaturationLevel();
                     foodData.eat(food);
-                    foodData.setSaturation(foodData.getSaturationLevel() / 2.0F);
+                    foodData.setSaturation(originalSaturation / 2.0F);
+                    foodData.addExhaustion(0.1F);
                 }
                 livingEntity.useItemRemaining += 8;
             }
