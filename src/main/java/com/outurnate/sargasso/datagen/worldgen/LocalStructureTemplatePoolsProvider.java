@@ -226,7 +226,13 @@ public class LocalStructureTemplatePoolsProvider {
         bootstrap.register(CASTLE, pool(empty, "castle"));
         bootstrap.register(VILLAGE, pool(empty, "village/base"));
         bootstrap.register(VILLAGE_QUARTERS, pool(empty, "village/quarter"));
-        bootstrap.register(VILLAGE_BUILDINGS, pool(empty, "village/building_a"));
+        bootstrap.register(
+            VILLAGE_BUILDINGS,
+            pool(
+                empty,
+                "village/building_1",
+                "village/building_2",
+                "village/building_3"));
         bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
         bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
@@ -248,8 +254,7 @@ public class LocalStructureTemplatePoolsProvider {
                 "village/junk_2",
                 "village/junk_3",
                 "village/junk_4",
-                "village/junk_5",
-                "village/junk_6"));
+                "village/junk_5"));
         bootstrap.register(
             VILLAGE_ALLEYS,
             pool(
@@ -266,16 +271,7 @@ public class LocalStructureTemplatePoolsProvider {
             pool(
                 empty,
                 "village/center_1"));
-        bootstrap.register(
-            VILLAGE_JUNK_CORNERS,
-            pool(
-                empty,
-                "village/junk_corner_1",
-                "village/junk_corner_2",
-                "village/junk_corner_3",
-                "village/junk_corner_4",
-                "village/junk_corner_5",
-                "village/junk_corner_6"));
+        bootstrap.register(VILLAGE_JUNK_CORNERS, pool(empty, "village/junk_corner"));
         bootstrap.register(VILLAGE_GRAVEL, pool(empty, "village/gravel"));
     }
 }
