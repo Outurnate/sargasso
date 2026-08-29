@@ -21,7 +21,9 @@ public class ForeverFoodItem extends Item {
             SuperSargassoSea.LOGGER.error("use " + livingEntity.useItemRemaining);
             if (self.shouldEmitParticlesAndSounds(ticksRemaining)) {
                 SuperSargassoSea.LOGGER.error("use incr");
-                livingEntity.useItemRemaining += 4;
+                if ((ticksRemaining % 8) == 0) {
+                    livingEntity.useItemRemaining += 8;
+                }
             }
         }
     }
