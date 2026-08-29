@@ -329,7 +329,6 @@ public class LocalItems {
                     .saturationModifier(0.2F)
                     .build(),
                 Consumable.builder()
-                    .consumeSeconds(60.0F)
                     .build()));
 
     private static int getBatteryCapacity() {

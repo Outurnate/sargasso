@@ -56,6 +56,7 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 neoForge {
+	accessTransformers.from 'src/main/resources/META-INF/accesstransformer.cfg'
 	version = project.neo_version
 	
 	runs {
