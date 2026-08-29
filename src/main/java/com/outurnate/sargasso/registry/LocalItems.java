@@ -7,6 +7,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.effects.AddGeneratorConsumeEffect;
 import com.outurnate.sargasso.item.BedrockCreamItem;
 import com.outurnate.sargasso.item.EnergyItem;
+import com.outurnate.sargasso.item.ForeverFoodItem;
 import com.outurnate.sargasso.item.HammerItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
@@ -319,8 +320,9 @@ public class LocalItems {
         "atlas",
         (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
 
-    public static final DeferredItem<Item> INFINITE_BEEF = REGISTRY.registerSimpleItem(
+    public static final DeferredItem<Item> INFINITE_BEEF = REGISTRY.registerItem(
         "infinite_beef",
+        ForeverFoodItem::new,
         p -> p
             .food(
                 new FoodProperties.Builder()
