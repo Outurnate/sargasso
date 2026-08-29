@@ -172,6 +172,13 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addItem(LocalItems.HAMMER, "Hammer");
         this.addItem(LocalItems.STARMETAL_SCRAP, "Starmetal Scrap");
         this.addItem(LocalItems.STARMETAL_INGOT, "Starmetal Ingot");
+        this.addItem(LocalItems.INFINITE_BEEF, "Everlasting Beef");
+        this.addItem(LocalItems.INFINITE_CHICKEN, "Everlasting Chicken");
+        this.addItem(LocalItems.INFINITE_COD, "Everlasting Cod");
+        this.addItem(LocalItems.INFINITE_MUTTON, "Everlasting Mutton");
+        this.addItem(LocalItems.INFINITE_PORK, "Everlasting Porkchop");
+        this.addItem(LocalItems.INFINITE_RABBIT, "Everlasting Rabbit");
+        this.addItem(LocalItems.INFINITE_SALMON, "Everlasting Salmon");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 

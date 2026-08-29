@@ -320,18 +320,16 @@ public class LocalItems {
         "atlas",
         (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
 
-    public static final DeferredItem<Item> INFINITE_BEEF = REGISTRY.registerItem(
-        "infinite_beef",
-        ForeverFoodItem::new,
-        p -> p
-            .food(
-                new FoodProperties.Builder()
-                    .alwaysEdible()
-                    .nutrition(8)
-                    .saturationModifier(0.8F)
-                    .build(),
-                Consumable.builder()
-                    .build()));
+    public static final DeferredItem<Item> INFINITE_BEEF = registerInfiniteFood("infinite_beef", 8, 0.8F);
+    public static final DeferredItem<Item> INFINITE_PORK = registerInfiniteFood("infinite_pork", 8, 0.8F);
+    public static final DeferredItem<Item> INFINITE_MUTTON = registerInfiniteFood("infinite_mutton", 6, 0.8F);
+    public static final DeferredItem<Item> INFINITE_SALMON = registerInfiniteFood("infinite_salmon", 6, 0.8F);
+    public static final DeferredItem<Item> INFINITE_CHICKEN = registerInfiniteFood(
+        "infinite_chicken",
+        6,
+        0.6F);
+    public static final DeferredItem<Item> INFINITE_COD = registerInfiniteFood("infinite_cod", 5, 0.6F);
+    public static final DeferredItem<Item> INFINITE_RABBIT = registerInfiniteFood("infinite_rabbit", 5, 0.6F);
 
     private static int getBatteryCapacity() {
         try {
@@ -385,5 +383,23 @@ public class LocalItems {
                 getBatteryCapacity(),
                 getBatteryCapacity()),
             RECHARGABLE_AA_BATTERY.get());
+    }
+
+    private static DeferredItem<Item> registerInfiniteFood(
+        String name,
+        int nutrition,
+        float saturationModifier) {
+        return REGISTRY.registerItem(
+            name,
+            ForeverFoodItem::new,
+            p -> p
+                .food(
+                    new FoodProperties.Builder()
+                        .alwaysEdible()
+                        .nutrition(nutrition)
+                        .saturationModifier(saturationModifier)
+                        .build(),
+                    Consumable.builder()
+                        .build()));
     }
 }

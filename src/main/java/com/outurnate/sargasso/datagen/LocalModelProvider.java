@@ -213,7 +213,27 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
-        itemModels.generateFlatItem(LocalItems.INFINITE_BEEF.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_BEEF.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_beef")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_PORK.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_porkchop")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_MUTTON.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_mutton")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_SALMON.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_salmon")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_CHICKEN.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_chicken")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_COD.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_cod")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.INFINITE_RABBIT.get(),
+            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_rabbit")));
 
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);

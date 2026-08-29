@@ -16,6 +16,11 @@ public class ForeverFoodItem extends Item {
     }
 
     @Override
+    public boolean isFoil(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack itemStack, int ticksRemaining) {
         super.onUseTick(level, livingEntity, itemStack, ticksRemaining);
         if (itemStack.get(DataComponents.CONSUMABLE) instanceof Consumable self) {
