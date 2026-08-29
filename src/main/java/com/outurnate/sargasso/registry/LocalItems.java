@@ -327,8 +327,8 @@ public class LocalItems {
             .food(
                 new FoodProperties.Builder()
                     .alwaysEdible()
-                    .nutrition(2)
-                    .saturationModifier(0.2F)
+                    .nutrition(8)
+                    .saturationModifier(0.8F)
                     .build(),
                 Consumable.builder()
                     .build()));
