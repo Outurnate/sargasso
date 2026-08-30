@@ -171,7 +171,8 @@ public class LocalModelProvider extends ModelProvider {
                         .select(ChestType.RIGHT, plainVariant(SuperSargassoSea.ID("block/beta_chest_right")))
                         .select(
                             ChestType.SINGLE,
-                            plainVariant(SuperSargassoSea.ID("block/beta_chest_single")))));
+                            plainVariant(SuperSargassoSea.ID("block/beta_chest_single"))))
+                .with(ROTATION_HORIZONTAL_FACING));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
