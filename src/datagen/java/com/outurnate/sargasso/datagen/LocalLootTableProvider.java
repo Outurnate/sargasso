@@ -492,13 +492,6 @@ public class LocalLootTableProvider extends LootTableProvider {
                     "https://www.gutenberg.org/cache/epub/68283/pg68283-images-3.epub",
                     new String[] { "THE FULL PROJECT GUTENBERG™ LICENSE" }),
                 new BookConfiguration(
-                    "https://www.gutenberg.org/cache/epub/345/pg345-images-3.epub",
-                    new String[] {
-                        "D R A C U L A",
-                        "Contents",
-                        "NOTE",
-                        "THE FULL PROJECT GUTENBERG™ LICENSE" }),
-                new BookConfiguration(
                     "https://www.gutenberg.org/cache/epub/35/pg35-images-3.epub",
                     new String[] {
                         "The Time Machine",

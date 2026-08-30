@@ -5,6 +5,7 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.BetaChestBlock;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
+import com.outurnate.sargasso.block.MimicBlock;
 import com.outurnate.sargasso.block.PortalBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.SortingBinBlock;
@@ -169,7 +170,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> ALPHA_GRASS = REGISTRY.registerBlock(
         "alpha_grass",
-        p -> new Block(p),
+        p -> new MimicBlock(Blocks.GRASS_BLOCK, p),
         p -> p
             .mapColor(MapColor.GRASS).strength(0.6F).sound(SoundType.GRASS));
 
