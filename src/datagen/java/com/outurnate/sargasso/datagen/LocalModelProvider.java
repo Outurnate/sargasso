@@ -33,6 +33,8 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
@@ -54,6 +56,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.ChestType;
 import org.joml.Vector3f;
 
 public class LocalModelProvider extends ModelProvider {
@@ -160,11 +163,15 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.ALPHA_GRASS.get(),
                 plainVariant(alpha_grass)));
-        Identifier beta_chest = SuperSargassoSea.ID("block/beta_chest");
         blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.BETA_CHEST.get(),
-                plainVariant(beta_chest)));
+            MultiVariantGenerator.dispatch(LocalBlocks.BETA_CHEST.get())
+                .with(
+                    PropertyDispatch.initial(BlockStateProperties.CHEST_TYPE)
+                        .select(ChestType.LEFT, plainVariant(SuperSargassoSea.ID("block/beta_chest_left")))
+                        .select(ChestType.RIGHT, plainVariant(SuperSargassoSea.ID("block/beta_chest_right")))
+                        .select(
+                            ChestType.SINGLE,
+                            plainVariant(SuperSargassoSea.ID("block/beta_chest_single")))));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),

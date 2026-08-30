@@ -1,0 +1,19 @@
+{
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "particle": "sargasso:block/chest_front",
+        "down": "sargasso:block/chest_side",
+        "up": "sargasso:block/chest_side",
+        "north": "sargasso:block/chest_front",
+        "east": "sargasso:block/chest_side",
+        "south": "sargasso:block/chest_side",
+        "west": "sargasso:block/chest_side"
+    }
+}
