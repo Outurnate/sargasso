@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.block.entity.BetaChestBlockEntity;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -32,7 +33,7 @@ public class LocalBlockEntities {
         .register(
             "beta_chest",
             () -> new BlockEntityType<>(
-                ChestBlockEntity::new,
+                BetaChestBlockEntity::new,
                 false,
                 LocalBlocks.BETA_CHEST.get()));
 

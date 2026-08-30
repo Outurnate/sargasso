@@ -2,6 +2,7 @@
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.block.BetaChestBlock;
 import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
@@ -12,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TransparentBlock;
@@ -175,7 +175,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> BETA_CHEST = REGISTRY.registerBlock(
         "beta_chest",
-        p -> new ChestBlock(
+        p -> new BetaChestBlock(
             () -> LocalBlockEntities.BETA_CHEST.get(),
             SoundEvents.CHEST_OPEN,
             SoundEvents.CHEST_CLOSE,
