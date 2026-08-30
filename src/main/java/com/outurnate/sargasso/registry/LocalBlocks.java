@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TransparentBlock;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -176,7 +175,11 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> BETA_CHEST = REGISTRY.registerBlock(
         "beta_chest",
-        p -> new ChestBlock(() -> BlockEntityType.CHEST, SoundEvents.CHEST_OPEN, SoundEvents.CHEST_CLOSE, p),
+        p -> new ChestBlock(
+            () -> LocalBlockEntities.BETA_CHEST.get(),
+            SoundEvents.CHEST_OPEN,
+            SoundEvents.CHEST_CLOSE,
+            p),
         p -> p.mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F)
             .sound(SoundType.WOOD).ignitedByLava());
 

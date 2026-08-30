@@ -6,6 +6,7 @@ import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -27,6 +28,13 @@ public class LocalBlockEntities {
                 ShockTherapistBlockEntity::new,
                 false,
                 LocalBlocks.SHOCK_THERAPIST.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChestBlockEntity>> BETA_CHEST = REGISTRY
+        .register(
+            "beta_chest",
+            () -> new BlockEntityType<>(
+                ChestBlockEntity::new,
+                false,
+                LocalBlocks.BETA_CHEST.get()));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
