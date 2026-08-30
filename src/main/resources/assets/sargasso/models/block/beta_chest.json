@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "sargasso:block/chest_front",
+    "side": "sargasso:block/chest_side",
+    "top": "sargasso:block/chest_top"
+  }
+}

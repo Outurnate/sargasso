@@ -8,12 +8,15 @@ import com.outurnate.sargasso.block.PortalBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
 import com.outurnate.sargasso.block.SortingBinBlock;
 import com.outurnate.sargasso.block.ToasterBlock;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -170,6 +173,12 @@ public class LocalBlocks {
         p -> new Block(p),
         p -> p
             .mapColor(MapColor.GRASS).strength(0.6F).sound(SoundType.GRASS));
+
+    public static final DeferredBlock<Block> BETA_CHEST = REGISTRY.registerBlock(
+        "beta_chest",
+        p -> new ChestBlock(() -> BlockEntityType.CHEST, SoundEvents.CHEST_OPEN, SoundEvents.CHEST_CLOSE, p),
+        p -> p.mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.5F)
+            .sound(SoundType.WOOD).ignitedByLava());
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
