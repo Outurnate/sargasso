@@ -9,8 +9,8 @@
     },
     "textures": {
         "particle": "sargasso:block/chest_front",
-        "down": "sargasso:block/chest_side",
-        "up": "sargasso:block/chest_side",
+        "down": "sargasso:block/chest_top",
+        "up": "sargasso:block/chest_top",
         "north": "sargasso:block/chest_front",
         "east": "sargasso:block/chest_side",
         "south": "sargasso:block/chest_side",
