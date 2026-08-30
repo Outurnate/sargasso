@@ -4,6 +4,10 @@ import com.outurnate.sargasso.block.entity.BetaChestBlockEntity;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +21,16 @@ public class BetaChestBlock extends ChestBlock {
         SoundEvent closeSound,
         Properties properties) {
         super(blockEntityType, openSound, closeSound, properties);
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(
+        LevelReader level,
+        BlockPos pos,
+        BlockState state,
+        boolean includeData,
+        Player player) {
+        return Blocks.CHEST.asItem().getDefaultInstance();
     }
 
     @Override
