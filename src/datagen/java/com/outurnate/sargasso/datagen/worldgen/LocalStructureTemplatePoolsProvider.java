@@ -232,7 +232,10 @@ public class LocalStructureTemplatePoolsProvider {
                 empty,
                 "village/building_1",
                 "village/building_2",
-                "village/building_3"));
+                "village/building_3",
+                "village/building_4",
+                "village/building_5",
+                "village/building_6"));
         bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
         bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
