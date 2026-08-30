@@ -8,9 +8,9 @@
 - review enchantments
 - balancing pass
 - alpha grass
-- evelasting food item
 
 DONE
+- evelasting food item
 - structure: islands
 - finish textures!
 - grabthar's hammer (sounds)
