@@ -170,4 +170,6 @@ spotless {
 
 jar {
     exclude("**/datagen/**")
+	from(sourceSets.main.output)
+    from(sourceSets.client.output)
 }
