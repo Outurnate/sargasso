@@ -6,8 +6,8 @@ import com.outurnate.sargasso.block.DebrisBlock;
 import com.outurnate.sargasso.block.GlitchBlock;
 import com.outurnate.sargasso.block.PortalBlock;
 import com.outurnate.sargasso.block.ShockTherapistBlock;
+import com.outurnate.sargasso.block.SortingBinBlock;
 import com.outurnate.sargasso.block.ToasterBlock;
-
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -37,7 +37,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> DEBRIS = REGISTRY.registerBlock(
         "debris",
-        p -> new DebrisBlock(p),
+        DebrisBlock::new,
         p -> p
             .mapColor(MapColor.DIRT)
             .noCollision()
@@ -49,7 +49,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> CREAMY_BEDROCK = REGISTRY.registerBlock(
         "creamy_bedrock",
-        p -> new Block(p),
+        Block::new,
         p -> p
             .mapColor(MapColor.SAND)
             .instrument(NoteBlockInstrument.BANJO)
@@ -58,7 +58,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> GLITCH = REGISTRY.registerBlock(
         "glitch",
-        p -> new GlitchBlock(p),
+        GlitchBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_BLACK)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -71,7 +71,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> PORTAL = REGISTRY.registerBlock(
         "portal",
-        p -> new PortalBlock(p),
+        PortalBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_BLACK)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -84,7 +84,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> TOASTER = REGISTRY.registerBlock(
         "toaster",
-        p -> new ToasterBlock(p),
+        ToasterBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.SNARE)
@@ -94,7 +94,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> PYLON = REGISTRY.registerBlock(
         "pylon",
-        p -> new TransparentBlock(p),
+        TransparentBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_ORANGE)
             .instrument(NoteBlockInstrument.DIDGERIDOO)
@@ -105,7 +105,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> SHOCK_THERAPIST = REGISTRY.registerBlock(
         "shock_therapist",
-        p -> new ShockTherapistBlock(p),
+        ShockTherapistBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_YELLOW)
             .instrument(NoteBlockInstrument.HARP)
@@ -120,7 +120,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> STARMETAL_BLOCK = REGISTRY.registerBlock(
         "starmetal_block",
-        p -> new Block(p),
+        Block::new,
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -129,7 +129,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerBlock(
         "reinforced_starmetal_block",
-        p -> new Block(p),
+        Block::new,
         p -> p
             .mapColor(MapColor.COLOR_GRAY)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -140,7 +140,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> PETRIFIED_FLOTSAM = REGISTRY.registerBlock(
         "petrified_flotsam",
-        p -> new Block(p),
+        Block::new,
         p -> p
             .mapColor(MapColor.COLOR_BROWN)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -149,7 +149,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerBlock(
         "rich_petrified_flotsam",
-        p -> new Block(p),
+        Block::new,
         p -> p
             .mapColor(MapColor.COLOR_BROWN)
             .instrument(NoteBlockInstrument.BASEDRUM)
@@ -158,7 +158,7 @@ public class LocalBlocks {
 
     public static final DeferredBlock<Block> SORTING_BIN = REGISTRY.registerBlock(
         "sorting_bin",
-        p -> new Block(p),
+        SortingBinBlock::new,
         p -> p
             .mapColor(MapColor.COLOR_BLACK)
             .instrument(NoteBlockInstrument.BANJO)

@@ -1,14 +1,17 @@
 package com.outurnate.sargasso.datagen;
 
+import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.repository.LocalTradeSets;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -32,131 +35,27 @@ import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 public class LocalTradesProvider extends VillagerTradesTagsProvider {
-    private static final Int2ObjectArrayMap<List<VillagerTrade>> scavengerTrades = new Int2ObjectArrayMap<>();
+    private static final Object2ObjectArrayMap<String, Int2ObjectArrayMap<List<VillagerTrade>>> allTrades = new Object2ObjectArrayMap<>();
 
     static {
-        List<VillagerTrade> levelOne = new ArrayList<>();
-        TradeCost[] foods = new TradeCost[] {
-            new TradeCost(Items.BEEF, 1),
-            new TradeCost(Items.PORKCHOP, 2),
-            new TradeCost(Items.CHICKEN, 2),
-            new TradeCost(Items.SALMON, 1)
-        };
-        for (TradeCost tradeCost : foods) {
-            for (ItemStackTemplate gives : generateGives(1)) {
-                levelOne.add(
-                    new VillagerTrade(
-                        tradeCost,
-                        gives,
-                        12,
-                        30,
-                        0.05F,
-                        Optional.empty(),
-                        List.of()));
-            }
-        }
-        for (TradeCost tradeCost : generateCosts(1)) {
-            levelOne.add(
-                new VillagerTrade(
-                    tradeCost,
-                    new ItemStackTemplate(
-                        Items.POTION,
-                        1,
-                        DataComponentPatch.builder()
-                            .set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER)).build()),
-                    12,
-                    30,
-                    0.05F,
-                    Optional.empty(),
-                    List.of()));
-        }
-        scavengerTrades.put(1, levelOne);
-
-        List<VillagerTrade> levelTwo = new ArrayList<>();
-        for (TradeCost tradeCost : generateCosts(2)) {
-            for (ItemStackTemplate gives : generateGives(2)) {
-                if (!tradeCost.item().is(gives.item())) {
-                    levelTwo.add(
-                        new VillagerTrade(
-                            tradeCost,
-                            gives,
-                            12,
-                            60,
-                            0.0F,
-                            Optional.empty(),
-                            List.of()));
-                }
-            }
-        }
-        scavengerTrades.put(2, levelTwo);
-
-        List<VillagerTrade> levelThree = new ArrayList<>();
-        TradeCost[] buildingMats = new TradeCost[] {
-            new TradeCost(Items.BRICK, 6),
-            new TradeCost(Items.GRANITE, 24),
-            new TradeCost(Items.ANDESITE, 24),
-            new TradeCost(Items.DIORITE, 24),
-            new TradeCost(Items.GLASS_PANE, 32)
-        };
-        for (TradeCost tradeCost : buildingMats) {
-            for (ItemStackTemplate gives : generateGives(3)) {
-                levelThree.add(
-                    new VillagerTrade(
-                        tradeCost,
-                        gives,
-                        12,
-                        90,
-                        0.05F,
-                        Optional.empty(),
-                        List.of()));
-            }
-        }
-        ItemStackTemplate[] armor = new ItemStackTemplate[] {
-            new ItemStackTemplate(
-                LocalItems.STUDDED_LEATHER_HELMET,
-                1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 154).build()),
-            new ItemStackTemplate(
-                LocalItems.STUDDED_LEATHER_CHESTPLATE,
-                1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 145).build()),
-            new ItemStackTemplate(
-                LocalItems.STUDDED_LEATHER_LEGGINGS,
-                1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 164).build()),
-            new ItemStackTemplate(
-                LocalItems.STUDDED_LEATHER_BOOTS,
-                1,
-                DataComponentPatch.builder().set(DataComponents.DAMAGE, 184).build())
-        };
-        for (TradeCost tradeCost : generateCosts(3)) {
-            for (ItemStackTemplate gives : armor) {
-                levelThree.add(
-                    new VillagerTrade(
-                        tradeCost,
-                        gives,
-                        1,
-                        90,
-                        0.05F,
-                        Optional.empty(),
-                        List.of()));
-            }
-        }
-        scavengerTrades.put(3, levelThree);
-
-        scavengerTrades.put(4, levelOne);
-        scavengerTrades.put(5, levelOne);
-    }
-
-    private static TradeCost[] generateCosts(int scale) {
-        return new TradeCost[] {
-            new TradeCost(LocalItems.BROKEN_COG, 3 * scale),
-            new TradeCost(LocalItems.LOOSE_WIRE, 3 * scale),
-            new TradeCost(LocalItems.RUSTED_BOLT, 2 * scale),
-            new TradeCost(LocalItems.LEAKY_BUCKET, 2 * scale),
-            new TradeCost(LocalItems.CLOCKSPRING, 1 * scale),
-            new TradeCost(LocalItems.CIRCUIT_BOARD, 1 * scale)
-        };
+        allTrades.put(
+            "scavenger_circuits",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.CIRCUIT_BOARD.get(), level)));
+        allTrades.put(
+            "scavenger_clocksprings",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.CLOCKSPRING.get(), level)));
+        allTrades.put(
+            "scavenger_bolts",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.RUSTED_BOLT.get(), level * 2)));
+        allTrades.put(
+            "scavenger_buckets",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.LEAKY_BUCKET.get(), level * 2)));
+        allTrades.put(
+            "scavenger_cogs",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.BROKEN_COG.get(), level * 3)));
+        allTrades.put(
+            "scavenger_wires",
+            makeTradesForProfession((level) -> new Pair<>(LocalItems.LOOSE_WIRE.get(), level * 3)));
     }
 
     private static ItemStackTemplate[] generateGives(int scale) {
@@ -165,8 +64,8 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
             new ItemStackTemplate(LocalItems.LOOSE_WIRE, 3 * scale),
             new ItemStackTemplate(LocalItems.RUSTED_BOLT, 2 * scale),
             new ItemStackTemplate(LocalItems.LEAKY_BUCKET, 2 * scale),
-            new ItemStackTemplate(LocalItems.CLOCKSPRING, 1 * scale),
-            new ItemStackTemplate(LocalItems.CIRCUIT_BOARD, 1 * scale)
+            new ItemStackTemplate(LocalItems.CLOCKSPRING, scale),
+            new ItemStackTemplate(LocalItems.CIRCUIT_BOARD, scale)
         };
     }
 
@@ -178,7 +77,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
     private static ResourceKey<VillagerTrade> getTradeKey(String profession, int level, VillagerTrade trade) {
         return ResourceKey.create(
             Registries.VILLAGER_TRADE,
-            SuperSargassoSea.ID("scavenger/" + level + "/" + getTradeName(trade)));
+            SuperSargassoSea.ID(profession + "/" + level + "/" + getTradeName(trade)));
     }
 
     private static String getTradeName(VillagerTrade trade) {
@@ -195,25 +94,160 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
         return TagKey.create(Registries.VILLAGER_TRADE, SuperSargassoSea.ID(profession + "/level_" + level));
     }
 
-    public static void provideTrades(BootstrapContext<VillagerTrade> bootstrap) {
-        scavengerTrades.forEach((level, trades) -> {
-            for (VillagerTrade trade : trades) {
-                bootstrap.register(getTradeKey("scavenger", level, trade), trade);
+    private static int getXP(int scale) {
+        return switch (scale) {
+            case 1 -> 1;
+            case 2 -> 5;
+            case 3 -> 10;
+            case 4 -> 15;
+            case 5 -> 30;
+            default -> 0;
+        };
+    }
+
+    // function is level -> cost
+    private static Int2ObjectArrayMap<List<VillagerTrade>> makeTradesForProfession(
+        Function<Integer, Pair<Item, Integer>> currency) {
+        Function<Integer, TradeCost> currencyWants = (amount) -> {
+            Pair<Item, Integer> template = currency.apply(amount);
+            return new TradeCost(template.getFirst(), template.getSecond());
+        };
+        Function<Integer, ItemStackTemplate> currencyGives = (amount) -> {
+            Pair<Item, Integer> template = currency.apply(amount);
+            return new ItemStackTemplate(template.getFirst(), template.getSecond());
+        };
+        Int2ObjectArrayMap<List<VillagerTrade>> scavengerTrades = new Int2ObjectArrayMap<>();
+
+        List<VillagerTrade> levelOne = new ArrayList<>();
+        TradeCost[] foods = new TradeCost[] {
+            new TradeCost(Items.BEEF, 1),
+            new TradeCost(Items.PORKCHOP, 2),
+            new TradeCost(Items.CHICKEN, 2),
+            new TradeCost(Items.SALMON, 1)
+        };
+        for (TradeCost tradeCost : foods) {
+            levelOne.add(trade(tradeCost, currencyGives.apply(1), getXP(1)));
+        }
+        levelOne.add(
+            trade(
+                currencyWants.apply(1),
+                new ItemStackTemplate(
+                    Items.POTION,
+                    1,
+                    DataComponentPatch.builder()
+                        .set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER)).build()),
+                getXP(1)));
+        levelOne.add(trade(currencyWants.apply(1), new ItemStackTemplate(LocalItems.ATLAS), getXP(1)));
+        scavengerTrades.put(1, levelOne);
+
+        List<VillagerTrade> levelTwo = new ArrayList<>();
+        for (ItemStackTemplate gives : generateGives(2)) {
+            TradeCost cost = currencyWants.apply(2);
+            if (!cost.item().is(gives.item())) {
+                levelTwo.add(trade(cost, gives, 12, getXP(2), 0.0F));
             }
+        }
+        scavengerTrades.put(2, levelTwo);
+
+        List<VillagerTrade> levelThree = new ArrayList<>();
+        TradeCost[] buildingMats = new TradeCost[] {
+            new TradeCost(Items.BRICK, 6),
+            new TradeCost(Items.GRANITE, 24),
+            new TradeCost(Items.ANDESITE, 24),
+            new TradeCost(Items.DIORITE, 24),
+            new TradeCost(Items.GLASS_PANE, 32)
+        };
+        for (TradeCost tradeCost : buildingMats) {
+            levelThree.add(trade(tradeCost, currencyGives.apply(3), getXP(3)));
+        }
+        ItemStackTemplate[] armor = new ItemStackTemplate[] {
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_HELMET,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 54).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_CHESTPLATE,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 45).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_LEGGINGS,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 64).build()),
+            new ItemStackTemplate(
+                LocalItems.STUDDED_LEATHER_BOOTS,
+                1,
+                DataComponentPatch.builder().set(DataComponents.DAMAGE, 84).build())
+        };
+        for (ItemStackTemplate gives : armor) {
+            levelThree.add(trade(currencyWants.apply(3), gives, 1, getXP(3)));
+        }
+        scavengerTrades.put(3, levelThree);
+
+        List<VillagerTrade> levelFour = new ArrayList<>();
+        levelFour
+            .add(
+                trade(
+                    currencyWants.apply(4),
+                    new ItemStackTemplate(LocalItems.STARMETAL_SCRAP, 2),
+                    getXP(4)));
+        levelFour
+            .add(trade(currencyWants.apply(4), new ItemStackTemplate(LocalItems.AA_BATTERY, 2), getXP(4)));
+        scavengerTrades.put(4, levelFour);
+
+        List<VillagerTrade> levelFive = new ArrayList<>();
+        levelFive
+            .add(
+                trade(
+                    currencyWants.apply(5),
+                    new ItemStackTemplate(LocalItems.RECHARGABLE_AA_BATTERY, 1),
+                    150));
+        levelFive
+            .add(trade(currencyWants.apply(5), new ItemStackTemplate(LocalItems.FOX_EARS, 1), 1, getXP(5)));
+        scavengerTrades.put(5, levelFive);
+
+        return scavengerTrades;
+    }
+
+    public static void provideTrades(BootstrapContext<VillagerTrade> bootstrap) {
+        allTrades.forEach((profession, professionTrades) -> {
+            professionTrades.forEach((level, trades) -> {
+                for (VillagerTrade trade : trades) {
+                    bootstrap.register(getTradeKey(profession, level, trade), trade);
+                }
+            });
         });
     }
 
     public static void provideTradeSets(BootstrapContext<TradeSet> bootstrap) {
-        LocalTradeSets.SCAVENGER.forEach((level, key) -> {
-            bootstrap.register(
-                key,
-                new TradeSet(
-                    bootstrap.lookup(Registries.VILLAGER_TRADE)
-                        .getOrThrow(getTradeTagKey("scavenger", level)),
-                    ConstantValue.exactly(2.0F),
-                    false,
-                    Optional.of(key.identifier().withPrefix("trade_set/"))));
+        LocalTradeSets.ALL_TRADESETS.forEach((profession, tradeSet) -> {
+            tradeSet.forEach((level, key) -> {
+                bootstrap.register(
+                    key,
+                    new TradeSet(
+                        bootstrap.lookup(Registries.VILLAGER_TRADE)
+                            .getOrThrow(getTradeTagKey(profession, level)),
+                        ConstantValue.exactly(2.0F),
+                        false,
+                        Optional.of(key.identifier().withPrefix("trade_set/"))));
+            });
         });
+    }
+
+    private static VillagerTrade trade(TradeCost wants, ItemStackTemplate gives, int xp) {
+        return trade(wants, gives, 12, xp);
+    }
+
+    private static VillagerTrade trade(TradeCost wants, ItemStackTemplate gives, int maxUses, int xp) {
+        return trade(wants, gives, maxUses, xp, 0.05F);
+    }
+
+    private static VillagerTrade trade(
+        TradeCost wants,
+        ItemStackTemplate gives,
+        int maxUses,
+        int xp,
+        float reputationDiscount) {
+        return new VillagerTrade(wants, gives, maxUses, xp, reputationDiscount, Optional.empty(), List.of());
     }
 
     @SuppressWarnings("unchecked")
@@ -235,12 +269,14 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider registries) {
-        scavengerTrades.forEach((level, trades) -> {
-            TagAppender<ResourceKey<VillagerTrade>, VillagerTrade> tag = this
-                .tag(getTradeTagKey("scavenger", level));
-            for (VillagerTrade trade : trades) {
-                tag.add(getTradeKey("scavenger", level, trade));
-            }
+        allTrades.forEach((profession, professionTrades) -> {
+            professionTrades.forEach((level, trades) -> {
+                TagAppender<ResourceKey<VillagerTrade>, VillagerTrade> tag = this
+                    .tag(getTradeTagKey(profession, level));
+                for (VillagerTrade trade : trades) {
+                    tag.add(getTradeKey(profession, level, trade));
+                }
+            });
         });
     }
 }

@@ -1,11 +1,8 @@
 package com.outurnate.sargasso.client.iris;
 
 import com.outurnate.sargasso.ClientConfig;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.ModList;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class IrisCompat {
     public static final IrisCompat INSTANCE;
 

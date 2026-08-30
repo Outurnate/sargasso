@@ -9,10 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricMineRenderState> {
     private static final Identifier ELECTRIC_MINE_LOCATION = SuperSargassoSea
         .ID("textures/entity/electric_mine.png");

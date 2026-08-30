@@ -11,10 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ThrownHammerRenderer extends EntityRenderer<ThrownHammer, ThrownHammerRenderState> {
     public ThrownHammerRenderer(EntityRendererProvider.Context context) {
         super(context);

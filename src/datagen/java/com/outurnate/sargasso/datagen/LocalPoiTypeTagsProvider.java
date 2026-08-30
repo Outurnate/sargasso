@@ -17,6 +17,12 @@ public class LocalPoiTypeTagsProvider extends PoiTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider registries) {
         this.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE)
-            .add(LocalPoiTypes.SCAVENGER.getKey());
+            .add(LocalPoiTypes.SCAVENGER_WIRES.getKey())
+            .add(LocalPoiTypes.SCAVENGER_COGS.getKey())
+            .add(LocalPoiTypes.SCAVENGER_BUCKETS.getKey())
+            .add(LocalPoiTypes.SCAVENGER_BOLTS.getKey())
+            .add(LocalPoiTypes.SCAVENGER_CLOCKSPRINGS.getKey())
+            .add(LocalPoiTypes.SCAVENGER_CIRCUITS.getKey())
+            .replace(false);
     }
 }

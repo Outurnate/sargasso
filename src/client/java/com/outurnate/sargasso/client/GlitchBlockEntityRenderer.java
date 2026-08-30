@@ -26,13 +26,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
-@OnlyIn(Dist.CLIENT)
 public class GlitchBlockEntityRenderer
     implements BlockEntityRenderer<GlitchBlockEntity, GlitchBlockRenderState> {
     private static final Vector3fc FROM = new Vector3f(0.0F, 0.0F, 0.0F);

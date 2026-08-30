@@ -29,14 +29,14 @@ config="META-INF/${mod_id}.mixins.json"
 [[dependencies.${mod_id}]]
 modId="fusion"
 type="required"
-versionRange="[1.0.0,)"
+versionRange="[${fusion_version},)"
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.${mod_id}]]
 modId="modonomicon"
 type="required"
-versionRange="[1.0.0,)"
+versionRange="[${modonomicon_version},)"
 ordering="NONE"
 side="BOTH"
 
