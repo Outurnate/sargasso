@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 import net.minecraft.core.Holder;
@@ -83,13 +84,13 @@ public class LocalStructureTemplatePoolsProvider {
     @SafeVarargs
     private static StructureTemplatePool pool(
         Holder<StructureTemplatePool> fallback,
-        Holder<StructureProcessorList> processors,
+        Holder<StructureProcessorList> processorList,
         Pair<String, Integer>... names) {
         return new StructureTemplatePool(
             fallback,
             Arrays.stream(names).map(
                 name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst(), processors),
+                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst(), processorList),
                     name.getSecond()))
                 .toList(),
             StructureTemplatePool.Projection.RIGID);
@@ -97,9 +98,38 @@ public class LocalStructureTemplatePoolsProvider {
 
     private static StructureTemplatePool pool(
         Holder<StructureTemplatePool> fallback,
-        Holder<StructureProcessorList> processors,
+        Holder<StructureProcessorList> processorList,
         String name) {
-        return pool(fallback, processors, Pair.of(name, 1));
+        return pool(fallback, processorList, Pair.of(name, 1));
+    }
+
+    @SafeVarargs
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        List<Holder<StructureProcessorList>> processorLists,
+        Pair<String, Integer>... names) {
+        return new StructureTemplatePool(
+            fallback,
+            processorLists.stream().flatMap(
+                processorList -> Arrays.stream(names).map(
+                    name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                        SinglePoolElement
+                            .single(SuperSargassoSea.MODID + ":" + name.getFirst(), processorList),
+                        name.getSecond())))
+                .toList(),
+            StructureTemplatePool.Projection.RIGID);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static StructureTemplatePool pool(
+        Holder<StructureTemplatePool> fallback,
+        List<Holder<StructureProcessorList>> processorLists,
+        String... names) {
+        return pool(
+            fallback,
+            processorLists,
+            (Pair<String, Integer>[]) Arrays.stream(names).map((name) -> Pair.of(name, 1))
+                .toArray(size -> (Pair<String, Integer>[]) new Pair[size]));
     }
 
     @SafeVarargs
@@ -244,7 +274,9 @@ public class LocalStructureTemplatePoolsProvider {
                 "village/building_10",
                 "village/building_11",
                 "village/building_12",
-                "village/building_13"));
+                "village/building_13",
+                "village/building_14",
+                "village/building_15"));
         bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
         bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
@@ -289,6 +321,9 @@ public class LocalStructureTemplatePoolsProvider {
             VILLAGE_STANDS,
             pool(
                 empty,
+                LocalStructureProcessorListProvider.WOOLS.stream()
+                    .<Holder<StructureProcessorList>>map(structureProcessorRegistry::getOrThrow)
+                    .toList(),
                 "village/stand_1",
                 "village/stand_2",
                 "village/stand_3",
