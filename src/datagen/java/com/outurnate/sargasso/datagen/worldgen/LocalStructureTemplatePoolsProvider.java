@@ -146,22 +146,22 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         bootstrap.register(
             VILLAGE_BUILDINGS,
             entry("village/building_1", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_2"),
-            entry("village/building_3"),
-            entry("village/building_4"),
-            entry("village/building_5"),
-            entry("village/building_6"),
+            entry("village/building_2", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_3", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_5", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_6", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_7", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_8"),
-            entry("village/building_9"),
-            entry("village/building_10"),
-            entry("village/building_11"),
-            entry("village/building_12"),
-            entry("village/building_13"),
-            entry("village/building_14"),
+            entry("village/building_8", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_9", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_10", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_11", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_12", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_13", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_14", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_15", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_16"),
-            entry("village/building_17"));
+            entry("village/building_16", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_17", LocalStructureProcessorListProvider.WOOLS.size()));
         bootstrap.register(VILLAGE_WALLS, "village/wall");
         bootstrap.register(VILLAGE_CORNERS, "village/wall_corner");
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, "village/path_foundation");
