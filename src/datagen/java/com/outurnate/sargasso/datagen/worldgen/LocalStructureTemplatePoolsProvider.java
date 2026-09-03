@@ -44,8 +44,14 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_QUARTERS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_quarters"));
-    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS = ResourceKey
-        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS_A = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings_a"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS_B = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings_b"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS_C = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings_c"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_BUILDINGS_D = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_buildings_d"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_WALLS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_walls"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_CORNERS = ResourceKey
@@ -144,19 +150,25 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         bootstrap.register(VILLAGE, "village/base");
         bootstrap.register(VILLAGE_QUARTERS, "village/quarter");
         bootstrap.register(
-            VILLAGE_BUILDINGS,
+            VILLAGE_BUILDINGS_A,
             entry("village/building_1", LocalStructureProcessorListProvider.WOOLS),
             entry("village/building_2", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_3", LocalStructureProcessorListProvider.WOOLS.size()),
-            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()));
+        bootstrap.register(
+            VILLAGE_BUILDINGS_B,
             entry("village/building_5", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_6", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_7", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_8", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_8", LocalStructureProcessorListProvider.WOOLS.size()));
+        bootstrap.register(
+            VILLAGE_BUILDINGS_C,
             entry("village/building_9", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_10", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_11", LocalStructureProcessorListProvider.WOOLS.size()),
-            entry("village/building_12", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_12", LocalStructureProcessorListProvider.WOOLS.size()));
+        bootstrap.register(
+            VILLAGE_BUILDINGS_D,
             entry("village/building_13", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_14", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_15", LocalStructureProcessorListProvider.WOOLS),
