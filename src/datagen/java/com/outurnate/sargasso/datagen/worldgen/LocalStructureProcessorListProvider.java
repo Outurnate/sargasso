@@ -37,21 +37,18 @@ public class LocalStructureProcessorListProvider {
 
         public static List<WoolRule> createWools() {
             return List.of(
-                new WoolRule(Blocks.WHITE_WOOL),
                 new WoolRule(Blocks.GRAY_WOOL),
-                new WoolRule(Blocks.LIGHT_GRAY_WOOL),
                 new WoolRule(Blocks.BLACK_WOOL),
                 new WoolRule(Blocks.BROWN_WOOL),
                 new WoolRule(Blocks.ORANGE_WOOL),
                 new WoolRule(Blocks.YELLOW_WOOL),
-                new WoolRule(Blocks.LIME_WOOL),
                 new WoolRule(Blocks.GREEN_WOOL),
                 new WoolRule(Blocks.CYAN_WOOL),
-                new WoolRule(Blocks.LIGHT_BLUE_WOOL),
                 new WoolRule(Blocks.BLUE_WOOL),
                 new WoolRule(Blocks.PURPLE_WOOL),
                 new WoolRule(Blocks.MAGENTA_WOOL),
-                new WoolRule(Blocks.PINK_WOOL));
+                new WoolRule(Blocks.PINK_WOOL),
+                new WoolRule(Blocks.RED_WOOL));
         }
     }
 

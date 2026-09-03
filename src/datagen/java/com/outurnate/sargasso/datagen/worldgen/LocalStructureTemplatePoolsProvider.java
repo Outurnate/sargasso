@@ -1,25 +1,13 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen.worldgen;
 
-import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
+import com.outurnate.sargasso.datagen.util.StructureProvider;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
-public class LocalStructureTemplatePoolsProvider {
+public class LocalStructureTemplatePoolsProvider extends StructureProvider {
     public static final ResourceKey<StructureTemplatePool> FORTRESS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("fortress"));
     public static final ResourceKey<StructureTemplatePool> FORTRESS_SEGMENT = ResourceKey
@@ -81,260 +69,142 @@ public class LocalStructureTemplatePoolsProvider {
     public static final ResourceKey<StructureTemplatePool> VILLAGE_STANDS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_stands"));
 
-    @SafeVarargs
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        Holder<StructureProcessorList> processorList,
-        Pair<String, Integer>... names) {
-        return new StructureTemplatePool(
-            fallback,
-            Arrays.stream(names).map(
-                name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst(), processorList),
-                    name.getSecond()))
-                .toList(),
-            StructureTemplatePool.Projection.RIGID);
-    }
-
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        Holder<StructureProcessorList> processorList,
-        String name) {
-        return pool(fallback, processorList, Pair.of(name, 1));
-    }
-
-    @SafeVarargs
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        List<Holder<StructureProcessorList>> processorLists,
-        Pair<String, Integer>... names) {
-        return new StructureTemplatePool(
-            fallback,
-            processorLists.stream().flatMap(
-                processorList -> Arrays.stream(names).map(
-                    name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                        SinglePoolElement
-                            .single(SuperSargassoSea.MODID + ":" + name.getFirst(), processorList),
-                        name.getSecond())))
-                .toList(),
-            StructureTemplatePool.Projection.RIGID);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        List<Holder<StructureProcessorList>> processorLists,
-        String... names) {
-        return pool(
-            fallback,
-            processorLists,
-            (Pair<String, Integer>[]) Arrays.stream(names).map((name) -> Pair.of(name, 1))
-                .toArray(size -> (Pair<String, Integer>[]) new Pair[size]));
-    }
-
-    @SafeVarargs
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        Pair<String, Integer>... names) {
-        return new StructureTemplatePool(
-            fallback,
-            Arrays.stream(names).map(
-                name -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
-                    SinglePoolElement.single(SuperSargassoSea.MODID + ":" + name.getFirst()),
-                    name.getSecond()))
-                .toList(),
-            StructureTemplatePool.Projection.RIGID);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        String... names) {
-        return pool(
-            fallback,
-            (Pair<String, Integer>[]) Arrays.stream(names).map((name) -> Pair.of(name, 1))
-                .toArray(size -> (Pair<String, Integer>[]) new Pair[size]));
-    }
-
-    private static StructureTemplatePool pool(
-        Holder<StructureTemplatePool> fallback,
-        String name) {
-        return pool(fallback, Pair.of(name, 1));
-    }
-
-    public static void provide(BootstrapContext<StructureTemplatePool> bootstrap) {
-        HolderGetter<StructureTemplatePool> structureTemplatePoolsRegistry = bootstrap
-            .lookup(Registries.TEMPLATE_POOL);
-        HolderGetter<StructureProcessorList> structureProcessorRegistry = bootstrap
-            .lookup(Registries.PROCESSOR_LIST);
-        Holder<StructureTemplatePool> empty = structureTemplatePoolsRegistry.getOrThrow(Pools.EMPTY);
-
-        bootstrap.register(FORTRESS, pool(empty, "fortress/segment"));
+    @Override
+    protected void provide(TemplatePoolBuilder bootstrap) {
+        bootstrap.register(FORTRESS, "fortress/segment");
         bootstrap.register(
             FORTRESS_SEGMENT,
-            pool(
-                empty,
-                Pair.of("fortress/segment", 1),
-                Pair.of("fortress/end", 1)));
-        bootstrap.register(APOTHECARY, pool(empty, "apothecary"));
-        bootstrap.register(OFFICE, pool(empty, "office/base"));
+            entry("fortress/segment"),
+            entry("fortress/end"));
+        bootstrap.register(APOTHECARY, "apothecary");
+        bootstrap.register(OFFICE, "office/base");
         bootstrap.register(
             OFFICE_FLOORS,
-            pool(
-                structureTemplatePoolsRegistry.getOrThrow(OFFICE_TERMINATORS),
-                structureProcessorRegistry.getOrThrow(LocalStructureProcessorListProvider.REMOVE_CHESTS),
-                Pair.of("office/floor", 10),
-                Pair.of("office/roof_1", 1),
-                Pair.of("office/roof_2", 1)));
+            OFFICE_TERMINATORS,
+            LocalStructureProcessorListProvider.REMOVE_CHESTS,
+            entry("office/floor", 10),
+            entry("office/roof_1", 1),
+            entry("office/roof_2", 1));
         bootstrap.register(
             OFFICE_FIRST_FLOOR,
-            pool(
-                empty,
-                structureProcessorRegistry.getOrThrow(LocalStructureProcessorListProvider.REMOVE_CHESTS),
-                "office/floor"));
+            entry("office/floor", LocalStructureProcessorListProvider.REMOVE_CHESTS));
         bootstrap.register(
             OFFICE_TERMINATORS,
-            pool(
-                empty,
-                "office/roof_1",
-                "office/roof_2"));
+            entry("office/roof_1"),
+            entry("office/roof_2"));
         bootstrap.register(
             OFFICE_ROADS,
-            pool(
-                empty,
-                "office/road_1",
-                "office/road_2",
-                "office/road_3"));
+            entry("office/road_1"),
+            entry("office/road_2"),
+            entry("office/road_3"));
         bootstrap.register(
             ESCHER_HORIZONTAL_TERMINATORS,
-            pool(
-                empty,
-                Pair.of("escher/end", 1),
-                Pair.of("escher/pool", 1),
-                Pair.of("escher/acropolis", 1)));
-        bootstrap.register(ESCHER_VERTICAL_TERMINATORS, pool(empty, "escher/vert_end"));
-        bootstrap.register(ESCHER_INVERTED_TERMINATORS, pool(empty, "escher/inverted_end"));
+            entry("escher/end"),
+            entry("escher/pool"),
+            entry("escher/acropolis"));
+        bootstrap.register(ESCHER_VERTICAL_TERMINATORS, "escher/vert_end");
+        bootstrap.register(ESCHER_INVERTED_TERMINATORS, "escher/inverted_end");
         bootstrap.register(
             ESCHER_HORIZONTAL,
-            pool(
-                structureTemplatePoolsRegistry.getOrThrow(ESCHER_HORIZONTAL_TERMINATORS),
-                Pair.of("escher/cross", 2),
-                Pair.of("escher/cube", 1),
-                Pair.of("escher/4", 1),
-                Pair.of("escher/3", 1),
-                Pair.of("escher/left", 1),
-                Pair.of("escher/right", 1),
-                Pair.of("escher/to_vert", 4),
-                Pair.of("escher/vert_to_hor", 4),
-                Pair.of("escher/acropolis", 2),
-                Pair.of("escher/pool", 2)));
+            ESCHER_HORIZONTAL_TERMINATORS,
+            entry("escher/cross", 2),
+            entry("escher/cube", 1),
+            entry("escher/4", 1),
+            entry("escher/3", 1),
+            entry("escher/left", 1),
+            entry("escher/right", 1),
+            entry("escher/to_vert", 4),
+            entry("escher/vert_to_hor", 4),
+            entry("escher/acropolis", 2),
+            entry("escher/pool", 2));
         bootstrap.register(
             ESCHER_VERTICAL,
-            pool(
-                structureTemplatePoolsRegistry.getOrThrow(ESCHER_VERTICAL_TERMINATORS),
-                Pair.of("escher/to_vert", 1),
-                Pair.of("escher/vertical_3", 1),
-                Pair.of("escher/vertical_4", 1),
-                Pair.of("escher/cube", 1),
-                Pair.of("escher/vert_to_invert", 1),
-                Pair.of("escher/vert_to_hor", 1)));
+            ESCHER_VERTICAL_TERMINATORS,
+            entry("escher/to_vert", 1),
+            entry("escher/vertical_3", 1),
+            entry("escher/vertical_4", 1),
+            entry("escher/cube", 1),
+            entry("escher/vert_to_invert", 1),
+            entry("escher/vert_to_hor", 1));
         bootstrap.register(
             ESCHER_INVERTED,
-            pool(
-                structureTemplatePoolsRegistry.getOrThrow(ESCHER_INVERTED_TERMINATORS),
-                Pair.of("escher/vert_to_invert", 1),
-                Pair.of("escher/inverted_cross", 4),
-                Pair.of("escher/inverted_3", 1),
-                Pair.of("escher/inverted_4", 1),
-                Pair.of("escher/cube", 1),
-                Pair.of("escher/inverted_right", 8),
-                Pair.of("escher/inverted_left", 8)));
+            ESCHER_INVERTED_TERMINATORS,
+            entry("escher/vert_to_invert", 1),
+            entry("escher/inverted_cross", 4),
+            entry("escher/inverted_3", 1),
+            entry("escher/inverted_4", 1),
+            entry("escher/cube", 1),
+            entry("escher/inverted_right", 8),
+            entry("escher/inverted_left", 8));
         bootstrap.register(
             ESCHER,
-            pool(
-                empty,
-                "escher/cube",
-                "escher/cross"));
-        bootstrap.register(CASTLE, pool(empty, "castle"));
-        bootstrap.register(VILLAGE, pool(empty, "village/base"));
-        bootstrap.register(VILLAGE_QUARTERS, pool(empty, "village/quarter"));
+            entry("escher/cube"),
+            entry("escher/cross"));
+        bootstrap.register(CASTLE, "castle");
+        bootstrap.register(VILLAGE, "village/base");
+        bootstrap.register(VILLAGE_QUARTERS, "village/quarter");
         bootstrap.register(
             VILLAGE_BUILDINGS,
-            pool(
-                empty,
-                "village/building_1",
-                "village/building_2",
-                "village/building_3",
-                "village/building_4",
-                "village/building_5",
-                "village/building_6",
-                "village/building_7",
-                "village/building_8",
-                "village/building_9",
-                "village/building_10",
-                "village/building_11",
-                "village/building_12",
-                "village/building_13",
-                "village/building_14",
-                "village/building_15"));
-        bootstrap.register(VILLAGE_WALLS, pool(empty, "village/wall"));
-        bootstrap.register(VILLAGE_CORNERS, pool(empty, "village/wall_corner"));
-        bootstrap.register(VILLAGE_PATH_FOUNDATIONS, pool(empty, "village/path_foundation"));
+            entry("village/building_1", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_2"),
+            entry("village/building_3"),
+            entry("village/building_4"),
+            entry("village/building_5"),
+            entry("village/building_6"),
+            entry("village/building_7", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_8"),
+            entry("village/building_9"),
+            entry("village/building_10"),
+            entry("village/building_11"),
+            entry("village/building_12"),
+            entry("village/building_13"),
+            entry("village/building_14"),
+            entry("village/building_15", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_16"),
+            entry("village/building_17"));
+        bootstrap.register(VILLAGE_WALLS, "village/wall");
+        bootstrap.register(VILLAGE_CORNERS, "village/wall_corner");
+        bootstrap.register(VILLAGE_PATH_FOUNDATIONS, "village/path_foundation");
         bootstrap.register(
             VILLAGE_PATHS,
-            pool(
-                empty,
-                "village/path_1",
-                "village/path_2",
-                "village/path_3",
-                "village/path_4",
-                "village/path_5",
-                "village/path_6"));
+            entry("village/path_1"),
+            entry("village/path_2"),
+            entry("village/path_3"),
+            entry("village/path_4"),
+            entry("village/path_5"),
+            entry("village/path_6"));
         bootstrap.register(
             VILLAGE_JUNKS,
-            pool(
-                empty,
-                "village/junk_1",
-                "village/junk_2",
-                "village/junk_3",
-                "village/junk_4",
-                "village/junk_5"));
+            entry("village/junk_1"),
+            entry("village/junk_2"),
+            entry("village/junk_3"),
+            entry("village/junk_4"),
+            entry("village/junk_5"));
         bootstrap.register(
             VILLAGE_ALLEYS,
-            pool(
-                empty,
-                "village/alley_1",
-                "village/alley_2",
-                "village/alley_3",
-                "village/alley_4",
-                "village/alley_5",
-                "village/alley_6"));
-        bootstrap.register(VILLAGE_CENTER_FOUNDATIONS, pool(empty, "village/center_foundation"));
-        bootstrap.register(
-            VILLAGE_CENTERS,
-            pool(
-                empty,
-                "village/center_1"));
-        bootstrap.register(VILLAGE_JUNK_CORNERS, pool(empty, "village/junk_corner"));
-        bootstrap.register(VILLAGE_GRAVEL, pool(empty, "village/gravel"));
+            entry("village/alley_1"),
+            entry("village/alley_2"),
+            entry("village/alley_3"),
+            entry("village/alley_4"),
+            entry("village/alley_5"),
+            entry("village/alley_6"));
+        bootstrap.register(VILLAGE_CENTER_FOUNDATIONS, "village/center_foundation");
+        bootstrap.register(VILLAGE_CENTERS, "village/center_1");
+        bootstrap.register(VILLAGE_JUNK_CORNERS, "village/junk_corner");
+        bootstrap.register(VILLAGE_GRAVEL, "village/gravel");
         bootstrap.register(
             VILLAGE_STANDS,
-            pool(
-                empty,
-                LocalStructureProcessorListProvider.WOOLS.stream()
-                    .<Holder<StructureProcessorList>>map(structureProcessorRegistry::getOrThrow)
-                    .toList(),
-                "village/stand_1",
-                "village/stand_2",
-                "village/stand_3",
-                "village/stand_4",
-                "village/stand_5",
-                "village/stand_6",
-                "village/stand_7",
-                "village/stand_8",
-                "village/stand_9",
-                "village/stand_10",
-                "village/stand_11",
-                "village/stand_12"));
+            entry("village/stand_1", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_2", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_3", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_4", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_5", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_6", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_7", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_8", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_9", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_10", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_11", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/stand_12", LocalStructureProcessorListProvider.WOOLS));
     }
 }

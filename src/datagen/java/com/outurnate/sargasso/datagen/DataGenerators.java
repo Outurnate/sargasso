@@ -62,7 +62,9 @@ public class DataGenerators {
                 .add(Registries.STRUCTURE, LocalStructuresProvider::provide)
                 .add(Registries.PROCESSOR_LIST, LocalStructureProcessorListProvider::provide)
                 .add(Registries.STRUCTURE_SET, LocalStructureSetsProvider::provide)
-                .add(Registries.TEMPLATE_POOL, LocalStructureTemplatePoolsProvider::provide)
+                .add(
+                    Registries.TEMPLATE_POOL,
+                    bootstrap -> new LocalStructureTemplatePoolsProvider().provideTemplatePools(bootstrap))
                 .add(Registries.TIMELINE, LocalTimelinesProvider::provide)
                 .add(Registries.WORLD_CLOCK, LocalWorldClocksProvider::provide)
                 .add(Registries.NOISE, LocalNoisesProvider::provide)
