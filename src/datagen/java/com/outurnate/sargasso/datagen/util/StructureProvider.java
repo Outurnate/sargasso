@@ -30,36 +30,35 @@ public abstract class StructureProvider {
             this.weight = weight;
         }
 
-        private Pair<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer> construct(
+        private List<Pair<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>> construct(
             BootstrapContext<StructureTemplatePool> bootstrap,
             ResourceKey<StructureProcessorList> defaultProcessorList) {
             String qualifiedName = SuperSargassoSea.MODID + ":" + this.name;
             HolderGetter<StructureProcessorList> processorListsLookup = bootstrap
                 .lookup(Registries.PROCESSOR_LIST);
             if (defaultProcessorList != null) {
-                return Pair.of(
-                    SinglePoolElement
-                        .single(qualifiedName, processorListsLookup.getOrThrow(defaultProcessorList)),
-                    this.weight);
+                return List.of(
+                    Pair.of(
+                        SinglePoolElement
+                            .single(qualifiedName, processorListsLookup.getOrThrow(defaultProcessorList)),
+                        this.weight));
             } else {
                 if (this.processorLists.size() == 0) {
-                    return Pair.of(SinglePoolElement.single(qualifiedName), this.weight);
+                    return List.of(Pair.of(SinglePoolElement.single(qualifiedName), this.weight));
                 } else if (this.processorLists.size() == 1) {
-                    return Pair.of(
-                        SinglePoolElement.single(
-                            qualifiedName,
-                            processorListsLookup.getOrThrow(this.processorLists.get(0))),
-                        this.weight);
+                    return List.of(
+                        Pair.of(
+                            SinglePoolElement.single(
+                                qualifiedName,
+                                processorListsLookup.getOrThrow(this.processorLists.get(0))),
+                            this.weight));
                 } else {
-                    return Pair.of(
-                        StructurePoolElement.list(
-                            this.processorLists
-                                .stream().<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>>map(
-                                    processorList -> SinglePoolElement.single(
-                                        qualifiedName,
-                                        processorListsLookup.getOrThrow(processorList)))
-                                .toList()),
-                        this.weight);
+                    return this.processorLists.stream().map(
+                        processorList -> Pair.<Function<StructureTemplatePool.Projection, ? extends StructurePoolElement>, Integer>of(
+                            SinglePoolElement
+                                .single(qualifiedName, processorListsLookup.getOrThrow(processorList)),
+                            this.weight))
+                        .toList();
                 }
             }
         }
@@ -93,8 +92,8 @@ public abstract class StructureProvider {
                 key,
                 new StructureTemplatePool(
                     templatePools.getOrThrow(fallback),
-                    Arrays.stream(templates).map(template -> template.construct(bootstrap, processorList))
-                        .toList(),
+                    Arrays.stream(templates)
+                        .flatMap(template -> template.construct(bootstrap, processorList).stream()).toList(),
                     StructureTemplatePool.Projection.RIGID));
         }
 
