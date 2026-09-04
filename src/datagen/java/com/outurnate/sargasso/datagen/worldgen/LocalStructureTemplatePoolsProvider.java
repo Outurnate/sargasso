@@ -74,6 +74,10 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_gravel"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_STANDS = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_stands"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_LIBRARY = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_library"));
+    public static final ResourceKey<StructureTemplatePool> VILLAGE_LIBRARY_TERMINATORS = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_library_terminators"));
 
     @Override
     protected void provide(TemplatePoolBuilder bootstrap) {
@@ -154,7 +158,8 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             entry("village/building_1", LocalStructureProcessorListProvider.WOOLS),
             entry("village/building_2", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_3", LocalStructureProcessorListProvider.WOOLS.size()),
-            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()));
+            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_arena", LocalStructureProcessorListProvider.WOOLS.size()));
         bootstrap.register(
             VILLAGE_BUILDINGS_B,
             entry("village/building_5", LocalStructureProcessorListProvider.WOOLS.size()),
@@ -170,7 +175,7 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         bootstrap.register(
             VILLAGE_BUILDINGS_D,
             entry("village/building_13", LocalStructureProcessorListProvider.WOOLS.size()),
-            entry("village/building_14", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_library", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_15", LocalStructureProcessorListProvider.WOOLS),
             entry("village/building_16", LocalStructureProcessorListProvider.WOOLS.size()),
             entry("village/building_17", LocalStructureProcessorListProvider.WOOLS.size()));
@@ -218,5 +223,13 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             entry("village/stand_10", LocalStructureProcessorListProvider.WOOLS),
             entry("village/stand_11", LocalStructureProcessorListProvider.WOOLS),
             entry("village/stand_12", LocalStructureProcessorListProvider.WOOLS));
+        bootstrap.register(
+            VILLAGE_LIBRARY_TERMINATORS,
+            entry("village/building_library_floor"));
+        bootstrap.register(
+            VILLAGE_LIBRARY,
+            VILLAGE_LIBRARY_TERMINATORS,
+            entry("village/building_library_floor"),
+            entry("village/building_library_roof", 3));
     }
 }
