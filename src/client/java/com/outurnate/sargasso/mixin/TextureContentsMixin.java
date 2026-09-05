@@ -2,7 +2,6 @@ package com.outurnate.sargasso.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.platform.NativeImage;
-import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.client.CompositeTextureMetadataSection;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,8 +37,6 @@ public abstract class TextureContentsMixin {
                 overlayMetadata.above().stream()).toList();
             ArrayList<NativeImage> images = new ArrayList<>();
             for (Identifier id : ids) {
-                SuperSargassoSea.LOGGER.error(id.toString());
-                SuperSargassoSea.LOGGER.error(id.toDebugFileName());
                 Resource currentResource = resourceManager.getResourceOrThrow(id);
                 NativeImage currentImage;
                 try (InputStream is = currentResource.open()) {
@@ -63,10 +60,21 @@ public abstract class TextureContentsMixin {
 
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
-                int basePixel = base.getPixel(x, y);
-                int overlayPixel = overlay.getPixel(x, y);
-                int resultPixel = ARGB.alphaBlend(overlayPixel, basePixel);
-                result.setPixel(x, y, resultPixel);
+                int basePixel;
+                if (x < base.getWidth() && y < base.getHeight()) {
+                    basePixel = base.getPixel(x, y);
+                } else {
+                    basePixel = ARGB.transparent(0);
+                }
+
+                int overlayPixel;
+                if (x < overlay.getWidth() && y < base.getHeight()) {
+                    overlayPixel = overlay.getPixel(x, y);
+                } else {
+                    overlayPixel = ARGB.transparent(0);
+                }
+
+                result.setPixel(x, y, ARGB.alphaBlend(overlayPixel, basePixel));
             }
         }
 
