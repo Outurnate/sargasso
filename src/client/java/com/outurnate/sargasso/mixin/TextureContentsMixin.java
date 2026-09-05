@@ -2,6 +2,7 @@ package com.outurnate.sargasso.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.platform.NativeImage;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.client.CompositeTextureMetadataSection;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,8 @@ public abstract class TextureContentsMixin {
                 overlayMetadata.above().stream()).toList();
             ArrayList<NativeImage> images = new ArrayList<>();
             for (Identifier id : ids) {
+                SuperSargassoSea.LOGGER.error(id.toString());
+                SuperSargassoSea.LOGGER.error(id.toDebugFileName());
                 Resource currentResource = resourceManager.getResourceOrThrow(id);
                 NativeImage currentImage;
                 try (InputStream is = currentResource.open()) {
