@@ -14,6 +14,8 @@ import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.ARGB;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -51,6 +53,20 @@ public abstract class TextureContentsMixin {
     }
 
     private static NativeImage sargasso$overlay(NativeImage base, NativeImage overlay) {
-        return base;
+        int width = Math.max(base.getWidth(), overlay.getWidth());
+        int height = Math.max(base.getHeight(), overlay.getHeight());
+
+        NativeImage result = new NativeImage(width, height, false);
+
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                int basePixel = base.getPixel(x, y);
+                int overlayPixel = overlay.getPixel(x, y);
+                int resultPixel = ARGB.alphaBlend(overlayPixel, basePixel);
+                result.setPixel(x, y, resultPixel);
+            }
+        }
+
+        return result;
     }
 }
