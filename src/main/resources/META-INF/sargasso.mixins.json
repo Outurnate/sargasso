@@ -15,6 +15,9 @@
     "CatSpawnerMixin",
     "VillagerMixin"
   ],
+  "client": [
+    "TextureContentsMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },

@@ -3,6 +3,7 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.util.StructureProvider;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -172,7 +173,8 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             entry("village/building_9"),
             entry("village/building_10"),
             entry("village/building_11"),
-            entry("village/building_12"));
+            entry("village/building_12"),
+            entry("village/building_homes"));
         bootstrap.register(
             VILLAGE_BUILDINGS_D,
             entry("village/building_13"),
