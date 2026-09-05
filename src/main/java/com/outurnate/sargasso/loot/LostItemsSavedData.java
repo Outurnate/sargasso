@@ -64,6 +64,10 @@ public class LostItemsSavedData extends SavedData {
     public static void AddLostItem(ItemStack lostStack) {
         LostItemsSavedData self = instance();
 
+        if (lostStack.is(Items.AIR)) {
+            return;
+        }
+
         ItemStackTemplate lostStackTemplate = new ItemStackTemplate(
             lostStack.getItem(),
             1,

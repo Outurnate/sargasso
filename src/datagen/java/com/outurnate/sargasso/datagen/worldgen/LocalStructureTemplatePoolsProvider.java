@@ -156,32 +156,35 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         bootstrap.register(VILLAGE_QUARTERS, "village/quarter");
         bootstrap.register(
             VILLAGE_BUILDINGS_A,
-            entry("village/building_1", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_7", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_15", LocalStructureProcessorListProvider.WOOLS),
-            entry("village/building_4", LocalStructureProcessorListProvider.WOOLS.size()),
-            entry("village/building_arena", LocalStructureProcessorListProvider.WOOLS.size()));
+            entry("village/building_shop", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_market_1", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_market_2", LocalStructureProcessorListProvider.WOOLS),
+            entry("village/building_pen", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_arena", LocalStructureProcessorListProvider.WOOLS.size()),
+            entry("village/building_range", LocalStructureProcessorListProvider.WOOLS.size()));
         bootstrap.register(
             VILLAGE_BUILDINGS_B,
-            entry("village/building_2"),
-            entry("village/building_5"),
-            entry("village/building_6"),
-            entry("village/building_8"),
+            entry("village/building_sorting"),
+            entry("village/building_forge"),
+            entry("village/building_portal"),
+            entry("village/building_market_2"),
             entry("village/building_prison"));
         bootstrap.register(
             VILLAGE_BUILDINGS_C,
-            entry("village/building_9"),
-            entry("village/building_10"),
-            entry("village/building_11"),
-            entry("village/building_12"),
-            entry("village/building_homes"));
+            entry("village/building_gallows"),
+            entry("village/building_homes_1"),
+            entry("village/building_homes_2"),
+            entry("village/building_homes_3"),
+            entry("village/building_barracks"),
+            entry("village/building_homes_4"));
         bootstrap.register(
             VILLAGE_BUILDINGS_D,
-            entry("village/building_13"),
-            entry("village/building_3"),
+            entry("village/building_watchtower"),
+            entry("village/building_farm"),
             entry("village/building_library"),
-            entry("village/building_16"),
+            entry("village/building_graveyard"),
             entry("village/building_vat"));
+
         bootstrap.register(VILLAGE_WALLS, "village/wall");
         bootstrap.register(VILLAGE_CORNERS, "village/wall_corner");
         bootstrap.register(VILLAGE_PATH_FOUNDATIONS, "village/path_foundation");
