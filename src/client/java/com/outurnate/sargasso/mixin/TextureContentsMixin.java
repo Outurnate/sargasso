@@ -2,10 +2,15 @@ package com.outurnate.sargasso.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.platform.NativeImage;
-import com.outurnate.sargasso.client.OverlayTextureMetadataSection;
+import com.outurnate.sargasso.client.CompositeTextureMetadataSection;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import net.minecraft.client.renderer.texture.TextureContents;
+import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -22,16 +27,26 @@ public abstract class TextureContentsMixin {
         Identifier location,
         CallbackInfoReturnable<TextureContents> callbackInfo,
         @Local Resource resource) throws IOException {
-        if (resource.metadata().getSection(OverlayTextureMetadataSection.TYPE)
-            .orElse(null) instanceof OverlayTextureMetadataSection overlayMetadata) {
-            Resource overlayResource = resourceManager.getResourceOrThrow(overlayMetadata.identifier());
-            NativeImage overlayImage;
-            try (InputStream is = overlayResource.open()) {
-                overlayImage = NativeImage.read(is);
+        if (resource.metadata().getSection(CompositeTextureMetadataSection.TYPE)
+            .orElse(null) instanceof CompositeTextureMetadataSection overlayMetadata) {
+
+            List<Identifier> ids = Stream.concat(
+                Stream.concat(overlayMetadata.below().stream(), Stream.of(location)),
+                overlayMetadata.above().stream()).toList();
+            ArrayList<NativeImage> images = new ArrayList<>();
+            for (Identifier id : ids) {
+                Resource currentResource = resourceManager.getResourceOrThrow(id);
+                NativeImage currentImage;
+                try (InputStream is = currentResource.open()) {
+                    currentImage = NativeImage.read(is);
+                }
+                images.add(currentImage);
             }
-            TextureContents original = callbackInfo.getReturnValue();
-            callbackInfo.setReturnValue(
-                new TextureContents(sargasso$overlay(original.image(), overlayImage), original.metadata()));
+
+            NativeImage result = images.stream().reduce(TextureContentsMixin::sargasso$overlay).orElseThrow();
+            TextureMetadataSection metadata = resource.metadata().getSection(TextureMetadataSection.TYPE)
+                .orElse(null);
+            callbackInfo.setReturnValue(new TextureContents(result, metadata));
         }
     }
 

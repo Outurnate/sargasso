@@ -7,39 +7,35 @@ import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
 public class ExtraExtraCodecs {
-    private record Entry(ItemStack item, long count) {
+    private record Entry(ItemStackTemplate item, long count) {
     }
 
-    public static final Hash.Strategy<ItemStack> ITEMSTACK_STRATEGY = new Hash.Strategy<ItemStack>() {
+    // TODO might not be needed
+    public static final Hash.Strategy<ItemStackTemplate> ITEMSTACK_STRATEGY = new Hash.Strategy<ItemStackTemplate>() {
         @Override
-        public boolean equals(ItemStack a, ItemStack b) {
-            if (a == null && b == null)
-                return true;
-            else if (a == null || b == null)
-                return false;
-            else
-                return ItemStack.isSameItemSameComponents(a, b);
+        public boolean equals(ItemStackTemplate a, ItemStackTemplate b) {
+            return a.equals(b);
         }
 
         @Override
-        public int hashCode(ItemStack o) {
-            return ItemStack.hashItemAndComponents(o);
+        public int hashCode(ItemStackTemplate o) {
+            return o.hashCode();
         }
     };
 
     @SuppressWarnings("null")
     private static final Codec<Entry> ENTRY_CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            ItemStack.CODEC.fieldOf("item").forGetter(Entry::item),
+            ItemStackTemplate.CODEC.fieldOf("item").forGetter(Entry::item),
             Codec.LONG.fieldOf("count").forGetter(Entry::count)).apply(instance, Entry::new));
 
-    public static final Codec<Object2LongOpenCustomHashMap<ItemStack>> ITEMSTACK_LONG_MAP_CODEC = Codec
+    public static final Codec<Object2LongOpenCustomHashMap<ItemStackTemplate>> ITEMSTACKTEMPLATE_LONG_MAP_CODEC = Codec
         .list(ENTRY_CODEC).xmap(
             entries -> {
-                Object2LongOpenCustomHashMap<ItemStack> map = new Object2LongOpenCustomHashMap<>(
+                Object2LongOpenCustomHashMap<ItemStackTemplate> map = new Object2LongOpenCustomHashMap<>(
                     ITEMSTACK_STRATEGY);
 
                 for (Entry entry : entries) {
@@ -51,7 +47,7 @@ public class ExtraExtraCodecs {
             map -> {
                 List<Entry> entries = new ArrayList<>(map.size());
 
-                for (Object2LongMap.Entry<ItemStack> entry : map.object2LongEntrySet()) {
+                for (Object2LongMap.Entry<ItemStackTemplate> entry : map.object2LongEntrySet()) {
                     entries.add(new Entry(entry.getKey(), entry.getLongValue()));
                 }
 

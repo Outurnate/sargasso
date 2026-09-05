@@ -20,6 +20,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -41,10 +42,10 @@ public class LostItemsSavedData extends SavedData {
         }
     }
 
-    private static Codec<EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStack>>> INNER_CODEC = Codec
+    private static Codec<EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStackTemplate>>> INNER_CODEC = Codec
         .simpleMap(
             LostPool.CODEC,
-            ExtraExtraCodecs.ITEMSTACK_LONG_MAP_CODEC,
+            ExtraExtraCodecs.ITEMSTACKTEMPLATE_LONG_MAP_CODEC,
             StringRepresentable.keys(LostPool.values()))
         .codec().xmap(
             map -> new EnumMap<>(map),
@@ -63,21 +64,25 @@ public class LostItemsSavedData extends SavedData {
     public static void AddLostItem(ItemStack lostStack) {
         LostItemsSavedData self = instance();
 
-        if (lostStack == null || lostStack.count() <= 0 || lostStack.is(Items.AIR)
-            || lostStack.is(LocalTags.ALWAYS_LOST)) {
+        ItemStackTemplate lostStackTemplate = new ItemStackTemplate(
+            lostStack.getItem(),
+            1,
+            lostStack.getComponentsPatch());
+
+        if (lostStackTemplate == null || lostStackTemplate.count() <= 0 || lostStackTemplate.is(Items.AIR)
+            || lostStackTemplate.is(LocalTags.ALWAYS_LOST)) {
             return;
         }
 
         int originalCount = lostStack.getCount();
-        lostStack.setCount(1);
-        self.lostStackPools.get(classifyItemStack(lostStack)).addTo(lostStack, originalCount);
+        self.lostStackPools.get(classifyItemStack(lostStackTemplate)).addTo(lostStackTemplate, originalCount);
         self.setDirty();
     }
 
-    private static LostPool classifyItemStack(ItemStack items) {
+    private static LostPool classifyItemStack(ItemStackTemplate items) {
         if (items.is(LocalTags.EQUIPMENT)) {
             return LostPool.EQUIPMENT;
-        } else if (items.getItem() instanceof BlockItem) {
+        } else if (items.item() instanceof BlockItem) {
             return LostPool.BLOCKS;
         }
         return LostPool.ITEMS;
@@ -110,7 +115,7 @@ public class LostItemsSavedData extends SavedData {
         AddLostItem(event.getEntity().getItem());
     }
 
-    private final EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStack>> lostStackPools;
+    private final EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStackTemplate>> lostStackPools;
 
     public LostItemsSavedData() {
         this.lostStackPools = new EnumMap<>(LostPool.class);
@@ -120,11 +125,13 @@ public class LostItemsSavedData extends SavedData {
         }
     }
 
-    public LostItemsSavedData(EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStack>> lostStacks) {
+    public LostItemsSavedData(EnumMap<LostPool, Object2LongOpenCustomHashMap<ItemStackTemplate>> lostStacks) {
         this.lostStackPools = lostStacks;
     }
 
-    private ItemStack getLostItem(Object2LongOpenCustomHashMap<ItemStack> lostStacks, RandomSource random) {
+    private ItemStack getLostItem(
+        Object2LongOpenCustomHashMap<ItemStackTemplate> lostStacks,
+        RandomSource random) {
         long totalWeight = 0;
         for (long weight : lostStacks.values()) {
             if (weight > 0) {
@@ -138,7 +145,7 @@ public class LostItemsSavedData extends SavedData {
 
         long target = Utils.nextLong(random, totalWeight);
 
-        for (Object2LongMap.Entry<ItemStack> entry : lostStacks.object2LongEntrySet()) {
+        for (Object2LongMap.Entry<ItemStackTemplate> entry : lostStacks.object2LongEntrySet()) {
             long weight = entry.getLongValue();
             if (weight <= 0) {
                 continue;
@@ -146,7 +153,7 @@ public class LostItemsSavedData extends SavedData {
 
             target -= weight;
             if (target < 0) {
-                ItemStack result = entry.getKey();
+                ItemStackTemplate result = entry.getKey();
 
                 if (weight == 1) {
                     lostStacks.removeLong(result);
@@ -155,7 +162,7 @@ public class LostItemsSavedData extends SavedData {
                 }
 
                 this.setDirty();
-                return result;
+                return result.withCount(1).create();
             }
         }
 
