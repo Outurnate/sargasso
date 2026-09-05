@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(TextureContents.class)
 public abstract class TextureContentsMixin {
     @Inject(method = "load", at = @At("TAIL"), cancellable = true)
-    public static void sargasso$load(
+    private static void sargasso$load(
         ResourceManager resourceManager,
         Identifier location,
         @Local Resource resource,
