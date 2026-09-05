@@ -20,8 +20,8 @@ public abstract class TextureContentsMixin {
     private static void sargasso$load(
         ResourceManager resourceManager,
         Identifier location,
-        @Local Resource resource,
-        CallbackInfoReturnable<TextureContents> callbackInfo) throws IOException {
+        CallbackInfoReturnable<TextureContents> callbackInfo,
+        @Local Resource resource) throws IOException {
         if (resource.metadata().getSection(OverlayTextureMetadataSection.TYPE)
             .orElse(null) instanceof OverlayTextureMetadataSection overlayMetadata) {
             Resource overlayResource = resourceManager.getResourceOrThrow(overlayMetadata.identifier());
