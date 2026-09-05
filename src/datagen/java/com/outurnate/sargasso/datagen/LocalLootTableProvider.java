@@ -393,6 +393,11 @@ public class LocalLootTableProvider extends LootTableProvider {
                             .add(LootItem.lootTableItem(Items.CROSSBOW).setWeight(2))
                             .add(LootItem.lootTableItem(Items.TRIPWIRE_HOOK).setWeight(2))
                             .add(LootItem.lootTableItem(Items.IRON_INGOT).setWeight(2))));
+            consumer.accept(
+                BONE,
+                LootTable.lootTable().withPool(
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(Items.BONE))));
         }
 
         private LootPool.Builder generateHammers() {
@@ -719,6 +724,10 @@ public class LocalLootTableProvider extends LootTableProvider {
     public static final ResourceKey<LootTable> CASTLE_BARREL = ResourceKey.create(
         Registries.LOOT_TABLE,
         SuperSargassoSea.ID("chests/castle_barrel"));
+
+    public static final ResourceKey<LootTable> BONE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("village/bone"));
 
     public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(
