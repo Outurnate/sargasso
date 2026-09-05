@@ -64,14 +64,14 @@ public abstract class TextureContentsMixin {
                 if (x < base.getWidth() && y < base.getHeight()) {
                     basePixel = base.getPixel(x, y);
                 } else {
-                    basePixel = ARGB.transparent(0);
+                    basePixel = 0;
                 }
 
                 int overlayPixel;
-                if (x < overlay.getWidth() && y < base.getHeight()) {
+                if (x < overlay.getWidth() && y < overlay.getHeight()) {
                     overlayPixel = overlay.getPixel(x, y);
                 } else {
-                    overlayPixel = ARGB.transparent(0);
+                    overlayPixel = 0;
                 }
 
                 result.setPixel(x, y, ARGB.alphaBlend(overlayPixel, basePixel));
