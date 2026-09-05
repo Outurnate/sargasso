@@ -11,6 +11,7 @@ import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalPotions;
+import com.outurnate.sargasso.registry.LocalVillagerProfessions;
 import com.outurnate.sargasso.repository.LocalAdvancements;
 import com.outurnate.sargasso.repository.LocalDamageTypes;
 
@@ -25,6 +26,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.alchemy.Potion;
 
 public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider {
@@ -83,6 +85,13 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
     @Override
     protected void addTranslations() {
         this.add("itemGroup.sargasso", "Super Sargasso Sea");
+
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_BOLTS.get(), "Scavenger");
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_BUCKETS.get(), "Scavenger");
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_CIRCUITS.get(), "Scavenger");
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_CLOCKSPRINGS.get(), "Scavenger");
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_COGS.get(), "Scavenger");
+        this.addVillagerProfession(LocalVillagerProfessions.SCAVENGER_WIRES.get(), "Scavenger");
 
         this.addPainting(LocalPaintingVariantsProvider.GENE, "Gene");
 
@@ -612,5 +621,11 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addMisc(FlimFlamLore.foundationSuffix, "foundation");
         this.addMisc(FlimFlamLore.restoredBy, "restored by");
         this.addMisc(FlimFlamLore.recently, "Recently");
+    }
+
+    private void addVillagerProfession(VillagerProfession profession, String value) {
+        if (profession.name().getContents() instanceof TranslatableContents contents) {
+            this.add(contents.getKey(), value);
+        }
     }
 }

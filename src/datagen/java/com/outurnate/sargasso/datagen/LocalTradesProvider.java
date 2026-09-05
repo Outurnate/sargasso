@@ -123,7 +123,10 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
             new TradeCost(Items.BEEF, 1),
             new TradeCost(Items.PORKCHOP, 2),
             new TradeCost(Items.CHICKEN, 2),
-            new TradeCost(Items.SALMON, 1)
+            new TradeCost(Items.SALMON, 1),
+            new TradeCost(Items.MUTTON, 2),
+            new TradeCost(Items.COD, 4),
+            new TradeCost(Items.RABBIT, 4)
         };
         for (TradeCost tradeCost : foods) {
             levelOne.add(trade(tradeCost, currencyGives.apply(1), getXP(1)));
@@ -151,11 +154,11 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
 
         List<VillagerTrade> levelThree = new ArrayList<>();
         TradeCost[] buildingMats = new TradeCost[] {
-            new TradeCost(Items.BRICK, 6),
-            new TradeCost(Items.GRANITE, 24),
-            new TradeCost(Items.ANDESITE, 24),
-            new TradeCost(Items.DIORITE, 24),
-            new TradeCost(Items.GLASS_PANE, 32)
+            new TradeCost(Items.GRAVEL, 64),
+            new TradeCost(Items.STONE_BRICKS, 48),
+            new TradeCost(Items.OAK_PLANKS, 64),
+            new TradeCost(Items.GLASS, 32),
+            new TradeCost(Items.STRING, 48)
         };
         for (TradeCost tradeCost : buildingMats) {
             levelThree.add(trade(tradeCost, currencyGives.apply(3), getXP(3)));
@@ -192,6 +195,8 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
                     getXP(4)));
         levelFour
             .add(trade(currencyWants.apply(4), new ItemStackTemplate(LocalItems.AA_BATTERY, 2), getXP(4)));
+        levelFour
+            .add(trade(currencyWants.apply(4), new ItemStackTemplate(LocalItems.QUARTER, 7), getXP(4)));
         scavengerTrades.put(4, levelFour);
 
         List<VillagerTrade> levelFive = new ArrayList<>();

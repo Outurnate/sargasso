@@ -143,7 +143,6 @@ public class LocalModelProvider extends ModelProvider {
         blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
         blockModels.createTrivialCube(LocalBlocks.PETRIFIED_FLOTSAM.get());
         blockModels.createTrivialCube(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get());
-        blockModels.createTrivialCube(LocalBlocks.SORTING_BIN.get());
         blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
         blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
         Identifier toaster = SuperSargassoSea.ID("block/toaster");
@@ -156,7 +155,6 @@ public class LocalModelProvider extends ModelProvider {
             createSimpleBlock(
                 LocalBlocks.PYLON.get(),
                 plainVariant(pylon)));
-
         blockModels.blockStateOutput.accept(generateShockTherapist());
         Identifier alpha_grass = Identifier.withDefaultNamespace("block/grass_block");
         blockModels.blockStateOutput.accept(
@@ -173,6 +171,11 @@ public class LocalModelProvider extends ModelProvider {
                             ChestType.SINGLE,
                             plainVariant(SuperSargassoSea.ID("block/beta_chest_single"))))
                 .with(ROTATION_HORIZONTAL_FACING));
+        Identifier sortingBin = SuperSargassoSea.ID("block/sorting_bin");
+        blockModels.blockStateOutput.accept(
+            createSimpleBlock(
+                LocalBlocks.SORTING_BIN.get(),
+                plainVariant(sortingBin)));
 
         itemModels.itemModelOutput.accept(
             LocalItems.DEBRIS.get(),
