@@ -1,6 +1,6 @@
 {
     "composite": {
         "below": [],
-        "above": ["minecraft:textures/entity/wandering_trader"]
+        "above": ["minecraft:textures/entity/wandering_trader.png"]
     }
 }
