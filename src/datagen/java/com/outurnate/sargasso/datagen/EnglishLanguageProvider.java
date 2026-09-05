@@ -149,6 +149,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addBlock(LocalBlocks.RICH_PETRIFIED_FLOTSAM, "Rich Petrified Flotsam");
         this.addBlock(LocalBlocks.STARMETAL_BLOCK, "Starmetal Block");
         this.addBlock(LocalBlocks.REINFORCED_STARMETAL_BLOCK, "Reinforced Starmetal Block");
+        this.addBlock(LocalBlocks.SORTING_BIN, "Sorting Bin");
 
         this.addItem(LocalItems.RECORD_UNCHECKED, "Music Disc");
         this.addItem(LocalItems.BEDROCK_CREAM, "Professor Murgatroyd's Miracle Bedrock Cream");

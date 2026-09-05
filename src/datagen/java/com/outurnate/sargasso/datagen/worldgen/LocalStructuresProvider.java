@@ -129,7 +129,7 @@ public class LocalStructuresProvider {
                     .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
                 Optional.<Identifier>empty(),
                 20,
-                ConstantHeight.of(VerticalAnchor.absolute(200)),
+                ConstantHeight.of(VerticalAnchor.absolute(260)),
                 false,
                 Optional.empty(),
                 new JigsawStructure.MaxDistance(116, 128),
@@ -162,7 +162,7 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
                 14,
