@@ -16,6 +16,7 @@ import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalItems;
+import com.outurnate.sargasso.registry.LocalMobEffects;
 import com.outurnate.sargasso.registry.LocalParticleTypes;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -28,6 +29,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -39,6 +41,14 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
 public class SuperSargassoSeaClient {
+    @SubscribeEvent
+    public static void onComputeFovModifierEvent(ComputeFovModifierEvent event) {
+        var player = event.getPlayer();
+        if (player.hasEffect(LocalMobEffects.GROW) || player.hasEffect(LocalMobEffects.SHRINK)) {
+            event.setNewFovModifier(1.0F);
+        }
+    }
+
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new HammerClientItemExtensions(), LocalItems.HAMMER.get());
