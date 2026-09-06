@@ -50,6 +50,9 @@ public class BeamParticle extends SingleQuadParticle {
         double za,
         SpriteSet spriteSet) {
         super(level, x, y, z, xa, ya, za, spriteSet.first());
+        this.xd = xa;
+        this.yd = ya;
+        this.zd = za;
         this.spriteSet = spriteSet;
         this.gravity = 0.0F;
     }

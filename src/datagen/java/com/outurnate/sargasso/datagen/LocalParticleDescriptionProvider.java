@@ -33,6 +33,6 @@ public class LocalParticleDescriptionProvider extends ParticleDescriptionProvide
     @Override
     protected void addDescriptions() {
         this.spriteSet(LocalParticleTypes.SPARK.get(), baseOneTextures("spark", 6));
-        this.spriteSet(LocalParticleTypes.BEAM.get(), baseOneTextures("beam", 6));
+        this.spriteSet(LocalParticleTypes.BEAM.get(), baseOneTextures("beam", 8));
     }
 }

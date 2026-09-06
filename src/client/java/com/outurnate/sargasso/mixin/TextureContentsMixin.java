@@ -3,6 +3,7 @@ package com.outurnate.sargasso.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.outurnate.sargasso.client.CompositeTextureMetadataSection;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

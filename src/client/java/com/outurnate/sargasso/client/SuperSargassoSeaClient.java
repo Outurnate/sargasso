@@ -1,9 +1,8 @@
 /* (C)2026 */
-package com.outurnate.sargasso;
+package com.outurnate.sargasso.client;
 
 import com.mojang.datafixers.util.Either;
-import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
-import com.outurnate.sargasso.client.HammerClientItemExtensions;
+import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.client.model.ElectricMineModel;
 import com.outurnate.sargasso.client.particle.BeamParticle;
 import com.outurnate.sargasso.client.particle.SparkParticle;
