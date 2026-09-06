@@ -41,15 +41,11 @@ public class LocalMobEffects {
         () -> new SizeChangeEffect(
             MobEffectCategory.NEUTRAL,
             ARGB.color(0x60, 0x20, 0x20))
-                .addAttributeModifier(Attributes.SCALE, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.SCALE, scale, 2.0, Operation.ADD_MULTIPLIED_BASE)
                 .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
                 .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
                 .addAttributeModifier(Attributes.STEP_HEIGHT, scale, 5, Operation.ADD_VALUE)
-                .addAttributeModifier(
-                    Attributes.SAFE_FALL_DISTANCE,
-                    scale,
-                    10,
-                    Operation.ADD_MULTIPLIED_BASE));
+                .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, scale, 10.0, Operation.ADD_VALUE));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
