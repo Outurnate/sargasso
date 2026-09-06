@@ -39,7 +39,7 @@ public class SizeRayItem extends Item {
             0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (level instanceof ServerLevel serverLevel) {
             Projectile.spawnProjectileFromRotation(
-                SizeRayBeam::new,
+                (l, e, i) -> new SizeRayBeam(l, e, this),
                 serverLevel,
                 null,
                 player,

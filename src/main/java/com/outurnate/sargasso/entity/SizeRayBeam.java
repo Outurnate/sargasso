@@ -13,7 +13,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -30,12 +29,10 @@ public class SizeRayBeam extends ThrowableProjectile {
         super(type, level);
     }
 
-    public SizeRayBeam(Level level, LivingEntity owner, ItemStack itemStack) {
+    public SizeRayBeam(Level level, LivingEntity owner, SizeRayItem item) {
         super(LocalEntities.SIZE_RAY_BEAM.get(), owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level);
         this.setOwner(owner);
-        if (itemStack.getItem() instanceof SizeRayItem item) {
-            this.setEffect(item.getEffect());
-        }
+        this.setEffect(item.getEffect());
     }
 
     @Override
