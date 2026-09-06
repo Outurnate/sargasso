@@ -15,8 +15,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class SizeRayItem extends Item {
+    private final Holder<MobEffect> effect;
+
     public SizeRayItem(Properties properties, Holder<MobEffect> effect) {
         super(properties);
+        this.effect = effect;
+    }
+
+    public Holder<MobEffect> getEffect() {
+        return this.effect;
     }
 
     @Override
@@ -32,7 +39,7 @@ public class SizeRayItem extends Item {
             0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (level instanceof ServerLevel serverLevel) {
             Projectile.spawnProjectileFromRotation(
-                (l, e, i) -> new SizeRayBeam(l),
+                SizeRayBeam::new,
                 serverLevel,
                 null,
                 player,
