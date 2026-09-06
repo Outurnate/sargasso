@@ -162,7 +162,8 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .spawnOverrides(Map.of())
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
                 14,

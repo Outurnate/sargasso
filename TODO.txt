@@ -1,15 +1,16 @@
 - something that uses power from your inventory
-- structure: bazaar
 - structure: shipwrecks
-- structure: look for removed game structures
 - structure: starmetal ruins
 - escher structure loot table
+- village structure loot
 - review default tagging
 - review enchantments
 - balancing pass
 - alpha grass
 
 DONE
+- structure: look for removed game structures
+- structure: bazaar
 - evelasting food item
 - structure: islands
 - finish textures!
