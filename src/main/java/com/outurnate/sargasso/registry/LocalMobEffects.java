@@ -32,9 +32,9 @@ public class LocalMobEffects {
         () -> new SizeChangeEffect(
             MobEffectCategory.NEUTRAL,
             ARGB.color(0x20, 0x20, 0xFF))
-                .addAttributeModifier(Attributes.SCALE, scale, 10, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 10, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 10, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.SCALE, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
                 .setBlendDuration(60));
 
     public static final Holder<MobEffect> GROW = REGISTRY.register(
@@ -42,9 +42,11 @@ public class LocalMobEffects {
         () -> new SizeChangeEffect(
             MobEffectCategory.NEUTRAL,
             ARGB.color(0x20, 0x20, 0xFF))
-                .addAttributeModifier(Attributes.SCALE, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.SCALE, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.STEP_HEIGHT, scale, 10, Operation.ADD_VALUE)
+                .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, scale, 10, Operation.ADD_MULTIPLIED_BASE)
                 .setBlendDuration(60));
 
     public static void register(IEventBus modEventBus) {
