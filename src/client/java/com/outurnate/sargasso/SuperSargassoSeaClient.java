@@ -6,6 +6,7 @@ import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.client.HammerClientItemExtensions;
 import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.client.model.ElectricMineModel;
+import com.outurnate.sargasso.client.model.SizeRayBeamModel;
 import com.outurnate.sargasso.client.renderer.ElectricMineRenderer;
 import com.outurnate.sargasso.client.renderer.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.renderer.RedstoneBugRenderer;
@@ -68,6 +69,7 @@ public class SuperSargassoSeaClient {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ElectricMineModel.LAYER_LOCATION, ElectricMineModel::createBodyLayer);
+        event.registerLayerDefinition(SizeRayBeamModel.LAYER_LOCATION, SizeRayBeamModel::createBodyLayer);
     }
 
     @SubscribeEvent
