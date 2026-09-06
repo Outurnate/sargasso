@@ -3,7 +3,6 @@ package com.outurnate.sargasso.item;
 import com.outurnate.sargasso.entity.SizeRayBeam;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -23,14 +22,7 @@ import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class SizeRayItem extends Item {
-    private final Holder<MobEffect> effect;
-
-    public SizeRayItem(Properties properties, Holder<MobEffect> effect) {
-        super(properties);
-        this.effect = effect;
-    }
-
-    private boolean drawPower(ServerPlayer player, int amount) {
+    private static boolean drawPower(Player player, int amount) {
         SimpleEnergyHandler ray = new SimpleEnergyHandler(amount, amount, 0);
         Inventory inventory = player.getInventory();
         try (Transaction tx = Transaction.openRoot()) {
@@ -50,19 +42,26 @@ public class SizeRayItem extends Item {
         return false;
     }
 
+    private final Holder<MobEffect> effect;
+
+    public SizeRayItem(Properties properties, Holder<MobEffect> effect) {
+        super(properties);
+        this.effect = effect;
+    }
+
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        level.playSound(
-            null,
-            player.getX(),
-            player.getY(),
-            player.getZ(),
-            SoundEvents.SPLASH_POTION_THROW, // TODO
-            SoundSource.PLAYERS,
-            0.5F,
-            0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
-        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
-            if (drawPower(serverPlayer, 110)) {
+        if (drawPower(player, 110)) {
+            level.playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                SoundEvents.SPLASH_POTION_THROW, // TODO
+                SoundSource.PLAYERS,
+                0.5F,
+                0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+            if (level instanceof ServerLevel serverLevel) {
                 Projectile.spawnProjectileFromRotation(
                     (l, e, i) -> new SizeRayBeam(l, e, this.effect),
                     serverLevel,
@@ -72,8 +71,10 @@ public class SizeRayItem extends Item {
                     0.5F,
                     1.0F);
             }
-        }
 
-        return InteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
+        } else {
+            return InteractionResult.PASS;
+        }
     }
 }
