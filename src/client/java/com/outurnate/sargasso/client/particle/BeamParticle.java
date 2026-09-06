@@ -55,6 +55,7 @@ public class BeamParticle extends SingleQuadParticle {
         this.zd = za;
         this.spriteSet = spriteSet;
         this.gravity = 0.0F;
+        this.lifetime = 20;
     }
 
     @Override

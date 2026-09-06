@@ -24,9 +24,13 @@ public class SizeRayBeam extends ThrowableProjectile {
     private static final EntityDataAccessor<Holder<MobEffect>> EFFECT = SynchedEntityData
         .defineId(SizeRayBeam.class, LocalEntityDataSerializers.MOB_EFFECT.get());
 
+    private static final int DEFAULT_LIFE = 20 * 30;
+
     private static Holder<MobEffect> defaultEffect() {
         return LocalMobEffects.SHRINK;
     }
+
+    private int remainingTicks = DEFAULT_LIFE;
 
     public SizeRayBeam(EntityType<SizeRayBeam> type, Level level) {
         super(type, level);
@@ -42,6 +46,7 @@ public class SizeRayBeam extends ThrowableProjectile {
     protected void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
         output.store("effect", MobEffect.CODEC, getEffect());
+        output.putInt("remainingTicks", this.remainingTicks);
     }
 
     @Override
@@ -74,6 +79,7 @@ public class SizeRayBeam extends ThrowableProjectile {
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         this.setEffect(input.read("effect", MobEffect.CODEC).orElseGet(SizeRayBeam::defaultEffect));
+        this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
     }
 
     private void setEffect(Holder<MobEffect> effect) {
@@ -83,6 +89,12 @@ public class SizeRayBeam extends ThrowableProjectile {
     @Override
     public void tick() {
         super.tick();
+
+        --remainingTicks;
+        if (remainingTicks <= 0) {
+            this.remove(RemovalReason.KILLED);
+        }
+
         level()
             .addParticle(LocalParticleTypes.BEAM.get(), this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
     }
