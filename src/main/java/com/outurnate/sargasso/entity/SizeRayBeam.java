@@ -10,12 +10,15 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class SizeRayBeam extends ThrowableProjectile {
     private static final EntityDataAccessor<Holder<MobEffect>> EFFECT = SynchedEntityData
@@ -48,6 +51,18 @@ public class SizeRayBeam extends ThrowableProjectile {
 
     private Holder<MobEffect> getEffect() {
         return this.getEntityData().get(EFFECT);
+    }
+
+    @Override
+    protected void onHit(HitResult hitResult) {
+        super.onHit(hitResult);
+        if (!this.level().isClientSide()) {
+            if (hitResult instanceof EntityHitResult entityHitResult
+                && entityHitResult.getEntity() instanceof LivingEntity livingEntity) {
+                livingEntity.addEffect(new MobEffectInstance(getEffect(), 600, 0, false, false));
+            }
+            this.discard();
+        }
     }
 
     @Override
