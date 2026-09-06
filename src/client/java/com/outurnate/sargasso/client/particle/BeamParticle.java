@@ -1,4 +1,4 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 
-public class SparkParticle extends SingleQuadParticle {
+public class BeamParticle extends SingleQuadParticle {
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 
@@ -28,19 +28,19 @@ public class SparkParticle extends SingleQuadParticle {
             double yAux,
             double zAux,
             RandomSource random) {
-            return new SparkParticle(level, x, y, z, xAux, yAux, zAux, this.sprite);
+            return new BeamParticle(level, x, y, z, xAux, yAux, zAux, this.sprite);
         }
     }
 
     @SuppressWarnings("deprecation")
-    public static final SingleQuadParticle.Layer SPARK_LAYER = new SingleQuadParticle.Layer(
+    public static final SingleQuadParticle.Layer BEAM_LAYER = new SingleQuadParticle.Layer(
         true,
         TextureAtlas.LOCATION_PARTICLES,
         RenderPipelines.WEATHER_DEPTH_WRITE);
 
     private final SpriteSet spriteSet;
 
-    public SparkParticle(
+    public BeamParticle(
         ClientLevel level,
         double x,
         double y,
@@ -51,12 +51,12 @@ public class SparkParticle extends SingleQuadParticle {
         SpriteSet spriteSet) {
         super(level, x, y, z, xa, ya, za, spriteSet.first());
         this.spriteSet = spriteSet;
-        this.gravity = 1.0F;
+        this.gravity = 0.0F;
     }
 
     @Override
     protected Layer getLayer() {
-        return SPARK_LAYER;
+        return BEAM_LAYER;
     }
 
     @Override

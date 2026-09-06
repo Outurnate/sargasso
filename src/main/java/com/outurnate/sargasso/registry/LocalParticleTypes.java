@@ -16,6 +16,10 @@ public class LocalParticleTypes {
         "spark",
         () -> new SimpleParticleType(false));
 
+    public static final Supplier<SimpleParticleType> BEAM = REGISTRY.register(
+        "beam",
+        () -> new SimpleParticleType(true));
+
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
     }

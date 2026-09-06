@@ -4,9 +4,9 @@ package com.outurnate.sargasso;
 import com.mojang.datafixers.util.Either;
 import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
 import com.outurnate.sargasso.client.HammerClientItemExtensions;
-import com.outurnate.sargasso.client.SparkParticle;
 import com.outurnate.sargasso.client.model.ElectricMineModel;
-import com.outurnate.sargasso.client.model.SizeRayBeamModel;
+import com.outurnate.sargasso.client.particle.BeamParticle;
+import com.outurnate.sargasso.client.particle.SparkParticle;
 import com.outurnate.sargasso.client.renderer.ElectricMineRenderer;
 import com.outurnate.sargasso.client.renderer.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.renderer.RedstoneBugRenderer;
@@ -69,12 +69,12 @@ public class SuperSargassoSeaClient {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ElectricMineModel.LAYER_LOCATION, ElectricMineModel::createBodyLayer);
-        event.registerLayerDefinition(SizeRayBeamModel.LAYER_LOCATION, SizeRayBeamModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(LocalParticleTypes.SPARK.get(), SparkParticle.Provider::new);
+        event.registerSpriteSet(LocalParticleTypes.BEAM.get(), BeamParticle.Provider::new);
     }
 
     @SubscribeEvent
