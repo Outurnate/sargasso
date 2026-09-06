@@ -6,6 +6,7 @@ import com.outurnate.sargasso.effects.HeadExplosionEffect;
 import com.outurnate.sargasso.effects.SizeChangeEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -24,29 +25,27 @@ public class LocalMobEffects {
             MobEffectCategory.HARMFUL,
             0xff0000));
 
+    private static final Identifier scale = SuperSargassoSea.ID("scale");
+
     public static final Holder<MobEffect> SHRINK = REGISTRY.register(
         "shrink",
         () -> new SizeChangeEffect(
             MobEffectCategory.NEUTRAL,
             ARGB.color(0x20, 0x20, 0xFF))
-                .addAttributeModifier(
-                    Attributes.SCALE,
-                    SuperSargassoSea.ID("scale"),
-                    0.1,
-                    Operation.ADD_MULTIPLIED_BASE)
-                .setBlendDuration(20));
+                .addAttributeModifier(Attributes.SCALE, scale, 10, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 10, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 10, Operation.ADD_MULTIPLIED_BASE)
+                .setBlendDuration(60));
 
     public static final Holder<MobEffect> GROW = REGISTRY.register(
         "grow",
         () -> new SizeChangeEffect(
             MobEffectCategory.NEUTRAL,
             ARGB.color(0x20, 0x20, 0xFF))
-                .addAttributeModifier(
-                    Attributes.SCALE,
-                    SuperSargassoSea.ID("scale"),
-                    0.1,
-                    Operation.ADD_MULTIPLIED_BASE)
-                .setBlendDuration(20));
+                .addAttributeModifier(Attributes.SCALE, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
+                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.1, Operation.ADD_MULTIPLIED_BASE)
+                .setBlendDuration(60));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
