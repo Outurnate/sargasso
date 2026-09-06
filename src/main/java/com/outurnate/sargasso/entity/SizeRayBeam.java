@@ -1,8 +1,8 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.ExtraEntityDataSerializers;
 import com.outurnate.sargasso.item.SizeRayItem;
 import com.outurnate.sargasso.registry.LocalEntities;
+import com.outurnate.sargasso.registry.LocalEntityDataSerializers;
 import com.outurnate.sargasso.registry.LocalMobEffects;
 
 import net.minecraft.core.Holder;
@@ -20,7 +20,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 public class SizeRayBeam extends ThrowableProjectile {
     private static final EntityDataAccessor<Holder<MobEffect>> EFFECT = SynchedEntityData
-        .defineId(SizeRayBeam.class, ExtraEntityDataSerializers.MOB_EFFECT);
+        .defineId(SizeRayBeam.class, LocalEntityDataSerializers.MOB_EFFECT.get());
 
     private static Holder<MobEffect> defaultEffect() {
         return LocalMobEffects.SHRINK;
