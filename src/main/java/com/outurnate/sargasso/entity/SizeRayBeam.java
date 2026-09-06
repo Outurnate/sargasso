@@ -4,6 +4,7 @@ import com.outurnate.sargasso.item.SizeRayItem;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalEntityDataSerializers;
 import com.outurnate.sargasso.registry.LocalMobEffects;
+import com.outurnate.sargasso.registry.LocalParticleTypes;
 
 import net.minecraft.core.Holder;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -73,5 +74,12 @@ public class SizeRayBeam extends ThrowableProjectile {
 
     private void setEffect(Holder<MobEffect> effect) {
         this.getEntityData().set(EFFECT, effect);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        level()
+            .addParticle(LocalParticleTypes.BEAM.get(), this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
     }
 }
