@@ -22,10 +22,6 @@ public class SizeRayItem extends Item {
         this.effect = effect;
     }
 
-    public Holder<MobEffect> getEffect() {
-        return this.effect;
-    }
-
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         level.playSound(
@@ -39,7 +35,7 @@ public class SizeRayItem extends Item {
             0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (level instanceof ServerLevel serverLevel) {
             Projectile.spawnProjectileFromRotation(
-                (l, e, i) -> new SizeRayBeam(l, e, this),
+                (l, e, i) -> new SizeRayBeam(l, e, this.effect),
                 serverLevel,
                 null,
                 player,

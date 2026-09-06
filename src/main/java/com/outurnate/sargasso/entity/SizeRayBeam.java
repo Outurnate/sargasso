@@ -1,6 +1,5 @@
 package com.outurnate.sargasso.entity;
 
-import com.outurnate.sargasso.item.SizeRayItem;
 import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.registry.LocalEntityDataSerializers;
 import com.outurnate.sargasso.registry.LocalMobEffects;
@@ -33,10 +32,10 @@ public class SizeRayBeam extends ThrowableProjectile {
         super(type, level);
     }
 
-    public SizeRayBeam(Level level, LivingEntity owner, SizeRayItem item) {
+    public SizeRayBeam(Level level, LivingEntity owner, Holder<MobEffect> item) {
         super(LocalEntities.SIZE_RAY_BEAM.get(), owner.getX(), owner.getEyeY() - 0.1F, owner.getZ(), level);
         this.setOwner(owner);
-        this.setEffect(item.getEffect());
+        this.setEffect(item);
     }
 
     @Override
@@ -48,6 +47,11 @@ public class SizeRayBeam extends ThrowableProjectile {
     @Override
     protected void defineSynchedData(Builder entityData) {
         entityData.define(EFFECT, defaultEffect());
+    }
+
+    @Override
+    protected double getDefaultGravity() {
+        return 0.0;
     }
 
     private Holder<MobEffect> getEffect() {

@@ -228,8 +228,6 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.SHRINK_RAY.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.GROW_RAY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
         itemModels.itemModelOutput.accept(
             LocalItems.INFINITE_BEEF.get(),
@@ -252,6 +250,12 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.itemModelOutput.accept(
             LocalItems.INFINITE_RABBIT.get(),
             ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_rabbit")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.SHRINK_RAY.get(),
+            ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
+        itemModels.itemModelOutput.accept(
+            LocalItems.GROW_RAY.get(),
+            ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
 
         Item foxEars = LocalItems.FOX_EARS.get();
         int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
