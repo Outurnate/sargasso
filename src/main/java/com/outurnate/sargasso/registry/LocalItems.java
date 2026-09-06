@@ -12,6 +12,7 @@ import com.outurnate.sargasso.item.HammerItem;
 import com.outurnate.sargasso.item.LightningBottleItem;
 import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
+import com.outurnate.sargasso.item.SizeRayItem;
 import com.outurnate.sargasso.item.SnowBootsItem;
 import com.outurnate.sargasso.repository.LocalArmorMaterials;
 import com.outurnate.sargasso.repository.LocalDamageTypes;
@@ -319,6 +320,16 @@ public class LocalItems {
     public static final DeferredItem<ModonomiconCustomItemBase> ATLAS = REGISTRY.registerItem(
         "atlas",
         (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
+
+    public static final DeferredItem<Item> SHRINK_RAY = REGISTRY.registerItem(
+        "shrink_ray",
+        p -> new SizeRayItem(p, LocalMobEffects.SHRINK),
+        p -> p);
+
+    public static final DeferredItem<Item> GROW_RAY = REGISTRY.registerItem(
+        "grow_ray",
+        p -> new SizeRayItem(p, LocalMobEffects.GROW),
+        p -> p);
 
     public static final DeferredItem<Item> INFINITE_BEEF = registerInfiniteFood("infinite_beef", 8, 0.8F);
     public static final DeferredItem<Item> INFINITE_PORK = registerInfiniteFood("infinite_pork", 8, 0.8F);

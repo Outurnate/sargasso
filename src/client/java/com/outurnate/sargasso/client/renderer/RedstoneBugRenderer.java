@@ -1,6 +1,9 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.outurnate.sargasso.client.LocalRenderTypes;
+import com.outurnate.sargasso.client.model.ElectricArc;
+import com.outurnate.sargasso.client.renderer.state.RedstoneBugRenderState;
 import com.outurnate.sargasso.entity.RedstoneBug;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;

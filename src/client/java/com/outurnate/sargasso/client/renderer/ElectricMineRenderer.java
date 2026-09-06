@@ -1,16 +1,18 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.client.model.ElectricMineModel;
 import com.outurnate.sargasso.entity.ElectricMine;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
-public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricMineRenderState> {
+public class ElectricMineRenderer extends EntityRenderer<ElectricMine, EntityRenderState> {
     private static final Identifier ELECTRIC_MINE_LOCATION = SuperSargassoSea
         .ID("textures/entity/electric_mine.png");
     private final ElectricMineModel model;
@@ -21,13 +23,13 @@ public class ElectricMineRenderer extends EntityRenderer<ElectricMine, ElectricM
     }
 
     @Override
-    public ElectricMineRenderState createRenderState() {
-        return new ElectricMineRenderState();
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
     }
 
     @Override
     public void submit(
-        ElectricMineRenderState state,
+        EntityRenderState state,
         PoseStack poseStack,
         SubmitNodeCollector submitNodeCollector,
         CameraRenderState camera) {

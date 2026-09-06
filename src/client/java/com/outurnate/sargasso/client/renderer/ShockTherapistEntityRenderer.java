@@ -1,7 +1,12 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.block.entity.ShockTherapistBlockEntity;
+import com.outurnate.sargasso.client.ElectricArcSoundInstance;
+import com.outurnate.sargasso.client.LocalRenderTypes;
+import com.outurnate.sargasso.client.model.ElectricArc;
+import com.outurnate.sargasso.client.renderer.state.ShockTherapistRenderState;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

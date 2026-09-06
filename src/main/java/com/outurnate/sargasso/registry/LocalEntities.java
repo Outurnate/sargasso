@@ -4,13 +4,13 @@ package com.outurnate.sargasso.registry;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.entity.RedstoneBug;
+import com.outurnate.sargasso.entity.SizeRayBeam;
 import com.outurnate.sargasso.entity.ThrownHammer;
 import com.outurnate.sargasso.entity.ThrownLightningBottle;
 import com.outurnate.sargasso.entity.ThrownRedstoneEMP;
 
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -33,7 +33,7 @@ public class LocalEntities {
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "lightning_bottle"))));
+                    SuperSargassoSea.ID("lightning_bottle"))));
 
     public static final Supplier<EntityType<ElectricMine>> ELECTRIC_MINE = REGISTRY.register(
         "electric_mine",
@@ -47,7 +47,7 @@ public class LocalEntities {
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "electric_mine"))));
+                    SuperSargassoSea.ID("electric_mine"))));
 
     public static final Supplier<EntityType<ThrownRedstoneEMP>> REDSTONE_EMP = REGISTRY.register(
         "redstone_emp",
@@ -61,7 +61,7 @@ public class LocalEntities {
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "redstone_emp"))));
+                    SuperSargassoSea.ID("redstone_emp"))));
 
     public static final Supplier<EntityType<RedstoneBug>> REDSTONE_BUG = REGISTRY.register(
         "redstone_bug",
@@ -75,7 +75,7 @@ public class LocalEntities {
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "redstone_bug"))));
+                    SuperSargassoSea.ID("redstone_bug"))));
 
     public static final Supplier<EntityType<ThrownHammer>> HAMMER = REGISTRY.register(
         "hammer",
@@ -90,7 +90,21 @@ public class LocalEntities {
             .build(
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
-                    Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "hammer"))));
+                    SuperSargassoSea.ID("hammer"))));
+
+    public static final Supplier<EntityType<SizeRayBeam>> SIZE_RAY_BEAM = REGISTRY.register(
+        "size_ray_beam",
+        () -> EntityType.Builder.<SizeRayBeam>of(
+            SizeRayBeam::new,
+            MobCategory.MISC)
+            .noLootTable()
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(
+                ResourceKey.create(
+                    Registries.ENTITY_TYPE,
+                    SuperSargassoSea.ID("size_ray_beam"))));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);

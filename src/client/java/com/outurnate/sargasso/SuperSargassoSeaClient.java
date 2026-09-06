@@ -2,15 +2,16 @@
 package com.outurnate.sargasso;
 
 import com.mojang.datafixers.util.Either;
-import com.outurnate.sargasso.client.ElectricMineModel;
-import com.outurnate.sargasso.client.ElectricMineRenderer;
 import com.outurnate.sargasso.client.FromCosmeticItemTintSource;
-import com.outurnate.sargasso.client.GlitchBlockEntityRenderer;
 import com.outurnate.sargasso.client.HammerClientItemExtensions;
-import com.outurnate.sargasso.client.RedstoneBugRenderer;
-import com.outurnate.sargasso.client.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.SparkParticle;
-import com.outurnate.sargasso.client.ThrownHammerRenderer;
+import com.outurnate.sargasso.client.model.ElectricMineModel;
+import com.outurnate.sargasso.client.renderer.ElectricMineRenderer;
+import com.outurnate.sargasso.client.renderer.GlitchBlockEntityRenderer;
+import com.outurnate.sargasso.client.renderer.RedstoneBugRenderer;
+import com.outurnate.sargasso.client.renderer.ShockTherapistEntityRenderer;
+import com.outurnate.sargasso.client.renderer.SizeRayBeamRenderer;
+import com.outurnate.sargasso.client.renderer.ThrownHammerRenderer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
@@ -85,6 +86,7 @@ public class SuperSargassoSeaClient {
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
         event.registerEntityRenderer(LocalEntities.HAMMER.get(), ThrownHammerRenderer::new);
+        event.registerEntityRenderer(LocalEntities.SIZE_RAY_BEAM.get(), SizeRayBeamRenderer::new);
     }
 
     @SubscribeEvent

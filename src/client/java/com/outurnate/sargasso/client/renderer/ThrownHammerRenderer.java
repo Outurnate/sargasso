@@ -1,7 +1,8 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.outurnate.sargasso.client.renderer.state.ThrownHammerRenderState;
 import com.outurnate.sargasso.entity.ThrownHammer;
 
 import net.minecraft.client.Minecraft;

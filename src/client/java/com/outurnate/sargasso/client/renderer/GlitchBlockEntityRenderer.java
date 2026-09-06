@@ -1,10 +1,12 @@
 /* (C)2026 */
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.block.entity.GlitchBlockEntity;
+import com.outurnate.sargasso.client.LocalRenderTypes;
 import com.outurnate.sargasso.client.iris.IrisCompat;
+import com.outurnate.sargasso.client.renderer.state.GlitchBlockRenderState;
 
 import java.util.Collection;
 import java.util.List;

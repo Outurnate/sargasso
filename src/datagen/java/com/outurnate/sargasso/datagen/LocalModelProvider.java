@@ -228,6 +228,8 @@ public class LocalModelProvider extends ModelProvider {
         itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.SHRINK_RAY.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(LocalItems.GROW_RAY.get(), ModelTemplates.FLAT_ITEM);
         itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
         itemModels.itemModelOutput.accept(
             LocalItems.INFINITE_BEEF.get(),

@@ -1,4 +1,4 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.model;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 
@@ -11,8 +11,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 
-public class ElectricMineModel extends EntityModel<ElectricMineRenderState> {
+public class ElectricMineModel extends EntityModel<EntityRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
         SuperSargassoSea.ID("electric_mine"),
         "main");

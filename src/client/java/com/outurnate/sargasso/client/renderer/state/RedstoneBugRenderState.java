@@ -1,4 +1,6 @@
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer.state;
+
+import com.outurnate.sargasso.client.model.ElectricArc;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 

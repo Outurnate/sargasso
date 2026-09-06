@@ -1,5 +1,5 @@
 /* (C)2026 */
-package com.outurnate.sargasso.client;
+package com.outurnate.sargasso.client.renderer.state;
 
 import java.util.EnumSet;
 import java.util.Set;
