@@ -35,5 +35,10 @@ public class Config {
             "FE/t consumed by the shock therapist")
         .defineInRange("shockTherapistConsumption", 5, 0, 200);
 
+    public static final ModConfigSpec.IntValue SIZE_RAY_FE = BUILDER
+        .comment(
+            "FE/shot consumed by the shrink/grow rays")
+        .defineInRange("shockTherapistConsumption", BATTERY_CAPACITY.getDefault() / 50, 0, Integer.MAX_VALUE);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

@@ -1,5 +1,6 @@
 package com.outurnate.sargasso.item;
 
+import com.outurnate.sargasso.Config;
 import com.outurnate.sargasso.entity.SizeRayBeam;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -51,7 +52,7 @@ public class SizeRayItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (drawPower(player, 110)) {
+        if (drawPower(player, Config.SIZE_RAY_FE.getAsInt())) {
             level.playSound(
                 null,
                 player.getX(),

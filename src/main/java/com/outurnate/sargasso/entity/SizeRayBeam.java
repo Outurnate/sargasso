@@ -19,6 +19,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class SizeRayBeam extends ThrowableProjectile {
     private static final EntityDataAccessor<Holder<MobEffect>> EFFECT = SynchedEntityData
@@ -88,7 +89,9 @@ public class SizeRayBeam extends ThrowableProjectile {
 
     @Override
     public void tick() {
+        Vec3 movement = getDeltaMovement();
         super.tick();
+        setDeltaMovement(movement); // cancel friction
 
         --remainingTicks;
         if (remainingTicks <= 0) {
