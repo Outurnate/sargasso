@@ -10,6 +10,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     private static record Room(int x, int y, int w, int h) {
+        private static final int MIN_SIZE = 3;
+
         private List<Room> divideW(RandomSource random) {
             int partition = random.nextInt(x, w);
             // x = 0
@@ -34,11 +36,11 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         public List<Room> divide(RandomSource random) {
-            if (w == 1 && h == 1) {
+            if (w <= MIN_SIZE && h <= MIN_SIZE) {
                 return List.of(this);
-            } else if (h == 1) {
+            } else if (h <= MIN_SIZE) {
                 return divideW(random);
-            } else if (w == 1) {
+            } else if (w <= MIN_SIZE) {
                 return divideH(random);
             } else {
                 if (random.nextBoolean()) {
@@ -83,7 +85,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         RandomSource random = context.random();
-        List<Room> rooms = List.of(new Room(0, 0, 8, 8));
+        List<Room> rooms = List.of(new Room(0, 0, 16, 16));
         for (int i = 0; i < 3; ++i) {
             ArrayList<Room> newRooms = new ArrayList<>();
             for (Room room : rooms) {
@@ -96,8 +98,8 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             rooms = newRooms;
         }
         for (Room room : rooms) {
+            SuperSargassoSea.LOGGER.error(room.toString());
             for (Wall wall : room.walls()) {
-                SuperSargassoSea.LOGGER.error(room.toString());
                 SuperSargassoSea.LOGGER.error(wall.toString());
             }
         }
