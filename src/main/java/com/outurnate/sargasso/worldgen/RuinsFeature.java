@@ -57,18 +57,18 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
 
         public List<Wall> walls() {
             ArrayList<Wall> walls = new ArrayList<>();
-            for (int xc = 1; xc < w - 1; ++xc) {
+            for (int xc = 1; xc < w; ++xc) {
                 walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y));
                 walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y + h));
             }
-            for (int yc = 1; yc < h - 1; ++yc) {
+            for (int yc = 1; yc < h; ++yc) {
                 walls.add(new Wall(WallDirection.NORTH_SOUTH, x, y + yc));
                 walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w, y + yc));
             }
-            // walls.add(new Wall(WallDirection.CORNER, x, y));
-            // walls.add(new Wall(WallDirection.CORNER, x + w - 1, y));
-            // walls.add(new Wall(WallDirection.CORNER, x, y + h - 1));
-            // walls.add(new Wall(WallDirection.CORNER, x + w - 1, y + h - 1));
+            walls.add(new Wall(WallDirection.CORNER, x, y));
+            walls.add(new Wall(WallDirection.CORNER, x + w, y));
+            walls.add(new Wall(WallDirection.CORNER, x, y + h));
+            walls.add(new Wall(WallDirection.CORNER, x + w, y + h));
             return walls;
         }
     }
@@ -89,7 +89,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         RandomSource random = context.random();
-        List<Room> rooms = List.of(new Room(0, 0, 16, 16));
+        List<Room> rooms = List.of(new Room(0, 0, 16, 16)); // actual dims +1 in x/z
         for (int i = 0; i < 3; ++i) {
             ArrayList<Room> newRooms = new ArrayList<>();
             for (Room room : rooms) {
