@@ -12,16 +12,25 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     private static record Room(int x, int y, int w, int h) {
         private List<Room> divideW(RandomSource random) {
             int partition = random.nextInt(x, w);
+            // x = 0
+            // w = 8
+            // p = 2
+            // 1:
+            // x = 0
+            // w = 2
+            // 2:
+            // x = 2
+            // w = 6
             return List.of(
-                new Room(x, y, w - partition, h),
-                new Room(x + partition - 1, y, partition, h));
+                new Room(x, y, partition, h),
+                new Room(x + partition, y, w - partition, h));
         }
 
         private List<Room> divideH(RandomSource random) {
             int partition = random.nextInt(y, h);
             return List.of(
-                new Room(x, y, w, h - partition),
-                new Room(x, y + partition - 1, w, partition));
+                new Room(x, y, w, partition),
+                new Room(x, y + partition, w, h - partition));
         }
 
         public List<Room> divide(RandomSource random) {
