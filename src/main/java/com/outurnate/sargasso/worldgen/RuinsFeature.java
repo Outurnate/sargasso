@@ -25,25 +25,24 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private static List<Room> maybeDivide(RandomSource random, List<Room> rooms) {
-        ArrayList<Room> outputRooms = new ArrayList<>();
-        for (Room room : rooms) {
-            if (random.nextBoolean()) {
-                outputRooms.addAll(room.divide(random));
-            }
-        }
-        return outputRooms;
-    }
-
     public RuinsFeature() {
         super(NoneFeatureConfiguration.CODEC);
     }
 
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+        RandomSource random = context.random();
         List<Room> rooms = List.of(new Room(0, 0, 8, 8));
         for (int i = 0; i < 3; ++i) {
-            rooms = maybeDivide(context.random(), rooms);
+            ArrayList<Room> newRooms = new ArrayList<>();
+            for (Room room : rooms) {
+                if (random.nextBoolean()) {
+                    newRooms.addAll(room.divide(random));
+                } else {
+                    newRooms.add(room);
+                }
+            }
+            rooms = newRooms;
         }
         for (Room room : rooms) {
             SuperSargassoSea.LOGGER.error(room.toString());
