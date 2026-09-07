@@ -6,10 +6,13 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -83,50 +86,71 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private record Wall(WallDirection direction, int x, int z) {
+        private static final WeightedList<Function<WallDirection, List<Vec3i>>> OFFSETS = WeightedList.of(
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.above(1),
+                    BlockPos.ZERO.above(2)),
+                20),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.offset(direction.left())),
+                1),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.offset(direction.right())),
+                1),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.offset(direction.left()),
+                    BlockPos.ZERO.above(1)),
+                10),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.offset(direction.right()),
+                    BlockPos.ZERO.above(1)),
+                10),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.above(1)),
+                1),
+            new Weighted<>(
+                direction -> List.of(
+                    BlockPos.ZERO,
+                    BlockPos.ZERO.offset(direction.right()),
+                    BlockPos.ZERO.offset(direction.left())),
+                1));
+
         public List<BlockPos> getPositions(BlockPos origin, RandomSource random) {
-            Vec3i left = switch (direction) {
-                case WallDirection.NORTH_SOUTH -> new Vec3i(1, 0, 0);
-                case WallDirection.EAST_WEST -> new Vec3i(0, 0, 1);
-            };
-            Vec3i right = switch (direction) {
-                case WallDirection.NORTH_SOUTH -> new Vec3i(-1, 0, 0);
-                case WallDirection.EAST_WEST -> new Vec3i(0, 0, -1);
-            };
-            origin = origin.offset(x, 0, z);
-            return switch (random.nextInt(7)) {
-                default -> List.of(
-                    origin,
-                    origin.above(1),
-                    origin.above(2));
-                case 1 -> List.of(
-                    origin,
-                    origin.offset(left));
-                case 2 -> List.of(
-                    origin,
-                    origin.offset(right));
-                case 3 -> List.of(
-                    origin,
-                    origin.offset(left),
-                    origin.above(1));
-                case 4 -> List.of(
-                    origin,
-                    origin.offset(right),
-                    origin.above(1));
-                case 5 -> List.of(
-                    origin,
-                    origin.above(1));
-                case 6 -> List.of(
-                    origin,
-                    origin.offset(left),
-                    origin.offset(right),
-                    origin.above(1));
-            };
+            BlockPos localOrigin = origin.offset(x, 0, z);
+            return OFFSETS.getRandom(random).get().apply(direction).stream()
+                .map(offset -> localOrigin.offset(offset)).toList();
         }
     }
 
     private static enum WallDirection {
         NORTH_SOUTH, // z/h
-        EAST_WEST // x/w
+        EAST_WEST; // x/w
+
+        public Vec3i left() {
+            return switch (this) {
+                case WallDirection.NORTH_SOUTH -> new Vec3i(1, 0, 0);
+                case WallDirection.EAST_WEST -> new Vec3i(0, 0, 1);
+            };
+        }
+
+        public Vec3i right() {
+            return switch (this) {
+                case WallDirection.NORTH_SOUTH -> new Vec3i(-1, 0, 0);
+                case WallDirection.EAST_WEST -> new Vec3i(0, 0, -1);
+            };
+        }
     }
 
     public RuinsFeature() {
