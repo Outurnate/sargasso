@@ -1,4 +1,3 @@
-- something that uses power from your inventory
 - structure: shipwrecks
 - structure: starmetal ruins
 - escher structure loot table
@@ -10,6 +9,7 @@
 - jar o' spiders
 
 DONE
+- something that uses power from your inventory
 - structure: look for removed game structures
 - structure: bazaar
 - evelasting food item

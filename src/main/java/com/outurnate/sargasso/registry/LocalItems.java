@@ -14,6 +14,7 @@ import com.outurnate.sargasso.item.PersonalVoltmeterItem;
 import com.outurnate.sargasso.item.RedstoneEMPItem;
 import com.outurnate.sargasso.item.SizeRayItem;
 import com.outurnate.sargasso.item.SnowBootsItem;
+import com.outurnate.sargasso.item.SpiderBottleItem;
 import com.outurnate.sargasso.repository.LocalArmorMaterials;
 import com.outurnate.sargasso.repository.LocalDamageTypes;
 import com.outurnate.sargasso.repository.LocalJukeboxSongs;
@@ -141,6 +142,12 @@ public class LocalItems {
         p -> p
             .useCooldown(2.0F)
             .rarity(Rarity.UNCOMMON));
+
+    public static final DeferredItem<Item> SPIDER_BOTTLE = REGISTRY.registerItem(
+        "spider_bottle",
+        SpiderBottleItem::new,
+        p -> p
+            .useCooldown(2.0F));
 
     public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
         "potato_battery",

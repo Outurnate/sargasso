@@ -5,10 +5,10 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.entity.ElectricMine;
 import com.outurnate.sargasso.entity.RedstoneBug;
 import com.outurnate.sargasso.entity.SizeRayBeam;
+import com.outurnate.sargasso.entity.ThrownBottleOfSpiders;
 import com.outurnate.sargasso.entity.ThrownHammer;
 import com.outurnate.sargasso.entity.ThrownLightningBottle;
 import com.outurnate.sargasso.entity.ThrownRedstoneEMP;
-
 import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -105,6 +105,20 @@ public class LocalEntities {
                 ResourceKey.create(
                     Registries.ENTITY_TYPE,
                     SuperSargassoSea.ID("size_ray_beam"))));
+
+    public static final Supplier<EntityType<ThrownBottleOfSpiders>> SPIDER_BOTTLE = REGISTRY.register(
+        "spider_bottle",
+        () -> EntityType.Builder.<ThrownBottleOfSpiders>of(
+            ThrownBottleOfSpiders::new,
+            MobCategory.MISC)
+            .noLootTable()
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(
+                ResourceKey.create(
+                    Registries.ENTITY_TYPE,
+                    SuperSargassoSea.ID("spider_bottle"))));
 
     public static void register(IEventBus modEventBus) {
         REGISTRY.register(modEventBus);
