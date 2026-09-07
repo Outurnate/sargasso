@@ -187,6 +187,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
+            SuperSargassoSea.LOGGER.error(e.getMessage());
             throw e;
         }
     }
