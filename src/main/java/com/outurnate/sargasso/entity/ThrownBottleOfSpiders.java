@@ -80,7 +80,7 @@ public class ThrownBottleOfSpiders extends ThrowableItemProjectile {
                         0.0,
                         (random.nextDouble() - 0.5) / 4);
                     spider.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
-                        new AttributeModifier(permanent, -0.9, Operation.ADD_MULTIPLIED_TOTAL));
+                        new AttributeModifier(permanent, -0.99, Operation.ADD_MULTIPLIED_TOTAL));
                     spider.getAttribute(Attributes.SCALE).addPermanentModifier(
                         new AttributeModifier(permanent, -0.8, Operation.ADD_MULTIPLIED_TOTAL));
                     this.level().addFreshEntity(spider);
