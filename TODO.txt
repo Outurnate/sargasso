@@ -6,9 +6,9 @@
 - review enchantments
 - balancing pass
 - alpha grass
-- jar o' spiders
 
 DONE
+- jar o' spiders
 - something that uses power from your inventory
 - structure: look for removed game structures
 - structure: bazaar

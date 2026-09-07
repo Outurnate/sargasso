@@ -191,6 +191,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addItem(LocalItems.INFINITE_SALMON, "Everlasting Salmon");
         this.addItem(LocalItems.SHRINK_RAY, "Shrink Ray");
         this.addItem(LocalItems.GROW_RAY, "Growth Ray");
+        this.addItem(LocalItems.SPIDER_BOTTLE, "Bottle o' Spiders");
 
         this.add(LocalMobEffects.HEAD_EXPLOSION.value(), "Impending Head Explosion");
 
