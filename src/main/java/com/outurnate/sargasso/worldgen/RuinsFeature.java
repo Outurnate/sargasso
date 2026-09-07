@@ -101,12 +101,14 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             }
             rooms = newRooms;
         }
+        int i = 0;
         for (Room room : rooms) {
             SuperSargassoSea.LOGGER.error(room.toString());
             for (Wall wall : room.walls()) {
                 SuperSargassoSea.LOGGER.error(wall.toString());
-                placeWall(wall, context.level(), context.origin());
+                placeWall(wall, context.level(), context.origin().above(i));
             }
+            ++i;
         }
         return true;
     }
