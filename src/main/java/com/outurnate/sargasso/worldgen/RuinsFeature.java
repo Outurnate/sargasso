@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.Blocks;
@@ -80,6 +81,44 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private record Wall(WallDirection direction, int x, int y) {
+        public List<BlockPos> getPositions(BlockPos origin, RandomSource random) {
+            Vec3i left = switch (direction) {
+                case WallDirection.NORTH_SOUTH -> new Vec3i(1, 0, 0);
+                case WallDirection.EAST_WEST -> new Vec3i(0, 0, 1);
+            };
+            Vec3i right = switch (direction) {
+                case WallDirection.NORTH_SOUTH -> new Vec3i(-1, 0, 0);
+                case WallDirection.EAST_WEST -> new Vec3i(0, 0, -1);
+            };
+            return switch (random.nextInt(7)) {
+                default -> List.of(
+                    origin,
+                    origin.above(1),
+                    origin.above(2));
+                case 1 -> List.of(
+                    origin,
+                    origin.offset(left));
+                case 2 -> List.of(
+                    origin,
+                    origin.offset(right));
+                case 3 -> List.of(
+                    origin,
+                    origin.offset(left),
+                    origin.above(1));
+                case 4 -> List.of(
+                    origin,
+                    origin.offset(right),
+                    origin.above(1));
+                case 5 -> List.of(
+                    origin,
+                    origin.above(1));
+                case 6 -> List.of(
+                    origin,
+                    origin.offset(left),
+                    origin.offset(right),
+                    origin.above(1));
+            };
+        }
     }
 
     private static enum WallDirection {
@@ -115,11 +154,12 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             allWalls.addAll(elements.getSecond());
         }
 
+        LevelWriter level = context.level();
         for (Wall wall : allWalls) {
-            placeWall(wall, context.level(), context.origin());
+            placeWall(wall, random, level, context.origin());
         }
         for (Corner corner : allCorners) {
-            placeCorner(corner, context.level(), context.origin());
+            placeCorner(corner, level, context.origin());
         }
         return true;
     }
@@ -128,10 +168,9 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         this.setBlock(level, origin.offset(corner.x, 0, corner.y), Blocks.GREEN_CONCRETE.defaultBlockState());
     }
 
-    private void placeWall(Wall wall, LevelWriter level, BlockPos origin) {
-        this.setBlock(level, origin.offset(wall.x, 0, wall.y), switch (wall.direction) {
-            case WallDirection.NORTH_SOUTH -> Blocks.RED_CONCRETE.defaultBlockState();
-            case WallDirection.EAST_WEST -> Blocks.BLUE_CONCRETE.defaultBlockState();
-        });
+    private void placeWall(Wall wall, RandomSource random, LevelWriter level, BlockPos origin) {
+        for (BlockPos pos : wall.getPositions(origin, random)) {
+            this.setBlock(level, pos, Blocks.GRAY_CONCRETE.defaultBlockState());
+        }
     }
 }
