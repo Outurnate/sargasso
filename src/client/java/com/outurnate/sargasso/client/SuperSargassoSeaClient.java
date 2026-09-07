@@ -83,6 +83,7 @@ public class SuperSargassoSeaClient {
             LocalBlockEntities.SHOCK_THERAPIST.get(),
             ShockTherapistEntityRenderer::new);
         event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(LocalEntities.SPIDER_BOTTLE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
         event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
