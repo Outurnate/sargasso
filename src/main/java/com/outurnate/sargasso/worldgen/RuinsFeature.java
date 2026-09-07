@@ -57,13 +57,13 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
 
         public List<Wall> walls() {
             ArrayList<Wall> walls = new ArrayList<>();
-            for (int xc = x + 1; xc < w - 1; ++xc) {
-                walls.add(new Wall(WallDirection.EAST_WEST, xc, y));
-                walls.add(new Wall(WallDirection.EAST_WEST, xc, y + h - 1));
+            for (int xc = 1; xc < w - 1; ++xc) {
+                walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y));
+                // walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y + h - 1));
             }
-            for (int yc = y + 1; yc < h - 1; ++yc) {
-                walls.add(new Wall(WallDirection.NORTH_SOUTH, x, yc));
-                walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w - 1, yc));
+            for (int yc = 1; yc < h - 1; ++yc) {
+                walls.add(new Wall(WallDirection.NORTH_SOUTH, x, y + yc));
+                // walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w - 1, y + yc));
             }
             walls.add(new Wall(WallDirection.CORNER, x, y));
             walls.add(new Wall(WallDirection.CORNER, x + w - 1, y));
