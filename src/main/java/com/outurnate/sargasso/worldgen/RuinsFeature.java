@@ -1,7 +1,8 @@
 package com.outurnate.sargasso.worldgen;
 
-import com.outurnate.sargasso.SuperSargassoSea;
+import com.mojang.datafixers.util.Pair;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
@@ -13,6 +14,9 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
+    private record Corner(int x, int y) {
+    }
+
     private static record Room(int x, int y, int w, int h) {
         private static final int MIN_SIZE = 3;
 
@@ -55,7 +59,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
 
-        public List<Wall> walls() {
+        public Pair<List<Corner>, List<Wall>> elements() {
             ArrayList<Wall> walls = new ArrayList<>();
             for (int xc = 1; xc < w; ++xc) {
                 walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y));
@@ -65,11 +69,13 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
                 walls.add(new Wall(WallDirection.NORTH_SOUTH, x, y + yc));
                 walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w, y + yc));
             }
-            walls.add(new Wall(WallDirection.CORNER, x, y));
-            walls.add(new Wall(WallDirection.CORNER, x + w, y));
-            walls.add(new Wall(WallDirection.CORNER, x, y + h));
-            walls.add(new Wall(WallDirection.CORNER, x + w, y + h));
-            return walls;
+
+            ArrayList<Corner> corners = new ArrayList<>();
+            corners.add(new Corner(x, y));
+            corners.add(new Corner(x + w, y));
+            corners.add(new Corner(x, y + h));
+            corners.add(new Corner(x + w, y + h));
+            return Pair.of(corners, walls);
         }
     }
 
@@ -78,8 +84,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
 
     private static enum WallDirection {
         NORTH_SOUTH, // y/h
-        EAST_WEST, // x/w
-        CORNER
+        EAST_WEST // x/w
     }
 
     public RuinsFeature() {
@@ -101,23 +106,32 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             }
             rooms = newRooms;
         }
-        int i = 0;
+
+        HashSet<Wall> allWalls = new HashSet<>();
+        ArrayList<Corner> allCorners = new ArrayList<>();
         for (Room room : rooms) {
-            SuperSargassoSea.LOGGER.error(room.toString());
-            for (Wall wall : room.walls()) {
-                SuperSargassoSea.LOGGER.error(wall.toString());
-                placeWall(wall, context.level(), context.origin().above(i));
-            }
-            ++i;
+            Pair<List<Corner>, List<Wall>> elements = room.elements();
+            allCorners.addAll(elements.getFirst());
+            allWalls.addAll(elements.getSecond());
+        }
+
+        for (Wall wall : allWalls) {
+            placeWall(wall, context.level(), context.origin());
+        }
+        for (Corner corner : allCorners) {
+            placeCorner(corner, context.level(), context.origin());
         }
         return true;
+    }
+
+    private void placeCorner(Corner corner, LevelWriter level, BlockPos origin) {
+        this.setBlock(level, origin.offset(corner.x, 0, corner.y), Blocks.GREEN_CONCRETE.defaultBlockState());
     }
 
     private void placeWall(Wall wall, LevelWriter level, BlockPos origin) {
         this.setBlock(level, origin.offset(wall.x, 0, wall.y), switch (wall.direction) {
             case WallDirection.NORTH_SOUTH -> Blocks.RED_CONCRETE.defaultBlockState();
             case WallDirection.EAST_WEST -> Blocks.BLUE_CONCRETE.defaultBlockState();
-            case WallDirection.CORNER -> Blocks.GREEN_CONCRETE.defaultBlockState();
         });
     }
 }
