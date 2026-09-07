@@ -2,6 +2,7 @@ package com.outurnate.sargasso.worldgen;
 
 import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalBlocks;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static record Room(int x, int z, int w, int h) {
-        private static final int MIN_SIZE = 3;
+        private static final int MIN_SIZE = 5;
 
         private List<Room> divideW(RandomSource random) {
             int partition = random.nextInt(0, w - MIN_SIZE);
@@ -161,34 +162,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         try {
             RandomSource random = context.random();
-            List<Room> rooms = List.of(new Room(0, 0, 16, 16)); // actual dims +1 in x/z
-            for (int i = 0; i < 3; ++i) {
-                ArrayList<Room> newRooms = new ArrayList<>();
-                for (Room room : rooms) {
-                    if (random.nextBoolean()) {
-                        newRooms.addAll(room.divide(random));
-                    } else {
-                        newRooms.add(room);
-                    }
-                }
-                rooms = newRooms;
-            }
-
-            HashSet<Wall> allWalls = new HashSet<>();
-            ArrayList<Corner> allCorners = new ArrayList<>();
-            for (Room room : rooms) {
-                Pair<List<Corner>, List<Wall>> elements = room.elements();
-                allCorners.addAll(elements.getFirst());
-                allWalls.addAll(elements.getSecond());
-            }
-
-            LevelWriter level = context.level();
-            for (Wall wall : allWalls) {
-                placeWall(wall, random, level, context.origin());
-            }
-            for (Corner corner : allCorners) {
-                placeCorner(corner, level, context.origin());
-            }
+            placeRoom(new Room(0, 0, 16, 16), random, context.level(), context.origin());
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
@@ -197,7 +171,50 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private void placeCorner(Corner corner, LevelWriter level, BlockPos origin) {
-        this.setBlock(level, origin.offset(corner.x, 0, corner.z), Blocks.GREEN_CONCRETE.defaultBlockState());
+        for (int i = 0; i < 5; ++i) {
+            this.setBlock(
+                level,
+                origin.offset(corner.x, i - 2, corner.z),
+                LocalBlocks.STARMETAL_BLOCK.get().defaultBlockState());
+        }
+    }
+
+    private void placeRoom(Room base, RandomSource random, LevelWriter level, BlockPos origin) {
+        List<Room> rooms = List.of(base); // actual dims +1 in x/z
+        float divisionChance = 0.8F;
+        for (int i = 0; i < 3; ++i) {
+            ArrayList<Room> newRooms = new ArrayList<>();
+            for (Room room : rooms) {
+                if (random.nextFloat() < (divisionChance / i + 1)) {
+                    newRooms.addAll(room.divide(random));
+                } else {
+                    newRooms.add(room);
+                }
+            }
+            rooms = newRooms;
+        }
+
+        HashSet<Wall> allWalls = new HashSet<>();
+        ArrayList<Corner> allCorners = new ArrayList<>();
+        for (Room room : rooms) {
+            Pair<List<Corner>, List<Wall>> elements = room.elements();
+            allCorners.addAll(elements.getFirst());
+            allWalls.addAll(elements.getSecond());
+        }
+
+        BlockPos wallOrigin = origin.above(1);
+        for (Wall wall : allWalls) {
+            placeWall(wall, random, level, wallOrigin);
+        }
+        for (Corner corner : allCorners) {
+            placeCorner(corner, level, wallOrigin);
+        }
+
+        for (int x = 0; x < base.w; ++x) {
+            for (int z = 0; z < base.h; ++z) {
+                setBlock(level, origin.offset(x, 0, z), Blocks.WHITE_CONCRETE.defaultBlockState());
+            }
+        }
     }
 
     private void placeWall(Wall wall, RandomSource random, LevelWriter level, BlockPos origin) {
