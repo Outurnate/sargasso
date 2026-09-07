@@ -163,7 +163,18 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         new Weighted<>(
             List.of(
                 new Room(0, 0, 8, 16),
-                new Room(8, 8, 4, 12)),
+                new Room(8, 0, 8, 12)),
+            1),
+        new Weighted<>(
+            List.of(
+                new Room(0, 0, 12, 16),
+                new Room(12, 2, 16, 12)),
+            1),
+        new Weighted<>(
+            List.of(
+                new Room(0, 0, 12, 16),
+                new Room(28, 2, 16, 12),
+                new Room(0, 0, 12, 16)),
             1));
 
     public RuinsFeature() {
@@ -219,7 +230,10 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             // floor
             for (int x = 0; x < base.w; ++x) {
                 for (int z = 0; z < base.h; ++z) {
-                    setBlock(level, origin.offset(x, 0, z), Blocks.WHITE_CONCRETE.defaultBlockState());
+                    setBlock(
+                        level,
+                        origin.offset(base.x + x, 0, base.z + z),
+                        Blocks.WHITE_CONCRETE.defaultBlockState());
                 }
             }
         }
