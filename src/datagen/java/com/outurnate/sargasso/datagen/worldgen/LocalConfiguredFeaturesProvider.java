@@ -37,6 +37,8 @@ public class LocalConfiguredFeaturesProvider {
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("portal"));
     public static final ResourceKey<ConfiguredFeature<?, ?>> JUNK_ORE = ResourceKey
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("junk_ore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> RUINS = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("ruins"));
 
     public static void provide(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
         bootstrap.register(
@@ -116,5 +118,10 @@ public class LocalConfiguredFeaturesProvider {
                             new BlockMatchTest(LocalBlocks.PETRIFIED_FLOTSAM.get()),
                             LocalBlocks.RICH_PETRIFIED_FLOTSAM.get().defaultBlockState())),
                     17)));
+        bootstrap.register(
+            RUINS,
+            new ConfiguredFeature<>(
+                LocalFeatures.RUINS.get(),
+                NoneFeatureConfiguration.INSTANCE));
     }
 }
