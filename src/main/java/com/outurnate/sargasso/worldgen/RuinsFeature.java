@@ -10,17 +10,33 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     private static record Room(int x, int y, int w, int h) {
+        private List<Room> divideW(RandomSource random) {
+            int partition = random.nextInt(x, w);
+            return List.of(
+                new Room(x, y, w - partition, h),
+                new Room(x + partition - 1, y, partition, h));
+        }
+
+        private List<Room> divideH(RandomSource random) {
+            int partition = random.nextInt(y, h);
+            return List.of(
+                new Room(x, y, w, h - partition),
+                new Room(x, y + partition - 1, w, partition));
+        }
+
         public List<Room> divide(RandomSource random) {
-            if (random.nextBoolean()) {
-                int partition = random.nextInt(x, w);
-                return List.of(
-                    new Room(x, y, w - partition, h),
-                    new Room(x + partition, y, partition, h));
+            if (w == 1 && h == 1) {
+                return List.of(this);
+            } else if (h == 1) {
+                return divideW(random);
+            } else if (w == 1) {
+                return divideH(random);
             } else {
-                int partition = random.nextInt(y, h);
-                return List.of(
-                    new Room(x, y, w, h - partition),
-                    new Room(x, y + partition, w, partition));
+                if (random.nextBoolean()) {
+                    return divideW(random);
+                } else {
+                    return divideH(random);
+                }
             }
         }
     }
