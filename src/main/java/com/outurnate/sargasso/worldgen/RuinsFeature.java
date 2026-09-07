@@ -27,6 +27,10 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     private static record Room(int x, int z, int w, int h) {
         private static final int MIN_SIZE = 5;
 
+        private static boolean isDimDivisible(int dim) {
+            return dim > (MIN_SIZE * 2);
+        }
+
         private List<Room> divideW(RandomSource random) {
             int partition = random.nextInt(MIN_SIZE, w - MIN_SIZE);
             // x = 0
@@ -51,11 +55,11 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         public List<Room> divide(RandomSource random) {
-            if (w <= MIN_SIZE && h <= MIN_SIZE) {
+            if (!isDimDivisible(w) && !isDimDivisible(h)) {
                 return List.of(this);
-            } else if (h <= MIN_SIZE) {
+            } else if (!isDimDivisible(h)) {
                 return divideW(random);
-            } else if (w <= MIN_SIZE) {
+            } else if (!isDimDivisible(w)) {
                 return divideH(random);
             } else {
                 if (random.nextBoolean()) {
