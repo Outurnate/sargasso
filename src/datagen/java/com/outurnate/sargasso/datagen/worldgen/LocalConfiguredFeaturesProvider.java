@@ -12,6 +12,7 @@ import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -37,8 +38,25 @@ public class LocalConfiguredFeaturesProvider {
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("portal"));
     public static final ResourceKey<ConfiguredFeature<?, ?>> JUNK_ORE = ResourceKey
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("junk_ore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BRICK_ORE = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("brick_ore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PRISMARINE_ORE = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("prismarine_ore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PURPUR_ORE = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("purpur_ore"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> COPPER_ORE = ResourceKey
+        .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("copper_ore"));
     public static final ResourceKey<ConfiguredFeature<?, ?>> RUINS = ResourceKey
         .create(Registries.CONFIGURED_FEATURE, SuperSargassoSea.ID("ruins"));
+
+    private static OreConfiguration ore(Block block, int size) {
+        return new OreConfiguration(
+            List.of(
+                OreConfiguration.target(
+                    new BlockMatchTest(LocalBlocks.PETRIFIED_FLOTSAM.get()),
+                    block.defaultBlockState())),
+            size);
+    }
 
     public static void provide(BootstrapContext<ConfiguredFeature<?, ?>> bootstrap) {
         bootstrap.register(
@@ -110,14 +128,19 @@ public class LocalConfiguredFeaturesProvider {
                 NoneFeatureConfiguration.INSTANCE));
         bootstrap.register(
             JUNK_ORE,
-            new ConfiguredFeature<>(
-                Feature.ORE,
-                new OreConfiguration(
-                    List.of(
-                        OreConfiguration.target(
-                            new BlockMatchTest(LocalBlocks.PETRIFIED_FLOTSAM.get()),
-                            LocalBlocks.RICH_PETRIFIED_FLOTSAM.get().defaultBlockState())),
-                    64)));
+            new ConfiguredFeature<>(Feature.ORE, ore(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get(), 32)));
+        bootstrap.register(
+            BRICK_ORE,
+            new ConfiguredFeature<>(Feature.ORE, ore(Blocks.BRICKS, 8)));
+        bootstrap.register(
+            PRISMARINE_ORE,
+            new ConfiguredFeature<>(Feature.ORE, ore(Blocks.PRISMARINE_BRICKS, 8)));
+        bootstrap.register(
+            PURPUR_ORE,
+            new ConfiguredFeature<>(Feature.ORE, ore(Blocks.PURPUR_BLOCK, 8)));
+        bootstrap.register(
+            COPPER_ORE,
+            new ConfiguredFeature<>(Feature.ORE, ore(Blocks.OXIDIZED_CUT_COPPER, 8)));
         bootstrap.register(
             RUINS,
             new ConfiguredFeature<>(

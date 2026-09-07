@@ -21,6 +21,7 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.HeightmapPlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 
@@ -39,8 +40,24 @@ public class LocalPlacedFeaturesProvider {
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
     public static final ResourceKey<PlacedFeature> JUNK_ORE = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("junk_ore"));
+    public static final ResourceKey<PlacedFeature> BRICK_ORE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("brick_ore"));
+    public static final ResourceKey<PlacedFeature> PRISMARINE_ORE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("prismarine_ore"));
+    public static final ResourceKey<PlacedFeature> PURPUR_ORE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("purpur_ore"));
+    public static final ResourceKey<PlacedFeature> COPPER_ORE = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("copper_ore"));
     public static final ResourceKey<PlacedFeature> RUINS = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("ruins"));
+
+    private static List<PlacementModifier> orePlacement(int count) {
+        return List.of(
+            CountPlacement.of(10),
+            InSquarePlacement.spread(),
+            HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
+            BiomeFilter.biome());
+    }
 
     public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
@@ -108,11 +125,31 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             JUNK_ORE,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.JUNK_ORE),
-            List.of(
-                CountPlacement.of(10),
-                InSquarePlacement.spread(),
-                HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
-                BiomeFilter.biome()));
+            orePlacement(10));
+
+        PlacementUtils.register(
+            bootstrap,
+            BRICK_ORE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.BRICK_ORE),
+            orePlacement(40));
+
+        PlacementUtils.register(
+            bootstrap,
+            PRISMARINE_ORE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PRISMARINE_ORE),
+            orePlacement(40));
+
+        PlacementUtils.register(
+            bootstrap,
+            PURPUR_ORE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PURPUR_ORE),
+            orePlacement(40));
+
+        PlacementUtils.register(
+            bootstrap,
+            COPPER_ORE,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.COPPER_ORE),
+            orePlacement(40));
 
         PlacementUtils.register(
             bootstrap,
