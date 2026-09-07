@@ -7,6 +7,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,15 +69,20 @@ public class ThrownBottleOfSpiders extends ThrowableItemProjectile {
         super.onHit(hitResult);
         if (!this.level().isClientSide()) {
             Identifier permanent = SuperSargassoSea.ID("permanent");
-            int numSpiders = level().getRandom().nextInt(5, 10);
+            RandomSource random = level().getRandom();
+            int numSpiders = random.nextInt(5, 10);
             for (int i = 0; i < numSpiders; ++i) {
                 Spider spider = EntityType.SPIDER.create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (spider != null) {
                     spider.snapTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                    spider.setDeltaMovement(
+                        (random.nextDouble() - 0.5) / 4,
+                        0.0,
+                        (random.nextDouble() - 0.5) / 4);
                     spider.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(
                         new AttributeModifier(permanent, -0.9, Operation.ADD_MULTIPLIED_TOTAL));
                     spider.getAttribute(Attributes.SCALE).addPermanentModifier(
-                        new AttributeModifier(permanent, -0.9, Operation.ADD_MULTIPLIED_TOTAL));
+                        new AttributeModifier(permanent, -0.8, Operation.ADD_MULTIPLIED_TOTAL));
                     this.level().addFreshEntity(spider);
                 }
             }
