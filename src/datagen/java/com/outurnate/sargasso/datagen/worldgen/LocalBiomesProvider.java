@@ -110,6 +110,18 @@ public class LocalBiomesProvider {
         generation.addFeature(
             GenerationStep.Decoration.UNDERGROUND_ORES,
             LocalPlacedFeaturesProvider.JUNK_ORE);
+        generation.addFeature(
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            LocalPlacedFeaturesProvider.BRICK_ORE);
+        generation.addFeature(
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            LocalPlacedFeaturesProvider.COPPER_ORE);
+        generation.addFeature(
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            LocalPlacedFeaturesProvider.PURPUR_ORE);
+        generation.addFeature(
+            GenerationStep.Decoration.UNDERGROUND_ORES,
+            LocalPlacedFeaturesProvider.PRISMARINE_ORE);
         if (hasFloatingIslands) {
             generation.addFeature(
                 GenerationStep.Decoration.RAW_GENERATION,
