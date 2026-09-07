@@ -48,6 +48,32 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
+
+        public List<Wall> walls() {
+            ArrayList<Wall> walls = new ArrayList<>();
+            for (int xc = x + 1; xc < w - 1; ++xc) {
+                walls.add(new Wall(WallDirection.EAST_WEST, xc, y));
+                walls.add(new Wall(WallDirection.EAST_WEST, xc, y + h - 1));
+            }
+            for (int yc = y + 1; yc < h - 1; ++yc) {
+                walls.add(new Wall(WallDirection.NORTH_SOUTH, x, yc));
+                walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w - 1, yc));
+            }
+            walls.add(new Wall(WallDirection.CORNER, x, y));
+            walls.add(new Wall(WallDirection.CORNER, x + w - 1, y));
+            walls.add(new Wall(WallDirection.CORNER, x, y + h - 1));
+            walls.add(new Wall(WallDirection.CORNER, x + w - 1, y + h - 1));
+            return walls;
+        }
+    }
+
+    private static record Wall(WallDirection direction, int x, int y) {
+    }
+
+    private static enum WallDirection {
+        NORTH_SOUTH, // y/h
+        EAST_WEST, // x/w
+        CORNER
     }
 
     public RuinsFeature() {
@@ -70,7 +96,10 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             rooms = newRooms;
         }
         for (Room room : rooms) {
-            SuperSargassoSea.LOGGER.error(room.toString());
+            for (Wall wall : room.walls()) {
+                SuperSargassoSea.LOGGER.error(room.toString());
+                SuperSargassoSea.LOGGER.error(wall.toString());
+            }
         }
         return true;
     }
