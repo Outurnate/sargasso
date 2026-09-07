@@ -3,12 +3,10 @@ package com.outurnate.sargasso.worldgen;
 import com.mojang.datafixers.util.Pair;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalBlocks;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
@@ -19,13 +17,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     private record Corner(int x, int z) {
     }
 
     private static record Room(int x, int z, int w, int h) {
-        private static final int MIN_SIZE = 5;
+        private static final int MIN_SIZE = 3;
 
         private static boolean isDimDivisible(int dim) {
             return dim > (MIN_SIZE * 2);
@@ -170,8 +169,9 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         List<Room> footprint = new Room(
             0,
             0,
-            random.nextInt(Room.MIN_SIZE, 20),
-            random.nextInt(Room.MIN_SIZE, 20)).divide(random);
+            random.nextInt(Room.MIN_SIZE * 2, 20),
+            random.nextInt(Room.MIN_SIZE * 2, 20)).divideH(random).stream()
+                .flatMap(rooms -> rooms.divideW(random).stream()).toList();
         float chanceOfLShape = 0.4F;
         if (random.nextFloat() < chanceOfLShape) {
             footprint.remove(random.nextInt(footprint.size()));
@@ -187,7 +187,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
-            SuperSargassoSea.LOGGER.error(e.getMessage());
+            SuperSargassoSea.LOGGER.error(ExceptionUtils.getStackTrace(e));
             throw e;
         }
     }
@@ -232,7 +232,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
                     setBlock(
                         level,
                         origin.offset(base.x + x, 0, base.z + z),
-                        Blocks.WHITE_CONCRETE.defaultBlockState());
+                        Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState());
                 }
             }
         }
