@@ -1,8 +1,10 @@
 /* (C)2026 */
 package com.outurnate.sargasso.datagen.worldgen;
 
-import com.outurnate.sargasso.SuperSargassoSea;
+import static net.minecraft.world.level.levelgen.structure.StructureSet.entry;
 
+import com.outurnate.sargasso.SuperSargassoSea;
+import java.util.List;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -13,41 +15,40 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStruct
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 
 public class LocalStructureSetsProvider {
-    public static final ResourceKey<StructureSet> FOSSIL = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fossil"));
-    public static final ResourceKey<StructureSet> FORTRESS = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("fortress"));
+
     public static final ResourceKey<StructureSet> APOTHECARY = ResourceKey
         .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("apothecary"));
-    public static final ResourceKey<StructureSet> OFFICE = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("office"));
-    public static final ResourceKey<StructureSet> ESCHER = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("escher"));
-    public static final ResourceKey<StructureSet> CASTLE = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("castle"));
-    public static final ResourceKey<StructureSet> VILLAGE = ResourceKey
-        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("village"));
+    public static final ResourceKey<StructureSet> SKY = ResourceKey
+        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("sky"));
+    public static final ResourceKey<StructureSet> SURFACE = ResourceKey
+        .create(Registries.STRUCTURE_SET, SuperSargassoSea.ID("surface"));
 
     public static void provide(BootstrapContext<StructureSet> bootstrap) {
         HolderGetter<Structure> structureRegistry = bootstrap.lookup(Registries.STRUCTURE);
         bootstrap.register(
-            FOSSIL,
+            SURFACE,
             new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.FOSSIL),
+                List.of(
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FOSSIL), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FORTRESS), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.OFFICE), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.CASTLE), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.VILLAGE), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.STARTING_HOUSE), 1)),
                 new RandomSpreadStructurePlacement(
                     20,
                     8,
                     RandomSpreadType.LINEAR,
                     14353921)));
         bootstrap.register(
-            FORTRESS,
+            SKY,
             new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.FORTRESS),
+                structureRegistry.getOrThrow(LocalStructuresProvider.ESCHER),
                 new RandomSpreadStructurePlacement(
                     20,
-                    15,
+                    8,
                     RandomSpreadType.LINEAR,
-                    5487487)));
+                    424864)));
         bootstrap.register(
             APOTHECARY,
             new StructureSet(
@@ -57,41 +58,5 @@ public class LocalStructureSetsProvider {
                     15,
                     RandomSpreadType.LINEAR,
                     432488)));
-        bootstrap.register(
-            OFFICE,
-            new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.OFFICE),
-                new RandomSpreadStructurePlacement(
-                    40,
-                    30,
-                    RandomSpreadType.LINEAR,
-                    345789)));
-        bootstrap.register(
-            ESCHER,
-            new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.ESCHER),
-                new RandomSpreadStructurePlacement(
-                    20,
-                    8,
-                    RandomSpreadType.LINEAR,
-                    424864)));
-        bootstrap.register(
-            CASTLE,
-            new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.CASTLE),
-                new RandomSpreadStructurePlacement(
-                    20,
-                    8,
-                    RandomSpreadType.LINEAR,
-                    893465)));
-        bootstrap.register(
-            VILLAGE,
-            new StructureSet(
-                structureRegistry.getOrThrow(LocalStructuresProvider.VILLAGE),
-                new RandomSpreadStructurePlacement(
-                    20,
-                    8,
-                    RandomSpreadType.LINEAR,
-                    78354)));
     }
 }

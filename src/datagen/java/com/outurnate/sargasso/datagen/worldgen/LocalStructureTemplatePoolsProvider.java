@@ -81,6 +81,8 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_library_terminators"));
     public static final ResourceKey<StructureTemplatePool> VILLAGE_ENTRY = ResourceKey
         .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("village_entry"));
+    public static final ResourceKey<StructureTemplatePool> STARTING_HOUSE = ResourceKey
+        .create(Registries.TEMPLATE_POOL, SuperSargassoSea.ID("starting_house"));
 
     @Override
     protected void provide(TemplatePoolBuilder bootstrap) {
@@ -239,5 +241,9 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             entry("village/building_library_floor"),
             entry("village/building_library_roof", 3));
         bootstrap.register(VILLAGE_ENTRY, "village/entry");
+        bootstrap.register(
+            STARTING_HOUSE,
+            entry("starting_house_1"),
+            entry("starting_house_2"));
     }
 }
