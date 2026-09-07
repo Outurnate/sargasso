@@ -28,7 +28,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         private static final int MIN_SIZE = 5;
 
         private List<Room> divideW(RandomSource random) {
-            int partition = random.nextInt(0, w - MIN_SIZE);
+            int partition = random.nextInt(MIN_SIZE, w - MIN_SIZE);
             // x = 0
             // w = 8
             // p = 2
@@ -44,7 +44,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         private List<Room> divideH(RandomSource random) {
-            int partition = random.nextInt(0, h - MIN_SIZE);
+            int partition = random.nextInt(MIN_SIZE, h - MIN_SIZE);
             return List.of(
                 new Room(x, z, w, partition),
                 new Room(x, z + partition, w, h - partition));
@@ -163,18 +163,12 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         new Weighted<>(
             List.of(
                 new Room(0, 0, 8, 16),
-                new Room(8, 0, 8, 12)),
+                new Room(7, 0, 8, 12)),
             1),
         new Weighted<>(
             List.of(
                 new Room(0, 0, 12, 16),
-                new Room(12, 2, 16, 12)),
-            1),
-        new Weighted<>(
-            List.of(
-                new Room(0, 0, 12, 16),
-                new Room(28, 2, 16, 12),
-                new Room(0, 0, 12, 16)),
+                new Room(11, 2, 16, 12)),
             1));
 
     public RuinsFeature() {
