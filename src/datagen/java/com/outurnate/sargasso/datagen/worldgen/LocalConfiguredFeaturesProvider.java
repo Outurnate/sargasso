@@ -117,7 +117,7 @@ public class LocalConfiguredFeaturesProvider {
                         OreConfiguration.target(
                             new BlockMatchTest(LocalBlocks.PETRIFIED_FLOTSAM.get()),
                             LocalBlocks.RICH_PETRIFIED_FLOTSAM.get().defaultBlockState())),
-                    17)));
+                    64)));
         bootstrap.register(
             RUINS,
             new ConfiguredFeature<>(

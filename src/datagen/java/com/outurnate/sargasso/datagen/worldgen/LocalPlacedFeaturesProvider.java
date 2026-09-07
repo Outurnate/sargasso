@@ -39,6 +39,8 @@ public class LocalPlacedFeaturesProvider {
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
     public static final ResourceKey<PlacedFeature> JUNK_ORE = ResourceKey
         .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("junk_ore"));
+    public static final ResourceKey<PlacedFeature> RUINS = ResourceKey
+        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("ruins"));
 
     public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
@@ -111,5 +113,13 @@ public class LocalPlacedFeaturesProvider {
                 InSquarePlacement.spread(),
                 HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
                 BiomeFilter.biome()));
+
+        PlacementUtils.register(
+            bootstrap,
+            RUINS,
+            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.RUINS),
+            RarityFilter.onAverageOnceEvery(80),
+            HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
+            BiomeFilter.biome());
     }
 }

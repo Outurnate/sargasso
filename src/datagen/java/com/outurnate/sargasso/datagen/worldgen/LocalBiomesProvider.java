@@ -35,7 +35,8 @@ public class LocalBiomesProvider {
     private static Biome buildDefault(
         BootstrapContext<Biome> bootstrap,
         boolean hasFloatingIslands,
-        boolean hasPortals) {
+        boolean hasPortals,
+        boolean hasRuins) {
         HolderGetter<PlacedFeature> placedFeaturesRegistry = bootstrap
             .lookup(Registries.PLACED_FEATURE);
         HolderGetter<ConfiguredWorldCarver<?>> configuredCarverRegistry = bootstrap
@@ -128,6 +129,11 @@ public class LocalBiomesProvider {
                 GenerationStep.Decoration.RAW_GENERATION,
                 LocalPlacedFeaturesProvider.PORTAL);
         }
+        if (hasRuins) {
+            generation.addFeature(
+                GenerationStep.Decoration.SURFACE_STRUCTURES,
+                LocalPlacedFeaturesProvider.RUINS);
+        }
 
         return new Biome.BiomeBuilder()
             .hasPrecipitation(true)
@@ -150,15 +156,15 @@ public class LocalBiomesProvider {
     public static void provide(BootstrapContext<Biome> bootstrap) {
         bootstrap.register(
             LOWLANDS,
-            buildDefault(bootstrap, false, false));
+            buildDefault(bootstrap, false, false, true));
         bootstrap.register(
             HILLS,
-            buildDefault(bootstrap, true, false));
+            buildDefault(bootstrap, true, false, false));
         bootstrap.register(
             PEAKS,
-            buildDefault(bootstrap, false, true));
+            buildDefault(bootstrap, false, true, false));
         bootstrap.register(
             RARE,
-            buildDefault(bootstrap, true, false));
+            buildDefault(bootstrap, true, false, false));
     }
 }
