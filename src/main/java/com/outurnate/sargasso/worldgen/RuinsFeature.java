@@ -84,6 +84,10 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             corners.add(new Corner(x + w, z + h));
             return Pair.of(corners, walls);
         }
+
+        public Room shrink(int i) {
+            return new Room(x, z, w - i, h - i);
+        }
     }
 
     private record Wall(WallDirection direction, int x, int z) {
@@ -154,6 +158,14 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
+    private static final WeightedList<List<Room>> FLOORPLANS = WeightedList.of(
+        new Weighted<>(List.of(new Room(0, 0, 16, 16)), 1),
+        new Weighted<>(
+            List.of(
+                new Room(0, 0, 8, 16),
+                new Room(8, 8, 4, 12)),
+            1));
+
     public RuinsFeature() {
         super(NoneFeatureConfiguration.CODEC);
     }
@@ -162,7 +174,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         try {
             RandomSource random = context.random();
-            placeRoom(new Room(0, 0, 16, 16), random, context.level(), context.origin());
+            placeRoom(FLOORPLANS.getRandomOrThrow(random), random, context.level(), context.origin());
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
@@ -179,41 +191,46 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private void placeRoom(Room base, RandomSource random, LevelWriter level, BlockPos origin) {
-        List<Room> rooms = List.of(base); // actual dims +1 in x/z
-        float divisionChance = 0.8F;
-        for (int i = 0; i < 3; ++i) {
-            ArrayList<Room> newRooms = new ArrayList<>();
-            for (Room room : rooms) {
-                if (random.nextFloat() < (divisionChance / i + 1)) {
-                    newRooms.addAll(room.divide(random));
-                } else {
-                    newRooms.add(room);
-                }
-            }
-            rooms = newRooms;
-        }
-
+    private void placeRoom(List<Room> bases, RandomSource random, LevelWriter level, BlockPos origin) {
         HashSet<Wall> allWalls = new HashSet<>();
         ArrayList<Corner> allCorners = new ArrayList<>();
-        for (Room room : rooms) {
-            Pair<List<Corner>, List<Wall>> elements = room.elements();
-            allCorners.addAll(elements.getFirst());
-            allWalls.addAll(elements.getSecond());
+
+        for (Room base : bases) {
+            List<Room> rooms = List.of(base.shrink(1)); // actual dims +1 in x/z, so shrink 1
+            float divisionChance = 0.8F;
+            for (int i = 0; i < 3; ++i) {
+                ArrayList<Room> newRooms = new ArrayList<>();
+                for (Room room : rooms) {
+                    if (random.nextFloat() < (divisionChance / i + 1)) {
+                        newRooms.addAll(room.divide(random));
+                    } else {
+                        newRooms.add(room);
+                    }
+                }
+                rooms = newRooms;
+            }
+
+            for (Room room : rooms) {
+                Pair<List<Corner>, List<Wall>> elements = room.elements();
+                allCorners.addAll(elements.getFirst());
+                allWalls.addAll(elements.getSecond());
+            }
+
+            // floor
+            for (int x = 0; x < base.w; ++x) {
+                for (int z = 0; z < base.h; ++z) {
+                    setBlock(level, origin.offset(x, 0, z), Blocks.WHITE_CONCRETE.defaultBlockState());
+                }
+            }
         }
 
         BlockPos wallOrigin = origin.above(1);
         for (Wall wall : allWalls) {
             placeWall(wall, random, level, wallOrigin);
         }
+
         for (Corner corner : allCorners) {
             placeCorner(corner, level, wallOrigin);
-        }
-
-        for (int x = 0; x < base.w; ++x) {
-            for (int z = 0; z < base.h; ++z) {
-                setBlock(level, origin.offset(x, 0, z), Blocks.WHITE_CONCRETE.defaultBlockState());
-            }
         }
     }
 
