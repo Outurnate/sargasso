@@ -118,7 +118,7 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             RUINS,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.RUINS),
-            RarityFilter.onAverageOnceEvery(80),
+            RarityFilter.onAverageOnceEvery(40),
             HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
             BiomeFilter.biome());
     }

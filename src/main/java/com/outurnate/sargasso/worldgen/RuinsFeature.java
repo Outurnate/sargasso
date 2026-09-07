@@ -193,7 +193,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         try {
             RandomSource random = context.random();
-            placeRooms(generateFootprint(random), random, context.level(), context.origin());
+            placeRooms(generateFootprint(random), random, context.level(), context.origin().below(2));
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
