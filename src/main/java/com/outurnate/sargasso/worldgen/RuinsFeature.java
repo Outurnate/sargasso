@@ -162,28 +162,28 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private static final WeightedList<List<Room>> FLOORPLANS = WeightedList.of(
-        new Weighted<>(List.of(new Room(0, 0, 16, 16)), 1),
-        new Weighted<>(
-            List.of(
-                new Room(0, 0, 8, 16),
-                new Room(7, 0, 8, 12)),
-            1),
-        new Weighted<>(
-            List.of(
-                new Room(0, 0, 12, 16),
-                new Room(11, 2, 16, 12)),
-            1));
-
     public RuinsFeature() {
         super(NoneFeatureConfiguration.CODEC);
+    }
+
+    private List<Room> generateFootprint(RandomSource random) {
+        List<Room> footprint = new Room(
+            0,
+            0,
+            random.nextInt(Room.MIN_SIZE, 20),
+            random.nextInt(Room.MIN_SIZE, 20)).divide(random);
+        float chanceOfLShape = 0.4F;
+        if (random.nextFloat() < chanceOfLShape) {
+            footprint.remove(random.nextInt(footprint.size()));
+        }
+        return footprint;
     }
 
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         try {
             RandomSource random = context.random();
-            placeRoom(FLOORPLANS.getRandomOrThrow(random), random, context.level(), context.origin());
+            placeRooms(generateFootprint(random), random, context.level(), context.origin());
             return true;
         } catch (Exception e) {
             SuperSargassoSea.LOGGER.error(e.toString());
@@ -200,7 +200,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private void placeRoom(List<Room> bases, RandomSource random, LevelWriter level, BlockPos origin) {
+    private void placeRooms(List<Room> bases, RandomSource random, LevelWriter level, BlockPos origin) {
         HashSet<Wall> allWalls = new HashSet<>();
         ArrayList<Corner> allCorners = new ArrayList<>();
 
