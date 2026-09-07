@@ -3,7 +3,11 @@ package com.outurnate.sargasso.worldgen;
 import com.outurnate.sargasso.SuperSargassoSea;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelWriter;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -69,7 +73,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         }
     }
 
-    private static record Wall(WallDirection direction, int x, int y) {
+    private record Wall(WallDirection direction, int x, int y) {
     }
 
     private static enum WallDirection {
@@ -101,8 +105,17 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             SuperSargassoSea.LOGGER.error(room.toString());
             for (Wall wall : room.walls()) {
                 SuperSargassoSea.LOGGER.error(wall.toString());
+                placeWall(wall, context.level(), context.origin());
             }
         }
         return true;
+    }
+
+    private void placeWall(Wall wall, LevelWriter level, BlockPos origin) {
+        this.setBlock(level, origin.offset(wall.x, 0, wall.y), switch (wall.direction) {
+            case WallDirection.NORTH_SOUTH -> Blocks.RED_CONCRETE.defaultBlockState();
+            case WallDirection.EAST_WEST -> Blocks.BLUE_CONCRETE.defaultBlockState();
+            case WallDirection.CORNER -> Blocks.GREEN_CONCRETE.defaultBlockState();
+        });
     }
 }
