@@ -17,7 +17,7 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         private static final int MIN_SIZE = 3;
 
         private List<Room> divideW(RandomSource random) {
-            int partition = random.nextInt(x + MIN_SIZE, w - MIN_SIZE);
+            int partition = random.nextInt(x + MIN_SIZE + 1, w - MIN_SIZE);
             // x = 0
             // w = 8
             // p = 2
@@ -29,14 +29,14 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             // w = 6
             return List.of(
                 new Room(x, y, partition, h),
-                new Room(x + partition - 1, y, w - partition, h));
+                new Room(x + partition, y, w - partition, h));
         }
 
         private List<Room> divideH(RandomSource random) {
             int partition = random.nextInt(y + MIN_SIZE, h - MIN_SIZE);
             return List.of(
                 new Room(x, y, w, partition),
-                new Room(x, y + partition - 1, w, h - partition));
+                new Room(x, y + partition, w, h - partition));
         }
 
         public List<Room> divide(RandomSource random) {
@@ -59,11 +59,11 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
             ArrayList<Wall> walls = new ArrayList<>();
             for (int xc = 1; xc < w - 1; ++xc) {
                 walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y));
-                walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y + h - 1));
+                walls.add(new Wall(WallDirection.EAST_WEST, x + xc, y + h));
             }
             for (int yc = 1; yc < h - 1; ++yc) {
                 walls.add(new Wall(WallDirection.NORTH_SOUTH, x, y + yc));
-                walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w - 1, y + yc));
+                walls.add(new Wall(WallDirection.NORTH_SOUTH, x + w, y + yc));
             }
             // walls.add(new Wall(WallDirection.CORNER, x, y));
             // walls.add(new Wall(WallDirection.CORNER, x + w - 1, y));
