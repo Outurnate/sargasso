@@ -166,17 +166,27 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private List<Room> generateFootprint(RandomSource random) {
-        List<Room> footprint = new Room(
-            0,
-            0,
-            random.nextInt(Room.MIN_SIZE * 2, 20),
-            random.nextInt(Room.MIN_SIZE * 2, 20)).divideH(random).stream()
-                .flatMap(rooms -> rooms.divideW(random).stream()).toList();
-        float chanceOfLShape = 0.4F;
-        if (random.nextFloat() < chanceOfLShape) {
-            footprint.remove(random.nextInt(footprint.size()));
+        float chanceOfSplit = 0.4F;
+        if (random.nextFloat() < chanceOfSplit) {
+            return List.of(
+                new Room(
+                    0,
+                    0,
+                    random.nextInt(Room.MIN_SIZE * 2, Room.MIN_SIZE * 4),
+                    random.nextInt(Room.MIN_SIZE * 2, Room.MIN_SIZE * 4)),
+                new Room(
+                    Room.MIN_SIZE * 4,
+                    Room.MIN_SIZE * 4,
+                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 8),
+                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 8)));
+        } else {
+            return List.of(
+                new Room(
+                    0,
+                    0,
+                    random.nextInt(Room.MIN_SIZE * 2, 20),
+                    random.nextInt(Room.MIN_SIZE * 2, 20)));
         }
-        return footprint;
     }
 
     @Override
