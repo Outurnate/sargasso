@@ -174,6 +174,13 @@ public class LocalBlocks {
         p -> p
             .mapColor(MapColor.GRASS).strength(0.6F).sound(SoundType.GRASS));
 
+    public static final DeferredBlock<Block> BETA_MOSSY_COBBLE = REGISTRY.registerBlock(
+        "mossy_cobblestone",
+        p -> new MimicBlock(Blocks.MOSSY_COBBLESTONE, p),
+        p -> p
+            .mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
+            .strength(2.0F, 6.0F));
+
     public static final DeferredBlock<Block> BETA_CHEST = REGISTRY.registerBlock(
         "beta_chest",
         p -> new BetaChestBlock(

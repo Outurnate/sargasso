@@ -167,12 +167,12 @@ public class LocalBiomesProvider {
             buildDefault(bootstrap, false, false, true));
         bootstrap.register(
             HILLS,
-            buildDefault(bootstrap, true, false, false));
+            buildDefault(bootstrap, true, false, true));
         bootstrap.register(
             PEAKS,
             buildDefault(bootstrap, false, true, false));
         bootstrap.register(
             RARE,
-            buildDefault(bootstrap, true, false, false));
+            buildDefault(bootstrap, true, false, true));
     }
 }

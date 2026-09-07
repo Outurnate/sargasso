@@ -137,6 +137,9 @@ public class LocalLootTableProvider extends LootTableProvider {
             this.add(LocalBlocks.SORTING_BIN.get(), this.createSingleItemTable(LocalItems.SORTING_BIN.get()));
             this.add(LocalBlocks.BETA_CHEST.get(), this.createSingleItemTable(Items.CHEST));
             this.add(
+                LocalBlocks.BETA_MOSSY_COBBLE.get(),
+                this.createSingleItemTable(Blocks.MOSSY_COBBLESTONE));
+            this.add(
                 LocalBlocks.ALPHA_GRASS.get(),
                 this.createSilkTouchDispatchTable(
                     Blocks.GRASS_BLOCK,
