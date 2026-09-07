@@ -1,5 +1,4 @@
 - structure: shipwrecks
-- structure: starmetal ruins
 - escher structure loot table
 - village structure loot
 - review default tagging
@@ -8,6 +7,7 @@
 - alpha grass
 
 DONE
+- structure: starmetal ruins
 - jar o' spiders
 - something that uses power from your inventory
 - structure: look for removed game structures

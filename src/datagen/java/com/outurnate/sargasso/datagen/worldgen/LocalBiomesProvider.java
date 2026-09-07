@@ -94,10 +94,6 @@ public class LocalBiomesProvider {
         mobs.addSpawn(
             MobCategory.MONSTER,
             10,
-            new MobSpawnSettings.SpawnerData(EntityType.BREEZE, 1, 1));
-        mobs.addSpawn(
-            MobCategory.MONSTER,
-            10,
             new MobSpawnSettings.SpawnerData(EntityType.BLAZE, 1, 1));
         BiomeGenerationSettings.Builder generation = new BiomeGenerationSettings.Builder(
             placedFeaturesRegistry,

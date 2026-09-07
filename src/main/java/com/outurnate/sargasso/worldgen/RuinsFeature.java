@@ -170,15 +170,15 @@ public class RuinsFeature extends Feature<NoneFeatureConfiguration> {
         if (random.nextFloat() < chanceOfSplit) {
             return List.of(
                 new Room(
-                    0,
-                    0,
+                    Room.MIN_SIZE * -2,
+                    Room.MIN_SIZE * -2,
                     random.nextInt(Room.MIN_SIZE * 2, Room.MIN_SIZE * 4),
                     random.nextInt(Room.MIN_SIZE * 2, Room.MIN_SIZE * 4)),
                 new Room(
-                    Room.MIN_SIZE * 4,
-                    Room.MIN_SIZE * 4,
-                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 8),
-                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 8)));
+                    Room.MIN_SIZE * 2,
+                    Room.MIN_SIZE * 2,
+                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 6),
+                    random.nextInt(Room.MIN_SIZE * 4, Room.MIN_SIZE * 6)));
         } else {
             return List.of(
                 new Room(

@@ -131,13 +131,13 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             BRICK_ORE,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.BRICK_ORE),
-            orePlacement(40));
+            orePlacement(80));
 
         PlacementUtils.register(
             bootstrap,
             PRISMARINE_ORE,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PRISMARINE_ORE),
-            orePlacement(40));
+            orePlacement(80));
 
         PlacementUtils.register(
             bootstrap,
@@ -149,7 +149,7 @@ public class LocalPlacedFeaturesProvider {
             bootstrap,
             COPPER_ORE,
             configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.COPPER_ORE),
-            orePlacement(40));
+            orePlacement(80));
 
         PlacementUtils.register(
             bootstrap,
