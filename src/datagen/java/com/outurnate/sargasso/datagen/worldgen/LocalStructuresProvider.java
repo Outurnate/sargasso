@@ -184,7 +184,7 @@ public class LocalStructuresProvider {
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.STARTING_HOUSE),
                 1,
-                ConstantHeight.of(VerticalAnchor.absolute(-1)),
+                ConstantHeight.of(VerticalAnchor.absolute(0)),
                 false,
                 Types.WORLD_SURFACE_WG));
         bootstrap.register(
@@ -193,11 +193,11 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.SHIPWRECK),
                 1,
-                ConstantHeight.of(VerticalAnchor.absolute(-10)),
+                ConstantHeight.of(VerticalAnchor.absolute(-9)),
                 false,
                 Types.WORLD_SURFACE_WG));
     }
