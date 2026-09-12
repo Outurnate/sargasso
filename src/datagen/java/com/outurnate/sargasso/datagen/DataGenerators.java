@@ -21,7 +21,7 @@ import com.outurnate.sargasso.datagen.worldgen.LocalStructureTemplatePoolsProvid
 import com.outurnate.sargasso.datagen.worldgen.LocalStructuresProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalTimelinesProvider;
 import com.outurnate.sargasso.datagen.worldgen.LocalWorldClocksProvider;
-
+import java.util.Set;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.api.distmarker.Dist;
@@ -75,7 +75,8 @@ public class DataGenerators {
                 .add(Registries.PAINTING_VARIANT, LocalPaintingVariantsProvider::provide)
                 .add(Registries.VILLAGER_TRADE, LocalTradesProvider::provideTrades)
                 .add(Registries.TRADE_SET, LocalTradesProvider::provideTradeSets)
-                .add(Registries.ENCHANTMENT, LocalEnchantmentProvider::provide));
+                .add(Registries.ENCHANTMENT, LocalEnchantmentProvider::provide),
+            Set.of("minecraft", SuperSargassoSea.MODID));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
