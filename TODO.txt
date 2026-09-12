@@ -1,9 +1,9 @@
 - escher structure loot table
 - village structure loot
-- review enchantments
 - balancing pass
 
 DONE
+- review enchantments
 - review default tagging
 - alpha grass
 - structure: shipwrecks

@@ -2,8 +2,7 @@
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
-import com.outurnate.sargasso.datagen.LocalLootTableProvider;
-
+import com.outurnate.sargasso.datagen.loot.VillageLoot;
 import java.util.List;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -93,7 +92,7 @@ public class LocalStructureProcessorListProvider {
                                     AlwaysTrueTest.INSTANCE,
                                     PosAlwaysTrueTest.INSTANCE,
                                     Blocks.SUSPICIOUS_SAND.defaultBlockState(),
-                                    new AppendLoot(LocalLootTableProvider.BONE)))),
+                                    new AppendLoot(VillageLoot.BONE)))),
                         ConstantInt.of(10)))));
     }
 }

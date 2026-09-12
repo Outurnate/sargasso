@@ -4,6 +4,9 @@ package com.outurnate.sargasso.datagen;
 import com.klikli_dev.modonomicon.api.datagen.AbstractModonomiconLanguageProvider;
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconLanguageProvider;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.loot.EscherLoot;
+import com.outurnate.sargasso.datagen.loot.ShipwreckLoot;
+import com.outurnate.sargasso.datagen.loot.VillageLoot;
 import com.outurnate.sargasso.loot.FlimFlamLore;
 import com.outurnate.sargasso.loot.LoreSet;
 import com.outurnate.sargasso.registry.LocalBlocks;
@@ -105,27 +108,17 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
         this.addMisc(LocalSoundDefinitionsProvider.hammer_return, "Hammer returns");
         this.addMisc(LocalSoundDefinitionsProvider.hammer_throw, "Hammer clangs");
         this.addMisc(LocalJukeboxSongProvider.unchecked, "Tarn Kazsuhara - Unchecked (Tapeless Mix)");
-        this.addCustomPotion(
-            LocalLootTableProvider.LocalLootTableSubProvider.POTION_BHJ,
-            "Bone Hurting Juice");
-        this.addCustomPotion(
-            LocalLootTableProvider.LocalLootTableSubProvider.POTION_FIZZY,
-            "Fizzy Lifting Drink");
-        this.addMisc(
-            LocalLootTableProvider.LocalLootTableSubProvider.LORE_FIZZY,
-            "Burp, Charlie! You've got to burp!");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.LORE_BHJ, "oof ouch my bones");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_LIAR_PANTS, "Liar's Pants");
-        this.addMisc(
-            LocalLootTableProvider.LocalLootTableSubProvider.NAME_ROCKET_BOOTS,
-            "Dwarven Rocket Boots");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_SHRINK_HELM, "Sir George's Helm");
-        this.addMisc(
-            LocalLootTableProvider.LocalLootTableSubProvider.LORE_SHRINK_HELM,
-            "The helm of Sire George the shrunk, a legendary knight");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_0, "Astral Hammer");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_1, "Grabthar's Hammer");
-        this.addMisc(LocalLootTableProvider.LocalLootTableSubProvider.NAME_HAMMER_2, "Skullcracker");
+        this.addCustomPotion(ShipwreckLoot.POTION_BHJ, "Bone Hurting Juice");
+        this.addCustomPotion(EscherLoot.POTION_FIZZY, "Fizzy Lifting Drink");
+        this.addMisc(EscherLoot.LORE_FIZZY, "Burp, Charlie! You've got to burp!");
+        this.addMisc(ShipwreckLoot.LORE_BHJ, "oof ouch my bones");
+        this.addMisc(VillageLoot.NAME_LIAR_PANTS, "Liar's Pants");
+        this.addMisc(EscherLoot.NAME_ROCKET_BOOTS, "Dwarven Rocket Boots");
+        this.addMisc(EscherLoot.NAME_SHRINK_HELM, "Sir George's Helm");
+        this.addMisc(EscherLoot.LORE_SHRINK_HELM, "The helm of Sire George the shrunk, a legendary knight");
+        this.addMisc(EscherLoot.NAME_HAMMER_0, "Astral Hammer");
+        this.addMisc(EscherLoot.NAME_HAMMER_1, "Grabthar's Hammer");
+        this.addMisc(EscherLoot.NAME_HAMMER_2, "Skullcracker");
 
         this.add(
             "chat." + SuperSargassoSea.MODID + ".no_toast",

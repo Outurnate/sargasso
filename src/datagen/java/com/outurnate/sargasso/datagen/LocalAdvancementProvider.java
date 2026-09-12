@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.datagen.loot.AdvancementLoot;
 import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.repository.LocalAdvancements;
 import com.outurnate.sargasso.repository.LocalDimensions;
@@ -85,7 +86,7 @@ public class LocalAdvancementProvider extends AdvancementProvider {
                 .addCriterion(
                     "enter_overworld",
                     ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(Level.OVERWORLD))
-                .rewards(AdvancementRewards.Builder.loot(LocalLootTableProvider.ATLAS)));
+                .rewards(AdvancementRewards.Builder.loot(AdvancementLoot.ATLAS)));
         AdvancementHolder toast = advancement(
             LocalAdvancements.TOAST,
             new ItemStackTemplate(LocalItems.TOASTER.get()),
