@@ -49,6 +49,8 @@ public class LocalStructuresProvider {
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("village"));
     public static final ResourceKey<Structure> STARTING_HOUSE = ResourceKey
         .create(Registries.STRUCTURE, SuperSargassoSea.ID("starting_house"));
+    public static final ResourceKey<Structure> SHIPWRECK = ResourceKey
+        .create(Registries.STRUCTURE, SuperSargassoSea.ID("shipwreck"));
 
     public static void provide(BootstrapContext<Structure> bootstrap) {
         HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
@@ -183,6 +185,19 @@ public class LocalStructuresProvider {
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.STARTING_HOUSE),
                 1,
                 ConstantHeight.of(VerticalAnchor.absolute(-1)),
+                false,
+                Types.WORLD_SURFACE_WG));
+        bootstrap.register(
+            SHIPWRECK,
+            new JigsawStructure(
+                new StructureSettings.Builder(
+                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
+                        .generationStep(Decoration.SURFACE_STRUCTURES)
+                        .terrainAdapation(TerrainAdjustment.NONE)
+                        .build(),
+                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.SHIPWRECK),
+                1,
+                ConstantHeight.of(VerticalAnchor.absolute(-10)),
                 false,
                 Types.WORLD_SURFACE_WG));
     }

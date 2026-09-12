@@ -29,12 +29,13 @@ public class LocalStructureSetsProvider {
             SURFACE,
             new StructureSet(
                 List.of(
-                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FOSSIL), 1),
-                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FORTRESS), 1),
-                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.OFFICE), 1),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FOSSIL), 10),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.FORTRESS), 10),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.OFFICE), 10),
                     entry(structureRegistry.getOrThrow(LocalStructuresProvider.CASTLE), 1),
-                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.VILLAGE), 1),
-                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.STARTING_HOUSE), 1)),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.VILLAGE), 10),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.STARTING_HOUSE), 10),
+                    entry(structureRegistry.getOrThrow(LocalStructuresProvider.SHIPWRECK), 1)),
                 new RandomSpreadStructurePlacement(
                     20,
                     8,

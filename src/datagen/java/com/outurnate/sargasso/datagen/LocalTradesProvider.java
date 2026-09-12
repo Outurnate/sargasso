@@ -106,6 +106,7 @@ public class LocalTradesProvider extends VillagerTradesTagsProvider {
     }
 
     // function is level -> cost
+    @SuppressWarnings("deprecation")
     private static Int2ObjectArrayMap<List<VillagerTrade>> makeTradesForProfession(
         Function<Integer, Pair<Item, Integer>> currency) {
         Function<Integer, TradeCost> currencyWants = (amount) -> {
