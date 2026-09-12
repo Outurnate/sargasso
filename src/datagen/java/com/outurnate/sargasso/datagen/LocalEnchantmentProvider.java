@@ -24,5 +24,6 @@ public class LocalEnchantmentProvider {
                 original.exclusiveSet(),
                 original.effects());
         });
+        Enchantments.bootstrap(patchingBootstrap);
     }
 }
