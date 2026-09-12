@@ -21,7 +21,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 public class ShipwreckLoot extends LootProvider {
     public static final ResourceKey<LootTable> SHIPWRECK = ResourceKey.create(
         Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("chests/shipwreck")); // TODO
+        SuperSargassoSea.ID("chests/shipwreck"));
 
     public static final TranslatableContents LORE_BHJ = l("bhj");
     public static final String POTION_BHJ = "bhj";

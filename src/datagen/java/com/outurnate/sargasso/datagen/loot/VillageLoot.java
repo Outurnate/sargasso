@@ -39,7 +39,7 @@ public class VillageLoot extends LootProvider {
 
     public static final ResourceKey<LootTable> CHEST = ResourceKey.create(
         Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("village/chest")); // TODO update NBT
+        SuperSargassoSea.ID("village/chest"));
 
     public static final TranslatableContents NAME_LIAR_PANTS = n("liar_pants");
 
