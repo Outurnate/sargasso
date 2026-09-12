@@ -74,7 +74,8 @@ public class DataGenerators {
                 .add(Registries.CONFIGURED_CARVER, LocalConfiguredCarversProvider::provide)
                 .add(Registries.PAINTING_VARIANT, LocalPaintingVariantsProvider::provide)
                 .add(Registries.VILLAGER_TRADE, LocalTradesProvider::provideTrades)
-                .add(Registries.TRADE_SET, LocalTradesProvider::provideTradeSets));
+                .add(Registries.TRADE_SET, LocalTradesProvider::provideTradeSets)
+                .add(Registries.ENCHANTMENT, LocalEnchantmentProvider::provide));
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);

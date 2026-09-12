@@ -17,10 +17,24 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 
 public class LocalBiomeTagsProvider extends BiomeTagsProvider {
+    public static final TagKey<Biome> HAS_FOSSIL = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/fossil"));
+    public static final TagKey<Biome> HAS_FORTRESS = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/fortress"));
     public static final TagKey<Biome> HAS_APOTHECARY = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/apothecary"));
+    public static final TagKey<Biome> HAS_OFFICE = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/office"));
+    public static final TagKey<Biome> HAS_ESCHER = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/escher"));
     public static final TagKey<Biome> HAS_CASTLE = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/castle"));
+    public static final TagKey<Biome> HAS_VILLAGE = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/village"));
+    public static final TagKey<Biome> HAS_STARTING_HOUSE = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/starting_house"));
+    public static final TagKey<Biome> HAS_SHIPWRECK = TagKey
+        .create(Registries.BIOME, SuperSargassoSea.ID("has_structure/shipwreck"));
     public static final TagKey<Biome> SEA = TagKey
         .create(Registries.BIOME, SuperSargassoSea.ID("sea"));
 
@@ -30,9 +44,23 @@ public class LocalBiomeTagsProvider extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider registries) {
+        this.tag(HAS_FOSSIL)
+            .addTag(SEA);
+        this.tag(HAS_FORTRESS)
+            .add(LocalBiomesProvider.PEAKS);
         this.tag(HAS_APOTHECARY)
             .add(Biomes.SWAMP);
+        this.tag(HAS_OFFICE)
+            .add(LocalBiomesProvider.LOWLANDS);
+        this.tag(HAS_ESCHER)
+            .add(LocalBiomesProvider.RARE);
         this.tag(HAS_CASTLE)
+            .add(LocalBiomesProvider.LOWLANDS);
+        this.tag(HAS_VILLAGE)
+            .add(LocalBiomesProvider.LOWLANDS);
+        this.tag(HAS_STARTING_HOUSE)
+            .add(LocalBiomesProvider.LOWLANDS);
+        this.tag(HAS_SHIPWRECK)
             .add(LocalBiomesProvider.LOWLANDS);
         this.tag(SEA)
             .add(LocalBiomesProvider.HILLS)

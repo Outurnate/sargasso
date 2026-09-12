@@ -124,5 +124,8 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
         this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "villager_job_sites")))
             .add(LocalItems.SORTING_BIN.get())
             .replace(false);
+        this.tag(ItemTags.MELEE_WEAPON_ENCHANTABLE)
+            .add(LocalItems.HAMMER.get())
+            .replace(false);
     }
 }

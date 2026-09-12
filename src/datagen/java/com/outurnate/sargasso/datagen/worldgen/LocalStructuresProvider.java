@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
@@ -60,7 +59,7 @@ public class LocalStructuresProvider {
             FOSSIL,
             new NetherFossilStructure(
                 new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.SEA))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FOSSIL))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
@@ -69,7 +68,7 @@ public class LocalStructuresProvider {
             FORTRESS,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FORTRESS))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
@@ -95,7 +94,7 @@ public class LocalStructuresProvider {
             OFFICE,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_OFFICE))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_BOX)
                         .spawnOverrides(
@@ -120,7 +119,7 @@ public class LocalStructuresProvider {
             ESCHER,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_ESCHER))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .spawnOverrides(
                             Map.of(
@@ -164,7 +163,7 @@ public class LocalStructuresProvider {
             VILLAGE,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_VILLAGE))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .spawnOverrides(Map.of())
@@ -178,7 +177,7 @@ public class LocalStructuresProvider {
             STARTING_HOUSE,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_STARTING_HOUSE))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
@@ -191,7 +190,7 @@ public class LocalStructuresProvider {
             SHIPWRECK,
             new JigsawStructure(
                 new StructureSettings.Builder(
-                    HolderSet.direct(biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)))
+                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_SHIPWRECK))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.BEARD_THIN)
                         .build(),
