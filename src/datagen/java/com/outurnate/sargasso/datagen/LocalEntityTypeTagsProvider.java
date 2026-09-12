@@ -1,6 +1,7 @@
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.registry.LocalEntities;
 import com.outurnate.sargasso.repository.LocalTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -8,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 
 public class LocalEntityTypeTagsProvider extends EntityTypeTagsProvider {
@@ -35,5 +37,9 @@ public class LocalEntityTypeTagsProvider extends EntityTypeTagsProvider {
             .add(EntityType.ZOMBIE)
             .add(EntityType.ZOMBIE_VILLAGER)
             .add(EntityType.ZOMBIFIED_PIGLIN);
+        this.tag(EntityTypeTags.IMPACT_PROJECTILES)
+            .add(LocalEntities.HAMMER.get())
+            .add(LocalEntities.REDSTONE_EMP.get())
+            .replace(false);
     }
 }

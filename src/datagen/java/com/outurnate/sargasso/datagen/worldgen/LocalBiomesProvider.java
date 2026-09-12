@@ -120,16 +120,16 @@ public class LocalBiomesProvider {
             LocalPlacedFeaturesProvider.PRISMARINE_ORE);
         if (hasFloatingIslands) {
             generation.addFeature(
-                GenerationStep.Decoration.RAW_GENERATION,
+                GenerationStep.Decoration.SURFACE_STRUCTURES,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_TAIGA);
             generation.addFeature(
-                GenerationStep.Decoration.RAW_GENERATION,
+                GenerationStep.Decoration.SURFACE_STRUCTURES,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_PLAINS);
             generation.addFeature(
-                GenerationStep.Decoration.RAW_GENERATION,
+                GenerationStep.Decoration.SURFACE_STRUCTURES,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_TAIGA_BARE);
             generation.addFeature(
-                GenerationStep.Decoration.RAW_GENERATION,
+                GenerationStep.Decoration.SURFACE_STRUCTURES,
                 LocalPlacedFeaturesProvider.FLOATING_ISLAND_PLAINS_BARE);
         }
         if (hasPortals) {

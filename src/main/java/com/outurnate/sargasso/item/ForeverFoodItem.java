@@ -4,13 +4,14 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.level.Level;
 
 public class ForeverFoodItem extends Item {
+    private static final int TARGET_HUNGY = 17;
+
     public ForeverFoodItem(Properties properties) {
         super(properties);
     }
@@ -33,13 +34,18 @@ public class ForeverFoodItem extends Item {
             int waitTicksBeforeUseEffects = (int) (self.consumeTicks() * (14.0F / 32.0F));
             if ((self.consumeTicks() - ticksRemaining) > waitTicksBeforeUseEffects
                 && ticksRemaining % 8 == 0) {
-                if (livingEntity instanceof Player player
-                    && itemStack.get(DataComponents.FOOD) instanceof FoodProperties food) {
+                if (livingEntity instanceof Player player) {
                     FoodData foodData = player.getFoodData();
-                    float originalSaturation = foodData.getSaturationLevel();
-                    foodData.eat(food);
-                    foodData.setSaturation(originalSaturation / 2.0F);
-                    foodData.addExhaustion(0.1F);
+                    foodData.setSaturation(foodData.getSaturationLevel() - 1.0F);
+                    int originalFoodLevel = foodData.getFoodLevel();
+                    if (originalFoodLevel > TARGET_HUNGY) {
+                        foodData.setFoodLevel(originalFoodLevel - 1);
+                    } else if (originalFoodLevel < TARGET_HUNGY) {
+                        foodData.setFoodLevel(originalFoodLevel + 1);
+                    } else {
+                        foodData.setFoodLevel(originalFoodLevel);
+                        foodData.addExhaustion(0.1F);
+                    }
                 }
                 livingEntity.useItemRemaining += 8;
             }

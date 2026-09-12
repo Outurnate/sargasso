@@ -73,5 +73,56 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
         this.tag(ItemTags.FOOT_ARMOR)
             .add(LocalItems.STUDDED_LEATHER_BOOTS.get())
             .replace(false);
+        this.tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
+            .add(LocalItems.STUDDED_LEATHER_BOOTS.get())
+            .add(LocalItems.STUDDED_LEATHER_LEGGINGS.get())
+            .add(LocalItems.STUDDED_LEATHER_CHESTPLATE.get())
+            .add(LocalItems.STUDDED_LEATHER_HELMET.get())
+            .replace(false);
+        this.tag(ItemTags.GAZE_DISGUISE_EQUIPMENT)
+            .add(LocalItems.PYLON.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "enchantable/knockback")))
+            .add(LocalItems.HAMMER.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_beef")))
+            .add(LocalItems.INFINITE_BEEF.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_chicken")))
+            .add(LocalItems.INFINITE_CHICKEN.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_cod")))
+            .add(LocalItems.INFINITE_COD.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_mutton")))
+            .add(LocalItems.INFINITE_MUTTON.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_porkchop")))
+            .add(LocalItems.INFINITE_PORK.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_rabbit")))
+            .add(LocalItems.INFINITE_RABBIT.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "foods/cooked_salmon")))
+            .add(LocalItems.INFINITE_SALMON.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "ingots")))
+            .add(LocalItems.STARMETAL_INGOT.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "music_discs")))
+            .add(LocalItems.RECORD_UNCHECKED.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "ores")))
+            .add(LocalItems.RICH_PETRIFIED_FLOTSAM.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "tools/melee_weapon")))
+            .add(LocalItems.HAMMER.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "tools/ranged_weapon")))
+            .add(LocalItems.HAMMER.get())
+            .replace(false);
+        this.tag(ItemTags.create(Identifier.fromNamespaceAndPath("c", "villager_job_sites")))
+            .add(LocalItems.SORTING_BIN.get())
+            .replace(false);
     }
 }

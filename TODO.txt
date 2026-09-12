@@ -1,12 +1,12 @@
-- structure: shipwrecks
 - escher structure loot table
 - village structure loot
-- review default tagging
 - review enchantments
 - balancing pass
-- alpha grass
 
 DONE
+- review default tagging
+- alpha grass
+- structure: shipwrecks
 - structure: starmetal ruins
 - jar o' spiders
 - something that uses power from your inventory
