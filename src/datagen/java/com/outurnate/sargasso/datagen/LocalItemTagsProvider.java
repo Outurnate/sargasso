@@ -10,10 +10,15 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 
 public class LocalItemTagsProvider extends ItemTagsProvider {
+    public static final TagKey<Item> ENCHANTABLE_LOYALTY = ItemTags
+        .create(Identifier.withDefaultNamespace("enchantable/loyalty"));
+
     public LocalItemTagsProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
         super(output, lookupProvider, SuperSargassoSea.MODID);
     }
@@ -125,6 +130,10 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
             .add(LocalItems.SORTING_BIN.get())
             .replace(false);
         this.tag(ItemTags.MELEE_WEAPON_ENCHANTABLE)
+            .add(LocalItems.HAMMER.get())
+            .replace(false);
+        this.tag(ENCHANTABLE_LOYALTY)
+            .addTag(ItemTags.TRIDENT_ENCHANTABLE)
             .add(LocalItems.HAMMER.get())
             .replace(false);
     }

@@ -76,7 +76,8 @@ public class DataGenerators {
                 .add(Registries.VILLAGER_TRADE, LocalTradesProvider::provideTrades)
                 .add(Registries.TRADE_SET, LocalTradesProvider::provideTradeSets)
                 .add(Registries.ENCHANTMENT, LocalEnchantmentProvider::provide),
-            Set.of("minecraft", SuperSargassoSea.MODID));
+            Set.of("minecraft", SuperSargassoSea.MODID)); // normally a bad idea, but to override the loyalty
+                                                          // enchant, necessary
         event.createProvider(LocalDamageTypesTagsProvider::new);
         event.createProvider(LocalTimelineTagsProvider::new);
         event.createProvider(LocalItemTagsProvider::new);
