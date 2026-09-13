@@ -58,7 +58,7 @@ public class VillageLoot extends LootProvider {
             POT,
             LootTable.lootTable().withPool(
                 LootPool.lootPool()
-                    .setRolls(UniformGenerator.between(3, 7))
+                    .setRolls(ConstantValue.exactly(1.0F))
                     .add(LootItem.lootTableItem(Items.BONE).setWeight(1))
                     .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
                     .add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
@@ -68,14 +68,7 @@ public class VillageLoot extends LootProvider {
                     .add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
                     .add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
                     .add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))
-                    .add(generateTerribleTool(Items.WOODEN_AXE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_HOE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_PICKAXE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SHOVEL).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SPEAR).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SWORD).setWeight(1))
-                    .add(generateLiarsPants().setWeight(1))));
+                    .add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))));
         output.accept(
             CHEST,
             LootTable.lootTable().withPool(

@@ -7,7 +7,7 @@ import sys
 import nbtlib
 
 if not (len(sys.argv) == 3 or len(sys.argv) == 4):
-    print("Usage: add_loot.py <structure.nbt> <loot_table_id> [block_id]")
+    print("Usage: add_loot <structure.nbt> <loot_table_id> [block_id]")
     sys.exit(1)
 
 path = sys.argv[1]

@@ -1,0 +1,60 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["nbtlib"]
+# ///
+
+import sys
+import nbtlib
+
+if len(sys.argv) != 2:
+    print("Usage: setup-vault <structure.nbt>")
+    sys.exit(1)
+
+path = sys.argv[1]
+
+STANDARD_LOOT_TABLE = "sargasso:chests/escher"
+OMINOUS_LOOT_TABLE = "sargasso:chests/escher_ominous"
+
+STANDARD_KEY = "sargasso:key"
+OMINOUS_KEY = "minecraft:key_ominous"
+
+nbt = nbtlib.load(path)
+
+count = 0
+
+for block in nbt["blocks"]:
+    be = block.get("nbt")
+
+    if not be or be.get("id") != "minecraft:vault":
+        continue
+
+    config = be.setdefault("config", nbtlib.Compound())
+
+    state = block.get("state")
+
+    if state:
+        pass
+
+    palette = nbt["palette"]
+    state_data = palette[state]
+
+    ominous = state_data.get("Properties", {}).get("ominous") == "true"
+
+    if ominous:
+        config["loot_table"] = nbtlib.String(OMINOUS_LOOT_TABLE)
+        config["key_item"] = nbtlib.Compound({
+            "count": nbtlib.Int(1),
+            "id": nbtlib.String(OMINOUS_KEY),
+        })
+    else:
+        config["loot_table"] = nbtlib.String(STANDARD_LOOT_TABLE)
+        config["key_item"] = nbtlib.Compound({
+            "count": nbtlib.Int(1),
+            "id": nbtlib.String(STANDARD_KEY),
+        })
+
+    count += 1
+
+nbt.save()
+
+print(f"Updated {count} vault(s) in {path}")
