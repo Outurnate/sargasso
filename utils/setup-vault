@@ -16,7 +16,7 @@ STANDARD_LOOT_TABLE = "sargasso:chests/escher"
 OMINOUS_LOOT_TABLE = "sargasso:chests/escher_ominous"
 
 STANDARD_KEY = "sargasso:key"
-OMINOUS_KEY = "minecraft:key_ominous"
+OMINOUS_KEY = "sargasso:key_ominous"
 
 nbt = nbtlib.load(path)
 
@@ -43,13 +43,11 @@ for block in nbt["blocks"]:
     if ominous:
         config["loot_table"] = nbtlib.String(OMINOUS_LOOT_TABLE)
         config["key_item"] = nbtlib.Compound({
-            "count": nbtlib.Int(1),
             "id": nbtlib.String(OMINOUS_KEY),
         })
     else:
         config["loot_table"] = nbtlib.String(STANDARD_LOOT_TABLE)
         config["key_item"] = nbtlib.Compound({
-            "count": nbtlib.Int(1),
             "id": nbtlib.String(STANDARD_KEY),
         })
 
