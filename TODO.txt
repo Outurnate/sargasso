@@ -1,8 +1,8 @@
-- escher structure loot table
-- village structure loot
 - balancing pass
 
 DONE
+- escher structure loot table
+- village structure loot
 - review enchantments
 - review default tagging
 - alpha grass

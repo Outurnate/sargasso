@@ -247,6 +247,6 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             STARTING_HOUSE,
             entry("starting_house_1"),
             entry("starting_house_2"));
-        bootstrap.register(SHIPWRECK, entry("shipwreck", LocalStructureProcessorListProvider.REMOVE_CHESTS));
+        bootstrap.register(SHIPWRECK, "shipwreck");
     }
 }

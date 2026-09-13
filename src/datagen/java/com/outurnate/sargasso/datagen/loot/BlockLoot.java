@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.EntryGroup;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -30,6 +30,16 @@ public class BlockLoot extends BlockLootSubProvider {
     }
 
     private LootTable.Builder createFlotsamOreDrops(Block block) {
+        LootTable nonSilkTouch = LootTable.lootTable().withPool(
+            LootPool.lootPool()
+                .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                .add(createOreEntry(block, LocalItems.LEAKY_BUCKET, 2.0F))
+                .add(createOreEntry(block, LocalItems.RUSTED_BOLT, 4.0F))
+                .add(createOreEntry(block, LocalItems.BROKEN_COG, 3.0F))
+                .add(createOreEntry(block, LocalItems.LOOSE_WIRE, 5.0F))
+                .add(createOreEntry(block, LocalItems.CIRCUIT_BOARD, 1.0F))
+                .add(createOreEntry(block, LocalItems.CLOCKSPRING, 1.0F)))
+            .build();
         return LootTable.lootTable()
             .withPool(
                 LootPool.lootPool()
@@ -37,14 +47,7 @@ public class BlockLoot extends BlockLootSubProvider {
                     .add(
                         LootItem.lootTableItem(block)
                             .when(this.hasSilkTouch())
-                            .otherwise(
-                                EntryGroup.list(
-                                    createOreEntry(block, LocalItems.LEAKY_BUCKET, 2.0F),
-                                    createOreEntry(block, LocalItems.RUSTED_BOLT, 4.0F),
-                                    createOreEntry(block, LocalItems.BROKEN_COG, 3.0F),
-                                    createOreEntry(block, LocalItems.LOOSE_WIRE, 5.0F),
-                                    createOreEntry(block, LocalItems.CIRCUIT_BOARD, 1.0F),
-                                    createOreEntry(block, LocalItems.CLOCKSPRING, 1.0F)))));
+                            .otherwise(NestedLootTable.inlineLootTable(nonSilkTouch))));
     }
 
     private LootPoolEntryContainer.Builder<?> createOreEntry(Block block, ItemLike ore, float max) {
@@ -53,7 +56,7 @@ public class BlockLoot extends BlockLootSubProvider {
         return (LootPoolEntryContainer.Builder<?>) this.applyExplosionDecay(
             block,
             LootItem.lootTableItem(ore)
-                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, max)))
+                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, max)))
                 .apply(ApplyBonusCount.addOreBonusCount(enchantments.getOrThrow(Enchantments.FORTUNE))));
     }
 

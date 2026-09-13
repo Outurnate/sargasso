@@ -192,7 +192,7 @@ public class LocalStructuresProvider {
                 new StructureSettings.Builder(
                     biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_SHIPWRECK))
                         .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
+                        .terrainAdapation(TerrainAdjustment.NONE)
                         .build(),
                 structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.SHIPWRECK),
                 1,
