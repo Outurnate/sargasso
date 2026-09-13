@@ -6,6 +6,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import java.util.function.BiConsumer;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.MutableComponent;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -29,24 +31,49 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
+import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction;
 import net.minecraft.world.level.storage.loot.functions.SetAttributesFunction.ModifierBuilder;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SetItemDamageFunction;
 import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction.Target;
+import net.minecraft.world.level.storage.loot.functions.SetOminousBottleAmplifierFunction;
+import net.minecraft.world.level.storage.loot.functions.SetPotionFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class EscherLoot extends LootProvider {
-    public static final ResourceKey<LootTable> ESCHER = ResourceKey.create(
+    public static final ResourceKey<LootTable> NORMAL_MAIN = ResourceKey.create(
         Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("chests/escher"));
+        SuperSargassoSea.ID("escher/normal"));
+    public static final ResourceKey<LootTable> NORMAL_RARE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/normal_rare"));
+    public static final ResourceKey<LootTable> NORMAL_COMMON = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/normal_common"));
+    public static final ResourceKey<LootTable> NORMAL_UNIQUE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/normal_unique"));
 
-    public static final ResourceKey<LootTable> ESCHER_OMINOUS = ResourceKey.create(
+    public static final ResourceKey<LootTable> OMINOUS_MAIN = ResourceKey.create(
         Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("chests/escher_ominous"));
+        SuperSargassoSea.ID("escher/ominous"));
+    public static final ResourceKey<LootTable> OMINOUS_RARE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/ominous_rare"));
+    public static final ResourceKey<LootTable> OMINOUS_COMMON = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/ominous_common"));
+    public static final ResourceKey<LootTable> OMINOUS_UNIQUE = ResourceKey.create(
+        Registries.LOOT_TABLE,
+        SuperSargassoSea.ID("escher/ominous_unique"));
 
     public static final TranslatableContents NAME_HAMMER_0 = n("hammer.0");
 
@@ -65,17 +92,239 @@ public class EscherLoot extends LootProvider {
     @Override
     public void generate(BiConsumer<ResourceKey<LootTable>, Builder> output) {
         output.accept(
-            ESCHER,
-            LootTable.lootTable().withPool(
-                LootPool.lootPool()
-                    .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE).setWeight(1))
-                    .add(LootItem.lootTableItem(LocalItems.SPIDER_BOTTLE).setWeight(1))));
-
-        output.accept(
-            ESCHER_OMINOUS,
+            NORMAL_RARE,
             LootTable.lootTable()
-                .withPool(generateHammers())
-                .withPool(generateStrangeArmors()));
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(Items.EMERALD).setWeight(3)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.SHIELD).setWeight(3)
+                                .apply(SetItemDamageFunction.setDamage(UniformGenerator.between(0.5F, 1.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.BOW)
+                                .setWeight(3)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(5.0F, 15.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(
+                            LootItem.lootTableItem(Items.CROSSBOW)
+                                .setWeight(2)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(5.0F, 20.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(
+                            LootItem.lootTableItem(Items.IRON_AXE)
+                                .setWeight(2)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(0.0F, 10.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(
+                            LootItem.lootTableItem(Items.IRON_CHESTPLATE)
+                                .setWeight(2)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(0.0F, 10.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(
+                            LootItem.lootTableItem(Items.GOLDEN_CARROT).setWeight(2)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.BOOK)
+                                .setWeight(2)
+                                .apply(
+                                    new EnchantRandomlyFunction.Builder()
+                                        .withOneOf(
+                                            HolderSet.direct(
+                                                enchantments.getOrThrow(Enchantments.SHARPNESS),
+                                                enchantments.getOrThrow(Enchantments.BANE_OF_ARTHROPODS),
+                                                enchantments.getOrThrow(Enchantments.EFFICIENCY),
+                                                enchantments.getOrThrow(Enchantments.FORTUNE),
+                                                enchantments.getOrThrow(Enchantments.SILK_TOUCH),
+                                                enchantments.getOrThrow(Enchantments.FEATHER_FALLING)))))
+                        .add(
+                            LootItem.lootTableItem(Items.BOOK)
+                                .setWeight(2)
+                                .apply(
+                                    new EnchantRandomlyFunction.Builder()
+                                        .withOneOf(
+                                            HolderSet.direct(
+                                                enchantments.getOrThrow(Enchantments.KNOCKBACK),
+                                                enchantments.getOrThrow(Enchantments.LOYALTY),
+                                                enchantments.getOrThrow(Enchantments.SHARPNESS),
+                                                enchantments.getOrThrow(Enchantments.MENDING)))))
+                        .add(generateRocketBoots().setWeight(1))
+                        .add(
+                            LootItem.lootTableItem(Items.DIAMOND_AXE)
+                                .setWeight(1)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(5.0F, 15.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))));
+        output.accept(
+            NORMAL_COMMON,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(Items.ARROW).setWeight(4)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 8.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.EMERALD).setWeight(4)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F))))
+                        .add(
+                            LootItem.lootTableItem(LocalItems.SPIDER_BOTTLE.get()).setWeight(3)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.IRON_INGOT).setWeight(3)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 4.0F))))
+                        .add(generateFizzy().setWeight(3))
+                        .add(
+                            LootItem.lootTableItem(Items.OMINOUS_BOTTLE)
+                                .setWeight(2)
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+                                .apply(
+                                    SetOminousBottleAmplifierFunction
+                                        .setAmplifier(UniformGenerator.between(0.0F, 1.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.DIAMOND).setWeight(1).apply(
+                                SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))));
+        output.accept(
+            NORMAL_UNIQUE,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(Items.GOLDEN_APPLE).setWeight(4))
+                        .add(LootItem.lootTableItem(LocalItems.LIGHTNING_BOTTLE.get()).setWeight(1))));
+        output.accept(
+            NORMAL_MAIN,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(NestedLootTable.lootTableReference(NORMAL_RARE).setWeight(8))
+                        .add(NestedLootTable.lootTableReference(NORMAL_COMMON).setWeight(2)))
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                        .add(NestedLootTable.lootTableReference(NORMAL_COMMON)))
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when(LootItemRandomChanceCondition.randomChance(0.25F))
+                        .add(NestedLootTable.lootTableReference(NORMAL_UNIQUE))));
+        output.accept(
+            OMINOUS_RARE,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(Items.EMERALD_BLOCK).setWeight(5))
+                        .add(LootItem.lootTableItem(Items.IRON_BLOCK).setWeight(4))
+                        .add(
+                            LootItem.lootTableItem(Items.CROSSBOW)
+                                .setWeight(4)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(5.0F, 20.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(LootItem.lootTableItem(Items.GOLDEN_APPLE).setWeight(3))
+                        .add(
+                            LootItem.lootTableItem(Items.DIAMOND_AXE)
+                                .setWeight(3)
+                                .apply(
+                                    EnchantWithLevelsFunction.enchantWithLevels(
+                                        this.lookupProvider,
+                                        UniformGenerator.between(10.0F, 20.0F)))
+                                .apply(FlimFlamLoreFunction.setFlimFlam()))
+                        .add(generateShrinkingHelm().setWeight(3))
+                        .add(
+                            LootItem.lootTableItem(Items.BOOK)
+                                .setWeight(2)
+                                .apply(
+                                    new EnchantRandomlyFunction.Builder()
+                                        .withOneOf(
+                                            HolderSet.direct(
+                                                enchantments.getOrThrow(Enchantments.KNOCKBACK),
+                                                enchantments.getOrThrow(Enchantments.PUNCH),
+                                                enchantments.getOrThrow(Enchantments.SMITE),
+                                                enchantments.getOrThrow(Enchantments.LOOTING),
+                                                enchantments.getOrThrow(Enchantments.MULTISHOT)))))
+                        .add(LootItem.lootTableItem(Items.DIAMOND_BLOCK).setWeight(1))));
+        output.accept(
+            OMINOUS_COMMON,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(
+                            LootItem.lootTableItem(Items.EMERALD).setWeight(5)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(4.0F, 10.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.WIND_CHARGE).setWeight(4)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(8.0F, 12.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.TIPPED_ARROW)
+                                .setWeight(3)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(4.0F, 12.0F)))
+                                .apply(SetPotionFunction.setPotion(Potions.STRONG_SLOWNESS)))
+                        .add(
+                            LootItem.lootTableItem(Items.DIAMOND).setWeight(2)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))))
+                        .add(
+                            LootItem.lootTableItem(Items.OMINOUS_BOTTLE)
+                                .setWeight(1)
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+                                .apply(
+                                    SetOminousBottleAmplifierFunction
+                                        .setAmplifier(UniformGenerator.between(2.0F, 4.0F))))));
+        output.accept(
+            OMINOUS_UNIQUE,
+            LootTable.lootTable()
+                .withPool(generateHammers()));
+        output.accept(
+            OMINOUS_MAIN,
+            LootTable.lootTable()
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(NestedLootTable.lootTableReference(OMINOUS_RARE).setWeight(8))
+                        .add(NestedLootTable.lootTableReference(OMINOUS_COMMON).setWeight(2)))
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(UniformGenerator.between(1.0F, 3.0F))
+                        .add(NestedLootTable.lootTableReference(OMINOUS_COMMON)))
+                .withPool(
+                    LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when(LootItemRandomChanceCondition.randomChance(0.75F))
+                        .add(NestedLootTable.lootTableReference(OMINOUS_UNIQUE))));
+    }
+
+    private LootItem.Builder<?> generateFizzy() {
+        return generateLootItemCustomPotion(
+            POTION_FIZZY,
+            0,
+            0,
+            255,
+            LORE_FIZZY,
+            new MobEffectInstance(
+                MobEffects.LEVITATION,
+                4000,
+                4));
     }
 
     private LootPool.Builder generateHammers() {
@@ -198,23 +447,5 @@ public class EscherLoot extends LootProvider {
                             Attributes.JUMP_STRENGTH,
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
                             ConstantValue.exactly(-0.5F)).forSlot(EquipmentSlotGroup.ARMOR)));
-    }
-
-    private LootPool.Builder generateStrangeArmors() {
-        return LootPool.lootPool()
-            .setRolls(UniformGenerator.between(0, 1))
-            .add(
-                generateLootItemCustomPotion(
-                    POTION_FIZZY,
-                    0,
-                    0,
-                    255,
-                    LORE_FIZZY,
-                    new MobEffectInstance(
-                        MobEffects.LEVITATION,
-                        4000,
-                        4)))
-            .add(generateShrinkingHelm())
-            .add(generateRocketBoots());
     }
 }

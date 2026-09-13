@@ -12,8 +12,8 @@ if len(sys.argv) != 2:
 
 path = sys.argv[1]
 
-STANDARD_LOOT_TABLE = "sargasso:chests/escher"
-OMINOUS_LOOT_TABLE = "sargasso:chests/escher_ominous"
+STANDARD_LOOT_TABLE = "sargasso:escher/normal"
+OMINOUS_LOOT_TABLE = "sargasso:escher/ominous"
 
 STANDARD_KEY = "sargasso:key"
 OMINOUS_KEY = "sargasso:key_ominous"

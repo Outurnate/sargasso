@@ -15,6 +15,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimPattern;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -67,10 +68,12 @@ public abstract class LootProvider implements LootTableSubProvider {
     protected final HolderGetter<TrimMaterial> trimMaterialProvider;
 
     protected final HolderGetter<TrimPattern> trimPatternProvider;
+    protected final HolderLookup.RegistryLookup<Enchantment> enchantments;
 
     protected LootProvider(HolderLookup.Provider lookupProvider) {
         this.lookupProvider = lookupProvider;
-        this.trimMaterialProvider = this.lookupProvider.lookup(Registries.TRIM_MATERIAL).get();
-        this.trimPatternProvider = this.lookupProvider.lookup(Registries.TRIM_PATTERN).get();
+        this.trimMaterialProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_MATERIAL);
+        this.trimPatternProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_PATTERN);
+        this.enchantments = this.lookupProvider.lookupOrThrow(Registries.ENCHANTMENT);
     }
 }

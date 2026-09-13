@@ -6,11 +6,13 @@
 import sys
 import nbtlib
 
-if len(sys.argv) != 2:
-    print("Usage: setup-spawners <structure.nbt>")
+if len(sys.argv) != 4:
+    print("Usage: setup-spawners <structure.nbt> <normal_config> <ominous_config>")
     sys.exit(1)
 
 path = sys.argv[1]
+normal_config = sys.argv[2]
+ominous_config = sys.argv[3]
 
 nbt = nbtlib.load(path)
 
@@ -21,8 +23,8 @@ for block in nbt["blocks"]:
         continue
 
     if be.get("id") == "minecraft:trial_spawner":
-        be["normal_config"] = nbtlib.String("sargasso:escher")
-        be["ominous_config"] = nbtlib.String("sargasso:escher_ominous")
+        be["normal_config"] = nbtlib.String(normal_config)
+        be["ominous_config"] = nbtlib.String(ominous_config)
         be.pop("spawn_data", None)
         count += 1
 
