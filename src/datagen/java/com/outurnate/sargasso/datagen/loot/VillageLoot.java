@@ -35,7 +35,7 @@ public class VillageLoot extends LootProvider {
 
     public static final ResourceKey<LootTable> POT = ResourceKey.create(
         Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("village/pot")); // TODO update NBT
+        SuperSargassoSea.ID("village/pot"));
 
     public static final ResourceKey<LootTable> CHEST = ResourceKey.create(
         Registries.LOOT_TABLE,
