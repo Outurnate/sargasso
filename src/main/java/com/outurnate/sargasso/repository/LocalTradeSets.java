@@ -32,18 +32,14 @@ public class LocalTradeSets {
             Int2ObjectMap
                 .entry(
                     3,
-                    ResourceKey
-                        .create(Registries.TRADE_SET, SuperSargassoSea.ID(profession + "scavenger/level_3"))),
+                    ResourceKey.create(Registries.TRADE_SET, SuperSargassoSea.ID(profession + "/level_3"))),
             Int2ObjectMap
                 .entry(
                     4,
-                    ResourceKey
-                        .create(Registries.TRADE_SET, SuperSargassoSea.ID(profession + "scavenger/level_4"))),
+                    ResourceKey.create(Registries.TRADE_SET, SuperSargassoSea.ID(profession + "/level_4"))),
             Int2ObjectMap
                 .entry(
                     5,
-                    ResourceKey.create(
-                        Registries.TRADE_SET,
-                        SuperSargassoSea.ID(profession + "scavenger/level_5"))));
+                    ResourceKey.create(Registries.TRADE_SET, SuperSargassoSea.ID(profession + "/level_5"))));
     }
 }
