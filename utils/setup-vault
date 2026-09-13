@@ -43,13 +43,15 @@ for block in nbt["blocks"]:
     if ominous:
         config["loot_table"] = nbtlib.String(OMINOUS_LOOT_TABLE)
         config["key_item"] = nbtlib.Compound({
-            "id": nbtlib.String(OMINOUS_KEY),
+            "id": nbtlib.String(OMINOUS_KEY)
         })
     else:
         config["loot_table"] = nbtlib.String(STANDARD_LOOT_TABLE)
         config["key_item"] = nbtlib.Compound({
-            "id": nbtlib.String(STANDARD_KEY),
+            "id": nbtlib.String(STANDARD_KEY)
         })
+    
+    be.pop("server_data", None)
 
     count += 1
 
