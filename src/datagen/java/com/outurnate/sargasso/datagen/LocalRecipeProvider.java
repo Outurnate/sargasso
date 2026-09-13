@@ -82,7 +82,7 @@ public class LocalRecipeProvider extends RecipeProvider {
             LocalItems.STUDDED_LEATHER_BOOTS.get());
         shaped(RecipeCategory.TOOLS, LocalItems.PERSONAL_VOLTMETER)
             .define('G', Items.GLASS_PANE)
-            .define('C', Items.COPPER_NUGGET)
+            .define('C', LocalItems.LOOSE_WIRE.get())
             .define('R', Items.REDSTONE)
             .define('I', Items.IRON_NUGGET)
             .pattern("IGI")

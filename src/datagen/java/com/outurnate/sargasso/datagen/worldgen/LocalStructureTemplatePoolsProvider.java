@@ -3,7 +3,6 @@ package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.datagen.util.StructureProvider;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -127,9 +126,9 @@ public class LocalStructureTemplatePoolsProvider extends StructureProvider {
             entry("escher/cross", 2),
             entry("escher/cube", 1),
             entry("escher/4", 1),
-            entry("escher/3", 1),
-            entry("escher/left", 1),
-            entry("escher/right", 1),
+            entry("escher/3", 1, LocalStructureProcessorListProvider.REMOVE_SPAWNERS),
+            entry("escher/left", 1, LocalStructureProcessorListProvider.REMOVE_SPAWNERS),
+            entry("escher/right", 1, LocalStructureProcessorListProvider.REMOVE_SPAWNERS),
             entry("escher/to_vert", 4),
             entry("escher/vert_to_hor", 4),
             entry("escher/acropolis", 2),

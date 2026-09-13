@@ -91,6 +91,17 @@ public class EscherLoot extends LootProvider {
 
     @Override
     public void generate(BiConsumer<ResourceKey<LootTable>, Builder> output) {
+        LootTable everlastingFood = LootTable.lootTable().withPool(
+            LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1.0F))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_BEEF))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_CHICKEN))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_COD))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_MUTTON))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_PORK))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_RABBIT))
+                .add(LootItem.lootTableItem(LocalItems.INFINITE_SALMON)))
+            .build();
         output.accept(
             NORMAL_RARE,
             LootTable.lootTable()
@@ -135,9 +146,7 @@ public class EscherLoot extends LootProvider {
                                         this.lookupProvider,
                                         UniformGenerator.between(0.0F, 10.0F)))
                                 .apply(FlimFlamLoreFunction.setFlimFlam()))
-                        .add(
-                            LootItem.lootTableItem(Items.GOLDEN_CARROT).setWeight(2)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
+                        .add(NestedLootTable.inlineLootTable(everlastingFood).setWeight(2))
                         .add(
                             LootItem.lootTableItem(Items.BOOK)
                                 .setWeight(2)

@@ -64,6 +64,8 @@ public class LocalStructureProcessorListProvider {
         .map(rule -> rule.key).toList();
     public static final ResourceKey<StructureProcessorList> BONE_SAND = ResourceKey
         .create(Registries.PROCESSOR_LIST, SuperSargassoSea.ID("bone_sand"));
+    public static final ResourceKey<StructureProcessorList> REMOVE_SPAWNERS = ResourceKey
+        .create(Registries.PROCESSOR_LIST, SuperSargassoSea.ID("remove_spawners"));
 
     protected static String getItemName(ItemLike itemLike) {
         return BuiltInRegistries.ITEM.getKey(itemLike.asItem()).getPath();
@@ -94,5 +96,12 @@ public class LocalStructureProcessorListProvider {
                                     Blocks.SUSPICIOUS_SAND.defaultBlockState(),
                                     new AppendLoot(VillageLoot.BONE)))),
                         ConstantInt.of(10)))));
+        bootstrap.register(
+            REMOVE_SPAWNERS,
+            new StructureProcessorList(
+                List.of(
+                    new BlockRotProcessor(
+                        HolderSet.direct(BuiltInRegistries.BLOCK.wrapAsHolder(Blocks.TRIAL_SPAWNER)),
+                        0.5F))));
     }
 }
