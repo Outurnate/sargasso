@@ -1,0 +1,30 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = ["nbtlib"]
+# ///
+
+import sys
+import nbtlib
+
+if len(sys.argv) != 2:
+    print("Usage: setup-spawners <structure.nbt>")
+    sys.exit(1)
+
+path = sys.argv[1]
+
+nbt = nbtlib.load(path)
+
+count = 0
+for block in nbt["blocks"]:
+    be = block.get("nbt")
+    if not be:
+        continue
+
+    if be.get("id") == "minecraft:trial_spawner":
+        be["normal_config"] = nbtlib.String("sargasso:escher")
+        be["ominous_config"] = nbtlib.String("sargasso:escher_ominous")
+        be.pop("spawn_data", None)
+        count += 1
+
+nbt.save()
+print(f"Updated {count} block(s) in {path}")
