@@ -1,23 +1,19 @@
 license="${mod_license}"
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+issueTrackerURL="https://github.com/outurnate/sargasso"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 
-# A URL to query for updates for this mod. See the JSON update specification https://docs.neoforged.net/docs/misc/updatechecker/
-#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
-# A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="examplemod.png" #optional
-# A text field displayed in the mod UI
-#credits="" #optional
-# The authors of the mod, displayed in the mod UI (optional)
-#authors=""
+updateJSONURL = "https://api.modrinth.com/updates/sargasso/forge_updates.json"
+displayURL="https://modrinth.com/project/sargasso"
+logoFile="pack.png"
+credits="${mod_credits}"
+authors="panicnot42, AlexanderRSM"
 
 description='''
-Super Sargasso Sea mod - a dimension where lost things go
+The land of the lost, a dimension where everything ever lost is found.
 
 ${mod_credits}
 '''
