@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.klikli_dev.modonomicon.item.ModonomiconCustomItemBase;
@@ -54,363 +63,329 @@ import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalItems {
-    public static final DeferredRegister.Items REGISTRY = DeferredRegister
-        .createItems(SuperSargassoSea.MODID);
+	public static final DeferredRegister.Items REGISTRY = DeferredRegister
+			.createItems(SuperSargassoSea.MODID);
 
-    public static final DeferredItem<BlockItem> FLOTSAM = REGISTRY.registerSimpleBlockItem(
-        "flotsam",
-        LocalBlocks.FLOTSAM);
+	public static final DeferredItem<BlockItem> FLOTSAM = REGISTRY.registerSimpleBlockItem(
+			"flotsam",
+			LocalBlocks.FLOTSAM);
 
-    public static final DeferredItem<BlockItem> STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
-        "starmetal_block",
-        LocalBlocks.STARMETAL_BLOCK);
+	public static final DeferredItem<BlockItem> STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
+			"starmetal_block",
+			LocalBlocks.STARMETAL_BLOCK);
 
-    public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
-        "petrified_flotsam",
-        LocalBlocks.PETRIFIED_FLOTSAM);
+	public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+			"petrified_flotsam",
+			LocalBlocks.PETRIFIED_FLOTSAM);
 
-    public static final DeferredItem<BlockItem> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
-        "rich_petrified_flotsam",
-        LocalBlocks.RICH_PETRIFIED_FLOTSAM);
+	public static final DeferredItem<BlockItem> RICH_PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
+			"rich_petrified_flotsam",
+			LocalBlocks.RICH_PETRIFIED_FLOTSAM);
 
-    public static final DeferredItem<BlockItem> SORTING_BIN = REGISTRY.registerSimpleBlockItem(
-        "sorting_bin",
-        LocalBlocks.SORTING_BIN);
+	public static final DeferredItem<BlockItem> SORTING_BIN = REGISTRY.registerSimpleBlockItem(
+			"sorting_bin",
+			LocalBlocks.SORTING_BIN);
 
-    public static final DeferredItem<BlockItem> DEBRIS = REGISTRY.registerSimpleBlockItem(
-        "debris",
-        LocalBlocks.DEBRIS);
+	public static final DeferredItem<BlockItem> DEBRIS = REGISTRY.registerSimpleBlockItem(
+			"debris",
+			LocalBlocks.DEBRIS);
 
-    public static final DeferredItem<BlockItem> TOASTER = REGISTRY.registerSimpleBlockItem(
-        "toaster",
-        LocalBlocks.TOASTER);
+	public static final DeferredItem<BlockItem> TOASTER = REGISTRY.registerSimpleBlockItem(
+			"toaster",
+			LocalBlocks.TOASTER);
 
-    public static final DeferredItem<BlockItem> SHOCK_THERAPIST = REGISTRY.registerSimpleBlockItem(
-        "shock_therapist",
-        LocalBlocks.SHOCK_THERAPIST);
+	public static final DeferredItem<BlockItem> SHOCK_THERAPIST = REGISTRY.registerSimpleBlockItem(
+			"shock_therapist",
+			LocalBlocks.SHOCK_THERAPIST);
 
-    public static final DeferredItem<BlockItem> PYLON = REGISTRY.registerSimpleBlockItem(
-        "pylon",
-        LocalBlocks.PYLON,
-        p -> p.component(DataComponents.EQUIPPABLE, pylon()));
+	public static final DeferredItem<BlockItem> PYLON = REGISTRY.registerSimpleBlockItem(
+			"pylon",
+			LocalBlocks.PYLON,
+			p -> p.component(DataComponents.EQUIPPABLE, pylon()));
 
-    public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
-        "bedrock_slop",
-        p -> p.food(
-            new FoodProperties.Builder()
-                .alwaysEdible()
-                .nutrition(1)
-                .saturationModifier(18.0F)
-                .build(),
-            Consumable.builder()
-                .onConsume(
-                    new ApplyStatusEffectsConsumeEffect(
-                        new MobEffectInstance(
-                            MobEffects.SLOWNESS,
-                            1200,
-                            1)))
-                .build()));
+	public static final DeferredItem<Item> BEDROCK_SLOP = REGISTRY.registerSimpleItem(
+			"bedrock_slop",
+			p -> p.food(
+					new FoodProperties.Builder()
+							.alwaysEdible()
+							.nutrition(1)
+							.saturationModifier(18.0F)
+							.build(),
+					Consumable.builder()
+							.onConsume(
+									new ApplyStatusEffectsConsumeEffect(
+											new MobEffectInstance(
+													MobEffects.SLOWNESS,
+													1200,
+													1)))
+							.build()));
 
-    public static final DeferredItem<Item> BREADROCK = REGISTRY.registerSimpleItem(
-        "breadrock",
-        p -> p.food(
-            new FoodProperties.Builder()
-                .alwaysEdible()
-                .nutrition(2)
-                .saturationModifier(0.2F)
-                .build(),
-            Consumable.builder()
-                .consumeSeconds(3.2F)
-                .onConsume(
-                    new ApplyStatusEffectsConsumeEffect(
-                        new MobEffectInstance(
-                            MobEffects.SLOWNESS,
-                            1200,
-                            0)))
-                .build()));
+	public static final DeferredItem<Item> BREADROCK = REGISTRY.registerSimpleItem(
+			"breadrock",
+			p -> p.food(
+					new FoodProperties.Builder()
+							.alwaysEdible()
+							.nutrition(2)
+							.saturationModifier(0.2F)
+							.build(),
+					Consumable.builder()
+							.consumeSeconds(3.2F)
+							.onConsume(
+									new ApplyStatusEffectsConsumeEffect(
+											new MobEffectInstance(
+													MobEffects.SLOWNESS,
+													1200,
+													0)))
+							.build()));
 
-    public static final DeferredItem<Item> BEDROCK_CREAM = REGISTRY.registerItem(
-        "bedrock_cream",
-        BedrockCreamItem::new,
-        p -> p);
+	public static final DeferredItem<Item> BEDROCK_CREAM = REGISTRY.registerItem(
+			"bedrock_cream",
+			BedrockCreamItem::new);
 
-    public static final DeferredItem<Item> LIGHTNING_BOTTLE = REGISTRY.registerItem(
-        "lightning_bottle",
-        LightningBottleItem::new,
-        p -> p
-            .useCooldown(2.0F)
-            .rarity(Rarity.UNCOMMON));
+	public static final DeferredItem<Item> LIGHTNING_BOTTLE = REGISTRY.registerItem(
+			"lightning_bottle",
+			LightningBottleItem::new,
+			p -> p
+					.useCooldown(2.0F)
+					.rarity(Rarity.UNCOMMON));
 
-    public static final DeferredItem<Item> SPIDER_BOTTLE = REGISTRY.registerItem(
-        "spider_bottle",
-        SpiderBottleItem::new,
-        p -> p
-            .useCooldown(2.0F));
+	public static final DeferredItem<Item> SPIDER_BOTTLE = REGISTRY.registerItem(
+			"spider_bottle",
+			SpiderBottleItem::new,
+			p -> p
+					.useCooldown(2.0F));
 
-    public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
-        "potato_battery",
-        p -> p.food(
-            new FoodProperties.Builder()
-                .alwaysEdible()
-                .nutrition(1)
-                .saturationModifier(0.2F)
-                .build(),
-            Consumable.builder()
-                .onConsume(new AddGeneratorConsumeEffect())
-                .build()));
+	public static final DeferredItem<Item> POTATO_BATTERY = REGISTRY.registerSimpleItem(
+			"potato_battery",
+			p -> p.food(
+					new FoodProperties.Builder()
+							.alwaysEdible()
+							.nutrition(1)
+							.saturationModifier(0.2F)
+							.build(),
+					Consumable.builder()
+							.onConsume(new AddGeneratorConsumeEffect())
+							.build()));
 
-    public static final DeferredItem<Item> PERSONAL_VOLTMETER = REGISTRY.registerItem(
-        "personal_voltmeter",
-        PersonalVoltmeterItem::new,
-        p -> p
-            .useCooldown(1.0F));
+	public static final DeferredItem<Item> PERSONAL_VOLTMETER = REGISTRY.registerItem(
+			"personal_voltmeter",
+			PersonalVoltmeterItem::new,
+			p -> p
+					.useCooldown(1.0F));
 
-    public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
-        "aa_battery",
-        EnergyItem::new,
-        p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+	public static final DeferredItem<Item> AA_BATTERY = REGISTRY.registerItem(
+			"aa_battery",
+			EnergyItem::new,
+			p -> p
+					.component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
 
-    public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
-        "rechargable_aa_battery",
-        EnergyItem::new,
-        p -> p
-            .component(LocalDataComponentTypes.ENERGY.get(), 0)
-            .rarity(Rarity.UNCOMMON));
+	public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
+			"rechargable_aa_battery",
+			EnergyItem::new,
+			p -> p
+					.component(LocalDataComponentTypes.ENERGY.get(), 0)
+					.rarity(Rarity.UNCOMMON));
 
-    public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
-        "studded_leather_helmet",
-        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.HELMET)));
-    public static final DeferredItem<Item> STUDDED_LEATHER_CHESTPLATE = REGISTRY.registerItem(
-        "studded_leather_chestplate",
-        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.CHESTPLATE)));
-    public static final DeferredItem<Item> STUDDED_LEATHER_LEGGINGS = REGISTRY.registerItem(
-        "studded_leather_leggings",
-        props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.LEGGINGS)));
-    public static final DeferredItem<Item> STUDDED_LEATHER_BOOTS = REGISTRY.registerItem(
-        "studded_leather_boots",
-        props -> new SnowBootsItem(
-            props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
+	public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
+			"studded_leather_helmet",
+			props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.HELMET)));
+	public static final DeferredItem<Item> STUDDED_LEATHER_CHESTPLATE = REGISTRY.registerItem(
+			"studded_leather_chestplate",
+			props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.CHESTPLATE)));
+	public static final DeferredItem<Item> STUDDED_LEATHER_LEGGINGS = REGISTRY.registerItem(
+			"studded_leather_leggings",
+			props -> new Item(props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.LEGGINGS)));
+	public static final DeferredItem<Item> STUDDED_LEATHER_BOOTS = REGISTRY.registerItem(
+			"studded_leather_boots",
+			props -> new SnowBootsItem(
+					props.humanoidArmor(LocalArmorMaterials.STUDDED_LEATHER, ArmorType.BOOTS)));
 
-    public static final DeferredItem<Item> STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE = REGISTRY
-        .registerSimpleItem(
-            "studded_leather_upgrade_smithing_template");
+	public static final DeferredItem<Item> STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE = REGISTRY
+			.registerSimpleItem(
+					"studded_leather_upgrade_smithing_template");
 
-    public static final DeferredItem<Item> FOX_EARS = REGISTRY.registerItem(
-        "fox_ears",
-        props -> new Item(
-            props
-                .stacksTo(1)
-                .component(
-                    DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot()).build())));
+	public static final DeferredItem<Item> FOX_EARS = REGISTRY.registerItem(
+			"fox_ears",
+			props -> new Item(
+					props
+							.stacksTo(1)
+							.component(
+									DataComponents.EQUIPPABLE,
+									Equippable.builder(ArmorType.HELMET.getSlot()).build())));
 
-    public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
-        "comically_tall_fox_ears",
-        props -> new Item(
-            props
-                .stacksTo(1)
-                .component(
-                    DataComponents.EQUIPPABLE,
-                    Equippable.builder(ArmorType.HELMET.getSlot()).build())));
+	public static final DeferredItem<Item> COMICALLY_TALL_FOX_EARS = REGISTRY.registerItem(
+			"comically_tall_fox_ears",
+			props -> new Item(
+					props
+							.stacksTo(1)
+							.component(
+									DataComponents.EQUIPPABLE,
+									Equippable.builder(ArmorType.HELMET.getSlot()).build())));
 
-    public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
-        "unchecked",
-        props -> new Item(
-            props
-                .stacksTo(1)
-                .rarity(Rarity.UNCOMMON)
-                .jukeboxPlayable(LocalJukeboxSongs.UNCHECKED)));
+	public static final DeferredItem<Item> RECORD_UNCHECKED = REGISTRY.registerItem(
+			"unchecked",
+			props -> new Item(
+					props
+							.stacksTo(1)
+							.rarity(Rarity.UNCOMMON)
+							.jukeboxPlayable(LocalJukeboxSongs.UNCHECKED)));
 
-    public static final DeferredItem<Item> REDSTONE_EMP = REGISTRY.registerItem(
-        "redstone_emp",
-        RedstoneEMPItem::new,
-        p -> p
-            .useCooldown(2.0F));
+	public static final DeferredItem<Item> REDSTONE_EMP = REGISTRY.registerItem(
+			"redstone_emp",
+			RedstoneEMPItem::new,
+			p -> p
+					.useCooldown(2.0F));
 
-    public static final DeferredItem<Item> QUARTER = REGISTRY.registerItem(
-        "quarter",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> QUARTER = REGISTRY.registerSimpleItem("quarter");
 
-    public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerItem(
-        "starmetal_ingot",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerSimpleItem("starmetal_ingot");
 
-    private static float HAMMER_ATTACK_SPEED = -3.4F;
-    public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
-        "hammer",
-        HammerItem::new,
-        p -> p
-            .rarity(Rarity.EPIC)
-            .durability(2048)
-            .component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
-            .repairable(STARMETAL_INGOT.get())
-            .enchantable(15)
-            .attributes(
-                ItemAttributeModifiers.builder()
-                    .add(
-                        Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(
-                            Item.BASE_ATTACK_DAMAGE_ID,
-                            9.0,
-                            AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.MAINHAND)
-                    .add(
-                        Attributes.ATTACK_SPEED,
-                        new AttributeModifier(
-                            Item.BASE_ATTACK_SPEED_ID,
-                            HAMMER_ATTACK_SPEED,
-                            AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.MAINHAND)
-                    .build())
-            .component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
-            .component(
-                DataComponents.SWING_ANIMATION,
-                new SwingAnimation(
-                    SwingAnimationType.STAB,
-                    (int) (20.0F * (1.0F / (4.0F + HAMMER_ATTACK_SPEED)))))
-            .component(DataComponents.WEAPON, new Weapon(1))
-            .delayedHolderComponent(DataComponents.DAMAGE_TYPE, LocalDamageTypes.HAMMER));
+	private static final float HAMMER_ATTACK_SPEED = -3.4F;
+	public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
+			"hammer",
+			HammerItem::new,
+			p -> p
+					.rarity(Rarity.EPIC)
+					.durability(2048)
+					.component(DataComponents.TOOL, new Tool(List.of(), 1.0F, 2, false))
+					.repairable(STARMETAL_INGOT.get())
+					.enchantable(15)
+					.attributes(
+							ItemAttributeModifiers.builder()
+									.add(
+											Attributes.ATTACK_DAMAGE,
+											new AttributeModifier(
+													Item.BASE_ATTACK_DAMAGE_ID,
+													9.0,
+													AttributeModifier.Operation.ADD_VALUE),
+											EquipmentSlotGroup.MAINHAND)
+									.add(
+											Attributes.ATTACK_SPEED,
+											new AttributeModifier(
+													Item.BASE_ATTACK_SPEED_ID,
+													HAMMER_ATTACK_SPEED,
+													AttributeModifier.Operation.ADD_VALUE),
+											EquipmentSlotGroup.MAINHAND)
+									.build())
+					.component(DataComponents.MINIMUM_ATTACK_CHARGE, 1.0F)
+					.component(
+							DataComponents.SWING_ANIMATION,
+							new SwingAnimation(
+									SwingAnimationType.STAB,
+									(int) (20.0F * (1.0F / (4.0F + HAMMER_ATTACK_SPEED)))))
+					.component(DataComponents.WEAPON, new Weapon(1))
+					.delayedHolderComponent(DataComponents.DAMAGE_TYPE, LocalDamageTypes.HAMMER));
 
-    public static final DeferredItem<Item> KEY = REGISTRY.registerItem(
-        "key",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> KEY = REGISTRY.registerSimpleItem("key");
 
-    public static final DeferredItem<Item> KEY_OMINOUS = REGISTRY.registerItem(
-        "key_ominous",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> KEY_OMINOUS = REGISTRY.registerSimpleItem("key_ominous");
 
-    // copper
-    public static final DeferredItem<Item> BROKEN_COG = REGISTRY.registerItem(
-        "broken_cog",
-        Item::new,
-        p -> p);
+	// copper
+	public static final DeferredItem<Item> BROKEN_COG = REGISTRY.registerSimpleItem("broken_cog");
 
-    public static final DeferredItem<Item> LOOSE_WIRE = REGISTRY.registerItem(
-        "loose_wire",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> LOOSE_WIRE = REGISTRY.registerSimpleItem("loose_wire");
 
-    // iron
-    public static final DeferredItem<Item> RUSTED_BOLT = REGISTRY.registerItem(
-        "rusted_bolt",
-        Item::new,
-        p -> p);
+	// iron
+	public static final DeferredItem<Item> RUSTED_BOLT = REGISTRY.registerSimpleItem("rusted_bolt");
 
-    public static final DeferredItem<Item> LEAKY_BUCKET = REGISTRY.registerItem(
-        "leaky_bucket",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> LEAKY_BUCKET = REGISTRY.registerSimpleItem("leaky_bucket");
 
-    // gold
-    public static final DeferredItem<Item> CIRCUIT_BOARD = REGISTRY.registerItem(
-        "circuit_board",
-        Item::new,
-        p -> p);
+	// gold
+	public static final DeferredItem<Item> CIRCUIT_BOARD = REGISTRY.registerSimpleItem("circuit_board");
 
-    public static final DeferredItem<Item> CLOCKSPRING = REGISTRY.registerItem(
-        "clockspring",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> CLOCKSPRING = REGISTRY.registerSimpleItem("clockspring");
 
-    public static final DeferredItem<Item> STARMETAL_SCRAP = REGISTRY.registerItem(
-        "starmetal_scrap",
-        Item::new,
-        p -> p);
+	public static final DeferredItem<Item> STARMETAL_SCRAP = REGISTRY.registerSimpleItem("starmetal_scrap");
 
-    public static final DeferredItem<ModonomiconCustomItemBase> ATLAS = REGISTRY.registerItem(
-        "atlas",
-        (p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
+	public static final DeferredItem<ModonomiconCustomItemBase> ATLAS = REGISTRY.registerItem(
+			"atlas",
+			(p) -> new ModonomiconCustomItemBase(SuperSargassoSea.ID("atlas"), p));
 
-    public static final DeferredItem<Item> SHRINK_RAY = REGISTRY.registerItem(
-        "shrink_ray",
-        p -> new SizeRayItem(p, LocalMobEffects.SHRINK),
-        p -> p);
+	public static final DeferredItem<Item> SHRINK_RAY = REGISTRY.registerItem(
+			"shrink_ray",
+			p -> new SizeRayItem(p, LocalMobEffects.SHRINK),
+			p -> p);
 
-    public static final DeferredItem<Item> GROW_RAY = REGISTRY.registerItem(
-        "grow_ray",
-        p -> new SizeRayItem(p, LocalMobEffects.GROW),
-        p -> p);
+	public static final DeferredItem<Item> GROW_RAY = REGISTRY.registerItem(
+			"grow_ray",
+			p -> new SizeRayItem(p, LocalMobEffects.GROW),
+			p -> p);
 
-    public static final DeferredItem<Item> INFINITE_BEEF = registerInfiniteFood("infinite_beef", 8, 0.8F);
-    public static final DeferredItem<Item> INFINITE_PORK = registerInfiniteFood("infinite_pork", 8, 0.8F);
-    public static final DeferredItem<Item> INFINITE_MUTTON = registerInfiniteFood("infinite_mutton", 6, 0.8F);
-    public static final DeferredItem<Item> INFINITE_SALMON = registerInfiniteFood("infinite_salmon", 6, 0.8F);
-    public static final DeferredItem<Item> INFINITE_CHICKEN = registerInfiniteFood(
-        "infinite_chicken",
-        6,
-        0.6F);
-    public static final DeferredItem<Item> INFINITE_COD = registerInfiniteFood("infinite_cod", 5, 0.6F);
-    public static final DeferredItem<Item> INFINITE_RABBIT = registerInfiniteFood("infinite_rabbit", 5, 0.6F);
+	public static final DeferredItem<Item> INFINITE_BEEF = registerInfiniteFood("infinite_beef", 8, 0.8F);
+	public static final DeferredItem<Item> INFINITE_PORK = registerInfiniteFood("infinite_pork", 8, 0.8F);
+	public static final DeferredItem<Item> INFINITE_MUTTON = registerInfiniteFood("infinite_mutton", 6, 0.8F);
+	public static final DeferredItem<Item> INFINITE_SALMON = registerInfiniteFood("infinite_salmon", 6, 0.8F);
+	public static final DeferredItem<Item> INFINITE_CHICKEN = registerInfiniteFood(
+			"infinite_chicken",
+			6,
+			0.6F);
+	public static final DeferredItem<Item> INFINITE_COD = registerInfiniteFood("infinite_cod", 5, 0.6F);
+	public static final DeferredItem<Item> INFINITE_RABBIT = registerInfiniteFood("infinite_rabbit", 5, 0.6F);
 
-    private static int getBatteryCapacity() {
-        try {
-            return Config.BATTERY_CAPACITY.getAsInt();
-        } catch (Exception e) {
-            // during datagen, our config won't be loaded
-            // so just return the default
-            return 10000;
-        }
-    }
+	private static int getBatteryCapacity() {
+		try {
+			return Config.BATTERY_CAPACITY.getAsInt();
+		} catch (Exception e) {
+			// during datagen, our config won't be loaded
+			// so just return the default
+			return 10000;
+		}
+	}
 
-    public static Equippable pylon() {
-        HolderGetter<EntityType<?>> entityGetter = BuiltInRegistries
-            .acquireBootstrapRegistrationLookup(BuiltInRegistries.ENTITY_TYPE);
-        return Equippable.builder(ArmorType.HELMET.getSlot())
-            .setEquipSound(LocalSoundEvents.PYLON)
-            .setDispensable(true)
-            .setAllowedEntities(entityGetter.getOrThrow(LocalTags.CAN_WEAR_PYLON))
-            .setEquipOnInteract(true)
-            .setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
-            .setEquipOnInteract(true)
-            .build();
-    }
+	public static Equippable pylon() {
+		HolderGetter<EntityType<?>> entityGetter = BuiltInRegistries
+				.acquireBootstrapRegistrationLookup(BuiltInRegistries.ENTITY_TYPE);
+		return Equippable.builder(ArmorType.HELMET.getSlot())
+				.setEquipSound(LocalSoundEvents.PYLON)
+				.setDispensable(true)
+				.setAllowedEntities(entityGetter.getOrThrow(LocalTags.CAN_WEAR_PYLON))
+				.setEquipOnInteract(true)
+				.setCameraOverlay(SuperSargassoSea.ID("misc/pylonblur"))
+				.setEquipOnInteract(true)
+				.build();
+	}
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 
-    @SubscribeEvent
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerItem(
-            Capabilities.Energy.ITEM,
-            (itemStack, itemAccess) -> new ItemAccessEnergyHandler(
-                itemAccess,
-                LocalDataComponentTypes.ENERGY.get(),
-                getBatteryCapacity(),
-                0,
-                getBatteryCapacity()),
-            AA_BATTERY.get());
-        event.registerItem(
-            Capabilities.Energy.ITEM,
-            (itemStack, itemAccess) -> new ItemAccessEnergyHandler(
-                itemAccess,
-                LocalDataComponentTypes.ENERGY.get(),
-                getBatteryCapacity(),
-                getBatteryCapacity(),
-                getBatteryCapacity()),
-            RECHARGABLE_AA_BATTERY.get());
-    }
+	@SubscribeEvent
+	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerItem(
+				Capabilities.Energy.ITEM,
+				(_, itemAccess) -> new ItemAccessEnergyHandler(
+						itemAccess,
+						LocalDataComponentTypes.ENERGY.get(),
+						getBatteryCapacity(),
+						0,
+						getBatteryCapacity()),
+				AA_BATTERY.get());
+		event.registerItem(
+				Capabilities.Energy.ITEM,
+				(_, itemAccess) -> new ItemAccessEnergyHandler(
+						itemAccess,
+						LocalDataComponentTypes.ENERGY.get(),
+						getBatteryCapacity(),
+						getBatteryCapacity(),
+						getBatteryCapacity()),
+				RECHARGABLE_AA_BATTERY.get());
+	}
 
-    private static DeferredItem<Item> registerInfiniteFood(
-        String name,
-        int nutrition,
-        float saturationModifier) {
-        return REGISTRY.registerItem(
-            name,
-            ForeverFoodItem::new,
-            p -> p
-                .food(
-                    new FoodProperties.Builder()
-                        .alwaysEdible()
-                        .nutrition(nutrition)
-                        .saturationModifier(saturationModifier)
-                        .build(),
-                    Consumable.builder()
-                        .build()));
-    }
+	private static DeferredItem<Item> registerInfiniteFood(
+			String name,
+			int nutrition,
+			float saturationModifier) {
+		return REGISTRY.registerItem(
+				name,
+				ForeverFoodItem::new,
+				p -> p
+						.food(
+								new FoodProperties.Builder()
+										.alwaysEdible()
+										.nutrition(nutrition)
+										.saturationModifier(saturationModifier)
+										.build(),
+								Consumable.builder()
+										.build()));
+	}
 }

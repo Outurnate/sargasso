@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
@@ -18,67 +28,68 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.ARGB;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TextureContents.class)
 public abstract class TextureContentsMixin {
-    @Inject(method = "load", at = @At("TAIL"), cancellable = true)
-    private static void sargasso$load(
-        ResourceManager resourceManager,
-        Identifier location,
-        CallbackInfoReturnable<TextureContents> callbackInfo,
-        @Local Resource resource) throws IOException {
-        if (resource.metadata().getSection(CompositeTextureMetadataSection.TYPE)
-            .orElse(null) instanceof CompositeTextureMetadataSection overlayMetadata) {
+	@Inject(method = "load", at = @At("TAIL"), cancellable = true)
+	private static void sargasso$load(
+			ResourceManager resourceManager,
+			Identifier location,
+			CallbackInfoReturnable<TextureContents> callbackInfo,
+			@Local(name = "resource") Resource resource) throws IOException {
+		if (resource.metadata().getSection(CompositeTextureMetadataSection.TYPE)
+				.orElse(null) instanceof CompositeTextureMetadataSection(List<Identifier> below, List<Identifier> above)) {
 
-            List<Identifier> ids = Stream.concat(
-                Stream.concat(overlayMetadata.below().stream(), Stream.of(location)),
-                overlayMetadata.above().stream()).toList();
-            ArrayList<NativeImage> images = new ArrayList<>();
-            for (Identifier id : ids) {
-                Resource currentResource = resourceManager.getResourceOrThrow(id);
-                NativeImage currentImage;
-                try (InputStream is = currentResource.open()) {
-                    currentImage = NativeImage.read(is);
-                }
-                images.add(currentImage);
-            }
+			List<Identifier> ids = Stream.concat(
+					Stream.concat(below.stream(), Stream.of(location)),
+					above.stream()).toList();
+			ArrayList<NativeImage> images = new ArrayList<>();
+			for (Identifier id : ids) {
+				Resource currentResource = resourceManager.getResourceOrThrow(id);
+				NativeImage currentImage;
+				try (InputStream is = currentResource.open()) {
+					currentImage = NativeImage.read(is);
+				}
+				images.add(currentImage);
+			}
 
-            NativeImage result = images.stream().reduce(TextureContentsMixin::sargasso$overlay).orElseThrow();
-            TextureMetadataSection metadata = resource.metadata().getSection(TextureMetadataSection.TYPE)
-                .orElse(null);
-            callbackInfo.setReturnValue(new TextureContents(result, metadata));
-        }
-    }
+			NativeImage result = images.stream().reduce(TextureContentsMixin::sargasso$overlay).orElseThrow();
+			TextureMetadataSection metadata = resource.metadata().getSection(TextureMetadataSection.TYPE)
+					.orElse(null);
+			callbackInfo.setReturnValue(new TextureContents(result, metadata));
+		}
+	}
 
-    private static NativeImage sargasso$overlay(NativeImage base, NativeImage overlay) {
-        int width = Math.max(base.getWidth(), overlay.getWidth());
-        int height = Math.max(base.getHeight(), overlay.getHeight());
+	@Unique private static NativeImage sargasso$overlay(NativeImage base, NativeImage overlay) {
+		int width = Math.max(base.getWidth(), overlay.getWidth());
+		int height = Math.max(base.getHeight(), overlay.getHeight());
 
-        NativeImage result = new NativeImage(width, height, false);
+		NativeImage result = new NativeImage(width, height, false);
 
-        for (int x = 0; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
-                int basePixel;
-                if (x < base.getWidth() && y < base.getHeight()) {
-                    basePixel = base.getPixel(x, y);
-                } else {
-                    basePixel = 0;
-                }
+		for (int x = 0; x < width; ++x) {
+			for (int y = 0; y < height; ++y) {
+				int basePixel;
+				if (x < base.getWidth() && y < base.getHeight()) {
+					basePixel = base.getPixel(x, y);
+				} else {
+					basePixel = 0;
+				}
 
-                int overlayPixel;
-                if (x < overlay.getWidth() && y < overlay.getHeight()) {
-                    overlayPixel = overlay.getPixel(x, y);
-                } else {
-                    overlayPixel = 0;
-                }
+				int overlayPixel;
+				if (x < overlay.getWidth() && y < overlay.getHeight()) {
+					overlayPixel = overlay.getPixel(x, y);
+				} else {
+					overlayPixel = 0;
+				}
 
-                result.setPixel(x, y, ARGB.alphaBlend(overlayPixel, basePixel));
-            }
-        }
+				result.setPixel(x, y, ARGB.alphaBlend(overlayPixel, basePixel));
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

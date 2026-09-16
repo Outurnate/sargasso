@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -18,24 +28,24 @@ import net.minecraft.world.level.levelgen.carver.WorldCarver;
 import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
 
 public class LocalConfiguredCarversProvider {
-    public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = ResourceKey
-        .create(Registries.CONFIGURED_CARVER, SuperSargassoSea.ID("cave"));
+	public static final ResourceKey<ConfiguredWorldCarver<?>> CAVE = ResourceKey
+			.create(Registries.CONFIGURED_CARVER, SuperSargassoSea.ID("cave"));
 
-    public static void provide(BootstrapContext<ConfiguredWorldCarver<?>> bootstrap) {
-        HolderGetter<Block> blocks = bootstrap.lookup(Registries.BLOCK);
-        bootstrap.register(
-            CAVE,
-            WorldCarver.CAVE
-                .configured(
-                    new CaveCarverConfiguration(
-                        0.25F,
-                        UniformHeight.of(VerticalAnchor.aboveBottom(1), VerticalAnchor.absolute(70)),
-                        UniformFloat.of(0.1F, 0.9F),
-                        VerticalAnchor.aboveBottom(0),
-                        CarverDebugSettings.of(false, Blocks.CRIMSON_BUTTON.defaultBlockState()),
-                        blocks.getOrThrow(LocalTags.SEA_CARVER_REPLACEABLES),
-                        UniformFloat.of(0.6F, 1.5F),
-                        UniformFloat.of(0.7F, 1.4F),
-                        UniformFloat.of(-1.0F, -0.4F))));
-    }
+	public static void provide(BootstrapContext<ConfiguredWorldCarver<?>> bootstrap) {
+		HolderGetter<Block> blocks = bootstrap.lookup(Registries.BLOCK);
+		bootstrap.register(
+				CAVE,
+				WorldCarver.CAVE
+						.configured(
+								new CaveCarverConfiguration(
+										0.25F,
+										UniformHeight.of(VerticalAnchor.aboveBottom(1), VerticalAnchor.absolute(70)),
+										UniformFloat.of(0.1F, 0.9F),
+										VerticalAnchor.aboveBottom(0),
+										CarverDebugSettings.of(false, Blocks.CRIMSON_BUTTON.defaultBlockState()),
+										blocks.getOrThrow(LocalTags.SEA_CARVER_REPLACEABLES),
+										UniformFloat.of(0.6F, 1.5F),
+										UniformFloat.of(0.7F, 1.4F),
+										UniformFloat.of(-1.0F, -0.4F))));
+	}
 }

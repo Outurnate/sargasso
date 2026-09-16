@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -26,137 +35,137 @@ import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 
 public class LocalPlacedFeaturesProvider {
-    public static final ResourceKey<PlacedFeature> PATCH_DEBRIS = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("patch_debris"));
-    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga"));
-    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains"));
-    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA_BARE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga_bare"));
-    public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS_BARE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains_bare"));
-    public static final ResourceKey<PlacedFeature> PORTAL = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
-    public static final ResourceKey<PlacedFeature> JUNK_ORE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("junk_ore"));
-    public static final ResourceKey<PlacedFeature> BRICK_ORE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("brick_ore"));
-    public static final ResourceKey<PlacedFeature> PRISMARINE_ORE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("prismarine_ore"));
-    public static final ResourceKey<PlacedFeature> PURPUR_ORE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("purpur_ore"));
-    public static final ResourceKey<PlacedFeature> COPPER_ORE = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("copper_ore"));
-    public static final ResourceKey<PlacedFeature> RUINS = ResourceKey
-        .create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("ruins"));
+	public static final ResourceKey<PlacedFeature> PATCH_DEBRIS = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("patch_debris"));
+	public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga"));
+	public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains"));
+	public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_TAIGA_BARE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_taiga_bare"));
+	public static final ResourceKey<PlacedFeature> FLOATING_ISLAND_PLAINS_BARE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("floating_island_plains_bare"));
+	public static final ResourceKey<PlacedFeature> PORTAL = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("portal"));
+	public static final ResourceKey<PlacedFeature> JUNK_ORE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("junk_ore"));
+	public static final ResourceKey<PlacedFeature> BRICK_ORE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("brick_ore"));
+	public static final ResourceKey<PlacedFeature> PRISMARINE_ORE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("prismarine_ore"));
+	public static final ResourceKey<PlacedFeature> PURPUR_ORE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("purpur_ore"));
+	public static final ResourceKey<PlacedFeature> COPPER_ORE = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("copper_ore"));
+	public static final ResourceKey<PlacedFeature> RUINS = ResourceKey
+			.create(Registries.PLACED_FEATURE, SuperSargassoSea.ID("ruins"));
 
-    private static List<PlacementModifier> orePlacement(int count) {
-        return List.of(
-            CountPlacement.of(10),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
-            BiomeFilter.biome());
-    }
+	private static List<PlacementModifier> orePlacement(int count) {
+		return List.of(
+				CountPlacement.of(count),
+				InSquarePlacement.spread(),
+				HeightRangePlacement.triangle(VerticalAnchor.bottom(), VerticalAnchor.absolute(70)),
+				BiomeFilter.biome());
+	}
 
-    public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
-        HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
-            .lookup(Registries.CONFIGURED_FEATURE);
-        PlacementUtils.register(
-            bootstrap,
-            PATCH_DEBRIS,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.DEBRIS),
-            RarityFilter.onAverageOnceEvery(2),
-            InSquarePlacement.spread(),
-            HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
-            BiomeFilter.biome(),
-            CountPlacement.of(256),
-            RandomOffsetPlacement
-                .of(TrapezoidInt.of(-14, 14, 0), TrapezoidInt.of(-6, 6, 0)),
-            BlockPredicateFilter
-                .forPredicate(
-                    BlockPredicate.matchesTag(BlockTags.AIR)));
+	public static void provide(BootstrapContext<PlacedFeature> bootstrap) {
+		HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureRegistry = bootstrap
+				.lookup(Registries.CONFIGURED_FEATURE);
+		PlacementUtils.register(
+				bootstrap,
+				PATCH_DEBRIS,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.DEBRIS),
+				RarityFilter.onAverageOnceEvery(2),
+				InSquarePlacement.spread(),
+				HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
+				BiomeFilter.biome(),
+				CountPlacement.of(256),
+				RandomOffsetPlacement
+						.of(TrapezoidInt.of(-14, 14, 0), TrapezoidInt.of(-6, 6, 0)),
+				BlockPredicateFilter
+						.forPredicate(
+								BlockPredicate.matchesTag(BlockTags.AIR)));
 
-        PlacementUtils.register(
-            bootstrap,
-            PORTAL,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PORTAL),
-            RarityFilter.onAverageOnceEvery(90),
-            HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
-            BiomeFilter.biome());
+		PlacementUtils.register(
+				bootstrap,
+				PORTAL,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PORTAL),
+				RarityFilter.onAverageOnceEvery(90),
+				HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
+				BiomeFilter.biome());
 
-        PlacementUtils.register(
-            bootstrap,
-            FLOATING_ISLAND_TAIGA,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA),
-            RarityFilter.onAverageOnceEvery(80),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
-            BiomeFilter.biome());
+		PlacementUtils.register(
+				bootstrap,
+				FLOATING_ISLAND_TAIGA,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA),
+				RarityFilter.onAverageOnceEvery(80),
+				InSquarePlacement.spread(),
+				HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+				BiomeFilter.biome());
 
-        PlacementUtils.register(
-            bootstrap,
-            FLOATING_ISLAND_PLAINS,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS),
-            RarityFilter.onAverageOnceEvery(80),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
-            BiomeFilter.biome());
+		PlacementUtils.register(
+				bootstrap,
+				FLOATING_ISLAND_PLAINS,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS),
+				RarityFilter.onAverageOnceEvery(80),
+				InSquarePlacement.spread(),
+				HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+				BiomeFilter.biome());
 
-        PlacementUtils.register(
-            bootstrap,
-            FLOATING_ISLAND_TAIGA_BARE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA_BARE),
-            RarityFilter.onAverageOnceEvery(80),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
-            BiomeFilter.biome());
+		PlacementUtils.register(
+				bootstrap,
+				FLOATING_ISLAND_TAIGA_BARE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_TAIGA_BARE),
+				RarityFilter.onAverageOnceEvery(80),
+				InSquarePlacement.spread(),
+				HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+				BiomeFilter.biome());
 
-        PlacementUtils.register(
-            bootstrap,
-            FLOATING_ISLAND_PLAINS_BARE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS_BARE),
-            RarityFilter.onAverageOnceEvery(80),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
-            BiomeFilter.biome());
+		PlacementUtils.register(
+				bootstrap,
+				FLOATING_ISLAND_PLAINS_BARE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.FLOATING_ISLAND_PLAINS_BARE),
+				RarityFilter.onAverageOnceEvery(80),
+				InSquarePlacement.spread(),
+				HeightRangePlacement.uniform(VerticalAnchor.absolute(200), VerticalAnchor.absolute(300)),
+				BiomeFilter.biome());
 
-        PlacementUtils.register(
-            bootstrap,
-            JUNK_ORE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.JUNK_ORE),
-            orePlacement(10));
+		PlacementUtils.register(
+				bootstrap,
+				JUNK_ORE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.JUNK_ORE),
+				orePlacement(10));
 
-        PlacementUtils.register(
-            bootstrap,
-            BRICK_ORE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.BRICK_ORE),
-            orePlacement(80));
+		PlacementUtils.register(
+				bootstrap,
+				BRICK_ORE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.BRICK_ORE),
+				orePlacement(80));
 
-        PlacementUtils.register(
-            bootstrap,
-            PRISMARINE_ORE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PRISMARINE_ORE),
-            orePlacement(80));
+		PlacementUtils.register(
+				bootstrap,
+				PRISMARINE_ORE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PRISMARINE_ORE),
+				orePlacement(80));
 
-        PlacementUtils.register(
-            bootstrap,
-            PURPUR_ORE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PURPUR_ORE),
-            orePlacement(40));
+		PlacementUtils.register(
+				bootstrap,
+				PURPUR_ORE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.PURPUR_ORE),
+				orePlacement(40));
 
-        PlacementUtils.register(
-            bootstrap,
-            COPPER_ORE,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.COPPER_ORE),
-            orePlacement(80));
+		PlacementUtils.register(
+				bootstrap,
+				COPPER_ORE,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.COPPER_ORE),
+				orePlacement(80));
 
-        PlacementUtils.register(
-            bootstrap,
-            RUINS,
-            configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.RUINS),
-            RarityFilter.onAverageOnceEvery(40),
-            HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
-            BiomeFilter.biome());
-    }
+		PlacementUtils.register(
+				bootstrap,
+				RUINS,
+				configuredFeatureRegistry.getOrThrow(LocalConfiguredFeaturesProvider.RUINS),
+				RarityFilter.onAverageOnceEvery(40),
+				HeightmapPlacement.onHeightmap(Types.MOTION_BLOCKING),
+				BiomeFilter.biome());
+	}
 }

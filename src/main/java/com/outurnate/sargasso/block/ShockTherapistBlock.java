@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.block;
 
 import com.mojang.serialization.MapCodec;
@@ -27,139 +37,136 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistBlock extends Block implements EntityBlock {
-    public static enum Phase implements StringRepresentable {
-        IDLE,
-        CHARGING,
-        DISCHARGING;
+	public enum Phase implements StringRepresentable {
+		IDLE,
+		CHARGING,
+		DISCHARGING;
 
-        @Override
-        public String getSerializedName() {
-            return switch (this) {
-                case IDLE -> "idle";
-                case CHARGING -> "charging";
-                case DISCHARGING -> "discharging";
-            };
-        }
+		@Override
+		public @NonNull String getSerializedName() {
+			return switch (this) {
+				case IDLE -> "idle";
+				case CHARGING -> "charging";
+				case DISCHARGING -> "discharging";
+			};
+		}
 
-        public Phase next() {
-            return switch (this) {
-                case IDLE -> CHARGING;
-                case CHARGING -> DISCHARGING;
-                case DISCHARGING -> IDLE;
-            };
-        }
-    }
+		public Phase next() {
+			return switch (this) {
+				case IDLE -> CHARGING;
+				case CHARGING -> DISCHARGING;
+				case DISCHARGING -> IDLE;
+			};
+		}
+	}
 
-    public static final EnumProperty<Phase> PHASE = EnumProperty.create("phase", Phase.class);
-    public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
-    public static final BooleanProperty INFINITE_POWER = BooleanProperty.create("infinite_power");
+	public static final EnumProperty<Phase> PHASE = EnumProperty.create("phase", Phase.class);
+	public static final EnumProperty<Direction> HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+	public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
+	public static final BooleanProperty INFINITE_POWER = BooleanProperty.create("infinite_power");
 
-    public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
-        .mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
-    private static final double ORIGINAL_SHAPE_minX = 0.125;
-    private static final double ORIGINAL_SHAPE_minY = 0.0;
-    private static final double ORIGINAL_SHAPE_minZ = 0.25;
-    private static final double ORIGINAL_SHAPE_maxX = 0.875;
-    private static final double ORIGINAL_SHAPE_maxY = 0.5;
-    private static final double ORIGINAL_SHAPE_maxZ = 0.75;
-    private static final Function<BlockState, VoxelShape> SHAPES = Utils.propLookup(
-        HORIZONTAL_FACING,
-        ATTACH_FACE,
-        Utils.attachedHorizontalMap(
-            ORIGINAL_SHAPE_minX,
-            ORIGINAL_SHAPE_minY,
-            ORIGINAL_SHAPE_minZ,
-            ORIGINAL_SHAPE_maxX,
-            ORIGINAL_SHAPE_maxY,
-            ORIGINAL_SHAPE_maxZ));
+	public static final MapCodec<ShockTherapistBlock> CODEC = RecordCodecBuilder
+			.mapCodec(i -> i.group(propertiesCodec()).apply(i, ShockTherapistBlock::new));
+	private static final double ORIGINAL_SHAPE_minX = 0.125;
+	private static final double ORIGINAL_SHAPE_minY = 0.0;
+	private static final double ORIGINAL_SHAPE_minZ = 0.25;
+	private static final double ORIGINAL_SHAPE_maxX = 0.875;
+	private static final double ORIGINAL_SHAPE_maxY = 0.5;
+	private static final double ORIGINAL_SHAPE_maxZ = 0.75;
+	private static final Function<BlockState, VoxelShape> SHAPES = Utils.propLookup(
+			HORIZONTAL_FACING,
+			ATTACH_FACE,
+			Utils.attachedHorizontalMap(
+					ORIGINAL_SHAPE_minX,
+					ORIGINAL_SHAPE_minY,
+					ORIGINAL_SHAPE_minZ,
+					ORIGINAL_SHAPE_maxX,
+					ORIGINAL_SHAPE_maxY,
+					ORIGINAL_SHAPE_maxZ));
 
-    public ShockTherapistBlock(Properties properties) {
-        super(properties);
-        this.registerDefaultState(
-            stateDefinition.any()
-                .setValue(PHASE, Phase.IDLE)
-                .setValue(ATTACH_FACE, AttachFace.FLOOR)
-                .setValue(HORIZONTAL_FACING, Direction.NORTH)
-                .setValue(INFINITE_POWER, false));
-    }
+	public ShockTherapistBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(
+				stateDefinition.any()
+						.setValue(PHASE, Phase.IDLE)
+						.setValue(ATTACH_FACE, AttachFace.FLOOR)
+						.setValue(HORIZONTAL_FACING, Direction.NORTH)
+						.setValue(INFINITE_POWER, false));
+	}
 
-    @Override
-    protected MapCodec<ShockTherapistBlock> codec() {
-        return CODEC;
-    }
+	@Override
+	protected @NonNull MapCodec<ShockTherapistBlock> codec() {
+		return CODEC;
+	}
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, ATTACH_FACE, PHASE, INFINITE_POWER);
-    }
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(HORIZONTAL_FACING, ATTACH_FACE, PHASE, INFINITE_POWER);
+	}
 
-    @Override
-    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
-        return 1.0F;
-    }
+	@Override
+	protected float getShadeBrightness(@NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos) {
+		return 1.0F;
+	}
 
-    @Override
-    protected VoxelShape getShape(
-        BlockState state,
-        BlockGetter level,
-        BlockPos pos,
-        CollisionContext context) {
-        return SHAPES.apply(state);
-    }
+	@Override
+	protected @NonNull VoxelShape getShape(
+			@NonNull BlockState state,
+			@NonNull BlockGetter level,
+			@NonNull BlockPos pos,
+			@NonNull CollisionContext context) {
+		return SHAPES.apply(state);
+	}
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction clickedFace = context.getClickedFace();
-        AttachFace attachFace = switch (clickedFace) {
-            case Direction.DOWN -> AttachFace.CEILING;
-            case Direction.UP -> AttachFace.FLOOR;
-            case Direction.NORTH -> AttachFace.WALL;
-            case Direction.SOUTH -> AttachFace.WALL;
-            case Direction.EAST -> AttachFace.WALL;
-            case Direction.WEST -> AttachFace.WALL;
-        };
-        Direction horizontalFacing = switch (attachFace) {
-            case AttachFace.CEILING -> context.getHorizontalDirection().getOpposite();
-            case AttachFace.FLOOR -> context.getHorizontalDirection().getOpposite();
-            case AttachFace.WALL -> clickedFace;
-        };
-        return this.defaultBlockState()
-            .setValue(HORIZONTAL_FACING, horizontalFacing)
-            .setValue(ATTACH_FACE, attachFace);
-    }
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		Direction clickedFace = context.getClickedFace();
+		AttachFace attachFace = switch (clickedFace) {
+			case Direction.DOWN -> AttachFace.CEILING;
+			case Direction.UP -> AttachFace.FLOOR;
+			case Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST -> AttachFace.WALL;
+		};
+		Direction horizontalFacing = switch (attachFace) {
+			case AttachFace.CEILING, AttachFace.FLOOR -> context.getHorizontalDirection().getOpposite();
+			case AttachFace.WALL -> clickedFace;
+		};
+		return this.defaultBlockState()
+				.setValue(HORIZONTAL_FACING, horizontalFacing)
+				.setValue(ATTACH_FACE, attachFace);
+	}
 
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-        Level level,
-        BlockState state,
-        BlockEntityType<T> type) {
-        return Utils.createTickerHelper(
-            type,
-            LocalBlockEntities.SHOCK_THERAPIST.get(),
-            ShockTherapistBlockEntity::tick);
-    }
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+			@NonNull Level level,
+			@NonNull BlockState state,
+			@NonNull BlockEntityType<T> type) {
+		return Utils.createTickerHelper(
+				type,
+				LocalBlockEntities.SHOCK_THERAPIST.get(),
+				ShockTherapistBlockEntity::tick);
+	}
 
-    @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.setValue(HORIZONTAL_FACING, mirror.mirror(state.getValue(HORIZONTAL_FACING)));
-    }
+	@Override
+	protected @NonNull BlockState mirror(BlockState state, Mirror mirror) {
+		return state.setValue(HORIZONTAL_FACING, mirror.mirror(state.getValue(HORIZONTAL_FACING)));
+	}
 
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos worldPosition, BlockState blockState) {
-        return new ShockTherapistBlockEntity(worldPosition, blockState);
-    }
+	@Override
+	public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos worldPosition, @NonNull BlockState blockState) {
+		return new ShockTherapistBlockEntity(worldPosition, blockState);
+	}
 
-    @Override
-    protected boolean propagatesSkylightDown(BlockState state) {
-        return true;
-    }
+	@Override
+	protected boolean propagatesSkylightDown(@NonNull BlockState state) {
+		return true;
+	}
 
-    @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
-    }
+	@Override
+	protected @NonNull BlockState rotate(BlockState state, Rotation rotation) {
+		return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
+	}
 }

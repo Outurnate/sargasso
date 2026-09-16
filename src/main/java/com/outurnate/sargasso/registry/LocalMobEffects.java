@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -16,38 +25,38 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class LocalMobEffects {
-    public static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister
-        .create(Registries.MOB_EFFECT, SuperSargassoSea.MODID);
+	public static final DeferredRegister<MobEffect> REGISTRY = DeferredRegister
+			.create(Registries.MOB_EFFECT, SuperSargassoSea.MODID);
 
-    public static final Holder<MobEffect> HEAD_EXPLOSION = REGISTRY.register(
-        "head_explosion",
-        () -> new HeadExplosionEffect(
-            MobEffectCategory.HARMFUL,
-            0xff0000));
+	public static final Holder<MobEffect> HEAD_EXPLOSION = REGISTRY.register(
+			"head_explosion",
+			() -> new HeadExplosionEffect(
+					MobEffectCategory.HARMFUL,
+					0xff0000));
 
-    private static final Identifier scale = SuperSargassoSea.ID("scale");
+	private static final Identifier scale = SuperSargassoSea.ID("scale");
 
-    public static final Holder<MobEffect> SHRINK = REGISTRY.register(
-        "shrink",
-        () -> new SizeChangeEffect(
-            MobEffectCategory.NEUTRAL,
-            ARGB.color(0x20, 0x20, 0x60))
-                .addAttributeModifier(Attributes.SCALE, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, -0.5, Operation.ADD_MULTIPLIED_BASE));
+	public static final Holder<MobEffect> SHRINK = REGISTRY.register(
+			"shrink",
+			() -> new SizeChangeEffect(
+					MobEffectCategory.NEUTRAL,
+					ARGB.color(0x20, 0x20, 0x60))
+					.addAttributeModifier(Attributes.SCALE, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
+					.addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, -0.9, Operation.ADD_MULTIPLIED_BASE)
+					.addAttributeModifier(Attributes.JUMP_STRENGTH, scale, -0.5, Operation.ADD_MULTIPLIED_BASE));
 
-    public static final Holder<MobEffect> GROW = REGISTRY.register(
-        "grow",
-        () -> new SizeChangeEffect(
-            MobEffectCategory.NEUTRAL,
-            ARGB.color(0x60, 0x20, 0x20))
-                .addAttributeModifier(Attributes.SCALE, scale, 2.0, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
-                .addAttributeModifier(Attributes.STEP_HEIGHT, scale, 5, Operation.ADD_VALUE)
-                .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, scale, 10.0, Operation.ADD_VALUE));
+	public static final Holder<MobEffect> GROW = REGISTRY.register(
+			"grow",
+			() -> new SizeChangeEffect(
+					MobEffectCategory.NEUTRAL,
+					ARGB.color(0x60, 0x20, 0x20))
+					.addAttributeModifier(Attributes.SCALE, scale, 2.0, Operation.ADD_MULTIPLIED_BASE)
+					.addAttributeModifier(Attributes.MOVEMENT_SPEED, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+					.addAttributeModifier(Attributes.JUMP_STRENGTH, scale, 0.9, Operation.ADD_MULTIPLIED_BASE)
+					.addAttributeModifier(Attributes.STEP_HEIGHT, scale, 5, Operation.ADD_VALUE)
+					.addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, scale, 10.0, Operation.ADD_VALUE));
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 }

@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.Rational;
@@ -13,22 +22,22 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class LocalAttachmentTypes {
-    public static final DeferredRegister<AttachmentType<?>> REGISTRY = DeferredRegister
-        .create(NeoForgeRegistries.ATTACHMENT_TYPES, SuperSargassoSea.MODID);
+	public static final DeferredRegister<AttachmentType<?>> REGISTRY = DeferredRegister
+			.create(NeoForgeRegistries.ATTACHMENT_TYPES, SuperSargassoSea.MODID);
 
-    public static final Supplier<AttachmentType<Instant>> BREAD_EATEN = REGISTRY.register(
-        "bread_eaten",
-        () -> AttachmentType.builder(() -> Instant.now())
-            .serialize(ExtraCodecs.INSTANT_ISO8601.fieldOf("bread_eaten"))
-            .build());
+	public static final Supplier<AttachmentType<Instant>> BREAD_EATEN = REGISTRY.register(
+			"bread_eaten",
+			() -> AttachmentType.builder(() -> Instant.now())
+					.serialize(ExtraCodecs.INSTANT_ISO8601.fieldOf("bread_eaten"))
+					.build());
 
-    public static final Supplier<AttachmentType<Rational>> GENERATOR_COUNT = REGISTRY.register(
-        "generator_count",
-        () -> AttachmentType.builder(() -> new Rational(0, 1))
-            .serialize(Rational.CODEC.fieldOf("generator_count"))
-            .build());
+	public static final Supplier<AttachmentType<Rational>> GENERATOR_COUNT = REGISTRY.register(
+			"generator_count",
+			() -> AttachmentType.builder(() -> new Rational(0, 1))
+					.serialize(Rational.CODEC.fieldOf("generator_count"))
+					.build());
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 }

@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso;
 
 import com.mojang.logging.LogUtils;
@@ -30,33 +39,33 @@ import org.slf4j.Logger;
 
 @Mod(SuperSargassoSea.MODID)
 public class SuperSargassoSea {
-    public static final String MODID = "sargasso";
-    public static final Logger LOGGER = LogUtils.getLogger();
+	public static final String MODID = "sargasso";
+	public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static Identifier ID(String id) {
-        return Identifier.fromNamespaceAndPath(MODID, id);
-    }
+	public static Identifier ID(String id) {
+		return Identifier.fromNamespaceAndPath(MODID, id);
+	}
 
-    public SuperSargassoSea(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
-        LocalBlocks.register(modEventBus);
-        LocalItems.register(modEventBus);
-        LocalLootItemFunctions.register(modEventBus);
-        LocalCreativeTabs.register(modEventBus);
-        LocalBlockEntities.register(modEventBus);
-        LocalEntities.register(modEventBus);
-        LocalSoundEvents.register(modEventBus);
-        LocalMobEffects.register(modEventBus);
-        LocalPotions.register(modEventBus);
-        LocalAttachmentTypes.register(modEventBus);
-        LocalDataComponentTypes.register(modEventBus);
-        LocalConsumeEffects.register(modEventBus);
-        LocalParticleTypes.register(modEventBus);
-        LocalRecipeSerializers.register(modEventBus);
-        LocalFeatures.register(modEventBus);
-        LocalVillagerProfessions.register(modEventBus);
-        LocalPoiTypes.register(modEventBus);
-        LocalEntityDataSerializers.register(modEventBus);
-    }
+	public SuperSargassoSea(IEventBus modEventBus, ModContainer modContainer) {
+		modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+		modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+		LocalBlocks.register(modEventBus);
+		LocalItems.register(modEventBus);
+		LocalLootItemFunctions.register(modEventBus);
+		LocalCreativeTabs.register(modEventBus);
+		LocalBlockEntities.register(modEventBus);
+		LocalEntities.register(modEventBus);
+		LocalSoundEvents.register(modEventBus);
+		LocalMobEffects.register(modEventBus);
+		LocalPotions.register(modEventBus);
+		LocalAttachmentTypes.register(modEventBus);
+		LocalDataComponentTypes.register(modEventBus);
+		LocalConsumeEffects.register(modEventBus);
+		LocalParticleTypes.register(modEventBus);
+		LocalRecipeSerializers.register(modEventBus);
+		LocalFeatures.register(modEventBus);
+		LocalVillagerProfessions.register(modEventBus);
+		LocalPoiTypes.register(modEventBus);
+		LocalEntityDataSerializers.register(modEventBus);
+	}
 }

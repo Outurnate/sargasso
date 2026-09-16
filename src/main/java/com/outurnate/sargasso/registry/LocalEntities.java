@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -18,109 +27,109 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class LocalEntities {
-    public static final DeferredRegister.Entities REGISTRY = DeferredRegister
-        .createEntities(SuperSargassoSea.MODID);
+	public static final DeferredRegister.Entities REGISTRY = DeferredRegister
+			.createEntities(SuperSargassoSea.MODID);
 
-    public static final Supplier<EntityType<ThrownLightningBottle>> LIGHTNING_BOTTLE = REGISTRY.register(
-        "lightning_bottle",
-        () -> EntityType.Builder.<ThrownLightningBottle>of(
-            ThrownLightningBottle::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("lightning_bottle"))));
+	public static final Supplier<EntityType<ThrownLightningBottle>> LIGHTNING_BOTTLE = REGISTRY.register(
+			"lightning_bottle",
+			() -> EntityType.Builder.<ThrownLightningBottle>of(
+					ThrownLightningBottle::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("lightning_bottle"))));
 
-    public static final Supplier<EntityType<ElectricMine>> ELECTRIC_MINE = REGISTRY.register(
-        "electric_mine",
-        () -> EntityType.Builder.<ElectricMine>of(
-            ElectricMine::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("electric_mine"))));
+	public static final Supplier<EntityType<ElectricMine>> ELECTRIC_MINE = REGISTRY.register(
+			"electric_mine",
+			() -> EntityType.Builder.<ElectricMine>of(
+					ElectricMine::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("electric_mine"))));
 
-    public static final Supplier<EntityType<ThrownRedstoneEMP>> REDSTONE_EMP = REGISTRY.register(
-        "redstone_emp",
-        () -> EntityType.Builder.<ThrownRedstoneEMP>of(
-            ThrownRedstoneEMP::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("redstone_emp"))));
+	public static final Supplier<EntityType<ThrownRedstoneEMP>> REDSTONE_EMP = REGISTRY.register(
+			"redstone_emp",
+			() -> EntityType.Builder.<ThrownRedstoneEMP>of(
+					ThrownRedstoneEMP::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("redstone_emp"))));
 
-    public static final Supplier<EntityType<RedstoneBug>> REDSTONE_BUG = REGISTRY.register(
-        "redstone_bug",
-        () -> EntityType.Builder.<RedstoneBug>of(
-            RedstoneBug::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("redstone_bug"))));
+	public static final Supplier<EntityType<RedstoneBug>> REDSTONE_BUG = REGISTRY.register(
+			"redstone_bug",
+			() -> EntityType.Builder.<RedstoneBug>of(
+					RedstoneBug::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("redstone_bug"))));
 
-    public static final Supplier<EntityType<ThrownHammer>> HAMMER = REGISTRY.register(
-        "hammer",
-        () -> EntityType.Builder.<ThrownHammer>of(
-            ThrownHammer::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(1.0F, 1.0F)
-            .eyeHeight(0.13F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("hammer"))));
+	public static final Supplier<EntityType<ThrownHammer>> HAMMER = REGISTRY.register(
+			"hammer",
+			() -> EntityType.Builder.<ThrownHammer>of(
+					ThrownHammer::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(1.0F, 1.0F)
+					.eyeHeight(0.13F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("hammer"))));
 
-    public static final Supplier<EntityType<SizeRayBeam>> SIZE_RAY_BEAM = REGISTRY.register(
-        "size_ray_beam",
-        () -> EntityType.Builder.<SizeRayBeam>of(
-            SizeRayBeam::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("size_ray_beam"))));
+	public static final Supplier<EntityType<SizeRayBeam>> SIZE_RAY_BEAM = REGISTRY.register(
+			"size_ray_beam",
+			() -> EntityType.Builder.<SizeRayBeam>of(
+					SizeRayBeam::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("size_ray_beam"))));
 
-    public static final Supplier<EntityType<ThrownBottleOfSpiders>> SPIDER_BOTTLE = REGISTRY.register(
-        "spider_bottle",
-        () -> EntityType.Builder.<ThrownBottleOfSpiders>of(
-            ThrownBottleOfSpiders::new,
-            MobCategory.MISC)
-            .noLootTable()
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(
-                ResourceKey.create(
-                    Registries.ENTITY_TYPE,
-                    SuperSargassoSea.ID("spider_bottle"))));
+	public static final Supplier<EntityType<ThrownBottleOfSpiders>> SPIDER_BOTTLE = REGISTRY.register(
+			"spider_bottle",
+			() -> EntityType.Builder.<ThrownBottleOfSpiders>of(
+					ThrownBottleOfSpiders::new,
+					MobCategory.MISC)
+					.noLootTable()
+					.sized(0.25F, 0.25F)
+					.clientTrackingRange(4)
+					.updateInterval(10)
+					.build(
+							ResourceKey.create(
+									Registries.ENTITY_TYPE,
+									SuperSargassoSea.ID("spider_bottle"))));
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 }

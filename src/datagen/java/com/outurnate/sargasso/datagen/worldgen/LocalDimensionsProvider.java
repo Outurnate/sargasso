@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.mojang.datafixers.util.Pair;
@@ -17,37 +27,37 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 
 public class LocalDimensionsProvider {
-    public static final ResourceKey<LevelStem> SEA = ResourceKey
-        .create(Registries.LEVEL_STEM, SuperSargassoSea.ID("sea"));
+	public static final ResourceKey<LevelStem> SEA = ResourceKey
+			.create(Registries.LEVEL_STEM, SuperSargassoSea.ID("sea"));
 
-    public static void provide(BootstrapContext<LevelStem> bootstrap) {
-        HolderGetter<DimensionType> dimensionTypeRegistry = bootstrap
-            .lookup(Registries.DIMENSION_TYPE);
-        HolderGetter<Biome> biomeRegistry = bootstrap
-            .lookup(Registries.BIOME);
-        HolderGetter<NoiseGeneratorSettings> noiseGeneratorSettingsRegistry = bootstrap
-            .lookup(Registries.NOISE_SETTINGS);
+	public static void provide(BootstrapContext<LevelStem> bootstrap) {
+		HolderGetter<DimensionType> dimensionTypeRegistry = bootstrap
+				.lookup(Registries.DIMENSION_TYPE);
+		HolderGetter<Biome> biomeRegistry = bootstrap
+				.lookup(Registries.BIOME);
+		HolderGetter<NoiseGeneratorSettings> noiseGeneratorSettingsRegistry = bootstrap
+				.lookup(Registries.NOISE_SETTINGS);
 
-        bootstrap.register(
-            SEA,
-            new LevelStem(
-                dimensionTypeRegistry.getOrThrow(LocalDimensionTypesProvider.SEA),
-                new NoiseBasedChunkGenerator(
-                    MultiNoiseBiomeSource.createFromList(
-                        new ParameterList<>(
-                            List.of(
-                                Pair.of(
-                                    Climate.parameters(-0.3F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.HILLS)),
-                                Pair.of(
-                                    Climate.parameters(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)),
-                                Pair.of(
-                                    Climate.parameters(-1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)),
-                                Pair.of(
-                                    Climate.parameters(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
-                                    biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS))))),
-                    noiseGeneratorSettingsRegistry.getOrThrow(LocalNoiseSettingsProvider.SEA))));
-    }
+		bootstrap.register(
+				SEA,
+				new LevelStem(
+						dimensionTypeRegistry.getOrThrow(LocalDimensionTypesProvider.SEA),
+						new NoiseBasedChunkGenerator(
+								MultiNoiseBiomeSource.createFromList(
+										new ParameterList<>(
+												List.of(
+														Pair.of(
+																Climate.parameters(-0.3F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
+																biomeRegistry.getOrThrow(LocalBiomesProvider.HILLS)),
+														Pair.of(
+																Climate.parameters(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
+																biomeRegistry.getOrThrow(LocalBiomesProvider.LOWLANDS)),
+														Pair.of(
+																Climate.parameters(-1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
+																biomeRegistry.getOrThrow(LocalBiomesProvider.RARE)),
+														Pair.of(
+																Climate.parameters(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F),
+																biomeRegistry.getOrThrow(LocalBiomesProvider.PEAKS))))),
+								noiseGeneratorSettingsRegistry.getOrThrow(LocalNoiseSettingsProvider.SEA))));
+	}
 }

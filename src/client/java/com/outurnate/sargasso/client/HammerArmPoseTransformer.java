@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.client;
 
 import net.minecraft.client.model.HumanoidModel;
@@ -8,79 +18,74 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.common.asm.enumextension.EnumProxy;
 import net.neoforged.neoforge.client.IArmPoseTransformer;
+import org.jspecify.annotations.NonNull;
 
 public class HammerArmPoseTransformer implements IArmPoseTransformer {
-    private static class Animation {
-        public static record Keyframe(float time, Vec3 value) {
-        }
+	private record Animation(Keyframe... keyframes) {
+		public record Keyframe(float time, Vec3 value) {
+		}
 
-        private final Keyframe[] keyframes;
+		public Vec3 sample(float time) {
+			Keyframe last = keyframes[keyframes.length - 1];
+			if (time >= last.time) {
+				return last.value;
+			}
 
-        public Animation(Keyframe... keyframes) {
-            this.keyframes = keyframes;
-        }
+			for (int i = 0; i < keyframes.length - 1; i++) {
+				Keyframe current = keyframes[i];
+				Keyframe next = keyframes[i + 1];
 
-        public Vec3 sample(float time) {
-            Keyframe last = keyframes[keyframes.length - 1];
-            if (time >= last.time) {
-                return last.value;
-            }
+				if (time >= current.time && time <= next.time) {
+					float span = next.time - current.time;
+					float t = (span == 0f) ? 0f : (time - current.time) / span;
+					return Mth.lerp(t, current.value, next.value);
+				}
+			}
 
-            for (int i = 0; i < keyframes.length - 1; i++) {
-                Keyframe current = keyframes[i];
-                Keyframe next = keyframes[i + 1];
+			return last.value;
+		}
+	}
 
-                if (time >= current.time && time <= next.time) {
-                    float span = next.time - current.time;
-                    float t = (span == 0f) ? 0f : (time - current.time) / span;
-                    return Mth.lerp(t, current.value, next.value);
-                }
-            }
+	public static final EnumProxy<ArmPose> PROXY = new EnumProxy<>(
+			ArmPose.class,
+			true,
+			true,
+			new HammerArmPoseTransformer());
 
-            return last.value;
-        }
-    }
+	private static final Animation MAIN_HAND_ANIM = new Animation(
+			new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.1, 0.0)),
+			new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * -0.1, 0.0)),
+			new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.1, 0.0)));
 
-    public static final EnumProxy<ArmPose> PROXY = new EnumProxy<ArmPose>(
-        ArmPose.class,
-        true,
-        true,
-        new HammerArmPoseTransformer());
+	private static final Animation OFF_HAND_ANIM = new Animation(
+			new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * 0.3, 0.0)),
+			new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * 0.3, 0.0)),
+			new Animation.Keyframe(0.8F, new Vec3(Math.PI * -0.75, Math.PI * 0.3, 0.0)));
 
-    private static final Animation MAIN_HAND_ANIM = new Animation(
-        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.1, 0.0)),
-        new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * -0.1, 0.0)),
-        new Animation.Keyframe(1.0F, new Vec3(Math.PI * -0.75, Math.PI * -0.1, 0.0)));
-
-    private static final Animation OFF_HAND_ANIM = new Animation(
-        new Animation.Keyframe(0.0F, new Vec3(Math.PI * -0.75, Math.PI * 0.3, 0.0)),
-        new Animation.Keyframe(0.1F, new Vec3(Math.PI * -0.25, Math.PI * 0.3, 0.0)),
-        new Animation.Keyframe(0.8F, new Vec3(Math.PI * -0.75, Math.PI * 0.3, 0.0)));
-
-    @Override
-    public void applyTransform(HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
-        Vec3 main = MAIN_HAND_ANIM.sample(entity.attackTime);
-        Vec3 off = OFF_HAND_ANIM.sample(entity.attackTime);
-        if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
-            if (entity.attackArm.compareTo(arm) == 0) {
-                model.rightArm.xRot = (float) main.x;
-                model.rightArm.yRot = (float) main.y;
-                model.rightArm.zRot = (float) main.z;
-                model.leftArm.xRot = (float) off.x;
-                model.leftArm.yRot = (float) off.y;
-                model.leftArm.zRot = (float) off.z;
-                entity.leftHandItemState.clear();
-            }
-        } else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
-            if (entity.attackArm.compareTo(arm) == 0) {
-                model.leftArm.xRot = (float) main.x;
-                model.leftArm.yRot = -(float) main.y;
-                model.leftArm.zRot = -(float) main.z;
-                model.rightArm.xRot = (float) off.x;
-                model.rightArm.yRot = -(float) off.y;
-                model.rightArm.zRot = -(float) off.z;
-                entity.rightHandItemState.clear();
-            }
-        }
-    }
+	@Override
+	public void applyTransform(@NonNull HumanoidModel<?> model, HumanoidRenderState entity, HumanoidArm arm) {
+		Vec3 main = MAIN_HAND_ANIM.sample(entity.attackTime);
+		Vec3 off = OFF_HAND_ANIM.sample(entity.attackTime);
+		if (arm.compareTo(HumanoidArm.RIGHT) == 0) {
+			if (entity.attackArm.compareTo(arm) == 0) {
+				model.rightArm.xRot = (float) main.x;
+				model.rightArm.yRot = (float) main.y;
+				model.rightArm.zRot = (float) main.z;
+				model.leftArm.xRot = (float) off.x;
+				model.leftArm.yRot = (float) off.y;
+				model.leftArm.zRot = (float) off.z;
+				entity.leftHandItemState.clear();
+			}
+		} else if (arm.compareTo(HumanoidArm.LEFT) == 0) {
+			if (entity.attackArm.compareTo(arm) == 0) {
+				model.leftArm.xRot = (float) main.x;
+				model.leftArm.yRot = -(float) main.y;
+				model.leftArm.zRot = -(float) main.z;
+				model.rightArm.xRot = (float) off.x;
+				model.rightArm.yRot = -(float) off.y;
+				model.rightArm.zRot = -(float) off.z;
+				entity.rightHandItemState.clear();
+			}
+		}
+	}
 }

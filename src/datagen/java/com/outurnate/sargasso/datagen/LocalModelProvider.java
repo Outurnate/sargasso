@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen;
 
 import static java.util.Map.entry;
@@ -26,7 +35,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.color.item.Constant;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -44,7 +52,6 @@ import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.item.CompositeModel;
 import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
@@ -58,227 +65,228 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.joml.Vector3f;
+import org.jspecify.annotations.NonNull;
 
 public class LocalModelProvider extends ModelProvider {
-    private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
-        Identifier model = itemModels.generateLayeredItem(
-            item,
-            TextureMapping.getItemTexture(Items.SPLASH_POTION),
-            TextureMapping.getItemTexture(item));
-        itemModels.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
-    }
+	private static void createBottleWithContents(ItemModelGenerators itemModels, Item item) {
+		Identifier model = itemModels.generateLayeredItem(
+				item,
+				TextureMapping.getItemTexture(Items.SPLASH_POTION),
+				TextureMapping.getItemTexture(item));
+		itemModels.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
+	}
 
-    private static void createRotatedAndModelRandomizedBlock(
-        BlockModelGenerators blockModels,
-        Block block,
-        Identifier baseModel,
-        int numVariants) {
-        ArrayList<Variant> allVariants = new ArrayList<Variant>();
-        for (int i = 0; i < numVariants; ++i) {
-            String suffix = i == 0 ? "" : String.valueOf(i);
-            Variant base = plainModel(baseModel.withSuffix(suffix));
-            allVariants.add(base);
-            allVariants.add(base.with(Y_ROT_90));
-            allVariants.add(base.with(Y_ROT_180));
-            allVariants.add(base.with(Y_ROT_270));
-        }
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                block,
-                new MultiVariant(
-                    WeightedList.of(allVariants.stream().map(v -> new Weighted<>(v, 1)).toList()))));
-    }
+	private static void createRotatedAndModelRandomizedBlock(
+			BlockModelGenerators blockModels,
+			Block block,
+			Identifier baseModel,
+			int numVariants) {
+		ArrayList<Variant> allVariants = new ArrayList<>();
+		for (int i = 0; i < numVariants; ++i) {
+			String suffix = i == 0 ? "" : String.valueOf(i);
+			Variant base = plainModel(baseModel.withSuffix(suffix));
+			allVariants.add(base);
+			allVariants.add(base.with(Y_ROT_90));
+			allVariants.add(base.with(Y_ROT_180));
+			allVariants.add(base.with(Y_ROT_270));
+		}
+		blockModels.blockStateOutput.accept(
+				createSimpleBlock(
+						block,
+						new MultiVariant(
+								WeightedList.of(allVariants.stream().map(v -> new Weighted<>(v, 1)).toList()))));
+	}
 
-    public LocalModelProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
-        super(output, SuperSargassoSea.MODID);
-    }
+	public LocalModelProvider(PackOutput output) {
+		super(output, SuperSargassoSea.MODID);
+	}
 
-    private MultiPartGenerator generateShockTherapist() {
-        Map<AttachFace, VariantMutator> attachMutators = Map.ofEntries(
-            entry(AttachFace.CEILING, X_ROT_180),
-            entry(AttachFace.FLOOR, NOP),
-            entry(AttachFace.WALL, X_ROT_90));
-        Map<Direction, VariantMutator> horizontalMutators = Map.ofEntries(
-            entry(Direction.EAST, Y_ROT_90),
-            entry(Direction.SOUTH, Y_ROT_180),
-            entry(Direction.WEST, Y_ROT_270),
-            entry(Direction.NORTH, NOP));
+	private MultiPartGenerator generateShockTherapist() {
+		Map<AttachFace, VariantMutator> attachMutators = Map.ofEntries(
+				entry(AttachFace.CEILING, X_ROT_180),
+				entry(AttachFace.FLOOR, NOP),
+				entry(AttachFace.WALL, X_ROT_90));
+		Map<Direction, VariantMutator> horizontalMutators = Map.ofEntries(
+				entry(Direction.EAST, Y_ROT_90),
+				entry(Direction.SOUTH, Y_ROT_180),
+				entry(Direction.WEST, Y_ROT_270),
+				entry(Direction.NORTH, NOP));
 
-        Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
-        Identifier shock_therapist_glow = SuperSargassoSea.ID("block/shock_therapist_glow");
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get());
-        for (AttachFace attachFace : AttachFace.values()) {
-            for (Direction direction : Direction.Plane.HORIZONTAL) {
-                generator.with(
-                    condition()
-                        .term(BlockStateProperties.ATTACH_FACE, attachFace)
-                        .term(BlockStateProperties.HORIZONTAL_FACING, direction),
-                    plainVariant(shock_therapist)
-                        .with(attachMutators.get(attachFace))
-                        .with(horizontalMutators.get(direction)));
-                generator.with(
-                    condition()
-                        .term(ShockTherapistBlock.PHASE, Phase.DISCHARGING)
-                        .term(BlockStateProperties.ATTACH_FACE, attachFace)
-                        .term(BlockStateProperties.HORIZONTAL_FACING, direction),
-                    plainVariant(shock_therapist_glow)
-                        .with(attachMutators.get(attachFace))
-                        .with(horizontalMutators.get(direction)));
-            }
-        }
-        return generator;
-    }
+		Identifier shock_therapist = SuperSargassoSea.ID("block/shock_therapist");
+		Identifier shock_therapist_glow = SuperSargassoSea.ID("block/shock_therapist_glow");
+		MultiPartGenerator generator = MultiPartGenerator.multiPart(LocalBlocks.SHOCK_THERAPIST.get());
+		for (AttachFace attachFace : AttachFace.values()) {
+			for (Direction direction : Direction.Plane.HORIZONTAL) {
+				generator.with(
+						condition()
+								.term(BlockStateProperties.ATTACH_FACE, attachFace)
+								.term(BlockStateProperties.HORIZONTAL_FACING, direction),
+						plainVariant(shock_therapist)
+								.with(attachMutators.get(attachFace))
+								.with(horizontalMutators.get(direction)));
+				generator.with(
+						condition()
+								.term(ShockTherapistBlock.PHASE, Phase.DISCHARGING)
+								.term(BlockStateProperties.ATTACH_FACE, attachFace)
+								.term(BlockStateProperties.HORIZONTAL_FACING, direction),
+						plainVariant(shock_therapist_glow)
+								.with(attachMutators.get(attachFace))
+								.with(horizontalMutators.get(direction)));
+			}
+		}
+		return generator;
+	}
 
-    @Override
-    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
-        createRotatedAndModelRandomizedBlock(
-            blockModels,
-            LocalBlocks.DEBRIS.get(),
-            Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "block/debris"),
-            3);
+	@Override
+	protected void registerModels(@NonNull BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+		createRotatedAndModelRandomizedBlock(
+				blockModels,
+				LocalBlocks.DEBRIS.get(),
+				Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "block/debris"),
+				3);
 
-        blockModels.createTrivialCube(LocalBlocks.FLOTSAM.get());
-        blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
-        blockModels.createTrivialCube(LocalBlocks.STARMETAL_BLOCK.get());
-        blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
-        blockModels.createTrivialCube(LocalBlocks.PETRIFIED_FLOTSAM.get());
-        blockModels.createTrivialCube(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get());
-        blockModels.createTrivialCube(LocalBlocks.BETA_MOSSY_COBBLE.get());
-        blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
-        blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
-        Identifier toaster = SuperSargassoSea.ID("block/toaster");
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.TOASTER.get(),
-                plainVariant(toaster)).with(ROTATION_HORIZONTAL_FACING));
-        Identifier pylon = SuperSargassoSea.ID("block/pylon");
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.PYLON.get(),
-                plainVariant(pylon)));
-        blockModels.blockStateOutput.accept(generateShockTherapist());
-        Identifier alpha_grass = Identifier.withDefaultNamespace("block/grass_block");
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.ALPHA_GRASS.get(),
-                plainVariant(alpha_grass)));
-        blockModels.blockStateOutput.accept(
-            MultiVariantGenerator.dispatch(LocalBlocks.BETA_CHEST.get())
-                .with(
-                    PropertyDispatch.initial(BlockStateProperties.CHEST_TYPE)
-                        .select(ChestType.LEFT, plainVariant(SuperSargassoSea.ID("block/beta_chest_left")))
-                        .select(ChestType.RIGHT, plainVariant(SuperSargassoSea.ID("block/beta_chest_right")))
-                        .select(
-                            ChestType.SINGLE,
-                            plainVariant(SuperSargassoSea.ID("block/beta_chest_single"))))
-                .with(ROTATION_HORIZONTAL_FACING));
-        Identifier sortingBin = SuperSargassoSea.ID("block/sorting_bin");
-        blockModels.blockStateOutput.accept(
-            createSimpleBlock(
-                LocalBlocks.SORTING_BIN.get(),
-                plainVariant(sortingBin)));
+		blockModels.createTrivialCube(LocalBlocks.FLOTSAM.get());
+		blockModels.createTrivialCube(LocalBlocks.CREAMY_BEDROCK.get());
+		blockModels.createTrivialCube(LocalBlocks.STARMETAL_BLOCK.get());
+		blockModels.createTrivialCube(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get());
+		blockModels.createTrivialCube(LocalBlocks.PETRIFIED_FLOTSAM.get());
+		blockModels.createTrivialCube(LocalBlocks.RICH_PETRIFIED_FLOTSAM.get());
+		blockModels.createTrivialCube(LocalBlocks.BETA_MOSSY_COBBLE.get());
+		blockModels.createParticleOnlyBlock(LocalBlocks.GLITCH.get(), Blocks.OBSIDIAN);
+		blockModels.createParticleOnlyBlock(LocalBlocks.PORTAL.get(), Blocks.OBSIDIAN);
+		Identifier toaster = SuperSargassoSea.ID("block/toaster");
+		blockModels.blockStateOutput.accept(
+				createSimpleBlock(
+						LocalBlocks.TOASTER.get(),
+						plainVariant(toaster)).with(ROTATION_HORIZONTAL_FACING));
+		Identifier pylon = SuperSargassoSea.ID("block/pylon");
+		blockModels.blockStateOutput.accept(
+				createSimpleBlock(
+						LocalBlocks.PYLON.get(),
+						plainVariant(pylon)));
+		blockModels.blockStateOutput.accept(generateShockTherapist());
+		Identifier alpha_grass = Identifier.withDefaultNamespace("block/grass_block");
+		blockModels.blockStateOutput.accept(
+				createSimpleBlock(
+						LocalBlocks.ALPHA_GRASS.get(),
+						plainVariant(alpha_grass)));
+		blockModels.blockStateOutput.accept(
+				MultiVariantGenerator.dispatch(LocalBlocks.BETA_CHEST.get())
+						.with(
+								PropertyDispatch.initial(BlockStateProperties.CHEST_TYPE)
+										.select(ChestType.LEFT, plainVariant(SuperSargassoSea.ID("block/beta_chest_left")))
+										.select(ChestType.RIGHT, plainVariant(SuperSargassoSea.ID("block/beta_chest_right")))
+										.select(
+												ChestType.SINGLE,
+												plainVariant(SuperSargassoSea.ID("block/beta_chest_single"))))
+						.with(ROTATION_HORIZONTAL_FACING));
+		Identifier sortingBin = SuperSargassoSea.ID("block/sorting_bin");
+		blockModels.blockStateOutput.accept(
+				createSimpleBlock(
+						LocalBlocks.SORTING_BIN.get(),
+						plainVariant(sortingBin)));
 
-        itemModels.itemModelOutput.accept(
-            LocalItems.DEBRIS.get(),
-            new CompositeModel.Unbaked(
-                List.of(
-                    new CuboidItemModelWrapper.Unbaked(
-                        SuperSargassoSea.ID("block/debris"),
-                        Optional.empty(),
-                        Collections.emptyList()),
-                    new CuboidItemModelWrapper.Unbaked(
-                        SuperSargassoSea.ID("block/debris1"),
-                        Optional.empty(),
-                        Collections.emptyList()),
-                    new CuboidItemModelWrapper.Unbaked(
-                        SuperSargassoSea.ID("block/debris2"),
-                        Optional.empty(),
-                        Collections.emptyList())),
-                Optional.of(
-                    new Transformation(
-                        new Vector3f(0.25F, 0.5F, 0.25F),
-                        null,
-                        new Vector3f(0.5F, 0.5F, 0.5F),
-                        null))));
-        itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_BOOTS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_HELMET.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_LEGGINGS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.RECHARGABLE_AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(
-            LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE.get(),
-            ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.POTATO_BATTERY.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.PERSONAL_VOLTMETER.get(), ModelTemplates.FLAT_ITEM);
-        createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
-        createBottleWithContents(itemModels, LocalItems.SPIDER_BOTTLE.get());
-        itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.QUARTER.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.KEY.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.KEY_OMINOUS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STARMETAL_INGOT.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.CIRCUIT_BOARD.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.BROKEN_COG.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.CLOCKSPRING.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.RUSTED_BOLT.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.LOOSE_WIRE.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_BEEF.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_beef")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_PORK.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_porkchop")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_MUTTON.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_mutton")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_SALMON.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_salmon")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_CHICKEN.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_chicken")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_COD.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_cod")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.INFINITE_RABBIT.get(),
-            ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_rabbit")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.SHRINK_RAY.get(),
-            ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
-        itemModels.itemModelOutput.accept(
-            LocalItems.GROW_RAY.get(),
-            ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.DEBRIS.get(),
+				new CompositeModel.Unbaked(
+						List.of(
+								new CuboidItemModelWrapper.Unbaked(
+										SuperSargassoSea.ID("block/debris"),
+										Optional.empty(),
+										Collections.emptyList()),
+								new CuboidItemModelWrapper.Unbaked(
+										SuperSargassoSea.ID("block/debris1"),
+										Optional.empty(),
+										Collections.emptyList()),
+								new CuboidItemModelWrapper.Unbaked(
+										SuperSargassoSea.ID("block/debris2"),
+										Optional.empty(),
+										Collections.emptyList())),
+						Optional.of(
+								new Transformation(
+										new Vector3f(0.25F, 0.5F, 0.25F),
+										null,
+										new Vector3f(0.5F, 0.5F, 0.5F),
+										null))));
+		itemModels.generateFlatItem(LocalItems.BEDROCK_SLOP.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.BREADROCK.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.BEDROCK_CREAM.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_BOOTS.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_CHESTPLATE.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_HELMET.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STUDDED_LEATHER_LEGGINGS.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.RECHARGABLE_AA_BATTERY.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(
+				LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE.get(),
+				ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.POTATO_BATTERY.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.PERSONAL_VOLTMETER.get(), ModelTemplates.FLAT_ITEM);
+		createBottleWithContents(itemModels, LocalItems.LIGHTNING_BOTTLE.get());
+		createBottleWithContents(itemModels, LocalItems.SPIDER_BOTTLE.get());
+		itemModels.generateFlatItem(LocalItems.RECORD_UNCHECKED.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.REDSTONE_EMP.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.QUARTER.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.KEY.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.KEY_OMINOUS.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STARMETAL_INGOT.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.CIRCUIT_BOARD.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.BROKEN_COG.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.CLOCKSPRING.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.RUSTED_BOLT.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.LOOSE_WIRE.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.LEAKY_BUCKET.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.STARMETAL_SCRAP.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.generateFlatItem(LocalItems.ATLAS.get(), ModelTemplates.FLAT_ITEM);
+		itemModels.declareCustomModelItem(LocalItems.HAMMER.get());
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_BEEF.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_beef")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_PORK.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_porkchop")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_MUTTON.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_mutton")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_SALMON.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_salmon")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_CHICKEN.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_chicken")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_COD.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_cod")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.INFINITE_RABBIT.get(),
+				ItemModelUtils.plainModel(Identifier.withDefaultNamespace("item/cooked_rabbit")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.SHRINK_RAY.get(),
+				ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
+		itemModels.itemModelOutput.accept(
+				LocalItems.GROW_RAY.get(),
+				ItemModelUtils.plainModel(SuperSargassoSea.ID("item/size_ray")));
 
-        Item foxEars = LocalItems.FOX_EARS.get();
-        int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
-        int white = ARGB.color(255, 255, 255);
-        int black = ARGB.color(0, 0, 0);
-        int gray = ARGB.color(127, 127, 127);
-        itemModels.itemModelOutput.accept(
-            foxEars,
-            ItemModelUtils.tintedModel(
-                ModelLocationUtils.getModelLocation(foxEars),
-                new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), black)),
-                new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), foxOrange)),
-                new Constant(white)));
+		Item foxEars = LocalItems.FOX_EARS.get();
+		int foxOrange = ARGB.color(0xC3, 0x58, 0x17);
+		int white = ARGB.color(255, 255, 255);
+		int black = ARGB.color(0, 0, 0);
+		int gray = ARGB.color(127, 127, 127);
+		itemModels.itemModelOutput.accept(
+				foxEars,
+				ItemModelUtils.tintedModel(
+						ModelLocationUtils.getModelLocation(foxEars),
+						new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), black)),
+						new FromCosmeticItemTintSource(foxOrange, Map.of(LocalItems.AA_BATTERY.get(), foxOrange)),
+						new Constant(white)));
 
-        Item comicallyTallFoxEars = LocalItems.COMICALLY_TALL_FOX_EARS.get();
-        itemModels.itemModelOutput.accept(
-            comicallyTallFoxEars,
-            ItemModelUtils.tintedModel(
-                ModelLocationUtils.getModelLocation(comicallyTallFoxEars),
-                new Constant(black),
-                new Constant(black),
-                new Constant(gray)));
-    }
+		Item comicallyTallFoxEars = LocalItems.COMICALLY_TALL_FOX_EARS.get();
+		itemModels.itemModelOutput.accept(
+				comicallyTallFoxEars,
+				ItemModelUtils.tintedModel(
+						ModelLocationUtils.getModelLocation(comicallyTallFoxEars),
+						new Constant(black),
+						new Constant(black),
+						new Constant(gray)));
+	}
 }

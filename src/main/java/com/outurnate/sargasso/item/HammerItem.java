@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.item;
 
 import com.outurnate.sargasso.entity.ThrownHammer;
@@ -21,59 +31,60 @@ import net.minecraft.world.item.ProjectileItem;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
 public class HammerItem extends Item implements ProjectileItem {
-    public HammerItem(Properties properties) {
-        super(properties);
-    }
+	public HammerItem(Properties properties) {
+		super(properties);
+	}
 
-    @Override
-    public Projectile asProjectile(Level level, Position position, ItemStack itemStack, Direction direction) {
-        ThrownHammer hammer = new ThrownHammer(
-            level,
-            position.x(),
-            position.y(),
-            position.z(),
-            itemStack.copyWithCount(1));
-        hammer.pickup = AbstractArrow.Pickup.ALLOWED;
-        return hammer;
-    }
+	@Override
+	public @NonNull Projectile asProjectile(@NonNull Level level, Position position, ItemStack itemStack, @NonNull Direction direction) {
+		ThrownHammer hammer = new ThrownHammer(
+				level,
+				position.x(),
+				position.y(),
+				position.z(),
+				itemStack.copyWithCount(1));
+		hammer.pickup = AbstractArrow.Pickup.ALLOWED;
+		return hammer;
+	}
 
-    @Override
-    public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemInHand = player.getItemInHand(hand);
+	@Override
+	public @NonNull InteractionResult use(@NonNull Level level, Player player, @NonNull InteractionHand hand) {
+		ItemStack itemInHand = player.getItemInHand(hand);
 
-        if (itemInHand.nextDamageWillBreak()) {
-            return InteractionResult.FAIL;
-        }
+		if (itemInHand.nextDamageWillBreak()) {
+			return InteractionResult.FAIL;
+		}
 
-        if (player.getAttackStrengthScale(0.0F) < itemInHand
-            .getOrDefault(DataComponents.MINIMUM_ATTACK_CHARGE, 0.0F)) {
-            return InteractionResult.FAIL;
-        }
+		if (player.getAttackStrengthScale(0.0F) < itemInHand
+				.getOrDefault(DataComponents.MINIMUM_ATTACK_CHARGE, 0.0F)) {
+			return InteractionResult.FAIL;
+		}
 
-        Holder<SoundEvent> sound = EnchantmentHelper
-            .pickHighestLevel(itemInHand, EnchantmentEffectComponents.TRIDENT_SOUND)
-            .orElse(LocalSoundEvents.HAMMER_THROW);
-        if (level instanceof ServerLevel serverLevel) {
-            itemInHand.hurtWithoutBreaking(1, player);
-            ItemStack thrownItemStack = itemInHand.consumeAndReturn(1, player);
-            ThrownHammer hammer = Projectile.spawnProjectileFromRotation(
-                ThrownHammer::new,
-                serverLevel,
-                thrownItemStack,
-                player,
-                0.0F,
-                2.5F,
-                1.0F);
-            if (player.hasInfiniteMaterials()) {
-                hammer.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-            }
+		Holder<SoundEvent> sound = EnchantmentHelper
+				.pickHighestLevel(itemInHand, EnchantmentEffectComponents.TRIDENT_SOUND)
+				.orElse(LocalSoundEvents.HAMMER_THROW);
+		if (level instanceof ServerLevel serverLevel) {
+			itemInHand.hurtWithoutBreaking(1, player);
+			ItemStack thrownItemStack = itemInHand.consumeAndReturn(1, player);
+			ThrownHammer hammer = Projectile.spawnProjectileFromRotation(
+					ThrownHammer::new,
+					serverLevel,
+					thrownItemStack,
+					player,
+					0.0F,
+					2.5F,
+					1.0F);
+			if (player.hasInfiniteMaterials()) {
+				hammer.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+			}
 
-            level.playSound(null, hammer, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-        }
+			level.playSound(null, hammer, sound.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+		}
 
-        player.resetAttackStrengthTicker();
-        return InteractionResult.CONSUME;
-    }
+		player.resetAttackStrengthTicker();
+		return InteractionResult.CONSUME;
+	}
 }

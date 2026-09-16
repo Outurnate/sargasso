@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -20,93 +29,93 @@ import net.minecraft.world.level.levelgen.placement.CaveSurface;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 
 public class LocalNoiseSettingsProvider {
-    public static final ResourceKey<NoiseGeneratorSettings> SEA = ResourceKey
-        .create(Registries.NOISE_SETTINGS, SuperSargassoSea.ID("sea"));
+	public static final ResourceKey<NoiseGeneratorSettings> SEA = ResourceKey
+			.create(Registries.NOISE_SETTINGS, SuperSargassoSea.ID("sea"));
 
-    public static void provide(BootstrapContext<NoiseGeneratorSettings> bootstrap) {
-        HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
-            .lookup(Registries.NOISE);
-        HolderGetter<DensityFunction> densityFunctionsRegistry = bootstrap
-            .lookup(Registries.DENSITY_FUNCTION);
-        NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
-        double minTemperatureForPeaks = 0.5;
-        double peakTransitionZoneWidth = 0.1;
-        double peakAmplitude = 0.1;
-        NoiseRouter noiseRouter = new NoiseRouter(
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            // temperature
-            new DensityFunctions.HolderHolder(
-                densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            // final density
-            DensityFunctions.add(
-                // base grad for y level
-                DensityFunctions.yClampedGradient(-64, 320, 1, -1),
-                // actual terrain
-                DensityFunctions.add(
-                    DensityFunctions.mul(
-                        // sample the noise
-                        DensityFunctions
-                            .noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
-                        // scale it by temperature - our "flatness" var
-                        new DensityFunctions.HolderHolder(
-                            densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE))
-                                .abs().square()),
-                    // peaks + transition zone
-                    DensityFunctions.mul(
-                        // noise
-                        DensityFunctions.shiftedNoise2d(
-                            DensityFunctions.zero(),
-                            DensityFunctions.zero(),
-                            50.0,
-                            noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
-                        // scaling
-                        DensityFunctions.mul(
-                            DensityFunctions.mul(
-                                DensityFunctions.add(
-                                    new DensityFunctions.HolderHolder(
-                                        densityFunctionsRegistry
-                                            .getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
-                                    DensityFunctions
-                                        .constant(-(minTemperatureForPeaks - peakTransitionZoneWidth))),
-                                DensityFunctions.constant(1.0 / (2 * peakTransitionZoneWidth)))
-                                .clamp(0.0, 1.0),
-                            DensityFunctions.constant(peakAmplitude))))),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0),
-            DensityFunctions.constant(0.0));
-        SurfaceRules.RuleSource surfaceRules = SurfaceRules.sequence(
-            SurfaceRules.ifTrue(
-                SurfaceRules.verticalGradient(
-                    "bedrock_floor",
-                    VerticalAnchor.bottom(),
-                    VerticalAnchor.aboveBottom(1)),
-                SurfaceRules.state(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get().defaultBlockState())),
-            SurfaceRules.ifTrue(
-                SurfaceRules
-                    .stoneDepthCheck(10, false, CaveSurface.FLOOR),
-                SurfaceRules.state(LocalBlocks.FLOTSAM.get().defaultBlockState())));
-        bootstrap.register(
-            SEA,
-            new NoiseGeneratorSettings(
-                noiseSettings,
-                LocalBlocks.PETRIFIED_FLOTSAM.get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(),
-                noiseRouter,
-                surfaceRules,
-                List.of(),
-                -64,
-                true,
-                false,
-                false,
-                false));
-    }
+	public static void provide(BootstrapContext<NoiseGeneratorSettings> bootstrap) {
+		HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
+				.lookup(Registries.NOISE);
+		HolderGetter<DensityFunction> densityFunctionsRegistry = bootstrap
+				.lookup(Registries.DENSITY_FUNCTION);
+		NoiseSettings noiseSettings = new NoiseSettings(-64, 384, 1, 2);
+		double minTemperatureForPeaks = 0.5;
+		double peakTransitionZoneWidth = 0.1;
+		double peakAmplitude = 0.1;
+		NoiseRouter noiseRouter = new NoiseRouter(
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				// temperature
+				new DensityFunctions.HolderHolder(
+						densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				// final density
+				DensityFunctions.add(
+						// base grad for y level
+						DensityFunctions.yClampedGradient(-64, 320, 1, -1),
+						// actual terrain
+						DensityFunctions.add(
+								DensityFunctions.mul(
+										// sample the noise
+										DensityFunctions
+												.noise(noiseParametersRegistry.getOrThrow(LocalNoisesProvider.MAIN), 0.25, 0),
+										// scale it by temperature - our "flatness" var
+										new DensityFunctions.HolderHolder(
+												densityFunctionsRegistry.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE))
+												.abs().square()),
+								// peaks + transition zone
+								DensityFunctions.mul(
+										// noise
+										DensityFunctions.shiftedNoise2d(
+												DensityFunctions.zero(),
+												DensityFunctions.zero(),
+												50.0,
+												noiseParametersRegistry.getOrThrow(LocalNoisesProvider.DETAIL)),
+										// scaling
+										DensityFunctions.mul(
+												DensityFunctions.mul(
+														DensityFunctions.add(
+																new DensityFunctions.HolderHolder(
+																		densityFunctionsRegistry
+																				.getOrThrow(LocalDensityFunctionProvider.TEMPERATURE)),
+																DensityFunctions
+																		.constant(-(minTemperatureForPeaks - peakTransitionZoneWidth))),
+														DensityFunctions.constant(1.0 / (2 * peakTransitionZoneWidth)))
+														.clamp(0.0, 1.0),
+												DensityFunctions.constant(peakAmplitude))))),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0),
+				DensityFunctions.constant(0.0));
+		SurfaceRules.RuleSource surfaceRules = SurfaceRules.sequence(
+				SurfaceRules.ifTrue(
+						SurfaceRules.verticalGradient(
+								"bedrock_floor",
+								VerticalAnchor.bottom(),
+								VerticalAnchor.aboveBottom(1)),
+						SurfaceRules.state(LocalBlocks.REINFORCED_STARMETAL_BLOCK.get().defaultBlockState())),
+				SurfaceRules.ifTrue(
+						SurfaceRules
+								.stoneDepthCheck(10, false, CaveSurface.FLOOR),
+						SurfaceRules.state(LocalBlocks.FLOTSAM.get().defaultBlockState())));
+		bootstrap.register(
+				SEA,
+				new NoiseGeneratorSettings(
+						noiseSettings,
+						LocalBlocks.PETRIFIED_FLOTSAM.get().defaultBlockState(),
+						Blocks.WATER.defaultBlockState(),
+						noiseRouter,
+						surfaceRules,
+						List.of(),
+						-64,
+						true,
+						false,
+						false,
+						false));
+	}
 }

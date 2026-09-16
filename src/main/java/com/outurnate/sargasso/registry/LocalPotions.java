@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -21,95 +30,95 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 @EventBusSubscriber(modid = SuperSargassoSea.MODID)
 public class LocalPotions {
-    public static final DeferredRegister<Potion> REGISTRY = DeferredRegister
-        .create(Registries.POTION, SuperSargassoSea.MODID);
+	public static final DeferredRegister<Potion> REGISTRY = DeferredRegister
+			.create(Registries.POTION, SuperSargassoSea.MODID);
 
-    public static final Holder<Potion> HEAD_EXPLOSION = REGISTRY.register(
-        "head_explosion",
-        registryName -> new Potion(
-            registryName.getPath(),
-            new MobEffectInstance[] { new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 0) }));
+	public static final Holder<Potion> HEAD_EXPLOSION = REGISTRY.register(
+			"head_explosion",
+			registryName -> new Potion(
+					registryName.getPath(),
+					new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 0)));
 
-    public static final Holder<Potion> LONG_HEAD_EXPLOSION = REGISTRY.register(
-        "long_head_explosion",
-        registryName -> new Potion(
-            registryName.getPath(),
-            new MobEffectInstance[] { new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 1200, 0) }));
+	public static final Holder<Potion> LONG_HEAD_EXPLOSION = REGISTRY.register(
+			"long_head_explosion",
+			registryName -> new Potion(
+					registryName.getPath(),
+					new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 1200, 0)));
 
-    public static final Holder<Potion> STRONG_HEAD_EXPLOSION = REGISTRY.register(
-        "strong_head_explosion",
-        registryName -> new Potion(
-            registryName.getPath(),
-            new MobEffectInstance[] { new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 1) }));
+	public static final Holder<Potion> STRONG_HEAD_EXPLOSION = REGISTRY.register(
+			"strong_head_explosion",
+			registryName -> new Potion(
+					registryName.getPath(),
+					new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 1)));
 
-    public static final Holder<Potion> EXTRA_STRONG_HEAD_EXPLOSION = REGISTRY.register(
-        "extra_strong_head_explosion",
-        registryName -> new Potion(
-            registryName.getPath(),
-            new MobEffectInstance[] { new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 2) }));
+	public static final Holder<Potion> EXTRA_STRONG_HEAD_EXPLOSION = REGISTRY.register(
+			"extra_strong_head_explosion",
+			registryName -> new Potion(
+					registryName.getPath(),
+					new MobEffectInstance(LocalMobEffects.HEAD_EXPLOSION, 600, 2)));
 
-    @SubscribeEvent
-    public static void buildContents(BuildCreativeModeTabContentsEvent event) {
-        movePotion(event, HEAD_EXPLOSION);
-        movePotion(event, LONG_HEAD_EXPLOSION);
-        movePotion(event, STRONG_HEAD_EXPLOSION);
-        movePotion(event, EXTRA_STRONG_HEAD_EXPLOSION);
-    }
+	@SubscribeEvent
+	public static void buildContents(BuildCreativeModeTabContentsEvent event) {
+		movePotion(event, HEAD_EXPLOSION);
+		movePotion(event, LONG_HEAD_EXPLOSION);
+		movePotion(event, STRONG_HEAD_EXPLOSION);
+		movePotion(event, EXTRA_STRONG_HEAD_EXPLOSION);
+	}
 
-    private static void movePotion(BuildCreativeModeTabContentsEvent event, Holder<Potion> potion) {
-        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-            event.remove(
-                PotionContents.createItemStack(Items.POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.remove(
-                PotionContents.createItemStack(Items.SPLASH_POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.remove(
-                PotionContents.createItemStack(Items.LINGERING_POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-        } else if (event.getTabKey() == LocalCreativeTabs.TAB.getKey()) {
-            event.accept(
-                PotionContents.createItemStack(Items.POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.accept(
-                PotionContents.createItemStack(Items.SPLASH_POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.accept(
-                PotionContents.createItemStack(Items.LINGERING_POTION, potion),
-                TabVisibility.PARENT_AND_SEARCH_TABS);
-        }
-    }
+	private static void movePotion(BuildCreativeModeTabContentsEvent event, Holder<Potion> potion) {
+		if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+			event.remove(
+					PotionContents.createItemStack(Items.POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+			event.remove(
+					PotionContents.createItemStack(Items.SPLASH_POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+			event.remove(
+					PotionContents.createItemStack(Items.LINGERING_POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+		} else if (event.getTabKey() == LocalCreativeTabs.TAB.getKey()) {
+			event.accept(
+					PotionContents.createItemStack(Items.POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+			event.accept(
+					PotionContents.createItemStack(Items.SPLASH_POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+			event.accept(
+					PotionContents.createItemStack(Items.LINGERING_POTION, potion),
+					TabVisibility.PARENT_AND_SEARCH_TABS);
+		}
+	}
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 
-    @SubscribeEvent
-    public static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
-        PotionBrewing.Builder builder = event.getBuilder();
-        builder.addMix(
-            Potions.AWKWARD,
-            Items.TNT,
-            HEAD_EXPLOSION);
-        builder.addMix(
-            HEAD_EXPLOSION,
-            Items.REDSTONE,
-            LONG_HEAD_EXPLOSION);
-        builder.addMix(
-            HEAD_EXPLOSION,
-            Items.GLOWSTONE_DUST,
-            STRONG_HEAD_EXPLOSION);
-        builder.addMix(
-            STRONG_HEAD_EXPLOSION,
-            Items.GLOWSTONE_DUST,
-            EXTRA_STRONG_HEAD_EXPLOSION);
-        builder.addMix(
-            Potions.MUNDANE,
-            Items.TNT,
-            LONG_HEAD_EXPLOSION);
-        builder.addMix(
-            Potions.THICK,
-            Items.TNT,
-            STRONG_HEAD_EXPLOSION);
-    }
+	@SubscribeEvent
+	public static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
+		PotionBrewing.Builder builder = event.getBuilder();
+		builder.addMix(
+				Potions.AWKWARD,
+				Items.TNT,
+				HEAD_EXPLOSION);
+		builder.addMix(
+				HEAD_EXPLOSION,
+				Items.REDSTONE,
+				LONG_HEAD_EXPLOSION);
+		builder.addMix(
+				HEAD_EXPLOSION,
+				Items.GLOWSTONE_DUST,
+				STRONG_HEAD_EXPLOSION);
+		builder.addMix(
+				STRONG_HEAD_EXPLOSION,
+				Items.GLOWSTONE_DUST,
+				EXTRA_STRONG_HEAD_EXPLOSION);
+		builder.addMix(
+				Potions.MUNDANE,
+				Items.TNT,
+				LONG_HEAD_EXPLOSION);
+		builder.addMix(
+				Potions.THICK,
+				Items.TNT,
+				STRONG_HEAD_EXPLOSION);
+	}
 }

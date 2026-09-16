@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.registry;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -11,13 +21,13 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class LocalEntityDataSerializers {
-    public static final DeferredRegister<EntityDataSerializer<?>> REGISTRY = DeferredRegister
-        .create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, SuperSargassoSea.MODID);
+	public static final DeferredRegister<EntityDataSerializer<?>> REGISTRY = DeferredRegister
+			.create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, SuperSargassoSea.MODID);
 
-    public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<Holder<MobEffect>>> MOB_EFFECT = REGISTRY
-        .register("mob_effect", () -> EntityDataSerializer.forValueType(MobEffect.STREAM_CODEC));
+	public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<Holder<MobEffect>>> MOB_EFFECT = REGISTRY
+			.register("mob_effect", () -> EntityDataSerializer.forValueType(MobEffect.STREAM_CODEC));
 
-    public static void register(IEventBus modEventBus) {
-        REGISTRY.register(modEventBus);
-    }
+	public static void register(IEventBus modEventBus) {
+		REGISTRY.register(modEventBus);
+	}
 }

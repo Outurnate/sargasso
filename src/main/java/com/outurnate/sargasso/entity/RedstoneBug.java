@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
@@ -14,101 +24,101 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import org.joml.Vector3f;
+import org.jspecify.annotations.NonNull;
 
 public class RedstoneBug extends Entity implements IEntityWithComplexSpawn {
-    private static final int DEFAULT_LIFE = 20 * 30;
+	private static final int DEFAULT_LIFE = 20 * 30;
 
-    private static void spamUpdates(Level level, BlockPos center, int radius) {
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        for (int x = center.getX() - radius; x <= center.getX() + radius; ++x) {
-            for (int y = center.getY() - radius; y <= center.getY() + radius; ++y) {
-                for (int z = center.getZ() - radius; z <= center.getZ() + radius; ++z) {
-                    pos.set(x, y, z);
-                    level.neighborChanged(
-                        pos,
-                        level.getBlockState(pos).getBlock(),
-                        null);
-                    level.updateNeighborsAt(
-                        pos,
-                        level.getBlockState(pos).getBlock(),
-                        null);
-                }
-            }
-        }
-    }
+	private static void spamUpdates(Level level, BlockPos center, int radius) {
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		for (int x = center.getX() - radius; x <= center.getX() + radius; ++x) {
+			for (int y = center.getY() - radius; y <= center.getY() + radius; ++y) {
+				for (int z = center.getZ() - radius; z <= center.getZ() + radius; ++z) {
+					pos.set(x, y, z);
+					level.neighborChanged(
+							pos,
+							level.getBlockState(pos).getBlock(),
+							null);
+					level.updateNeighborsAt(
+							pos,
+							level.getBlockState(pos).getBlock(),
+							null);
+				}
+			}
+		}
+	}
 
-    private int remainingTicks = DEFAULT_LIFE;
-    public Vector3f origin = new Vector3f();
-    public long seed = 0;
+	private int remainingTicks = DEFAULT_LIFE;
+	public Vector3f origin = new Vector3f();
+	public long seed = 0;
 
-    public RedstoneBug(EntityType<?> type, Level level) {
-        super(type, level);
-        this.noPhysics = true;
-    }
+	public RedstoneBug(EntityType<?> type, Level level) {
+		super(type, level);
+		this.noPhysics = true;
+	}
 
-    public RedstoneBug(Level level) {
-        super(LocalEntities.REDSTONE_BUG.get(), level);
-        this.noPhysics = true;
-    }
+	public RedstoneBug(Level level) {
+		super(LocalEntities.REDSTONE_BUG.get(), level);
+		this.noPhysics = true;
+	}
 
-    public RedstoneBug(Level level, int remainingTicks, Vector3f origin) {
-        super(LocalEntities.REDSTONE_BUG.get(), level);
-        this.remainingTicks = remainingTicks;
-        this.origin = origin;
-        this.noPhysics = true;
-    }
+	public RedstoneBug(Level level, int remainingTicks, Vector3f origin) {
+		super(LocalEntities.REDSTONE_BUG.get(), level);
+		this.remainingTicks = remainingTicks;
+		this.origin = origin;
+		this.noPhysics = true;
+	}
 
-    @Override
-    protected void addAdditionalSaveData(ValueOutput output) {
-        output.putInt("remainingTicks", this.remainingTicks);
-        output.putFloat("originX", origin.x);
-        output.putFloat("originY", origin.y);
-        output.putFloat("originZ", origin.z);
-    }
+	@Override
+	protected void addAdditionalSaveData(ValueOutput output) {
+		output.putInt("remainingTicks", this.remainingTicks);
+		output.putFloat("originX", origin.x);
+		output.putFloat("originY", origin.y);
+		output.putFloat("originZ", origin.z);
+	}
 
-    @Override
-    protected void defineSynchedData(Builder entityData) {
-    }
+	@Override
+	protected void defineSynchedData(@NonNull Builder entityData) {}
 
-    @Override
-    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
-        return false;
-    }
+	@Override
+	public boolean hurtServer(@NonNull ServerLevel level, @NonNull DamageSource source, float damage) {
+		return false;
+	}
 
-    @Override
-    protected void readAdditionalSaveData(ValueInput input) {
-        this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
-        this.origin = new Vector3f(
-            input.getFloatOr("originX", 0.0F),
-            input.getFloatOr("originY", 0.0F),
-            input.getFloatOr("originZ", 0.0F));
-    }
+	@Override
+	protected void readAdditionalSaveData(ValueInput input) {
+		this.remainingTicks = input.getIntOr("remainingTicks", DEFAULT_LIFE);
+		this.origin = new Vector3f(
+				input.getFloatOr("originX", 0.0F),
+				input.getFloatOr("originY", 0.0F),
+				input.getFloatOr("originZ", 0.0F));
+	}
 
-    @Override
-    public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
-        this.origin = additionalData.readVector3f();
-    }
+	@Override
+	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
+		this.origin = additionalData.readVector3f();
+	}
 
-    @Override
-    public void tick() {
-        super.tick();
-        --remainingTicks;
-        if (remainingTicks <= 0) {
-            this.remove(RemovalReason.KILLED);
-        }
+	@Override
+	public void tick() {
+		super.tick();
+		--remainingTicks;
+		if (remainingTicks <= 0) {
+			this.remove(RemovalReason.KILLED);
+		}
 
-        if ((level().getGameTime() % 3) == 0) {
-            this.seed = level().getRandom().nextLong();
-        }
+		if ((level().getGameTime() % 3) == 0) {
+			this.seed = level().getRandom().nextLong();
+		}
 
-        spamUpdates(this.level(), this.blockPosition(), 2);
+		spamUpdates(this.level(), this.blockPosition(), 2);
 
-        this.setDeltaMovement(this.getDeltaMovement().scale(0.7));
-        this.move(MoverType.SELF, this.getDeltaMovement());
-    }
+		this.setDeltaMovement(this.getDeltaMovement().scale(0.7));
+		this.move(MoverType.SELF, this.getDeltaMovement());
+	}
 
-    @Override
-    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
-        buffer.writeVector3f(origin);
-    }
+	@Override
+	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeVector3f(origin);
+	}
 }

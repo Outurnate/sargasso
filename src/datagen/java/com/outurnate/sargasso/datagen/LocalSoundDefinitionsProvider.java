@@ -1,117 +1,124 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
-import java.util.concurrent.CompletableFuture;
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
 public class LocalSoundDefinitionsProvider extends SoundDefinitionsProvider {
-    public static final TranslatableContents creamApply = t("cream_apply");
+	public static final TranslatableContents creamApply = t("cream_apply");
 
-    public static final TranslatableContents glitchTeleport = t("glitch_teleport");
-    public static final TranslatableContents toaster = t("toaster");
-    public static final TranslatableContents pylon = t("pylon");
-    public static final TranslatableContents zap = t("zap");
-    public static final TranslatableContents hammer_hit = t("hammer_hit");
-    public static final TranslatableContents hammer_hit_ground = t("hammer_hit_ground");
-    public static final TranslatableContents hammer_throw = t("hammer_throw");
-    public static final TranslatableContents hammer_return = t("hammer_return");
+	public static final TranslatableContents glitchTeleport = t("glitch_teleport");
+	public static final TranslatableContents toaster = t("toaster");
+	public static final TranslatableContents pylon = t("pylon");
+	public static final TranslatableContents zap = t("zap");
+	public static final TranslatableContents hammer_hit = t("hammer_hit");
+	public static final TranslatableContents hammer_hit_ground = t("hammer_hit_ground");
+	public static final TranslatableContents hammer_throw = t("hammer_throw");
+	public static final TranslatableContents hammer_return = t("hammer_return");
 
-    private static TranslatableContents t(String key) {
-        return new TranslatableContents("sound." + SuperSargassoSea.MODID + "." + key, null, new Object[0]);
-    }
+	private static TranslatableContents t(String key) {
+		return new TranslatableContents("sound." + SuperSargassoSea.MODID + "." + key, null, new Object[0]);
+	}
 
-    protected LocalSoundDefinitionsProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
-        super(output, SuperSargassoSea.MODID);
-    }
+	protected LocalSoundDefinitionsProvider(PackOutput output) {
+		super(output, SuperSargassoSea.MODID);
+	}
 
-    @Override
-    public void registerSounds() {
-        add(
-            LocalSoundEvents.CREAM_APPLY,
-            SoundDefinition.definition()
-                .with(
-                    sound("minecraft:mob/slime/big1"),
-                    sound("minecraft:mob/slime/big2"),
-                    sound("minecraft:mob/slime/big3"),
-                    sound("minecraft:mob/slime/big4"))
-                .subtitle(creamApply.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.GLITCH_TELEPORT,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:glitch1"),
-                    sound("sargasso:glitch2"),
-                    sound("sargasso:glitch3"))
-                .subtitle(glitchTeleport.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.TOASTER,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:toaster"))
-                .subtitle(toaster.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.PYLON,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:pylon"))
-                .subtitle(pylon.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.RECORD_UNCHECKED,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:unchecked_tapeless_mix"))
-                .replace(true));
-        add(
-            LocalSoundEvents.ZAP,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:zap1"),
-                    sound("sargasso:zap2"),
-                    sound("sargasso:zap3"),
-                    sound("sargasso:zap4"))
-                .subtitle(zap.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.HAMMER_HIT,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:hammer_hit"))
-                .subtitle(hammer_hit.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.HAMMER_HIT_GROUND,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:hammer_hit_ground1"),
-                    sound("sargasso:hammer_hit_ground2"),
-                    sound("sargasso:hammer_hit_ground3"))
-                .subtitle(hammer_hit_ground.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.HAMMER_RETURN,
-            SoundDefinition.definition()
-                .with(
-                    sound("sargasso:hammer_return1"),
-                    sound("sargasso:hammer_return2"),
-                    sound("sargasso:hammer_return3"))
-                .subtitle(hammer_return.getKey())
-                .replace(true));
-        add(
-            LocalSoundEvents.HAMMER_THROW,
-            SoundDefinition.definition()
-                .with(
-                    sound("minecraft:random/bow"))
-                .subtitle(hammer_throw.getKey())
-                .replace(true));
-    }
+	@Override
+	public void registerSounds() {
+		add(
+				LocalSoundEvents.CREAM_APPLY,
+				SoundDefinition.definition()
+						.with(
+								sound("minecraft:mob/slime/big1"),
+								sound("minecraft:mob/slime/big2"),
+								sound("minecraft:mob/slime/big3"),
+								sound("minecraft:mob/slime/big4"))
+						.subtitle(creamApply.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.GLITCH_TELEPORT,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:glitch1"),
+								sound("sargasso:glitch2"),
+								sound("sargasso:glitch3"))
+						.subtitle(glitchTeleport.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.TOASTER,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:toaster"))
+						.subtitle(toaster.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.PYLON,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:pylon"))
+						.subtitle(pylon.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.RECORD_UNCHECKED,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:unchecked_tapeless_mix"))
+						.replace(true));
+		add(
+				LocalSoundEvents.ZAP,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:zap1"),
+								sound("sargasso:zap2"),
+								sound("sargasso:zap3"),
+								sound("sargasso:zap4"))
+						.subtitle(zap.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.HAMMER_HIT,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:hammer_hit"))
+						.subtitle(hammer_hit.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.HAMMER_HIT_GROUND,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:hammer_hit_ground1"),
+								sound("sargasso:hammer_hit_ground2"),
+								sound("sargasso:hammer_hit_ground3"))
+						.subtitle(hammer_hit_ground.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.HAMMER_RETURN,
+				SoundDefinition.definition()
+						.with(
+								sound("sargasso:hammer_return1"),
+								sound("sargasso:hammer_return2"),
+								sound("sargasso:hammer_return3"))
+						.subtitle(hammer_return.getKey())
+						.replace(true));
+		add(
+				LocalSoundEvents.HAMMER_THROW,
+				SoundDefinition.definition()
+						.with(
+								sound("minecraft:random/bow"))
+						.subtitle(hammer_throw.getKey())
+						.replace(true));
+	}
 }

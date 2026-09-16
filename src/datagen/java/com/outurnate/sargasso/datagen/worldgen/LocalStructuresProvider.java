@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -11,7 +20,6 @@ import java.util.Optional;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.EntityType;
@@ -32,172 +40,172 @@ import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import net.minecraft.world.level.levelgen.structure.structures.NetherFossilStructure;
 
 public class LocalStructuresProvider {
-    public static final ResourceKey<Structure> FOSSIL = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("fossil"));
-    public static final ResourceKey<Structure> FORTRESS = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("fortress"));
-    public static final ResourceKey<Structure> APOTHECARY = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("apothecary"));
-    public static final ResourceKey<Structure> OFFICE = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("office"));
-    public static final ResourceKey<Structure> ESCHER = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("escher"));
-    public static final ResourceKey<Structure> CASTLE = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("castle"));
-    public static final ResourceKey<Structure> VILLAGE = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("village"));
-    public static final ResourceKey<Structure> STARTING_HOUSE = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("starting_house"));
-    public static final ResourceKey<Structure> SHIPWRECK = ResourceKey
-        .create(Registries.STRUCTURE, SuperSargassoSea.ID("shipwreck"));
+	public static final ResourceKey<Structure> FOSSIL = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("fossil"));
+	public static final ResourceKey<Structure> FORTRESS = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("fortress"));
+	public static final ResourceKey<Structure> APOTHECARY = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("apothecary"));
+	public static final ResourceKey<Structure> OFFICE = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("office"));
+	public static final ResourceKey<Structure> ESCHER = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("escher"));
+	public static final ResourceKey<Structure> CASTLE = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("castle"));
+	public static final ResourceKey<Structure> VILLAGE = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("village"));
+	public static final ResourceKey<Structure> STARTING_HOUSE = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("starting_house"));
+	public static final ResourceKey<Structure> SHIPWRECK = ResourceKey
+			.create(Registries.STRUCTURE, SuperSargassoSea.ID("shipwreck"));
 
-    public static void provide(BootstrapContext<Structure> bootstrap) {
-        HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
-        HolderGetter<StructureTemplatePool> structureTemplatePoolRegistry = bootstrap
-            .lookup(Registries.TEMPLATE_POOL);
-        bootstrap.register(
-            FOSSIL,
-            new NetherFossilStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FOSSIL))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
-                        .build(),
-                UniformHeight.of(VerticalAnchor.absolute(32), VerticalAnchor.belowTop(2))));
-        bootstrap.register(
-            FORTRESS,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FORTRESS))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS),
-                7,
-                ConstantHeight.of(VerticalAnchor.absolute(-42)),
-                false,
-                Types.WORLD_SURFACE_WG));
-        bootstrap.register(
-            APOTHECARY,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_APOTHECARY))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.APOTHECARY),
-                1,
-                ConstantHeight.ZERO,
-                false,
-                Types.WORLD_SURFACE_WG));
-        bootstrap.register(
-            OFFICE,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_OFFICE))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_BOX)
-                        .spawnOverrides(
-                            Map.of(
-                                MobCategory.MONSTER,
-                                new StructureSpawnOverride(
-                                    StructureSpawnOverride.BoundingBoxType.STRUCTURE,
-                                    WeightedList
-                                        .of(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 1, 1)))))
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
-                Optional.<Identifier>empty(),
-                8,
-                ConstantHeight.ZERO,
-                false,
-                Optional.of(Types.WORLD_SURFACE_WG),
-                new JigsawStructure.MaxDistance(100),
-                List.of(),
-                JigsawStructure.DEFAULT_DIMENSION_PADDING,
-                JigsawStructure.DEFAULT_LIQUID_SETTINGS));
-        bootstrap.register(
-            ESCHER,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_ESCHER))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .spawnOverrides(
-                            Map.of(
-                                MobCategory.MONSTER,
-                                new StructureSpawnOverride(
-                                    StructureSpawnOverride.BoundingBoxType.STRUCTURE,
-                                    WeightedList.of())))
-                        .build(),
-                structureTemplatePoolRegistry
-                    .getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
-                Optional.<Identifier>empty(),
-                20,
-                ConstantHeight.of(VerticalAnchor.absolute(260)),
-                false,
-                Optional.empty(),
-                new JigsawStructure.MaxDistance(116, 128),
-                List.of(),
-                JigsawStructure.DEFAULT_DIMENSION_PADDING,
-                JigsawStructure.DEFAULT_LIQUID_SETTINGS));
-        bootstrap.register(
-            CASTLE,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_CASTLE))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.BEARD_THIN)
-                        .spawnOverrides(
-                            Map.of(
-                                MobCategory.MONSTER,
-                                new StructureSpawnOverride(
-                                    StructureSpawnOverride.BoundingBoxType.STRUCTURE,
-                                    WeightedList.of(
-                                        new MobSpawnSettings.SpawnerData(EntityType.PILLAGER, 2, 4)))))
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.CASTLE),
-                1,
-                ConstantHeight.ZERO,
-                false,
-                Types.WORLD_SURFACE_WG));
-        bootstrap.register(
-            VILLAGE,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_VILLAGE))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
-                        .spawnOverrides(Map.of())
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
-                14,
-                ConstantHeight.of(VerticalAnchor.absolute(-2)),
-                false,
-                Types.WORLD_SURFACE_WG));
-        bootstrap.register(
-            STARTING_HOUSE,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_STARTING_HOUSE))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.STARTING_HOUSE),
-                1,
-                ConstantHeight.of(VerticalAnchor.absolute(0)),
-                false,
-                Types.WORLD_SURFACE_WG));
-        bootstrap.register(
-            SHIPWRECK,
-            new JigsawStructure(
-                new StructureSettings.Builder(
-                    biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_SHIPWRECK))
-                        .generationStep(Decoration.SURFACE_STRUCTURES)
-                        .terrainAdapation(TerrainAdjustment.NONE)
-                        .build(),
-                structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.SHIPWRECK),
-                1,
-                ConstantHeight.of(VerticalAnchor.absolute(-9)),
-                false,
-                Types.WORLD_SURFACE_WG));
-    }
+	public static void provide(BootstrapContext<Structure> bootstrap) {
+		HolderGetter<Biome> biomeRegistry = bootstrap.lookup(Registries.BIOME);
+		HolderGetter<StructureTemplatePool> structureTemplatePoolRegistry = bootstrap
+				.lookup(Registries.TEMPLATE_POOL);
+		bootstrap.register(
+				FOSSIL,
+				new NetherFossilStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FOSSIL))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.NONE)
+								.build(),
+						UniformHeight.of(VerticalAnchor.absolute(32), VerticalAnchor.belowTop(2))));
+		bootstrap.register(
+				FORTRESS,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_FORTRESS))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.NONE)
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.FORTRESS),
+						7,
+						ConstantHeight.of(VerticalAnchor.absolute(-42)),
+						false,
+						Types.WORLD_SURFACE_WG));
+		bootstrap.register(
+				APOTHECARY,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_APOTHECARY))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.BEARD_THIN)
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.APOTHECARY),
+						1,
+						ConstantHeight.ZERO,
+						false,
+						Types.WORLD_SURFACE_WG));
+		bootstrap.register(
+				OFFICE,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_OFFICE))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.BEARD_BOX)
+								.spawnOverrides(
+										Map.of(
+												MobCategory.MONSTER,
+												new StructureSpawnOverride(
+														StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+														WeightedList
+																.of(new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 1, 1)))))
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.OFFICE),
+						Optional.empty(),
+						8,
+						ConstantHeight.ZERO,
+						false,
+						Optional.of(Types.WORLD_SURFACE_WG),
+						new JigsawStructure.MaxDistance(100),
+						List.of(),
+						JigsawStructure.DEFAULT_DIMENSION_PADDING,
+						JigsawStructure.DEFAULT_LIQUID_SETTINGS));
+		bootstrap.register(
+				ESCHER,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_ESCHER))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.spawnOverrides(
+										Map.of(
+												MobCategory.MONSTER,
+												new StructureSpawnOverride(
+														StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+														WeightedList.of())))
+								.build(),
+						structureTemplatePoolRegistry
+								.getOrThrow(LocalStructureTemplatePoolsProvider.ESCHER),
+						Optional.empty(),
+						20,
+						ConstantHeight.of(VerticalAnchor.absolute(260)),
+						false,
+						Optional.empty(),
+						new JigsawStructure.MaxDistance(116, 128),
+						List.of(),
+						JigsawStructure.DEFAULT_DIMENSION_PADDING,
+						JigsawStructure.DEFAULT_LIQUID_SETTINGS));
+		bootstrap.register(
+				CASTLE,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_CASTLE))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.BEARD_THIN)
+								.spawnOverrides(
+										Map.of(
+												MobCategory.MONSTER,
+												new StructureSpawnOverride(
+														StructureSpawnOverride.BoundingBoxType.STRUCTURE,
+														WeightedList.of(
+																new MobSpawnSettings.SpawnerData(EntityType.PILLAGER, 2, 4)))))
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.CASTLE),
+						1,
+						ConstantHeight.ZERO,
+						false,
+						Types.WORLD_SURFACE_WG));
+		bootstrap.register(
+				VILLAGE,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_VILLAGE))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.NONE)
+								.spawnOverrides(Map.of())
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.VILLAGE),
+						14,
+						ConstantHeight.of(VerticalAnchor.absolute(-2)),
+						false,
+						Types.WORLD_SURFACE_WG));
+		bootstrap.register(
+				STARTING_HOUSE,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_STARTING_HOUSE))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.NONE)
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.STARTING_HOUSE),
+						1,
+						ConstantHeight.of(VerticalAnchor.absolute(0)),
+						false,
+						Types.WORLD_SURFACE_WG));
+		bootstrap.register(
+				SHIPWRECK,
+				new JigsawStructure(
+						new StructureSettings.Builder(
+								biomeRegistry.getOrThrow(LocalBiomeTagsProvider.HAS_SHIPWRECK))
+								.generationStep(Decoration.SURFACE_STRUCTURES)
+								.terrainAdapation(TerrainAdjustment.NONE)
+								.build(),
+						structureTemplatePoolRegistry.getOrThrow(LocalStructureTemplatePoolsProvider.SHIPWRECK),
+						1,
+						ConstantHeight.of(VerticalAnchor.absolute(-9)),
+						false,
+						Types.WORLD_SURFACE_WG));
+	}
 }

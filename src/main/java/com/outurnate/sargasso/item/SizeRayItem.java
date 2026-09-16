@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.item;
 
 import com.outurnate.sargasso.Config;
@@ -21,61 +31,62 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.jspecify.annotations.NonNull;
 
 public class SizeRayItem extends Item {
-    private static boolean drawPower(Player player, int amount) {
-        SimpleEnergyHandler ray = new SimpleEnergyHandler(amount, amount, 0);
-        Inventory inventory = player.getInventory();
-        try (Transaction tx = Transaction.openRoot()) {
-            for (ItemStack itemStack : inventory) {
-                if (!itemStack.isEmpty()) {
-                    ItemAccess slot = ItemAccess.forStack(itemStack);
-                    EnergyHandler dischargableItem = slot.getCapability(Capabilities.Energy.ITEM);
-                    EnergyHandlerUtil.move(dischargableItem, ray, amount, tx);
-                    if (ray.getAmountAsInt() == amount) {
-                        tx.commit();
-                        return true;
-                    }
-                }
-            }
-        }
+	private static boolean drawPower(Player player, int amount) {
+		SimpleEnergyHandler ray = new SimpleEnergyHandler(amount, amount, 0);
+		Inventory inventory = player.getInventory();
+		try (Transaction tx = Transaction.openRoot()) {
+			for (ItemStack itemStack : inventory) {
+				if (!itemStack.isEmpty()) {
+					ItemAccess slot = ItemAccess.forStack(itemStack);
+					EnergyHandler dischargableItem = slot.getCapability(Capabilities.Energy.ITEM);
+					EnergyHandlerUtil.move(dischargableItem, ray, amount, tx);
+					if (ray.getAmountAsInt() == amount) {
+						tx.commit();
+						return true;
+					}
+				}
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    private final Holder<MobEffect> effect;
+	private final Holder<MobEffect> effect;
 
-    public SizeRayItem(Properties properties, Holder<MobEffect> effect) {
-        super(properties);
-        this.effect = effect;
-    }
+	public SizeRayItem(Properties properties, Holder<MobEffect> effect) {
+		super(properties);
+		this.effect = effect;
+	}
 
-    @Override
-    public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (drawPower(player, Config.SIZE_RAY_FE.getAsInt())) {
-            level.playSound(
-                null,
-                player.getX(),
-                player.getY(),
-                player.getZ(),
-                SoundEvents.SPLASH_POTION_THROW, // TODO
-                SoundSource.PLAYERS,
-                0.5F,
-                0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
-            if (level instanceof ServerLevel serverLevel) {
-                Projectile.spawnProjectileFromRotation(
-                    (l, e, i) -> new SizeRayBeam(l, e, this.effect),
-                    serverLevel,
-                    null,
-                    player,
-                    0.0F,
-                    0.5F,
-                    1.0F);
-            }
+	@Override
+	public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
+		if (drawPower(player, Config.SIZE_RAY_FE.getAsInt())) {
+			level.playSound(
+					null,
+					player.getX(),
+					player.getY(),
+					player.getZ(),
+					SoundEvents.SPLASH_POTION_THROW, // TODO
+					SoundSource.PLAYERS,
+					0.5F,
+					0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+			if (level instanceof ServerLevel serverLevel) {
+				Projectile.spawnProjectileFromRotation(
+						(l, e, _) -> new SizeRayBeam(l, e, this.effect),
+						serverLevel,
+						ItemStack.EMPTY,
+						player,
+						0.0F,
+						0.5F,
+						1.0F);
+			}
 
-            return InteractionResult.SUCCESS;
-        } else {
-            return InteractionResult.PASS;
-        }
-    }
+			return InteractionResult.SUCCESS;
+		} else {
+			return InteractionResult.PASS;
+		}
+	}
 }

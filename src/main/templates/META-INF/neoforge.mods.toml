@@ -1,5 +1,5 @@
 license="${mod_license}"
-issueTrackerURL="https://github.com/outurnate/sargasso"
+issueTrackerURL="https://github.com/outurnate/sargasso/issues"
 
 [[mods]]
 modId="${mod_id}"
@@ -9,8 +9,8 @@ displayName="${mod_name}"
 updateJSONURL = "https://api.modrinth.com/updates/sargasso/forge_updates.json"
 displayURL="https://modrinth.com/project/sargasso"
 logoFile="pack.png"
-credits="${mod_credits}"
-authors="panicnot42, AlexanderRSM"
+credits="${mod_credits}. Contains code originally from OpenBlocks"
+authors="panicnot42, AlexanderRSM, Tarn_K, nebularzzz"
 
 description='''
 The land of the lost, a dimension where everything ever lost is found.

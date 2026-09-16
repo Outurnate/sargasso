@@ -159,11 +159,11 @@ spotless {
 	java {
 		importOrder()
 		removeUnusedImports()
-		forbidWildcardImports()
 
 		eclipse()
-			.configFile("eclipse-formatter.xml")
+			.configFile("spotless/eclipseformat.xml")
 			.sortMembersEnabled(true)
+		licenseHeaderFile("spotless/license_template.txt")
 		formatAnnotations()
 	}
 }

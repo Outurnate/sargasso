@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.block;
 
 import com.outurnate.sargasso.Utils;
@@ -29,84 +38,85 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class GlitchBlock extends Block implements EntityBlock {
-    public GlitchBlock(Properties properties) {
-        super(properties);
-    }
+	public GlitchBlock(Properties properties) {
+		super(properties);
+	}
 
-    @Override
-    protected void entityInside(
-        BlockState state,
-        Level level,
-        BlockPos pos,
-        Entity entity,
-        InsideBlockEffectApplier effectApplier,
-        boolean isPrecise) {
+	@Override
+	protected void entityInside(
+			@NonNull BlockState state,
+			@NonNull Level level,
+			@NonNull BlockPos pos,
+			@NonNull Entity entity,
+			@NonNull InsideBlockEffectApplier effectApplier,
+			boolean isPrecise) {
 
-        if (entity instanceof LivingEntity livingEntity && level instanceof ServerLevel serverLevel) {
-            float diameter = 8.0F;
+		if (entity instanceof LivingEntity livingEntity && level instanceof ServerLevel serverLevel) {
+			float diameter = 8.0F;
 
-            double xx = livingEntity.getX() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
-            double yy = Mth.clamp(
-                livingEntity.getY() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter,
-                (double) serverLevel.getMinY(),
-                (double) (serverLevel.getMinY() + serverLevel.getLogicalHeight() - 1));
-            double zz = livingEntity.getZ() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
-            if (serverLevel.getBlockState(new BlockPos((int) xx, (int) yy, (int) zz))
-                .is(LocalBlocks.GLITCH.get())) {
-                return;
-            }
+			double xx = livingEntity.getX() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
+			double yy = Mth.clamp(
+					livingEntity.getY() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter,
+					serverLevel.getMinY(),
+					(serverLevel.getMinY() + serverLevel.getLogicalHeight() - 1));
+			double zz = livingEntity.getZ() + (livingEntity.getRandom().nextDouble() - 0.5) * diameter;
+			if (serverLevel.getBlockState(new BlockPos((int) xx, (int) yy, (int) zz))
+					.is(LocalBlocks.GLITCH.get())) {
+				return;
+			}
 
-            if (livingEntity.isPassenger()) {
-                livingEntity.stopRiding();
-            }
+			if (livingEntity.isPassenger()) {
+				livingEntity.stopRiding();
+			}
 
-            Vec3 oldPos = livingEntity.position();
-            if (livingEntity.randomTeleport(xx, yy, zz, false, ItemStack.EMPTY)) {
-                serverLevel.gameEvent(GameEvent.TELEPORT, oldPos, GameEvent.Context.of(livingEntity));
-                SoundSource soundSource;
-                Holder<SoundEvent> soundEvent = LocalSoundEvents.GLITCH_TELEPORT;
-                if (livingEntity instanceof Player) {
-                    soundSource = SoundSource.PLAYERS;
-                } else {
-                    soundSource = SoundSource.NEUTRAL;
-                }
+			Vec3 oldPos = livingEntity.position();
+			if (livingEntity.randomTeleport(xx, yy, zz, false, ItemStack.EMPTY)) {
+				serverLevel.gameEvent(GameEvent.TELEPORT, oldPos, GameEvent.Context.of(livingEntity));
+				SoundSource soundSource;
+				Holder<SoundEvent> soundEvent = LocalSoundEvents.GLITCH_TELEPORT;
+				if (livingEntity instanceof Player) {
+					soundSource = SoundSource.PLAYERS;
+				} else {
+					soundSource = SoundSource.NEUTRAL;
+				}
 
-                serverLevel.playSound(
-                    null,
-                    livingEntity.getX(),
-                    livingEntity.getY(),
-                    livingEntity.getZ(),
-                    soundEvent,
-                    soundSource,
-                    1.0F,
-                    1.0F);
-                livingEntity.resetFallDistance();
-                livingEntity.resetCurrentImpulseContext();
-            }
-        }
-    }
+				serverLevel.playSound(
+						null,
+						livingEntity.getX(),
+						livingEntity.getY(),
+						livingEntity.getZ(),
+						soundEvent,
+						soundSource,
+						1.0F,
+						1.0F);
+				livingEntity.resetFallDistance();
+				livingEntity.resetCurrentImpulseContext();
+			}
+		}
+	}
 
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.INVISIBLE;
-    }
+	@Override
+	protected @NonNull RenderShape getRenderShape(@NonNull BlockState state) {
+		return RenderShape.INVISIBLE;
+	}
 
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-        Level level,
-        BlockState state,
-        BlockEntityType<T> type) {
-        return Utils.createTickerHelper(
-            type,
-            LocalBlockEntities.GLITCH.get(),
-            (levelInner, pos, stateInner, blockEntity) -> blockEntity.tick(levelInner, pos, stateInner));
-    }
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+			@NonNull Level level,
+			@NonNull BlockState state,
+			@NonNull BlockEntityType<T> type) {
+		return Utils.createTickerHelper(
+				type,
+				LocalBlockEntities.GLITCH.get(),
+				(levelInner, pos, stateInner, blockEntity) -> blockEntity.tick(levelInner, pos));
+	}
 
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos worldPosition, BlockState blockState) {
-        return new GlitchBlockEntity(worldPosition, blockState);
-    }
+	@Override
+	public @Nullable BlockEntity newBlockEntity(@NonNull BlockPos worldPosition, @NonNull BlockState blockState) {
+		return new GlitchBlockEntity(worldPosition, blockState);
+	}
 }

@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.loot;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -23,57 +33,57 @@ import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetLoreFunction;
 
 public abstract class LootProvider implements LootTableSubProvider {
-    protected static LootItem.Builder<?> generateLootItemCustomPotion(
-        String name,
-        int red,
-        int green,
-        int blue,
-        TranslatableContents lore,
-        MobEffectInstance... effects) {
-        return LootItem.lootTableItem(Items.POTION)
-            .apply(
-                SetComponentsFunction.setComponent(
-                    DataComponents.POTION_CONTENTS,
-                    new PotionContents(
-                        Optional.empty(),
-                        Optional.of(ARGB.color(red, green, blue)),
-                        Arrays.asList(effects),
-                        Optional.of(name))))
-            .apply(
-                SetLoreFunction.setLore()
-                    .addLine(MutableComponent.create(lore)))
-            .apply(
-                SetComponentsFunction.setComponent(
-                    DataComponents.TOOLTIP_DISPLAY,
-                    TooltipDisplay.DEFAULT
-                        .withHidden(DataComponents.POTION_CONTENTS, true)));
-    }
+	protected static LootItem.Builder<?> generateLootItemCustomPotion(
+			String name,
+			int red,
+			int green,
+			int blue,
+			TranslatableContents lore,
+			MobEffectInstance... effects) {
+		return LootItem.lootTableItem(Items.POTION)
+				.apply(
+						SetComponentsFunction.setComponent(
+								DataComponents.POTION_CONTENTS,
+								new PotionContents(
+										Optional.empty(),
+										Optional.of(ARGB.color(red, green, blue)),
+										Arrays.asList(effects),
+										Optional.of(name))))
+				.apply(
+						SetLoreFunction.setLore()
+								.addLine(MutableComponent.create(lore)))
+				.apply(
+						SetComponentsFunction.setComponent(
+								DataComponents.TOOLTIP_DISPLAY,
+								TooltipDisplay.DEFAULT
+										.withHidden(DataComponents.POTION_CONTENTS, true)));
+	}
 
-    protected static TranslatableContents l(String name) {
-        return new TranslatableContents(
-            "lore." + SuperSargassoSea.MODID + "." + name,
-            null,
-            new Object[0]);
-    }
+	protected static TranslatableContents l(String name) {
+		return new TranslatableContents(
+				"lore." + SuperSargassoSea.MODID + "." + name,
+				null,
+				new Object[0]);
+	}
 
-    protected static TranslatableContents n(String name) {
-        return new TranslatableContents(
-            "item." + SuperSargassoSea.MODID + ".custom." + name,
-            null,
-            new Object[0]);
-    }
+	protected static TranslatableContents n(String name) {
+		return new TranslatableContents(
+				"item." + SuperSargassoSea.MODID + ".custom." + name,
+				null,
+				new Object[0]);
+	}
 
-    protected final HolderLookup.Provider lookupProvider;
+	protected final HolderLookup.Provider lookupProvider;
 
-    protected final HolderGetter<TrimMaterial> trimMaterialProvider;
+	protected final HolderGetter<TrimMaterial> trimMaterialProvider;
 
-    protected final HolderGetter<TrimPattern> trimPatternProvider;
-    protected final HolderLookup.RegistryLookup<Enchantment> enchantments;
+	protected final HolderGetter<TrimPattern> trimPatternProvider;
+	protected final HolderLookup.RegistryLookup<Enchantment> enchantments;
 
-    protected LootProvider(HolderLookup.Provider lookupProvider) {
-        this.lookupProvider = lookupProvider;
-        this.trimMaterialProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_MATERIAL);
-        this.trimPatternProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_PATTERN);
-        this.enchantments = this.lookupProvider.lookupOrThrow(Registries.ENCHANTMENT);
-    }
+	protected LootProvider(HolderLookup.Provider lookupProvider) {
+		this.lookupProvider = lookupProvider;
+		this.trimMaterialProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_MATERIAL);
+		this.trimPatternProvider = this.lookupProvider.lookupOrThrow(Registries.TRIM_PATTERN);
+		this.enchantments = this.lookupProvider.lookupOrThrow(Registries.ENCHANTMENT);
+	}
 }

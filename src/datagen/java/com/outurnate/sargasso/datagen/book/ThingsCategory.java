@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.book;
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
@@ -7,169 +17,169 @@ import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.registry.LocalItems;
 
 public class ThingsCategory extends CategoryProvider {
-    public ThingsCategory(ModonomiconProviderBase parent) {
-        super(parent);
-    }
+	public ThingsCategory(ModonomiconProviderBase parent) {
+		super(parent);
+	}
 
-    @Override
-    protected BookIconModel categoryIcon() {
-        return BookIconModel.create(LocalItems.AA_BATTERY);
-    }
+	@Override
+	protected BookIconModel categoryIcon() {
+		return BookIconModel.create(LocalItems.AA_BATTERY);
+	}
 
-    @Override
-    public String categoryId() {
-        return "things";
-    }
+	@Override
+	public String categoryId() {
+		return "things";
+	}
 
-    @Override
-    protected String categoryName() {
-        return "Curiosities";
-    }
+	@Override
+	protected String categoryName() {
+		return "Curiosities";
+	}
 
-    @Override
-    protected void generateEntries() {
-        this.add(new BaseEntry(this, "batteries", "Batteries", LocalItems.AA_BATTERY) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "aa_battery",
-                    "AA Battery",
-                    LocalItems.AA_BATTERY,
-                    "This item can supply power to items in the inventory, but, once it's out of charge, it's useless");
-                this.spotlightPage(
-                    "rechargable_aa_battery",
-                    "Rechargable AA Battery",
-                    LocalItems.RECHARGABLE_AA_BATTERY,
-                    "There are rechargable variants. It can be recharged with [Potato Batteries](entry://things/potato_battery)");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "cream", "Bedrock Cream", LocalItems.BEDROCK_CREAM) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "bedrock_cream",
-                    "Bedrock Cream",
-                    LocalItems.BEDROCK_CREAM,
-                    "This cream can be smeared on bedrock to make it softer. It's still hard to mine, but no longer impossible. The resulting slop can be made into a very hearty bread.");
-                this.craftingRecipePage(
-                    "slop",
-                    "Breadrock",
-                    SuperSargassoSea.ID("breadrock"),
-                    "The slop can be eaten raw, but it's better baked into bread");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "fox_ears", "Fox Ears", LocalItems.FOX_EARS) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "fox_ears",
-                    "Fox Ears",
-                    LocalItems.FOX_EARS,
-                    "Wearing these seems to earn the trust of wild foxes. They can be dyed, and combined with armor.");
-                this.craftingRecipePage(
-                    "fox_ears_cosmetic",
-                    SuperSargassoSea.ID("fox_ears_dyed"),
-                    SuperSargassoSea.ID("apply_fox_ears"));
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "lightning", "Lightning Bottle", LocalItems.LIGHTNING_BOTTLE) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "lightning",
-                    "Lightning Bottle",
-                    LocalItems.LIGHTNING_BOTTLE,
-                    "This impossible somehow contains a lightning bolt. Caution is advised when throwing it.");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "potato_battery", "Potato Battery", LocalItems.POTATO_BATTERY) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "potato_battery",
-                    "Potato Battery",
-                    LocalItems.POTATO_BATTERY,
-                    "Not particularly appetizing, and tastes strongly of copper. Eating it allows the body to produce a small amount of electrical energy. Items in the player's inventory will be recharged. The Personal Voltmeter can be used to check the current power level.");
-                this.craftingRecipePage(
-                    "potato_battery_crafting",
-                    SuperSargassoSea.ID("potato_battery"),
-                    SuperSargassoSea.ID("personal_voltmeter"));
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "pylon", "Pylon", LocalItems.PYLON) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "pylon",
-                    "Pylon",
-                    LocalItems.PYLON,
-                    "This item makes pretty poor armour. Using it to obscure the eyes of a humanoid monster results in near total pacification.");
-                this.entityPage(
-                    "entity",
-                    "Example",
-                    "minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}",
-                    "You can slip it on a mob's head by using the item on them");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "shock_therapist", "Shock Therapist", LocalItems.SHOCK_THERAPIST) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "shock_therapist",
-                    "Shock Therapist",
-                    LocalItems.SHOCK_THERAPIST,
-                    "A device that periodically spews chunks of metal, and then creates arcs of electricity. Best not approached.");
-            }
-        }.generate());
-        this.add(
-            new BaseEntry(
-                this,
-                "studded_leather",
-                "Studded Leather Armor",
-                LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE) {
-                @Override
-                protected void generatePages() {
-                    this.spotlightPage(
-                        "studded_leather",
-                        "Studded Leather Armor",
-                        LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE,
-                        "todo");
-                    this.entityPage(
-                        "entity",
-                        "Example",
-                        "minecraft:mannequin{profile:panicnot42,hidden_layers:[cape,left_sleeve,right_sleeve,hat],equipment:{head:{id:\"sargasso:studded_leather_helmet\"},chest:{id:\"sargasso:studded_leather_chestplate\"},legs:{id:\"sargasso:studded_leather_leggings\"},feet:{id:\"sargasso:studded_leather_boots\"}}}",
-                        "todo");
-                }
-            }.generate());
-        this.add(new BaseEntry(this, "toaster", "Chronometric Flux Toaster", LocalItems.TOASTER) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "toaster",
-                    "Chronometric Flux Toaster",
-                    LocalItems.TOASTER,
-                    "This device possesses a function that can't possibly be useful to anyone. Using the principals of chronometric science, it toasts bread after it's been eaten. It somehow does this despite having no discernable power source.");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "redstone_emp", "Redstone Pulse Device", LocalItems.REDSTONE_EMP) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "redstone_emp",
-                    "Redstone Pulse Device",
-                    LocalItems.REDSTONE_EMP,
-                    "This item, when thrown, emits a pulse that temporarily disrupts the normal functioning of redstone apparatus. Caution should be used, as not all redstone contraptions respond well to such disruption.");
-            }
-        }.generate());
-        this.add(new BaseEntry(this, "hammer", "Hammer", LocalItems.HAMMER) {
-            @Override
-            protected void generatePages() {
-                this.spotlightPage(
-                    "hammer",
-                    "Hammer",
-                    LocalItems.HAMMER,
-                    "A heavy hammer. Slow, but can deal heavy damage to a single foe. When thrown, it can strike many enemies in its path.");
-            }
-        }.generate());
-    }
+	@Override
+	protected void generateEntries() {
+		this.add(new BaseEntry(this, "batteries", "Batteries", LocalItems.AA_BATTERY) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"aa_battery",
+						"AA Battery",
+						LocalItems.AA_BATTERY,
+						"This item can supply power to items in the inventory, but, once it's out of charge, it's useless");
+				this.spotlightPage(
+						"rechargable_aa_battery",
+						"Rechargable AA Battery",
+						LocalItems.RECHARGABLE_AA_BATTERY,
+						"There are rechargable variants. It can be recharged with [Potato Batteries](entry://things/potato_battery)");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "cream", "Bedrock Cream", LocalItems.BEDROCK_CREAM) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"bedrock_cream",
+						"Bedrock Cream",
+						LocalItems.BEDROCK_CREAM,
+						"This cream can be smeared on bedrock to make it softer. It's still hard to mine, but no longer impossible. The resulting slop can be made into a very hearty bread.");
+				this.craftingRecipePage(
+						"slop",
+						"Breadrock",
+						SuperSargassoSea.ID("breadrock"),
+						"The slop can be eaten raw, but it's better baked into bread");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "fox_ears", "Fox Ears", LocalItems.FOX_EARS) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"fox_ears",
+						"Fox Ears",
+						LocalItems.FOX_EARS,
+						"Wearing these seems to earn the trust of wild foxes. They can be dyed, and combined with armor.");
+				this.craftingRecipePage(
+						"fox_ears_cosmetic",
+						SuperSargassoSea.ID("fox_ears_dyed"),
+						SuperSargassoSea.ID("apply_fox_ears"));
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "lightning", "Lightning Bottle", LocalItems.LIGHTNING_BOTTLE) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"lightning",
+						"Lightning Bottle",
+						LocalItems.LIGHTNING_BOTTLE,
+						"This impossible somehow contains a lightning bolt. Caution is advised when throwing it.");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "potato_battery", "Potato Battery", LocalItems.POTATO_BATTERY) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"potato_battery",
+						"Potato Battery",
+						LocalItems.POTATO_BATTERY,
+						"Not particularly appetizing, and tastes strongly of copper. Eating it allows the body to produce a small amount of electrical energy. Items in the player's inventory will be recharged. The Personal Voltmeter can be used to check the current power level.");
+				this.craftingRecipePage(
+						"potato_battery_crafting",
+						SuperSargassoSea.ID("potato_battery"),
+						SuperSargassoSea.ID("personal_voltmeter"));
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "pylon", "Pylon", LocalItems.PYLON) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"pylon",
+						"Pylon",
+						LocalItems.PYLON,
+						"This item makes pretty poor armour. Using it to obscure the eyes of a humanoid monster results in near total pacification.");
+				this.entityPage(
+						"entity",
+						"Example",
+						"minecraft:zombie{equipment:{head:{count:1,id:\"sargasso:pylon\"}}}",
+						"You can slip it on a mob's head by using the item on them");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "shock_therapist", "Shock Therapist", LocalItems.SHOCK_THERAPIST) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"shock_therapist",
+						"Shock Therapist",
+						LocalItems.SHOCK_THERAPIST,
+						"A device that periodically spews chunks of metal, and then creates arcs of electricity. Best not approached.");
+			}
+		}.generate());
+		this.add(
+				new BaseEntry(
+						this,
+						"studded_leather",
+						"Studded Leather Armor",
+						LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE) {
+					@Override
+					protected void generatePages() {
+						this.spotlightPage(
+								"studded_leather",
+								"Studded Leather Armor",
+								LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE,
+								"todo");
+						this.entityPage(
+								"entity",
+								"Example",
+								"minecraft:mannequin{profile:panicnot42,hidden_layers:[cape,left_sleeve,right_sleeve,hat],equipment:{head:{id:\"sargasso:studded_leather_helmet\"},chest:{id:\"sargasso:studded_leather_chestplate\"},legs:{id:\"sargasso:studded_leather_leggings\"},feet:{id:\"sargasso:studded_leather_boots\"}}}",
+								"todo");
+					}
+				}.generate());
+		this.add(new BaseEntry(this, "toaster", "Chronometric Flux Toaster", LocalItems.TOASTER) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"toaster",
+						"Chronometric Flux Toaster",
+						LocalItems.TOASTER,
+						"This device possesses a function that can't possibly be useful to anyone. Using the principals of chronometric science, it toasts bread after it's been eaten. It somehow does this despite having no discernable power source.");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "redstone_emp", "Redstone Pulse Device", LocalItems.REDSTONE_EMP) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"redstone_emp",
+						"Redstone Pulse Device",
+						LocalItems.REDSTONE_EMP,
+						"This item, when thrown, emits a pulse that temporarily disrupts the normal functioning of redstone apparatus. Caution should be used, as not all redstone contraptions respond well to such disruption.");
+			}
+		}.generate());
+		this.add(new BaseEntry(this, "hammer", "Hammer", LocalItems.HAMMER) {
+			@Override
+			protected void generatePages() {
+				this.spotlightPage(
+						"hammer",
+						"Hammer",
+						LocalItems.HAMMER,
+						"A heavy hammer. Slow, but can deal heavy damage to a single foe. When thrown, it can strike many enemies in its path.");
+			}
+		}.generate());
+	}
 }

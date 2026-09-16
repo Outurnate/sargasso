@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.client;
 
 import com.mojang.datafixers.util.Either;
@@ -42,69 +51,69 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(value = SuperSargassoSea.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = SuperSargassoSea.MODID, value = Dist.CLIENT)
 public class SuperSargassoSeaClient {
-    @SubscribeEvent
-    public static void onComputeFovModifierEvent(ComputeFovModifierEvent event) {
-        var player = event.getPlayer();
-        if (player.hasEffect(LocalMobEffects.GROW) || player.hasEffect(LocalMobEffects.SHRINK)) {
-            event.setNewFovModifier(1.0F);
-        }
-    }
+	@SubscribeEvent
+	public static void onComputeFovModifierEvent(ComputeFovModifierEvent event) {
+		var player = event.getPlayer();
+		if (player.hasEffect(LocalMobEffects.GROW) || player.hasEffect(LocalMobEffects.SHRINK)) {
+			event.setNewFovModifier(1.0F);
+		}
+	}
 
-    @SubscribeEvent
-    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(new HammerClientItemExtensions(), LocalItems.HAMMER.get());
-    }
+	@SubscribeEvent
+	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		event.registerItem(new HammerClientItemExtensions(), LocalItems.HAMMER.get());
+	}
 
-    @SubscribeEvent
-    public static void registerColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
-        // 9bca6b
-        event.register(List.of(state -> ARGB.color(0x9B, 255, 0x6B)), LocalBlocks.ALPHA_GRASS.get());
-    }
+	@SubscribeEvent
+	public static void registerColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
+		// 9bca6b
+		event.register(List.of(state -> ARGB.color(0x9B, 255, 0x6B)), LocalBlocks.ALPHA_GRASS.get());
+	}
 
-    @SubscribeEvent
-    public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
-        event.register(SuperSargassoSea.ID("from_cosmetic"), FromCosmeticItemTintSource.MAP_CODEC);
-    }
+	@SubscribeEvent
+	public static void registerItemTintSources(RegisterColorHandlersEvent.ItemTintSources event) {
+		event.register(SuperSargassoSea.ID("from_cosmetic"), FromCosmeticItemTintSource.MAP_CODEC);
+	}
 
-    @SubscribeEvent
-    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(ElectricMineModel.LAYER_LOCATION, ElectricMineModel::createBodyLayer);
-    }
+	@SubscribeEvent
+	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		event.registerLayerDefinition(ElectricMineModel.LAYER_LOCATION, ElectricMineModel::createBodyLayer);
+	}
 
-    @SubscribeEvent
-    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(LocalParticleTypes.SPARK.get(), SparkParticle.Provider::new);
-        event.registerSpriteSet(LocalParticleTypes.BEAM.get(), BeamParticle.Provider::new);
-    }
+	@SubscribeEvent
+	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+		event.registerSpriteSet(LocalParticleTypes.SPARK.get(), SparkParticle.Provider::new);
+		event.registerSpriteSet(LocalParticleTypes.BEAM.get(), BeamParticle.Provider::new);
+	}
 
-    @SubscribeEvent
-    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(LocalBlockEntities.GLITCH.get(), GlitchBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(
-            LocalBlockEntities.SHOCK_THERAPIST.get(),
-            ShockTherapistEntityRenderer::new);
-        event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(LocalEntities.SPIDER_BOTTLE.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
-        event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
-        event.registerEntityRenderer(LocalEntities.HAMMER.get(), ThrownHammerRenderer::new);
-        event.registerEntityRenderer(LocalEntities.SIZE_RAY_BEAM.get(), SizeRayBeamRenderer::new);
-    }
+	@SubscribeEvent
+	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerBlockEntityRenderer(LocalBlockEntities.GLITCH.get(), GlitchBlockEntityRenderer::new);
+		event.registerBlockEntityRenderer(
+				LocalBlockEntities.SHOCK_THERAPIST.get(),
+				ShockTherapistEntityRenderer::new);
+		event.registerEntityRenderer(LocalEntities.LIGHTNING_BOTTLE.get(), ThrownItemRenderer::new);
+		event.registerEntityRenderer(LocalEntities.SPIDER_BOTTLE.get(), ThrownItemRenderer::new);
+		event.registerEntityRenderer(LocalEntities.REDSTONE_EMP.get(), ThrownItemRenderer::new);
+		event.registerEntityRenderer(LocalEntities.ELECTRIC_MINE.get(), ElectricMineRenderer::new);
+		event.registerEntityRenderer(LocalEntities.REDSTONE_BUG.get(), RedstoneBugRenderer::new);
+		event.registerEntityRenderer(LocalEntities.HAMMER.get(), ThrownHammerRenderer::new);
+		event.registerEntityRenderer(LocalEntities.SIZE_RAY_BEAM.get(), SizeRayBeamRenderer::new);
+	}
 
-    @SubscribeEvent
-    public static void registerTooltipAppenders(RenderTooltipEvent.GatherComponents event) {
-        if (event.getItemStack()
-            .get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
-            event.getTooltipElements().add(
-                1,
-                Either.left(
-                    cosmetic.create().getItemName().copy()
-                        .setStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY))));
-        }
-    }
+	@SubscribeEvent
+	public static void registerTooltipAppenders(RenderTooltipEvent.GatherComponents event) {
+		if (event.getItemStack()
+				.get(LocalDataComponentTypes.COSMETIC_ITEM) instanceof ItemStackTemplate cosmetic) {
+			event.getTooltipElements().add(
+					1,
+					Either.left(
+							cosmetic.create().getItemName().copy()
+									.setStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY))));
+		}
+	}
 
-    public SuperSargassoSeaClient(ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-    }
+	public SuperSargassoSeaClient(ModContainer container) {
+		container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+	}
 }

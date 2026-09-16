@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.entity;
 
 import com.outurnate.sargasso.registry.LocalEntities;
@@ -5,7 +15,7 @@ import com.outurnate.sargasso.registry.LocalItems;
 import com.outurnate.sargasso.registry.LocalSoundEvents;
 import com.outurnate.sargasso.repository.LocalAdvancements;
 import com.outurnate.sargasso.repository.LocalDamageTypes;
-
+import java.util.Objects;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -34,216 +44,216 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 
 public class ThrownHammer extends AbstractArrow {
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData
-        .defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
-    private Vec3 incomingVelocity = Vec3.ZERO;
-    public int clientSideReturnHammerTickCount;
-    private int hitEntities = 0;
+	private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData
+			.defineId(ThrownHammer.class, EntityDataSerializers.BYTE);
+	private Vec3 incomingVelocity = Vec3.ZERO;
+	public int clientSideReturnHammerTickCount;
+	private int hitEntities = 0;
 
-    public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
-        super(type, level);
-    }
+	public ThrownHammer(EntityType<? extends AbstractArrow> type, Level level) {
+		super(type, level);
+	}
 
-    public ThrownHammer(Level level, double x, double y, double z, ItemStack pickupItemStack) {
-        super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, pickupItemStack);
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
-    }
+	public ThrownHammer(Level level, double x, double y, double z, ItemStack pickupItemStack) {
+		super(LocalEntities.HAMMER.get(), x, y, z, level, pickupItemStack, pickupItemStack);
+		this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
+	}
 
-    public ThrownHammer(Level level, LivingEntity mob, ItemStack pickupItemStack) {
-        super(LocalEntities.HAMMER.get(), mob, level, pickupItemStack, pickupItemStack);
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
-    }
+	public ThrownHammer(Level level, LivingEntity mob, ItemStack pickupItemStack) {
+		super(LocalEntities.HAMMER.get(), mob, level, pickupItemStack, pickupItemStack);
+		this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(pickupItemStack));
+	}
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
-        super.defineSynchedData(entityData);
-        entityData.define(ID_LOYALTY, (byte) 0);
-    }
+	@Override
+	protected void defineSynchedData(SynchedEntityData.@NonNull Builder entityData) {
+		super.defineSynchedData(entityData);
+		entityData.define(ID_LOYALTY, (byte) 0);
+	}
 
-    @Override
-    protected void doKnockback(LivingEntity mob, DamageSource damageSource) {
-        float minimumKnockback = 1.0F;
-        double knockback = this.getWeaponItem() != null && this.level() instanceof ServerLevel serverLevel
-            ? EnchantmentHelper
-                .modifyKnockback(serverLevel, this.getWeaponItem(), mob, damageSource, minimumKnockback)
-            : minimumKnockback;
-        double knockbackResistance = Math
-            .max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-        float deflection = random.nextBoolean() ? -Mth.HALF_PI : Mth.HALF_PI;
-        Vec3 movement = this.getDeltaMovement().yRot(deflection).multiply(1.0, 0.0, 1.0).normalize()
-            .scale(knockback * 0.6 * knockbackResistance);
-        if (movement.lengthSqr() > 0.0) {
-            mob.push(movement.x, 0.1, movement.z);
-        }
-    }
+	@Override
+	protected void doKnockback(LivingEntity mob, @NonNull DamageSource damageSource) {
+		float minimumKnockback = 1.0F;
+		double knockback = this.getWeaponItem() != null && this.level() instanceof ServerLevel serverLevel
+				? EnchantmentHelper
+						.modifyKnockback(serverLevel, this.getWeaponItem(), mob, damageSource, minimumKnockback)
+				: minimumKnockback;
+		double knockbackResistance = Math
+				.max(0.0, 1.0 - mob.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+		float deflection = random.nextBoolean() ? -Mth.HALF_PI : Mth.HALF_PI;
+		Vec3 movement = this.getDeltaMovement().yRot(deflection).multiply(1.0, 0.0, 1.0).normalize()
+				.scale(knockback * 0.6 * knockbackResistance);
+		if (movement.lengthSqr() > 0.0) {
+			mob.push(movement.x, 0.1, movement.z);
+		}
+	}
 
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return LocalSoundEvents.HAMMER_HIT_GROUND.value();
-    }
+	@Override
+	protected @NonNull SoundEvent getDefaultHitGroundSoundEvent() {
+		return LocalSoundEvents.HAMMER_HIT_GROUND.value();
+	}
 
-    @Override
-    public ItemStack getDefaultPickupItem() {
-        return new ItemStack(LocalItems.HAMMER.get());
-    }
+	@Override
+	public @NonNull ItemStack getDefaultPickupItem() {
+		return new ItemStack(LocalItems.HAMMER.get());
+	}
 
-    private byte getLoyaltyFromItem(ItemStack hammerItem) {
-        return this.level() instanceof ServerLevel serverLevel ? (byte) Mth.clamp(
-            EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverLevel, hammerItem, this),
-            0,
-            127) : 0;
-    }
+	private byte getLoyaltyFromItem(ItemStack hammerItem) {
+		return this.level() instanceof ServerLevel serverLevel ? (byte) Mth.clamp(
+				EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverLevel, hammerItem, this),
+				0,
+				127) : 0;
+	}
 
-    @Override
-    public ItemStack getWeaponItem() {
-        return this.getPickupItemStackOrigin();
-    }
+	@Override
+	public ItemStack getWeaponItem() {
+		return this.getPickupItemStackOrigin();
+	}
 
-    private boolean isAcceptibleReturnOwner() {
-        Entity currentOwner = this.getOwner();
-        return currentOwner == null || !currentOwner.isAlive() ? false
-            : !(currentOwner instanceof ServerPlayer) || !currentOwner.isSpectator();
-    }
+	private boolean isAcceptibleReturnOwner() {
+		Entity currentOwner = this.getOwner();
+		return currentOwner != null && currentOwner.isAlive() && (!(currentOwner instanceof ServerPlayer) || !currentOwner.isSpectator());
+	}
 
-    @Override
-    protected void onHitBlock(BlockHitResult hitResult) {
-        Vec3 normal = hitResult.getDirection().getUnitVec3();
-        double dot = incomingVelocity.dot(normal);
-        Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
-        setDeltaMovement(reflected.scale(0.1));
-        setPos(position().add(normal.scale(0.01)));
-        if (incomingVelocity.length() < 0.1) {
-            super.onHitBlock(hitResult);
-        }
-        RandomSource rand = this.level().getRandom();
-        ParticleOptions options = new BlockParticleOption(
-            ParticleTypes.BLOCK,
-            this.level().getBlockState(hitResult.getBlockPos()));
-        for (int i = 0; i < 15; ++i) {
-            this.level().addParticle(
-                options,
-                this.getX(),
-                this.getY(),
-                this.getZ(),
-                rand.nextDouble() - 0.5,
-                rand.nextDouble() - 0.5,
-                rand.nextDouble() - 0.5);
-        }
-        this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
-    }
+	@Override
+	protected void onHitBlock(BlockHitResult hitResult) {
+		Vec3 normal = hitResult.getDirection().getUnitVec3();
+		double dot = incomingVelocity.dot(normal);
+		Vec3 reflected = incomingVelocity.subtract(normal.scale(2.0 * dot));
+		setDeltaMovement(reflected.scale(0.1));
+		setPos(position().add(normal.scale(0.01)));
+		if (incomingVelocity.length() < 0.1) {
+			super.onHitBlock(hitResult);
+		}
+		RandomSource rand = this.level().getRandom();
+		ParticleOptions options = new BlockParticleOption(
+				ParticleTypes.BLOCK,
+				this.level().getBlockState(hitResult.getBlockPos()));
+		for (int i = 0; i < 15; ++i) {
+			this.level().addParticle(
+					options,
+					this.getX(),
+					this.getY(),
+					this.getZ(),
+					rand.nextDouble() - 0.5,
+					rand.nextDouble() - 0.5,
+					rand.nextDouble() - 0.5);
+		}
+		this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
+	}
 
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onHitEntity(EntityHitResult hitResult) {
-        Entity entity = hitResult.getEntity();
-        float dmg = 8.0F;
-        Entity currentOwner = this.getOwner();
-        Registry<DamageType> damageTypes = level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
-        DamageSource damageSource = new DamageSource(
-            damageTypes.getOrThrow(LocalDamageTypes.HAMMER),
-            (Entity) (currentOwner == null ? this : currentOwner));
-        if (this.level() instanceof ServerLevel serverLevel) {
-            dmg = EnchantmentHelper
-                .modifyDamage(serverLevel, this.getWeaponItem(), entity, damageSource, dmg);
-        }
+	@SuppressWarnings("deprecation")
+	@Override
+	protected void onHitEntity(EntityHitResult hitResult) {
+		Entity entity = hitResult.getEntity();
+		float dmg = 8.0F;
+		Entity currentOwner = this.getOwner();
+		Registry<DamageType> damageTypes = level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
+		DamageSource damageSource = new DamageSource(
+				damageTypes.getOrThrow(LocalDamageTypes.HAMMER),
+				(currentOwner == null ? this : currentOwner));
+		if (this.level() instanceof ServerLevel serverLevel) {
+			dmg = EnchantmentHelper
+					.modifyDamage(serverLevel, Objects.requireNonNull(this.getWeaponItem()), entity, damageSource, dmg);
+		}
 
-        if (entity.hurtOrSimulate(damageSource, dmg)) {
-            if (entity.is(EntityType.ENDERMAN)) {
-                return;
-            }
+		if (entity.hurtOrSimulate(damageSource, dmg)) {
+			if (entity.is(EntityType.ENDERMAN)) {
+				return;
+			}
 
-            this.hitEntities++;
+			this.hitEntities++;
 
-            if (this.level() instanceof ServerLevel serverLevel) {
-                if (hitEntities > 10
-                    && this.owner.getEntity(serverLevel, Entity.class) instanceof ServerPlayer player) {
-                    LocalAdvancements.Award(player, LocalAdvancements.STRIKE, "impossible");
-                }
-                EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
-                    serverLevel,
-                    entity,
-                    damageSource,
-                    this.getWeaponItem(),
-                    weapon -> this.kill(serverLevel));
-            }
+			if (this.level() instanceof ServerLevel serverLevel) {
+				if (hitEntities > 10
+						&& Objects.requireNonNull(this.owner).getEntity(serverLevel, Entity.class) instanceof ServerPlayer player) {
+					LocalAdvancements.Award(player, LocalAdvancements.STRIKE, "impossible");
+				}
+				EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
+						serverLevel,
+						entity,
+						damageSource,
+						this.getWeaponItem(),
+						weapon -> this.kill(serverLevel));
+			}
 
-            if (entity instanceof LivingEntity mob) {
-                this.doKnockback(mob, damageSource);
-                this.doPostHurtEffects(mob);
-            }
-        }
+			if (entity instanceof LivingEntity mob) {
+				this.doKnockback(mob, damageSource);
+				this.doPostHurtEffects(mob);
+			}
+		}
 
-        this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
-    }
+		this.playSound(LocalSoundEvents.HAMMER_HIT.value(), 1.0F, 1.0F);
+	}
 
-    @Override
-    public void playerTouch(Player player) {
-        if (this.ownedBy(player) || this.getOwner() == null) {
-            super.playerTouch(player);
-        }
-    }
+	@Override
+	public void playerTouch(@NonNull Player player) {
+		if (this.ownedBy(player) || this.getOwner() == null) {
+			super.playerTouch(player);
+		}
+	}
 
-    @Override
-    protected void readAdditionalSaveData(ValueInput input) {
-        super.readAdditionalSaveData(input);
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
-    }
+	@Override
+	protected void readAdditionalSaveData(@NonNull ValueInput input) {
+		super.readAdditionalSaveData(input);
+		this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
+	}
 
-    @Override
-    public boolean shouldRender(double camX, double camY, double camZ) {
-        return true;
-    }
+	@Override
+	public boolean shouldRender(double camX, double camY, double camZ) {
+		return true;
+	}
 
-    @Override
-    public void tick() {
-        incomingVelocity = getDeltaMovement();
+	@Override
+	public void tick() {
+		incomingVelocity = getDeltaMovement();
 
-        Entity currentOwner = this.getOwner();
-        int loyalty = this.entityData.get(ID_LOYALTY);
-        if (loyalty > 0 && (this.inGroundTime > 4 || this.isNoPhysics()) && currentOwner != null) {
-            if (!this.isAcceptibleReturnOwner()) {
-                if (this.level() instanceof ServerLevel level
-                    && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(level, this.getPickupItem(), 0.1F);
-                }
+		Entity currentOwner = this.getOwner();
+		int loyalty = this.entityData.get(ID_LOYALTY);
+		if (loyalty > 0 && (this.inGroundTime > 4 || this.isNoPhysics()) && currentOwner != null) {
+			if (!this.isAcceptibleReturnOwner()) {
+				if (this.level() instanceof ServerLevel level
+						&& this.pickup == AbstractArrow.Pickup.ALLOWED) {
+					this.spawnAtLocation(level, this.getPickupItem(), 0.1F);
+				}
 
-                this.discard();
-            } else {
-                if (!(currentOwner instanceof Player) && this.position()
-                    .distanceTo(currentOwner.getEyePosition()) < currentOwner.getBbWidth() + 1.0) {
-                    this.discard();
-                    return;
-                }
+				this.discard();
+			} else {
+				if (!(currentOwner instanceof Player) && this.position()
+						.distanceTo(currentOwner.getEyePosition()) < currentOwner.getBbWidth() + 1.0) {
+					this.discard();
+					return;
+				}
 
-                this.setNoPhysics(true);
-                Vec3 vec = currentOwner.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec.y * 0.015 * loyalty, this.getZ());
-                double accel = 0.05 * loyalty;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec.normalize().scale(accel)));
-                if (this.clientSideReturnHammerTickCount == 0) {
-                    this.playSound(LocalSoundEvents.HAMMER_RETURN.value(), 10.0F, 1.0F);
-                }
+				this.setNoPhysics(true);
+				Vec3 vec = currentOwner.getEyePosition().subtract(this.position());
+				this.setPosRaw(this.getX(), this.getY() + vec.y * 0.015 * loyalty, this.getZ());
+				double accel = 0.05 * loyalty;
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec.normalize().scale(accel)));
+				if (this.clientSideReturnHammerTickCount == 0) {
+					this.playSound(LocalSoundEvents.HAMMER_RETURN.value(), 10.0F, 1.0F);
+				}
 
-                this.clientSideReturnHammerTickCount++;
-            }
-        }
+				this.clientSideReturnHammerTickCount++;
+			}
+		}
 
-        super.tick();
-    }
+		super.tick();
+	}
 
-    @Override
-    public void tickDespawn() {
-        int loyalty = this.entityData.get(ID_LOYALTY);
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED || loyalty <= 0) {
-            super.tickDespawn();
-        }
-    }
+	@Override
+	public void tickDespawn() {
+		int loyalty = this.entityData.get(ID_LOYALTY);
+		if (this.pickup != AbstractArrow.Pickup.ALLOWED || loyalty <= 0) {
+			super.tickDespawn();
+		}
+	}
 
-    @Override
-    protected boolean tryPickup(Player player) {
-        return super.tryPickup(player)
-            || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
-    }
+	@Override
+	protected boolean tryPickup(@NonNull Player player) {
+		return super.tryPickup(player)
+				|| this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
+	}
 }

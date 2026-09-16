@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -12,26 +22,26 @@ import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 
 public class LocalDensityFunctionProvider {
-    public static final ResourceKey<DensityFunction> TEMPERATURE = ResourceKey
-        .create(Registries.DENSITY_FUNCTION, SuperSargassoSea.ID("temperature"));
+	public static final ResourceKey<DensityFunction> TEMPERATURE = ResourceKey
+			.create(Registries.DENSITY_FUNCTION, SuperSargassoSea.ID("temperature"));
 
-    public static void provide(BootstrapContext<DensityFunction> bootstrap) {
-        HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
-            .lookup(Registries.NOISE);
+	public static void provide(BootstrapContext<DensityFunction> bootstrap) {
+		HolderGetter<NoiseParameters> noiseParametersRegistry = bootstrap
+				.lookup(Registries.NOISE);
 
-        DensityFunction shift_x = DensityFunctions.flatCache(
-            DensityFunctions
-                .cache2d(DensityFunctions.shiftA(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
-        DensityFunction shift_z = DensityFunctions.flatCache(
-            DensityFunctions
-                .cache2d(DensityFunctions.shiftB(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
+		DensityFunction shift_x = DensityFunctions.flatCache(
+				DensityFunctions
+						.cache2d(DensityFunctions.shiftA(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
+		DensityFunction shift_z = DensityFunctions.flatCache(
+				DensityFunctions
+						.cache2d(DensityFunctions.shiftB(noiseParametersRegistry.getOrThrow(Noises.SHIFT))));
 
-        bootstrap.register(
-            TEMPERATURE,
-            DensityFunctions.shiftedNoise2d(
-                shift_x,
-                shift_z,
-                1.0,
-                noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE)));
-    }
+		bootstrap.register(
+				TEMPERATURE,
+				DensityFunctions.shiftedNoise2d(
+						shift_x,
+						shift_z,
+						1.0,
+						noiseParametersRegistry.getOrThrow(LocalNoisesProvider.TEMPERATURE)));
+	}
 }

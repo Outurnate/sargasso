@@ -1,1 +1,4 @@
 ${mod_notices}
+
+Flim Flam concept originally from OpenBlocks (https://github.com/OpenMods/OpenBlocks)
+Ported under MIT license

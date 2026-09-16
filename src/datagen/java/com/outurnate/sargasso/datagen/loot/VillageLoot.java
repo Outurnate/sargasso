@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.loot;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -29,96 +39,96 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class VillageLoot extends LootProvider {
-    public static final ResourceKey<LootTable> BONE = ResourceKey.create(
-        Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("village/bone"));
+	public static final ResourceKey<LootTable> BONE = ResourceKey.create(
+			Registries.LOOT_TABLE,
+			SuperSargassoSea.ID("village/bone"));
 
-    public static final ResourceKey<LootTable> POT = ResourceKey.create(
-        Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("village/pot"));
+	public static final ResourceKey<LootTable> POT = ResourceKey.create(
+			Registries.LOOT_TABLE,
+			SuperSargassoSea.ID("village/pot"));
 
-    public static final ResourceKey<LootTable> CHEST = ResourceKey.create(
-        Registries.LOOT_TABLE,
-        SuperSargassoSea.ID("village/chest"));
+	public static final ResourceKey<LootTable> CHEST = ResourceKey.create(
+			Registries.LOOT_TABLE,
+			SuperSargassoSea.ID("village/chest"));
 
-    public static final TranslatableContents NAME_LIAR_PANTS = n("liar_pants");
+	public static final TranslatableContents NAME_LIAR_PANTS = n("liar_pants");
 
-    public VillageLoot(Provider lookupProvider) {
-        super(lookupProvider);
-    }
+	public VillageLoot(Provider lookupProvider) {
+		super(lookupProvider);
+	}
 
-    @Override
-    public void generate(BiConsumer<ResourceKey<LootTable>, Builder> output) {
-        output.accept(
-            BONE,
-            LootTable.lootTable().withPool(
-                LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                    .add(LootItem.lootTableItem(Items.BONE))));
-        output.accept(
-            POT,
-            LootTable.lootTable().withPool(
-                LootPool.lootPool()
-                    .setRolls(ConstantValue.exactly(1.0F))
-                    .add(LootItem.lootTableItem(Items.BONE).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
-                    .add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.STICK).setWeight(15))
-                    .add(LootItem.lootTableItem(Items.DEAD_BUSH).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
-                    .add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))));
-        output.accept(
-            CHEST,
-            LootTable.lootTable().withPool(
-                LootPool.lootPool()
-                    .setRolls(UniformGenerator.between(3, 7))
-                    .add(LootItem.lootTableItem(Items.BONE).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
-                    .add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.STICK).setWeight(15))
-                    .add(LootItem.lootTableItem(Items.DEAD_BUSH).setWeight(1))
-                    .add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
-                    .add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
-                    .add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))
-                    .add(generateTerribleTool(Items.WOODEN_AXE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_HOE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_PICKAXE).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SHOVEL).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SPEAR).setWeight(1))
-                    .add(generateTerribleTool(Items.WOODEN_SWORD).setWeight(1))
-                    .add(generateLiarsPants().setWeight(1))
-                    .add(
-                        LootItem.lootTableItem(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE)
-                            .setWeight(5))));
-    }
+	@Override
+	public void generate(BiConsumer<ResourceKey<LootTable>, Builder> output) {
+		output.accept(
+				BONE,
+				LootTable.lootTable().withPool(
+						LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+								.add(LootItem.lootTableItem(Items.BONE))));
+		output.accept(
+				POT,
+				LootTable.lootTable().withPool(
+						LootPool.lootPool()
+								.setRolls(ConstantValue.exactly(1.0F))
+								.add(LootItem.lootTableItem(Items.BONE).setWeight(1))
+								.add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
+								.add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
+								.add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+								.add(LootItem.lootTableItem(Items.STICK).setWeight(15))
+								.add(LootItem.lootTableItem(Items.DEAD_BUSH).setWeight(1))
+								.add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
+								.add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
+								.add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
+								.add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))));
+		output.accept(
+				CHEST,
+				LootTable.lootTable().withPool(
+						LootPool.lootPool()
+								.setRolls(UniformGenerator.between(3, 7))
+								.add(LootItem.lootTableItem(Items.BONE).setWeight(1))
+								.add(LootItem.lootTableItem(Items.BOWL).setWeight(2))
+								.add(LootItem.lootTableItem(Items.LEATHER).setWeight(5))
+								.add(LootItem.lootTableItem(Items.ROTTEN_FLESH).setWeight(1))
+								.add(LootItem.lootTableItem(Items.STICK).setWeight(15))
+								.add(LootItem.lootTableItem(Items.DEAD_BUSH).setWeight(1))
+								.add(LootItem.lootTableItem(Items.WHEAT_SEEDS).setWeight(7))
+								.add(LootItem.lootTableItem(Items.COPPER_NUGGET).setWeight(5))
+								.add(LootItem.lootTableItem(Items.IRON_NUGGET).setWeight(5))
+								.add(LootItem.lootTableItem(Items.COBBLESTONE).setWeight(15))
+								.add(generateTerribleTool(Items.WOODEN_AXE).setWeight(1))
+								.add(generateTerribleTool(Items.WOODEN_HOE).setWeight(1))
+								.add(generateTerribleTool(Items.WOODEN_PICKAXE).setWeight(1))
+								.add(generateTerribleTool(Items.WOODEN_SHOVEL).setWeight(1))
+								.add(generateTerribleTool(Items.WOODEN_SPEAR).setWeight(1))
+								.add(generateTerribleTool(Items.WOODEN_SWORD).setWeight(1))
+								.add(generateLiarsPants().setWeight(1))
+								.add(
+										LootItem.lootTableItem(LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE)
+												.setWeight(5))));
+	}
 
-    private LootItem.Builder<?> generateLiarsPants() {
-        Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "liar");
-        return LootItem.lootTableItem(Items.LEATHER_LEGGINGS)
-            .apply(
-                SetNameFunction
-                    .setName(MutableComponent.create(NAME_LIAR_PANTS), Target.ITEM_NAME))
-            .apply(
-                SetAttributesFunction.setAttributes()
-                    .withModifier(
-                        new ModifierBuilder(
-                            modifierIdentifier,
-                            Attributes.BURNING_TIME,
-                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
-                            ConstantValue.exactly(1.0F))
-                                .forSlot(EquipmentSlotGroup.ARMOR)));
-    }
+	private LootItem.Builder<?> generateLiarsPants() {
+		Identifier modifierIdentifier = Identifier.fromNamespaceAndPath(SuperSargassoSea.MODID, "liar");
+		return LootItem.lootTableItem(Items.LEATHER_LEGGINGS)
+				.apply(
+						SetNameFunction
+								.setName(MutableComponent.create(NAME_LIAR_PANTS), Target.ITEM_NAME))
+				.apply(
+						SetAttributesFunction.setAttributes()
+								.withModifier(
+										new ModifierBuilder(
+												modifierIdentifier,
+												Attributes.BURNING_TIME,
+												AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL,
+												ConstantValue.exactly(1.0F))
+												.forSlot(EquipmentSlotGroup.ARMOR)));
+	}
 
-    private LootItem.Builder<?> generateTerribleTool(ItemLike item) {
-        return LootItem.lootTableItem(item)
-            .apply(FlimFlamLoreFunction.setFlimFlam())
-            .apply(
-                EnchantWithLevelsFunction
-                    .enchantWithLevels(this.lookupProvider, ConstantValue.exactly(1.0F)))
-            .apply(SetItemDamageFunction.setDamage(UniformGenerator.between(0.1F, 0.2F)));
-    }
+	private LootItem.Builder<?> generateTerribleTool(ItemLike item) {
+		return LootItem.lootTableItem(item)
+				.apply(FlimFlamLoreFunction.setFlimFlam())
+				.apply(
+						EnchantWithLevelsFunction
+								.enchantWithLevels(this.lookupProvider, ConstantValue.exactly(1.0F)))
+				.apply(SetItemDamageFunction.setDamage(UniformGenerator.between(0.1F, 0.2F)));
+	}
 }

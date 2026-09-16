@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.datagen.util.PatchingBootstrapContext;
@@ -11,24 +21,22 @@ import net.minecraft.world.item.enchantment.Enchantment.EnchantmentDefinition;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 public class LocalEnchantmentProvider {
-    public static void provide(BootstrapContext<Enchantment> bootstrap) {
-        HolderGetter<Item> items = bootstrap.lookup(Registries.ITEM);
-        PatchingBootstrapContext<Enchantment> patchingBootstrap = new PatchingBootstrapContext<>(bootstrap);
-        patchingBootstrap.addTransformer(Enchantments.LOYALTY, original -> {
-            return new Enchantment(
-                original.description(),
-                new EnchantmentDefinition(
-                    items.getOrThrow(LocalItemTagsProvider.ENCHANTABLE_LOYALTY),
-                    original.definition().primaryItems(),
-                    original.definition().weight(),
-                    original.definition().maxLevel(),
-                    original.definition().minCost(),
-                    original.definition().maxCost(),
-                    original.definition().anvilCost(),
-                    original.definition().slots()),
-                original.exclusiveSet(),
-                original.effects());
-        });
-        Enchantments.bootstrap(patchingBootstrap);
-    }
+	public static void provide(BootstrapContext<Enchantment> bootstrap) {
+		HolderGetter<Item> items = bootstrap.lookup(Registries.ITEM);
+		PatchingBootstrapContext<Enchantment> patchingBootstrap = new PatchingBootstrapContext<>(bootstrap);
+		patchingBootstrap.addTransformer(Enchantments.LOYALTY, original -> new Enchantment(
+				original.description(),
+				new EnchantmentDefinition(
+						items.getOrThrow(LocalItemTagsProvider.ENCHANTABLE_LOYALTY),
+						original.definition().primaryItems(),
+						original.definition().weight(),
+						original.definition().maxLevel(),
+						original.definition().minCost(),
+						original.definition().maxCost(),
+						original.definition().anvilCost(),
+						original.definition().slots()),
+				original.exclusiveSet(),
+				original.effects()));
+		Enchantments.bootstrap(patchingBootstrap);
+	}
 }

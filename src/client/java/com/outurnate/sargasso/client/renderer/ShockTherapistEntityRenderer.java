@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,66 +27,66 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class ShockTherapistEntityRenderer
-    implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
-    public ShockTherapistEntityRenderer(BlockEntityRendererProvider.Context ctx) {
-    }
+		implements BlockEntityRenderer<ShockTherapistBlockEntity, ShockTherapistRenderState> {
+	public ShockTherapistEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
-    @Override
-    public ShockTherapistRenderState createRenderState() {
-        return new ShockTherapistRenderState();
-    }
+	@Override
+	public @NonNull ShockTherapistRenderState createRenderState() {
+		return new ShockTherapistRenderState();
+	}
 
-    @Override
-    public void extractRenderState(
-        ShockTherapistBlockEntity blockEntity,
-        ShockTherapistRenderState state,
-        float partialTicks,
-        Vec3 cameraPosition,
-        ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
-        BlockEntityRenderer.super.extractRenderState(
-            blockEntity,
-            state,
-            partialTicks,
-            cameraPosition,
-            breakProgress);
-        Vec3 blockPos = new Vec3(state.blockPos);
-        RandomSource random = RandomSource.createThreadLocalInstance(blockEntity.seed);
-        state.bolts = blockEntity.bolts.stream()
-            .map(
-                b -> new ElectricArc(
-                    b.getFirst().pos(partialTicks).subtract(blockPos).toVector3f(),
-                    b.getSecond().pos(partialTicks).subtract(blockPos).toVector3f(),
-                    random.nextLong(),
-                    LocalRenderTypes.ELECTRIC_ZAP))
-            .toList();
+	@Override
+	public void extractRenderState(
+			@NonNull ShockTherapistBlockEntity blockEntity,
+			@NonNull ShockTherapistRenderState state,
+			float partialTicks,
+			@NonNull Vec3 cameraPosition,
+			ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(
+				blockEntity,
+				state,
+				partialTicks,
+				cameraPosition,
+				breakProgress);
+		Vec3 blockPos = new Vec3(state.blockPos);
+		RandomSource random = RandomSource.createThreadLocalInstance(blockEntity.seed);
+		state.bolts = blockEntity.bolts.stream()
+				.map(
+						b -> new ElectricArc(
+								b.getFirst().pos(partialTicks).subtract(blockPos).toVector3f(),
+								b.getSecond().pos(partialTicks).subtract(blockPos).toVector3f(),
+								random.nextLong(),
+								LocalRenderTypes.ELECTRIC_ZAP))
+				.toList();
 
-        Minecraft mc = Minecraft.getInstance();
-        SoundManager sm = mc.getSoundManager();
+		Minecraft mc = Minecraft.getInstance();
+		SoundManager sm = mc.getSoundManager();
 
-        if (state.bolts.size() > 0) {
-            if (blockEntity.clientObj == null
-                || (blockEntity.clientObj instanceof ElectricArcSoundInstance instance
-                    && instance.isStopped())) {
-                blockEntity.clientObj = new ElectricArcSoundInstance(mc.level, state.blockPos);
-                sm.play((SoundInstance) blockEntity.clientObj);
-            }
-        } else if (blockEntity.clientObj != null) {
-            sm.stop((SoundInstance) blockEntity.clientObj);
-            blockEntity.clientObj = null;
-        }
-    }
+		if (!state.bolts.isEmpty()) {
+			if (blockEntity.clientObj == null
+					|| (blockEntity.clientObj instanceof ElectricArcSoundInstance instance
+							&& instance.isStopped())) {
+				blockEntity.clientObj = new ElectricArcSoundInstance(mc.level, state.blockPos);
+				sm.play((SoundInstance) blockEntity.clientObj);
+			}
+		} else if (blockEntity.clientObj != null) {
+			sm.stop((SoundInstance) blockEntity.clientObj);
+			blockEntity.clientObj = null;
+		}
+	}
 
-    @Override
-    public void submit(
-        ShockTherapistRenderState state,
-        PoseStack poseStack,
-        SubmitNodeCollector submitNodeCollector,
-        CameraRenderState camera) {
-        for (ElectricArc arc : state.bolts) {
-            arc.submit(poseStack, submitNodeCollector);
-        }
-    }
+	@Override
+	public void submit(
+			ShockTherapistRenderState state,
+			@NonNull PoseStack poseStack,
+			@NonNull SubmitNodeCollector submitNodeCollector,
+			@NonNull CameraRenderState camera) {
+		for (ElectricArc arc : state.bolts) {
+			arc.submit(poseStack, submitNodeCollector);
+		}
+	}
 }

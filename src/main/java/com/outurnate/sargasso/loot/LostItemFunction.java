@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.loot;
 
 import com.google.common.base.MoreObjects;
@@ -20,51 +29,51 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
 
 public class LostItemFunction extends LootItemConditionalFunction {
-    public static final MapCodec<LostItemFunction> MAP_CODEC = RecordCodecBuilder
-        .mapCodec(i -> commonFields(i).apply(i, LostItemFunction::new));
+	public static final MapCodec<LostItemFunction> MAP_CODEC = RecordCodecBuilder
+			.mapCodec(i -> commonFields(i).apply(i, LostItemFunction::new));
 
-    public static LootItemConditionalFunction.Builder<?> createBuilder() {
-        return simpleBuilder(conditions -> new LostItemFunction(conditions));
-    }
+	public static LootItemConditionalFunction.Builder<?> createBuilder() {
+		return simpleBuilder(LostItemFunction::new);
+	}
 
-    private static Holder<Biome> getBiome(LootContext context) {
-        Vec3 origin = context.getOptionalParameter(LootContextParams.ORIGIN);
-        if (origin == null) {
-            return null;
-        }
+	private static Holder<Biome> getBiome(LootContext context) {
+		Vec3 origin = context.getOptionalParameter(LootContextParams.ORIGIN);
+		if (origin == null) {
+			return null;
+		}
 
-        return context.getLevel().getBiome(BlockPos.containing(origin));
-    }
+		return context.getLevel().getBiome(BlockPos.containing(origin));
+	}
 
-    private static LostPool getPreferredPool(LootContext context) {
-        Holder<Biome> biome = getBiome(context);
-        if (biome != null) {
-            if (biome.is(LocalTags.LOST_EQUIPMENT)) {
-                return LostPool.EQUIPMENT;
-            }
-            if (biome.is(LocalTags.LOST_BLOCKS)) {
-                return LostPool.BLOCKS;
-            }
-            if (biome.is(LocalTags.LOST_ITEMS)) {
-                return LostPool.ITEMS;
-            }
-        }
-        return LostPool.ITEMS;
-    }
+	private static LostPool getPreferredPool(LootContext context) {
+		Holder<Biome> biome = getBiome(context);
+		if (biome != null) {
+			if (biome.is(LocalTags.LOST_EQUIPMENT)) {
+				return LostPool.EQUIPMENT;
+			}
+			if (biome.is(LocalTags.LOST_BLOCKS)) {
+				return LostPool.BLOCKS;
+			}
+			if (biome.is(LocalTags.LOST_ITEMS)) {
+				return LostPool.ITEMS;
+			}
+		}
+		return LostPool.ITEMS;
+	}
 
-    public LostItemFunction(List<LootItemCondition> predicates) {
-        super(predicates);
-    }
+	public LostItemFunction(List<LootItemCondition> predicates) {
+		super(predicates);
+	}
 
-    @Override
-    public MapCodec<LostItemFunction> codec() {
-        return MAP_CODEC;
-    }
+	@Override
+	public MapCodec<LostItemFunction> codec() {
+		return MAP_CODEC;
+	}
 
-    @Override
-    public ItemStack run(ItemStack itemStack, LootContext context) {
-        return MoreObjects.firstNonNull(
-            LostItemsSavedData.GetLostItem(getPreferredPool(context), context.getRandom()),
-            itemStack);
-    }
+	@Override
+	public ItemStack run(ItemStack itemStack, LootContext context) {
+		return MoreObjects.firstNonNull(
+				LostItemsSavedData.GetLostItem(getPreferredPool(context), context.getRandom()),
+				itemStack);
+	}
 }

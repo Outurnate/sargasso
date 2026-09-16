@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.worldgen;
 
 import com.mojang.serialization.Codec;
@@ -35,191 +45,175 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 public class FloatingIslandFeature extends Feature<FloatingIslandFeatureConfiguration> {
-    public static class FloatingIslandFeatureConfiguration implements FeatureConfiguration {
-        @SuppressWarnings("null")
-        public static final Codec<FloatingIslandFeatureConfiguration> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(
-                WeightedList.codec(Identifier.CODEC).fieldOf("buildings")
-                    .forGetter(config -> config.building),
-                ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("tree")
-                    .forGetter(config -> config.tree),
-                BlockState.CODEC.fieldOf("ground").forGetter(config -> config.ground),
-                Codec.INT.fieldOf("treeChance").forGetter(config -> config.treeChance),
-                Codec.INT.fieldOf("buildingChance").forGetter(config -> config.buildingChance))
-                .apply(instance, FloatingIslandFeatureConfiguration::new));
+	public record FloatingIslandFeatureConfiguration(WeightedList<Identifier> building,
+			ResourceKey<ConfiguredFeature<?, ?>> tree, BlockState ground,
+			int treeChance,
+			int buildingChance) implements FeatureConfiguration {
+		@SuppressWarnings("null")
+		public static final Codec<FloatingIslandFeatureConfiguration> CODEC = RecordCodecBuilder.create(
+				instance -> instance.group(
+						WeightedList.codec(Identifier.CODEC).fieldOf("buildings")
+								.forGetter(config -> config.building),
+						ResourceKey.codec(Registries.CONFIGURED_FEATURE).fieldOf("tree")
+								.forGetter(config -> config.tree),
+						BlockState.CODEC.fieldOf("ground").forGetter(config -> config.ground),
+						Codec.INT.fieldOf("treeChance").forGetter(config -> config.treeChance),
+						Codec.INT.fieldOf("buildingChance").forGetter(config -> config.buildingChance))
+						.apply(instance, FloatingIslandFeatureConfiguration::new));
 
-        public final WeightedList<Identifier> building;
-        public final ResourceKey<ConfiguredFeature<?, ?>> tree;
-        public final BlockState ground;
-        public final int treeChance;
-        public final int buildingChance;
+	}
 
-        public FloatingIslandFeatureConfiguration(
-            WeightedList<Identifier> building,
-            ResourceKey<ConfiguredFeature<?, ?>> tree,
-            BlockState ground,
-            int treeChance,
-            int buildingChance) {
-            this.building = building;
-            this.tree = tree;
-            this.ground = ground;
-            this.treeChance = treeChance;
-            this.buildingChance = buildingChance;
-        }
-    }
+	public FloatingIslandFeature() {
+		super(FloatingIslandFeatureConfiguration.CODEC);
+	}
 
-    public FloatingIslandFeature() {
-        super(FloatingIslandFeatureConfiguration.CODEC);
-    }
+	@Override
+	public boolean place(FeaturePlaceContext<FloatingIslandFeatureConfiguration> context) {
+		WorldGenLevel level = context.level();
+		RandomSource random = context.random();
+		ChunkPos genChunk = ChunkPos.containing(context.origin());
+		int minX = genChunk.getMinBlockX();
+		int targetY = context.origin().getY();
+		int minZ = genChunk.getMinBlockZ();
 
-    @Override
-    public boolean place(FeaturePlaceContext<FloatingIslandFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        RandomSource random = context.random();
-        ChunkPos genChunk = ChunkPos.containing(context.origin());
-        int minX = genChunk.getMinBlockX();
-        int targetY = context.origin().getY();
-        int minZ = genChunk.getMinBlockZ();
+		HashSet<BlockPos> surface = new HashSet<>();
+		ArrayList<BlockPos> centres = new ArrayList<>();
 
-        HashSet<BlockPos> surface = new HashSet<>();
-        ArrayList<BlockPos> centres = new ArrayList<>();
+		// main blobs
+		int blobs = random.nextInt(2, 5);
+		for (int i = 0; i < blobs; ++i) {
+			int size = random.nextInt(5, 7);
+			BlockPos origin = new BlockPos(minX + random.nextInt(16), targetY, minZ + random.nextInt(16));
+			centres.add(origin);
+			placeIsland(surface, level, random, origin, size);
+		}
 
-        // main blobs
-        int blobs = random.nextInt(2, 5);
-        for (int i = 0; i < blobs; ++i) {
-            int size = random.nextInt(5, 7);
-            BlockPos origin = new BlockPos(minX + random.nextInt(16), targetY, minZ + random.nextInt(16));
-            centres.add(origin);
-            placeIsland(surface, level, random, origin, size);
-        }
+		// downward spikes
+		int spikes = random.nextInt(blobs * 2, blobs * 3);
+		double maxDist = 4.0;
+		for (int j = 0; j < spikes; ++j) {
+			BlockPos origin;
+			boolean success = false;
+			do {
+				origin = surface.stream().skip(random.nextInt(surface.size())).findFirst().orElseThrow();
+				for (BlockPos centre : centres) {
+					if (origin.distSqr(centre) < (maxDist * maxDist)) {
+						success = true;
+						break;
+					}
+				}
+			} while (!success);
+			placeSpike(level, random, origin);
+		}
 
-        // downward spikes
-        int spikes = random.nextInt(blobs * 2, blobs * 3);
-        double maxDist = 4.0;
-        for (int j = 0; j < spikes; ++j) {
-            BlockPos origin;
-            boolean success = false;
-            do {
-                origin = surface.stream().skip(random.nextInt(surface.size())).findFirst().orElseThrow();
-                for (BlockPos centre : centres) {
-                    if (origin.distSqr(centre) < (maxDist * maxDist)) {
-                        success = true;
-                        break;
-                    }
-                }
-            } while (!success);
-            placeSpike(null, level, random, origin);
-        }
+		// coat surface
+		for (BlockPos surfacePos : surface) {
+			if (random.nextInt(4) != 0) {
+				this.setBlock(level, surfacePos.above(), context.config().ground);
+			}
+		}
 
-        // coat surface
-        for (BlockPos surfacePos : surface) {
-            if (random.nextInt(4) != 0) {
-                this.setBlock(level, surfacePos.above(), context.config().ground);
-            }
-        }
+		BoundingBox box = new BoundingBox(BlockPos.ZERO);
+		if (random.nextInt(context.config().buildingChance) == 0 && level instanceof WorldGenRegion region) {
+			if (region.getServer() instanceof MinecraftServer server) {
+				// main building
+				StructureTemplateManager structureManager = server.getStructureManager();
+				StructureTemplate template = structureManager.get(
+						context.config().building.getRandomOrThrow(random))
+						.orElseThrow();
+				StructurePlaceSettings settings = new StructurePlaceSettings();
+				Rotation rotation = Rotation.getRandom(random);
+				settings.setRotation(rotation);
+				Vec3i size = template.getSize(rotation);
+				BlockPos centre = centres.get(random.nextInt(centres.size()));
+				centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
+				template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
+				box = template.getBoundingBox(settings, centre);
+			}
+		}
 
-        BoundingBox box = new BoundingBox(BlockPos.ZERO);
-        if (random.nextInt(context.config().buildingChance) == 0 && level instanceof WorldGenRegion region) {
-            if (region.getServer() instanceof MinecraftServer server) {
-                // main building
-                StructureTemplateManager structureManager = server.getStructureManager();
-                StructureTemplate template = structureManager.get(
-                    context.config().building.getRandomOrThrow(random))
-                    .orElseThrow();
-                StructurePlaceSettings settings = new StructurePlaceSettings();
-                Rotation rotation = Rotation.getRandom(random);
-                settings.setRotation(rotation);
-                Vec3i size = template.getSize(rotation);
-                BlockPos centre = centres.get(random.nextInt(centres.size()));
-                centre = centre.subtract(new Vec3i(size.getX() / 2, 0, size.getZ() / 2));
-                template.placeInWorld(level, centre, centre, new StructurePlaceSettings(), random, 0);
-                box = template.getBoundingBox(settings, centre);
-            }
-        }
+		// trees
+		ArrayList<BlockPos> placedTrees = new ArrayList<>();
+		Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
+				.lookupOrThrow(Registries.CONFIGURED_FEATURE);
+		ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
+		for (BlockPos surfacePos : surface) {
+			if (!box.isInside(surfacePos)
+					&& placedTrees.stream().noneMatch(pos -> pos.distManhattan(surfacePos) < 2)
+					&& (context.config().treeChance != 0 && random.nextInt(context.config().treeChance) == 0)) {
+				placedTrees.add(surfacePos);
+				tree.place(level, context.chunkGenerator(), random, surfacePos.above());
+			}
+		}
 
-        // trees
-        ArrayList<BlockPos> placedTrees = new ArrayList<>();
-        Registry<ConfiguredFeature<?, ?>> configuredFeatures = level.registryAccess()
-            .lookupOrThrow(Registries.CONFIGURED_FEATURE);
-        ConfiguredFeature<?, ?> tree = configuredFeatures.getValueOrThrow(context.config().tree);
-        for (BlockPos surfacePos : surface) {
-            if (!box.isInside(surfacePos)
-                && !placedTrees.stream().anyMatch(pos -> pos.distManhattan(surfacePos) < 2)
-                && (context.config().treeChance != 0 && random.nextInt(context.config().treeChance) == 0)) {
-                placedTrees.add(surfacePos);
-                tree.place(level, context.chunkGenerator(), random, surfacePos.above());
-            }
-        }
+		return true;
+	}
 
-        return true;
-    }
+	private void placeIsland(
+			HashSet<BlockPos> surface,
+			WorldGenLevel level,
+			RandomSource random,
+			BlockPos origin,
+			float size) {
 
-    private void placeIsland(
-        HashSet<BlockPos> surface,
-        WorldGenLevel level,
-        RandomSource random,
-        BlockPos origin,
-        float size) {
+		for (int y = 0; size > 0.5F; y--) {
+			for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
+				for (int z = Mth.floor(-size); z <= Mth.ceil(size); z++) {
+					if (x * x + z * z <= (size + 1.0F) * (size + 1.0F)) {
+						setBlock(surface, level, random, origin, x, y, z);
+					}
+				}
+			}
 
-        for (int y = 0; size > 0.5F; y--) {
-            for (int x = Mth.floor(-size); x <= Mth.ceil(size); x++) {
-                for (int z = Mth.floor(-size); z <= Mth.ceil(size); z++) {
-                    if (x * x + z * z <= (size + 1.0F) * (size + 1.0F)) {
-                        setBlock(surface, level, random, origin, x, y, z);
-                    }
-                }
-            }
+			size -= random.nextInt(2) + 0.5F;
+		}
+	}
 
-            size -= random.nextInt(2) + 0.5F;
-        }
-    }
+	private void placeSpike(
+			WorldGenLevel level,
+			RandomSource random,
+			BlockPos origin) {
+		Direction direction = switch (random.nextInt(4)) {
+			case 0 -> Direction.NORTH;
+			case 1 -> Direction.SOUTH;
+			case 2 -> Direction.EAST;
+			case 3 -> Direction.WEST;
+			default -> throw new IllegalStateException();
+		};
 
-    private void placeSpike(
-        HashSet<BlockPos> surface,
-        WorldGenLevel level,
-        RandomSource random,
-        BlockPos origin) {
-        Direction direction = switch (random.nextInt(4)) {
-            case 0 -> Direction.NORTH;
-            case 1 -> Direction.SOUTH;
-            case 2 -> Direction.EAST;
-            case 3 -> Direction.WEST;
-            default -> throw new IllegalStateException();
-        };
+		int thickLength = random.nextInt(2, 10);
+		int totalLength = (thickLength * 2) + random.nextInt(3);
 
-        int thickLength = random.nextInt(2, 10);
-        int totalLength = (thickLength * 2) + random.nextInt(3);
+		for (int i = 0; i < totalLength; i++) {
+			int y = -i;
 
-        for (int i = 0; i < totalLength; i++) {
-            int y = -i;
+			setBlock(null, level, random, origin, 0, y, 0);
+			if (i < thickLength) {
+				setBlock(null, level, random, origin, direction.getStepX(), y, direction.getStepZ());
+			}
+		}
+	}
 
-            setBlock(surface, level, random, origin, 0, y, 0);
-            if (i < thickLength) {
-                setBlock(surface, level, random, origin, direction.getStepX(), y, direction.getStepZ());
-            }
-        }
-    }
-
-    private void setBlock(
-        HashSet<BlockPos> surface,
-        WorldGenLevel level,
-        RandomSource random,
-        BlockPos origin,
-        int x,
-        int y,
-        int z) {
-        Block block;
-        BlockPos pos = origin.offset(x, y, z);
-        if (y == 0) {
-            block = Blocks.GRASS_BLOCK;
-            if (surface != null) {
-                surface.add(pos);
-            }
-        } else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
-            block = Blocks.DIRT;
-        } else {
-            block = Blocks.STONE;
-        }
-        this.setBlock(level, pos, block.defaultBlockState());
-    }
+	private void setBlock(
+			HashSet<BlockPos> surface,
+			WorldGenLevel level,
+			RandomSource random,
+			BlockPos origin,
+			int x,
+			int y,
+			int z) {
+		Block block;
+		BlockPos pos = origin.offset(x, y, z);
+		if (y == 0) {
+			block = Blocks.GRASS_BLOCK;
+			if (surface != null) {
+				surface.add(pos);
+			}
+		} else if (y < 5 && random.nextInt(Math.abs(y)) == 0) {
+			block = Blocks.DIRT;
+		} else {
+			block = Blocks.STONE;
+		}
+		this.setBlock(level, pos, block.defaultBlockState());
+	}
 }

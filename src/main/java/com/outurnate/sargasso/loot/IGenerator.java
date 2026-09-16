@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.loot;
 
 import java.util.ArrayList;
@@ -13,168 +22,136 @@ import net.minecraft.network.chat.contents.PlainTextContents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.RandomSource;
 
+// concept originally from OpenBlocks
+// https://github.com/OpenMods/OpenBlocks
+// ported under MIT license
 public interface IGenerator {
-    public static IGenerator alt(IGenerator... alts) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                if (alts.length == 0) {
-                    return List.of(PlainTextContents.EMPTY);
-                }
-                int choice = random.nextInt(alts.length);
-                return alts[choice].generate(random, params);
-            }
-        };
-    }
+	static IGenerator alt(IGenerator... alts) {
+		return (random, params) -> {
+			if (alts.length == 0) {
+				return List.of(PlainTextContents.EMPTY);
+			}
+			int choice = random.nextInt(alts.length);
+			return alts[choice].generate(random, params);
+		};
+	}
 
-    public static IGenerator alt(LoreSet defs, IGenerator... appends) {
-        return alt(
-            Stream.concat(
-                defs.keys().map(key -> new TranslatableContents(key, null, new Object[0]))
-                    .map(IGenerator::terminal),
-                Arrays.stream(appends)).toArray(IGenerator[]::new));
-    }
+	static IGenerator alt(LoreSet defs, IGenerator... appends) {
+		return alt(
+				Stream.concat(
+						defs.keys().map(key -> new TranslatableContents(key, null, new Object[0]))
+								.map(IGenerator::terminal),
+						Arrays.stream(appends)).toArray(IGenerator[]::new));
+	}
 
-    private static List<ComponentContents> flatten(List<ComponentContents> components) {
-        List<ComponentContents> result = new ArrayList<>();
-        boolean previousWasSpace = false;
+	private static List<ComponentContents> flatten(List<ComponentContents> components) {
+		List<ComponentContents> result = new ArrayList<>();
+		boolean previousWasSpace = false;
 
-        for (ComponentContents component : components) {
-            boolean isSpace = component instanceof LiteralContents literal
-                && " ".equals(literal.text());
-            if (isSpace && previousWasSpace) {
-                continue;
-            }
-            result.add(component);
-            previousWasSpace = isSpace;
-        }
+		for (ComponentContents component : components) {
+			boolean isSpace = component instanceof LiteralContents(String text)
+					&& " ".equals(text);
+			if (isSpace && previousWasSpace) {
+				continue;
+			}
+			result.add(component);
+			previousWasSpace = isSpace;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    private static <T> List<T> intersperse(List<T> input, T separator) {
-        if (input.isEmpty()) {
-            return List.of();
-        }
+	private static boolean hasContents(List<ComponentContents> component) {
+		return !component.isEmpty() && !component.stream().allMatch(PlainTextContents.EMPTY::equals);
+	}
 
-        List<T> result = new ArrayList<>(input.size() * 2 - 1);
+	private static <T> List<T> intersperse(List<T> input, T separator) {
+		if (input.isEmpty()) {
+			return List.of();
+		}
 
-        for (int i = 0; i < input.size(); i++) {
-            if (i > 0) {
-                result.add(separator);
-            }
-            result.add(input.get(i));
-        }
+		List<T> result = new ArrayList<>(input.size() * 2 - 1);
 
-        return result;
-    }
+		for (int i = 0; i < input.size(); i++) {
+			if (i > 0) {
+				result.add(separator);
+			}
+			result.add(input.get(i));
+		}
 
-    private static boolean isEmpty(List<ComponentContents> component) {
-        return component.size() == 0 || component.stream().allMatch(PlainTextContents.EMPTY::equals);
-    }
+		return result;
+	}
 
-    public static IGenerator opt(float probability, IGenerator gen) {
-        return opt(probability, gen, terminal(PlainTextContents.EMPTY));
-    }
+	static IGenerator opt(float probability, IGenerator gen) {
+		return opt(probability, gen, terminal(PlainTextContents.EMPTY));
+	}
 
-    public static IGenerator opt(float probability, IGenerator left, IGenerator right) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                return (random.nextFloat() < probability) ? left.generate(random, params)
-                    : right.generate(random, params);
-            }
-        };
-    }
+	static IGenerator opt(float probability, IGenerator left, IGenerator right) {
+		return (random, params) -> (random.nextFloat() < probability) ? left.generate(random, params) : right.generate(random, params);
+	}
 
-    public static IGenerator range(int start, int end) {
-        return new IGenerator() {
-            private final int range = end - start;
+	static IGenerator range(int start, int end) {
+		return new IGenerator() {
+			private final int range = end - start;
 
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                return List.of(PlainTextContents.create(Integer.toString(start + random.nextInt(range))));
-            }
-        };
-    }
+			@Override
+			public List<ComponentContents> generate(
+					RandomSource random,
+					Map<String, ComponentContents> params) {
+				return List.of(PlainTextContents.create(Integer.toString(start + random.nextInt(range))));
+			}
+		};
+	}
 
-    public static IGenerator seq(IGenerator... parts) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                List<ComponentContents> results = new ArrayList<>();
+	static IGenerator seq(IGenerator... parts) {
+		return (random, params) -> {
+			List<ComponentContents> results = new ArrayList<>();
 
-                for (IGenerator part : parts) {
-                    List<ComponentContents> result = part.generate(random, params);
-                    if (!isEmpty(result))
-                        results.addAll(result);
-                }
+			for (IGenerator part : parts) {
+				List<ComponentContents> result = part.generate(random, params);
+				if (hasContents(result))
+					results.addAll(result);
+			}
 
-                return flatten(intersperse(results, PlainTextContents.create(" ")));
-            }
-        };
-    }
+			return flatten(intersperse(results, PlainTextContents.create(" ")));
+		};
+	}
 
-    public static IGenerator sub(String key) {
-        return sub(key, (TranslatableContents) null);
-    }
+	static IGenerator sub(String key) {
+		return sub(key, (TranslatableContents) null);
+	}
 
-    public static IGenerator sub(String key, TranslatableContents defaultValue) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                if (params.get(key) != null)
-                    return List.of(params.get(key));
-                else if (defaultValue != null)
-                    return List.of(defaultValue);
-                return List.of(PlainTextContents.EMPTY);
-            }
-        };
-    }
+	static IGenerator sub(String key, TranslatableContents defaultValue) {
+		return (_, params) -> {
+			if (params.get(key) != null)
+				return List.of(params.get(key));
+			else if (defaultValue != null)
+				return List.of(defaultValue);
+			return List.of(PlainTextContents.EMPTY);
+		};
+	}
 
-    public static IGenerator terminal(ComponentContents object) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                return List.of(object);
-            }
-        };
-    }
+	static IGenerator terminal(ComponentContents object) {
+		return (_, _) -> List.of(object);
+	}
 
-    public static IGenerator terminal(String object) {
-        return terminal(PlainTextContents.create(object));
-    }
+	static IGenerator terminal(String object) {
+		return terminal(PlainTextContents.create(object));
+	}
 
-    public static IGenerator word(IGenerator... parts) {
-        return new IGenerator() {
-            @Override
-            public List<ComponentContents> generate(
-                RandomSource random,
-                Map<String, ComponentContents> params) {
-                List<ComponentContents> results = new ArrayList<>();
+	static IGenerator word(IGenerator... parts) {
+		return (random, params) -> {
+			List<ComponentContents> results = new ArrayList<>();
 
-                for (IGenerator part : parts) {
-                    List<ComponentContents> result = part.generate(random, params);
-                    if (!isEmpty(result))
-                        results.addAll(result);
-                }
+			for (IGenerator part : parts) {
+				List<ComponentContents> result = part.generate(random, params);
+				if (hasContents(result))
+					results.addAll(result);
+			}
 
-                return flatten(results);
-            }
-        };
-    }
+			return flatten(results);
+		};
+	}
 
-    public List<ComponentContents> generate(RandomSource random, Map<String, ComponentContents> params);
+	List<ComponentContents> generate(RandomSource random, Map<String, ComponentContents> params);
 }

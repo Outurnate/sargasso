@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen;
 
 import com.outurnate.sargasso.datagen.loot.AdvancementLoot;
@@ -19,20 +28,20 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 public class LocalLootTableProvider extends LootTableProvider {
-    public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
-        super(
-            output,
-            Set.of(),
-            List.of(
-                new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK),
-                new SubProviderEntry(BookLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(AdvancementLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(CastleLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(VillageLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(OfficeLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(EscherLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(ShipwreckLoot::new, LootContextParamSets.CHEST),
-                new SubProviderEntry(StartingHouseLoot::new, LootContextParamSets.CHEST)),
-            lookupProvider);
-    }
+	public LocalLootTableProvider(PackOutput output, CompletableFuture<Provider> lookupProvider) {
+		super(
+				output,
+				Set.of(),
+				List.of(
+						new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK),
+						new SubProviderEntry(BookLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(AdvancementLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(CastleLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(VillageLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(OfficeLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(EscherLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(ShipwreckLoot::new, LootContextParamSets.CHEST),
+						new SubProviderEntry(StartingHouseLoot::new, LootContextParamSets.CHEST)),
+				lookupProvider);
+	}
 }

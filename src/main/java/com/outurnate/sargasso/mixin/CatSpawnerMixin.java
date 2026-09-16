@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.mixin;
 
 import com.outurnate.sargasso.repository.LocalDimensions;
@@ -11,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CatSpawner.class)
 public abstract class CatSpawnerMixin {
-    @Inject(method = "spawnInVillage", at = @At("HEAD"), cancellable = true)
-    private void sargasso$spawnInVillage(
-        ServerLevel serverLevel,
-        BlockPos spawnPos,
-        CallbackInfo callbackInfo) {
-        if (serverLevel.dimension().equals(LocalDimensions.SEA)) {
-            callbackInfo.cancel();
-        }
-    }
+	@Inject(method = "spawnInVillage", at = @At("HEAD"), cancellable = true)
+	private void sargasso$spawnInVillage(
+			ServerLevel serverLevel,
+			BlockPos spawnPos,
+			CallbackInfo callbackInfo) {
+		if (serverLevel.dimension().equals(LocalDimensions.SEA)) {
+			callbackInfo.cancel();
+		}
+	}
 }

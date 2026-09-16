@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.recipe;
 
 import com.mojang.datafixers.util.Pair;
@@ -24,143 +34,145 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class ApplyCosmeticRecipe extends CustomRecipe {
-    public static final MapCodec<ApplyCosmeticRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
-        i -> i.group(
-            Recipe.CommonInfo.MAP_CODEC.forGetter(o -> o.commonInfo),
-            CraftingRecipe.CraftingBookInfo.MAP_CODEC.forGetter(o -> o.bookInfo),
-            Ingredient.CODEC.fieldOf("source").forGetter(o -> o.sourceItem),
-            Ingredient.CODEC.fieldOf("cosmetic").forGetter(o -> o.cosmeticItem))
-            .apply(i, ApplyCosmeticRecipe::new));
-    public static final StreamCodec<RegistryFriendlyByteBuf, ApplyCosmeticRecipe> STREAM_CODEC = StreamCodec
-        .composite(
-            Recipe.CommonInfo.STREAM_CODEC,
-            o -> o.commonInfo,
-            CraftingRecipe.CraftingBookInfo.STREAM_CODEC,
-            o -> o.bookInfo,
-            Ingredient.CONTENTS_STREAM_CODEC,
-            o -> o.sourceItem,
-            Ingredient.CONTENTS_STREAM_CODEC,
-            o -> o.cosmeticItem,
-            ApplyCosmeticRecipe::new);
+	public static final MapCodec<ApplyCosmeticRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
+			i -> i.group(
+					Recipe.CommonInfo.MAP_CODEC.forGetter(o -> o.commonInfo),
+					CraftingRecipe.CraftingBookInfo.MAP_CODEC.forGetter(o -> o.bookInfo),
+					Ingredient.CODEC.fieldOf("source").forGetter(o -> o.sourceItem),
+					Ingredient.CODEC.fieldOf("cosmetic").forGetter(o -> o.cosmeticItem))
+					.apply(i, ApplyCosmeticRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, ApplyCosmeticRecipe> STREAM_CODEC = StreamCodec
+			.composite(
+					Recipe.CommonInfo.STREAM_CODEC,
+					o -> o.commonInfo,
+					CraftingRecipe.CraftingBookInfo.STREAM_CODEC,
+					o -> o.bookInfo,
+					Ingredient.CONTENTS_STREAM_CODEC,
+					o -> o.sourceItem,
+					Ingredient.CONTENTS_STREAM_CODEC,
+					o -> o.cosmeticItem,
+					ApplyCosmeticRecipe::new);
 
-    private static ItemStackTemplate apply(Ingredient sourceItem, Ingredient cosmeticItem) {
-        ItemStack itemStack = apply(
-            sourceItem.getValues().get(0).value().getDefaultInstance(),
-            cosmeticItem.getValues().get(0).value().getDefaultInstance());
-        return new ItemStackTemplate(itemStack.getItem(), itemStack.getComponentsPatch());
-    }
+	private static ItemStackTemplate apply(Ingredient sourceItem, Ingredient cosmeticItem) {
+		ItemStack itemStack = apply(
+				sourceItem.getValues().get(0).value().getDefaultInstance(),
+				cosmeticItem.getValues().get(0).value().getDefaultInstance());
+		return new ItemStackTemplate(itemStack.getItem(), itemStack.getComponentsPatch());
+	}
 
-    private static ItemStack apply(ItemStack source, ItemStack cosmetic) {
-        ItemStack result = source.copy();
-        DataComponentPatch components = DataComponentPatch.builder()
-            .set(
-                LocalDataComponentTypes.COSMETIC_ITEM.get(),
-                new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch()))
-            .build();
-        result.applyComponents(components);
-        result.setCount(1);
-        return result;
-    }
+	private static ItemStack apply(ItemStack source, ItemStack cosmetic) {
+		ItemStack result = source.copy();
+		DataComponentPatch components = DataComponentPatch.builder()
+				.set(
+						LocalDataComponentTypes.COSMETIC_ITEM.get(),
+						new ItemStackTemplate(cosmetic.getItem(), cosmetic.getComponentsPatch()))
+				.build();
+		result.applyComponents(components);
+		result.setCount(1);
+		return result;
+	}
 
-    private final Recipe.CommonInfo commonInfo;
-    private final CraftingRecipe.CraftingBookInfo bookInfo;
-    private final Ingredient sourceItem;
-    private final Ingredient cosmeticItem;
+	private final Recipe.CommonInfo commonInfo;
+	private final CraftingRecipe.CraftingBookInfo bookInfo;
+	private final Ingredient sourceItem;
+	private final Ingredient cosmeticItem;
 
-    public ApplyCosmeticRecipe(
-        Recipe.CommonInfo commonInfo,
-        CraftingRecipe.CraftingBookInfo bookInfo,
-        Ingredient sourceItem,
-        Ingredient cosmeticItem) {
-        this.commonInfo = commonInfo;
-        this.bookInfo = bookInfo;
-        this.sourceItem = sourceItem;
-        this.cosmeticItem = cosmeticItem;
-    }
+	public ApplyCosmeticRecipe(
+			Recipe.CommonInfo commonInfo,
+			CraftingRecipe.CraftingBookInfo bookInfo,
+			Ingredient sourceItem,
+			Ingredient cosmeticItem) {
+		this.commonInfo = commonInfo;
+		this.bookInfo = bookInfo;
+		this.sourceItem = sourceItem;
+		this.cosmeticItem = cosmeticItem;
+	}
 
-    @Override
-    public ItemStack assemble(CraftingInput input) {
-        Pair<ItemStack, ItemStack> inputs = getItemsToCombine(input);
-        if (inputs != null) {
-            return apply(inputs.getFirst(), inputs.getSecond());
-        }
+	@Override
+	public @NonNull ItemStack assemble(@NonNull CraftingInput input) {
+		Pair<ItemStack, ItemStack> inputs = getItemsToCombine(input);
+		if (inputs != null) {
+			return apply(inputs.getFirst(), inputs.getSecond());
+		}
 
-        return ItemStack.EMPTY;
-    }
+		return ItemStack.EMPTY;
+	}
 
-    @Override
-    public final CraftingBookCategory category() {
-        return this.bookInfo.category();
-    }
+	@Override
+	public final @NonNull CraftingBookCategory category() {
+		return this.bookInfo.category();
+	}
 
-    @Override
-    public List<RecipeDisplay> display() {
-        return List.of(
-            new ShapelessCraftingRecipeDisplay(
-                List.of(
-                    this.sourceItem.display(),
-                    this.cosmeticItem.display()),
-                new SlotDisplay.ItemStackSlotDisplay(apply(this.sourceItem, this.cosmeticItem)),
-                new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
-    }
+	@Override
+	public @NonNull List<RecipeDisplay> display() {
+		return List.of(
+				new ShapelessCraftingRecipeDisplay(
+						List.of(
+								this.sourceItem.display(),
+								this.cosmeticItem.display()),
+						new SlotDisplay.ItemStackSlotDisplay(apply(this.sourceItem, this.cosmeticItem)),
+						new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
+	}
 
-    private @Nullable Pair<ItemStack, ItemStack> getItemsToCombine(CraftingInput input) {
-        if (input.ingredientCount() != 2) {
-            return null;
-        } else {
-            ItemStack source = null;
-            ItemStack cosmetic = null;
+	private @Nullable Pair<ItemStack, ItemStack> getItemsToCombine(CraftingInput input) {
+		Pair<ItemStack, ItemStack> result = null;
+		if (input.ingredientCount() == 2) {
+			ItemStack source = null;
+			ItemStack cosmetic = null;
 
-            for (int i = 0; i < input.size(); i++) {
-                ItemStack itemStack = input.getItem(i);
-                if (sourceItem.test(itemStack)) {
-                    source = itemStack;
-                    if (cosmetic != null) {
-                        return Pair.of(source, cosmetic);
-                    }
-                }
-                if (cosmeticItem.test(itemStack)) {
-                    cosmetic = itemStack;
-                    if (source != null) {
-                        return Pair.of(source, cosmetic);
-                    }
-                }
-            }
+			for (int i = 0; i < input.size(); i++) {
+				ItemStack itemStack = input.getItem(i);
+				if (sourceItem.test(itemStack)) {
+					source = itemStack;
+					if (cosmetic != null) {
+						result = Pair.of(source, cosmetic);
+						break;
+					}
+				}
+				if (cosmeticItem.test(itemStack)) {
+					cosmetic = itemStack;
+					if (source != null) {
+						result = Pair.of(source, cosmetic);
+						break;
+					}
+				}
+			}
 
-            return null;
-        }
-    }
+		}
+		return result;
+	}
 
-    @Override
-    public RecipeSerializer<ApplyCosmeticRecipe> getSerializer() {
-        return LocalRecipeSerializers.APPLY_COSMETIC.get();
-    }
+	@Override
+	public @NonNull RecipeSerializer<ApplyCosmeticRecipe> getSerializer() {
+		return LocalRecipeSerializers.APPLY_COSMETIC.get();
+	}
 
-    @Override
-    public final String group() {
-        return this.bookInfo.group();
-    }
+	@Override
+	public final @NonNull String group() {
+		return this.bookInfo.group();
+	}
 
-    @Override
-    public boolean isSpecial() {
-        return false;
-    }
+	@Override
+	public boolean isSpecial() {
+		return false;
+	}
 
-    @Override
-    public boolean matches(CraftingInput input, Level level) {
-        return this.getItemsToCombine(input) != null;
-    }
+	@Override
+	public boolean matches(@NonNull CraftingInput input, @NonNull Level level) {
+		return this.getItemsToCombine(input) != null;
+	}
 
-    @Override
-    public PlacementInfo placementInfo() {
-        return PlacementInfo.create(List.of(this.sourceItem, this.cosmeticItem));
-    }
+	@Override
+	public @NonNull PlacementInfo placementInfo() {
+		return PlacementInfo.create(List.of(this.sourceItem, this.cosmeticItem));
+	}
 
-    @Override
-    public final boolean showNotification() {
-        return this.commonInfo.showNotification();
-    }
+	@Override
+	public final boolean showNotification() {
+		return this.commonInfo.showNotification();
+	}
 }

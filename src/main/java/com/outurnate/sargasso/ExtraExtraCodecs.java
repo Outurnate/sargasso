@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso;
 
 import com.mojang.serialization.Codec;
@@ -10,47 +20,47 @@ import java.util.List;
 import net.minecraft.world.item.ItemStackTemplate;
 
 public class ExtraExtraCodecs {
-    private record Entry(ItemStackTemplate item, long count) {
-    }
+	private record Entry(ItemStackTemplate item, long count) {
+	}
 
-    // TODO might not be needed
-    public static final Hash.Strategy<ItemStackTemplate> ITEMSTACK_STRATEGY = new Hash.Strategy<ItemStackTemplate>() {
-        @Override
-        public boolean equals(ItemStackTemplate a, ItemStackTemplate b) {
-            return a.equals(b);
-        }
+	// TODO might not be needed
+	public static final Hash.Strategy<ItemStackTemplate> ITEMSTACK_STRATEGY = new Hash.Strategy<>() {
+		@Override
+		public boolean equals(ItemStackTemplate a, ItemStackTemplate b) {
+			return a.equals(b);
+		}
 
-        @Override
-        public int hashCode(ItemStackTemplate o) {
-            return o.hashCode();
-        }
-    };
+		@Override
+		public int hashCode(ItemStackTemplate o) {
+			return o.hashCode();
+		}
+	};
 
-    @SuppressWarnings("null")
-    private static final Codec<Entry> ENTRY_CODEC = RecordCodecBuilder.create(
-        instance -> instance.group(
-            ItemStackTemplate.CODEC.fieldOf("item").forGetter(Entry::item),
-            Codec.LONG.fieldOf("count").forGetter(Entry::count)).apply(instance, Entry::new));
+	@SuppressWarnings("null")
+	private static final Codec<Entry> ENTRY_CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(
+					ItemStackTemplate.CODEC.fieldOf("item").forGetter(Entry::item),
+					Codec.LONG.fieldOf("count").forGetter(Entry::count)).apply(instance, Entry::new));
 
-    public static final Codec<Object2LongOpenCustomHashMap<ItemStackTemplate>> ITEMSTACKTEMPLATE_LONG_MAP_CODEC = Codec
-        .list(ENTRY_CODEC).xmap(
-            entries -> {
-                Object2LongOpenCustomHashMap<ItemStackTemplate> map = new Object2LongOpenCustomHashMap<>(
-                    ITEMSTACK_STRATEGY);
+	public static final Codec<Object2LongOpenCustomHashMap<ItemStackTemplate>> ITEMSTACKTEMPLATE_LONG_MAP_CODEC = Codec
+			.list(ENTRY_CODEC).xmap(
+					entries -> {
+						Object2LongOpenCustomHashMap<ItemStackTemplate> map = new Object2LongOpenCustomHashMap<>(
+								ITEMSTACK_STRATEGY);
 
-                for (Entry entry : entries) {
-                    map.put(entry.item(), entry.count());
-                }
+						for (Entry entry : entries) {
+							map.put(entry.item(), entry.count());
+						}
 
-                return map;
-            },
-            map -> {
-                List<Entry> entries = new ArrayList<>(map.size());
+						return map;
+					},
+					map -> {
+						List<Entry> entries = new ArrayList<>(map.size());
 
-                for (Object2LongMap.Entry<ItemStackTemplate> entry : map.object2LongEntrySet()) {
-                    entries.add(new Entry(entry.getKey(), entry.getLongValue()));
-                }
+						for (Object2LongMap.Entry<ItemStackTemplate> entry : map.object2LongEntrySet()) {
+							entries.add(new Entry(entry.getKey(), entry.getLongValue()));
+						}
 
-                return entries;
-            });
+						return entries;
+					});
 }

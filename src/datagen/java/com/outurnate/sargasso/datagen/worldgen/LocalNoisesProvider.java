@@ -1,3 +1,13 @@
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.datagen.worldgen;
 
 import com.outurnate.sargasso.SuperSargassoSea;
@@ -9,45 +19,45 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 
 public class LocalNoisesProvider {
-    public static final ResourceKey<NoiseParameters> TEMPERATURE = ResourceKey
-        .create(Registries.NOISE, SuperSargassoSea.ID("temperature"));
-    public static final ResourceKey<NoiseParameters> MAIN = ResourceKey
-        .create(Registries.NOISE, SuperSargassoSea.ID("main"));
-    public static final ResourceKey<NoiseParameters> DETAIL = ResourceKey
-        .create(Registries.NOISE, SuperSargassoSea.ID("detail"));
+	public static final ResourceKey<NoiseParameters> TEMPERATURE = ResourceKey
+			.create(Registries.NOISE, SuperSargassoSea.ID("temperature"));
+	public static final ResourceKey<NoiseParameters> MAIN = ResourceKey
+			.create(Registries.NOISE, SuperSargassoSea.ID("main"));
+	public static final ResourceKey<NoiseParameters> DETAIL = ResourceKey
+			.create(Registries.NOISE, SuperSargassoSea.ID("detail"));
 
-    public static void provide(BootstrapContext<NoiseParameters> bootstrap) {
-        bootstrap.register(
-            TEMPERATURE,
-            new NoiseParameters(
-                -10,
-                new DoubleArrayList(
-                    new double[] {
-                        1.5,
-                        0.0,
-                        1.0,
-                        0.0,
-                        0.0,
-                        0.0 })));
-        bootstrap.register(
-            MAIN,
-            new NoiseParameters(
-                -8,
-                new DoubleArrayList(
-                    new double[] {
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0 })));
-        bootstrap.register(
-            DETAIL,
-            new NoiseParameters(
-                -10,
-                new DoubleArrayList(
-                    new double[] {
-                        1.0,
-                        1.0,
-                        1.0,
-                        1.0 })));
-    }
+	public static void provide(BootstrapContext<NoiseParameters> bootstrap) {
+		bootstrap.register(
+				TEMPERATURE,
+				new NoiseParameters(
+						-10,
+						new DoubleArrayList(
+								new double[] {
+										1.5,
+										0.0,
+										1.0,
+										0.0,
+										0.0,
+										0.0 })));
+		bootstrap.register(
+				MAIN,
+				new NoiseParameters(
+						-8,
+						new DoubleArrayList(
+								new double[] {
+										1.0,
+										1.0,
+										1.0,
+										1.0 })));
+		bootstrap.register(
+				DETAIL,
+				new NoiseParameters(
+						-10,
+						new DoubleArrayList(
+								new double[] {
+										1.0,
+										1.0,
+										1.0,
+										1.0 })));
+	}
 }

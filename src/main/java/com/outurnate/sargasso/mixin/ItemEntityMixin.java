@@ -1,4 +1,13 @@
-/* (C)2026 */
+/*
+ * This class is distributed as part of the Super Sargasso Sea mod.
+ * Complete source on GitHub:
+ * https://github.com/Outurnate/sargasso
+ *
+ * Super Sargasso Sea is free software and distributed
+ * under the MIT License: https://opensource.org/license/mit
+ *
+ * © 2026 the authors of the Super Sargasso Sea mod
+ */
 package com.outurnate.sargasso.mixin;
 
 import com.outurnate.sargasso.loot.LostItemsSavedData;
@@ -13,15 +22,15 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
-    public ItemEntityMixin(EntityType<?> type, Level level) {
-        super(type, level);
-    }
+	public ItemEntityMixin(EntityType<?> type, Level level) {
+		super(type, level);
+	}
 
-    @Override
-    protected void onBelowWorld() {
-        if ((Object) this instanceof ItemEntity self && this.level() instanceof ServerLevel) {
-            LostItemsSavedData.AddLostItem(self.getItem());
-        }
-        this.discard();
-    }
+	@Override
+	protected void onBelowWorld() {
+		if ((Object) this instanceof ItemEntity self && this.level() instanceof ServerLevel) {
+			LostItemsSavedData.AddLostItem(self.getItem());
+		}
+		this.discard();
+	}
 }
