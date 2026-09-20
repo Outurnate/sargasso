@@ -10,8 +10,10 @@
  */
 package com.outurnate.sargasso.client;
 
+import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
 import com.mojang.datafixers.util.Either;
 import com.outurnate.sargasso.SuperSargassoSea;
+import com.outurnate.sargasso.book.page.BookMultispotlightPage;
 import com.outurnate.sargasso.client.model.ElectricMineModel;
 import com.outurnate.sargasso.client.particle.BeamParticle;
 import com.outurnate.sargasso.client.particle.SparkParticle;
@@ -21,6 +23,7 @@ import com.outurnate.sargasso.client.renderer.RedstoneBugRenderer;
 import com.outurnate.sargasso.client.renderer.ShockTherapistEntityRenderer;
 import com.outurnate.sargasso.client.renderer.SizeRayBeamRenderer;
 import com.outurnate.sargasso.client.renderer.ThrownHammerRenderer;
+import com.outurnate.sargasso.client.renderer.page.BookMultispotlightPageRenderer;
 import com.outurnate.sargasso.registry.LocalBlockEntities;
 import com.outurnate.sargasso.registry.LocalBlocks;
 import com.outurnate.sargasso.registry.LocalDataComponentTypes;
@@ -115,5 +118,6 @@ public class SuperSargassoSeaClient {
 
 	public SuperSargassoSeaClient(ModContainer container) {
 		container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+		PageRendererRegistry.registerPageRenderer(BookMultispotlightPage.ID, p -> new BookMultispotlightPageRenderer((BookMultispotlightPage) p));
 	}
 }

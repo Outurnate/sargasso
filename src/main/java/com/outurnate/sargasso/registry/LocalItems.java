@@ -74,6 +74,10 @@ public class LocalItems {
 			"starmetal_block",
 			LocalBlocks.STARMETAL_BLOCK);
 
+	public static final DeferredItem<BlockItem> REINFORCED_STARMETAL_BLOCK = REGISTRY.registerSimpleBlockItem(
+			"reinforced_starmetal_block",
+			LocalBlocks.REINFORCED_STARMETAL_BLOCK);
+
 	public static final DeferredItem<BlockItem> PETRIFIED_FLOTSAM = REGISTRY.registerSimpleBlockItem(
 			"petrified_flotsam",
 			LocalBlocks.PETRIFIED_FLOTSAM);
@@ -177,14 +181,16 @@ public class LocalItems {
 			"aa_battery",
 			EnergyItem::new,
 			p -> p
-					.component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity()));
+					.component(LocalDataComponentTypes.ENERGY.get(), getBatteryCapacity())
+					.stacksTo(1));
 
 	public static final DeferredItem<Item> RECHARGABLE_AA_BATTERY = REGISTRY.registerItem(
 			"rechargable_aa_battery",
 			EnergyItem::new,
 			p -> p
 					.component(LocalDataComponentTypes.ENERGY.get(), 0)
-					.rarity(Rarity.UNCOMMON));
+					.rarity(Rarity.UNCOMMON)
+					.stacksTo(1));
 
 	public static final DeferredItem<Item> STUDDED_LEATHER_HELMET = REGISTRY.registerItem(
 			"studded_leather_helmet",
@@ -240,6 +246,8 @@ public class LocalItems {
 
 	public static final DeferredItem<Item> STARMETAL_INGOT = REGISTRY.registerSimpleItem("starmetal_ingot");
 
+	public static final DeferredItem<Item> STARMETAL_SCRAP = REGISTRY.registerSimpleItem("starmetal_scrap");
+
 	private static final float HAMMER_ATTACK_SPEED = -3.4F;
 	public static final DeferredItem<Item> HAMMER = REGISTRY.registerItem(
 			"hammer",
@@ -294,8 +302,6 @@ public class LocalItems {
 	public static final DeferredItem<Item> CIRCUIT_BOARD = REGISTRY.registerSimpleItem("circuit_board");
 
 	public static final DeferredItem<Item> CLOCKSPRING = REGISTRY.registerSimpleItem("clockspring");
-
-	public static final DeferredItem<Item> STARMETAL_SCRAP = REGISTRY.registerSimpleItem("starmetal_scrap");
 
 	public static final DeferredItem<ModonomiconCustomItemBase> ATLAS = REGISTRY.registerItem(
 			"atlas",

@@ -70,7 +70,8 @@ public class LocalAdvancementProvider extends AdvancementProvider {
 				b -> b
 						.addCriterion(
 								"enter_sea",
-								ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA)));
+								ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(LocalDimensions.SEA))
+						.rewards(AdvancementRewards.Builder.loot(AdvancementLoot.ATLAS)));
 		AdvancementHolder leave = advancement(
 				LocalAdvancements.LEAVE,
 				new ItemStackTemplate(Items.OBSIDIAN),
@@ -82,19 +83,6 @@ public class LocalAdvancementProvider extends AdvancementProvider {
 						.addCriterion(
 								"enter_nether",
 								ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(Level.NETHER)));
-		AdvancementHolder leaveOther = advancement(
-				LocalAdvancements.LEAVE_OTHER,
-				new ItemStackTemplate(Items.OAK_DOOR),
-				true,
-				b -> b
-						.parent(enter)
-						.addCriterion(
-								"leave_sea",
-								ChangeDimensionTrigger.TriggerInstance.changedDimensionFrom(LocalDimensions.SEA))
-						.addCriterion(
-								"enter_overworld",
-								ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(Level.OVERWORLD))
-						.rewards(AdvancementRewards.Builder.loot(AdvancementLoot.ATLAS)));
 		AdvancementHolder toast = advancement(
 				LocalAdvancements.TOAST,
 				new ItemStackTemplate(LocalItems.TOASTER.get()),
@@ -124,7 +112,6 @@ public class LocalAdvancementProvider extends AdvancementProvider {
 		super(output, registries, List.of((unused, innerOutput) -> {
 			innerOutput.accept(enter);
 			innerOutput.accept(leave);
-			innerOutput.accept(leaveOther);
 			innerOutput.accept(toast);
 			innerOutput.accept(pylon);
 			innerOutput.accept(strike);

@@ -14,10 +14,9 @@ import com.google.common.collect.ImmutableList;
 import com.outurnate.sargasso.SuperSargassoSea;
 import com.outurnate.sargasso.recipe.ApplyCosmeticRecipe;
 import com.outurnate.sargasso.registry.LocalItems;
-
+import com.outurnate.sargasso.repository.LocalTags;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
@@ -28,13 +27,11 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.CookingBookCategory;
-import net.minecraft.world.item.crafting.DyeRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.NonNull;
 
@@ -53,6 +50,14 @@ public class LocalRecipeProvider extends RecipeProvider {
 		public @NonNull String getName() {
 			return "Super Sargasso Sea Recipes";
 		}
+	}
+
+	private static String getHasName(TagKey<Item> baseBlock) {
+		return "has_" + getItemName(baseBlock);
+	}
+
+	private static String getItemName(TagKey<Item> itemLike) {
+		return itemLike.location().getPath();
 	}
 
 	protected LocalRecipeProvider(Provider registries, RecipeOutput output) {
@@ -117,7 +122,7 @@ public class LocalRecipeProvider extends RecipeProvider {
 				"armored_fox_ears");
 		shapeless(RecipeCategory.FOOD, LocalItems.POTATO_BATTERY)
 				.requires(Items.POTATO)
-				.requires(Items.COPPER_NUGGET)
+				.requires(LocalItems.LOOSE_WIRE.get())
 				.requires(LocalItems.QUARTER.get())
 				.unlockedBy(getHasName(LocalItems.QUARTER), this.has(LocalItems.QUARTER))
 				.save(this.output);
@@ -129,7 +134,7 @@ public class LocalRecipeProvider extends RecipeProvider {
 				.unlockedBy(getHasName(LocalItems.STARMETAL_INGOT), this.has(LocalItems.STARMETAL_INGOT))
 				.save(this.output);
 		oreBlasting(
-				ImmutableList.of(LocalItems.BROKEN_COG, LocalItems.LOOSE_WIRE),
+				LocalTags.COPPER_JUNK,
 				RecipeCategory.MISC,
 				CookingBookCategory.MISC,
 				Items.COPPER_NUGGET,
@@ -137,7 +142,7 @@ public class LocalRecipeProvider extends RecipeProvider {
 				100,
 				"copper_junk");
 		oreBlasting(
-				ImmutableList.of(LocalItems.RUSTED_BOLT, LocalItems.LEAKY_BUCKET),
+				LocalTags.IRON_JUNK,
 				RecipeCategory.MISC,
 				CookingBookCategory.MISC,
 				Items.IRON_NUGGET,
@@ -145,7 +150,7 @@ public class LocalRecipeProvider extends RecipeProvider {
 				100,
 				"iron_junk");
 		oreBlasting(
-				ImmutableList.of(LocalItems.CIRCUIT_BOARD, LocalItems.CLOCKSPRING),
+				LocalTags.GOLD_JUNK,
 				RecipeCategory.MISC,
 				CookingBookCategory.MISC,
 				Items.GOLD_NUGGET,
@@ -168,6 +173,13 @@ public class LocalRecipeProvider extends RecipeProvider {
 				.pattern(" I ")
 				.pattern(" I ")
 				.unlockedBy(getHasName(Items.HEAVY_CORE), this.has(Items.HEAVY_CORE))
+				.save(this.output);
+		shaped(RecipeCategory.DECORATIONS, LocalItems.PETRIFIED_FLOTSAM, 1)
+				.define('F', LocalItems.FLOTSAM)
+				.pattern("FFF")
+				.pattern("FFF")
+				.pattern("FFF")
+				.unlockedBy(getHasName(LocalItems.FLOTSAM), this.has(LocalItems.FLOTSAM))
 				.save(this.output);
 	}
 
@@ -222,6 +234,10 @@ public class LocalRecipeProvider extends RecipeProvider {
 				null);
 	}
 
+	private void oreBlasting(TagKey<Item> smeltables, RecipeCategory craftingCategory, CookingBookCategory cookingCategory, ItemLike result, float experience, int cookingTime, String group) {
+		this.oreCooking(BlastingRecipe::new, smeltables, craftingCategory, cookingCategory, result, experience, cookingTime, group, "_from_blasting");
+	}
+
 	@Override
 	protected <T extends AbstractCookingRecipe> void oreCooking(
 			AbstractCookingRecipe.@NonNull Factory<T> factory,
@@ -249,6 +265,10 @@ public class LocalRecipeProvider extends RecipeProvider {
 							this.output,
 							SuperSargassoSea.MODID + ":" + getItemName(result) + fromDesc + "_" + getItemName(item));
 		}
+	}
+
+	private <T extends AbstractCookingRecipe> void oreCooking(AbstractCookingRecipe.Factory<T> factory, TagKey<Item> smeltables, RecipeCategory craftingCategory, CookingBookCategory cookingCategory, ItemLike result, float experience, int cookingTime, String group, String fromDesc) {
+		SimpleCookingRecipeBuilder.generic(Ingredient.of(registries.getOrThrow(smeltables)), craftingCategory, cookingCategory, result, experience, cookingTime, factory).group(group).unlockedBy(getHasName(smeltables), this.has(smeltables)).save(this.output, SuperSargassoSea.MODID + ":" + getItemName(result) + fromDesc + "_" + getItemName(smeltables));
 	}
 
 	private void studdedLeatherSmithing(Item base, RecipeCategory category, Item result) {

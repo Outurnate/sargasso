@@ -11,24 +11,7 @@
 package com.outurnate.sargasso;
 
 import com.mojang.logging.LogUtils;
-import com.outurnate.sargasso.registry.LocalAttachmentTypes;
-import com.outurnate.sargasso.registry.LocalBlockEntities;
-import com.outurnate.sargasso.registry.LocalBlocks;
-import com.outurnate.sargasso.registry.LocalConsumeEffects;
-import com.outurnate.sargasso.registry.LocalCreativeTabs;
-import com.outurnate.sargasso.registry.LocalDataComponentTypes;
-import com.outurnate.sargasso.registry.LocalEntities;
-import com.outurnate.sargasso.registry.LocalEntityDataSerializers;
-import com.outurnate.sargasso.registry.LocalFeatures;
-import com.outurnate.sargasso.registry.LocalItems;
-import com.outurnate.sargasso.registry.LocalLootItemFunctions;
-import com.outurnate.sargasso.registry.LocalMobEffects;
-import com.outurnate.sargasso.registry.LocalParticleTypes;
-import com.outurnate.sargasso.registry.LocalPoiTypes;
-import com.outurnate.sargasso.registry.LocalPotions;
-import com.outurnate.sargasso.registry.LocalRecipeSerializers;
-import com.outurnate.sargasso.registry.LocalSoundEvents;
-import com.outurnate.sargasso.registry.LocalVillagerProfessions;
+import com.outurnate.sargasso.registry.*;
 
 import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
@@ -67,5 +50,6 @@ public class SuperSargassoSea {
 		LocalVillagerProfessions.register(modEventBus);
 		LocalPoiTypes.register(modEventBus);
 		LocalEntityDataSerializers.register(modEventBus);
+		LocalBookPageTypes.register(modEventBus);
 	}
 }

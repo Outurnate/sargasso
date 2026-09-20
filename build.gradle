@@ -108,6 +108,7 @@ dependencies {
 	datagenImplementation 'nl.siegmann.epublib:epublib-core:3.1'
 	datagenImplementation "maven.modrinth:modonomicon:${minecraft_version}-${modonomicon_version}"
 	implementation "maven.modrinth:modonomicon:${minecraft_version}-${modonomicon_version}"
+	clientImplementation "maven.modrinth:modonomicon:${minecraft_version}-${modonomicon_version}"
 	datagenImplementation "maven.modrinth:fusion-connected-textures:${fusion_version}-neoforge-mc26.1"
 	implementation "maven.modrinth:fusion-connected-textures:${fusion_version}-neoforge-mc26.1"
 	clientImplementation "maven.modrinth:iris:1.11.3+26.1-neoforge"

@@ -59,33 +59,36 @@ public class LocalPotions {
 
 	@SubscribeEvent
 	public static void buildContents(BuildCreativeModeTabContentsEvent event) {
-		movePotion(event, HEAD_EXPLOSION);
-		movePotion(event, LONG_HEAD_EXPLOSION);
-		movePotion(event, STRONG_HEAD_EXPLOSION);
-		movePotion(event, EXTRA_STRONG_HEAD_EXPLOSION);
+		movePotion(event, HEAD_EXPLOSION, LONG_HEAD_EXPLOSION, STRONG_HEAD_EXPLOSION, EXTRA_STRONG_HEAD_EXPLOSION);
 	}
 
-	private static void movePotion(BuildCreativeModeTabContentsEvent event, Holder<Potion> potion) {
+	private static void movePotion(BuildCreativeModeTabContentsEvent event, Holder<Potion>... potions) {
 		if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-			event.remove(
-					PotionContents.createItemStack(Items.POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
-			event.remove(
-					PotionContents.createItemStack(Items.SPLASH_POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
-			event.remove(
-					PotionContents.createItemStack(Items.LINGERING_POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
+			for (Holder<Potion> potion : potions) {
+				event.remove(PotionContents.createItemStack(Items.POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.remove(PotionContents.createItemStack(Items.SPLASH_POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.remove(PotionContents.createItemStack(Items.LINGERING_POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.remove(PotionContents.createItemStack(Items.TIPPED_ARROW, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
 		} else if (event.getTabKey() == LocalCreativeTabs.TAB.getKey()) {
-			event.accept(
-					PotionContents.createItemStack(Items.POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
-			event.accept(
-					PotionContents.createItemStack(Items.SPLASH_POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
-			event.accept(
-					PotionContents.createItemStack(Items.LINGERING_POTION, potion),
-					TabVisibility.PARENT_AND_SEARCH_TABS);
+			for (Holder<Potion> potion : potions) {
+				event.accept(PotionContents.createItemStack(Items.POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.accept(PotionContents.createItemStack(Items.SPLASH_POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.accept(PotionContents.createItemStack(Items.LINGERING_POTION, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
+			for (Holder<Potion> potion : potions) {
+				event.accept(PotionContents.createItemStack(Items.TIPPED_ARROW, potion), TabVisibility.PARENT_AND_SEARCH_TABS);
+			}
 		}
 	}
 

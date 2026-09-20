@@ -146,5 +146,14 @@ public class LocalItemTagsProvider extends ItemTagsProvider {
 				.addTag(ItemTags.TRIDENT_ENCHANTABLE)
 				.add(LocalItems.HAMMER.get())
 				.replace(false);
+		this.tag(LocalTags.COPPER_JUNK)
+				.add(LocalItems.BROKEN_COG.get())
+				.add(LocalItems.LOOSE_WIRE.get());
+		this.tag(LocalTags.IRON_JUNK)
+				.add(LocalItems.RUSTED_BOLT.get())
+				.add(LocalItems.LEAKY_BUCKET.get());
+		this.tag(LocalTags.GOLD_JUNK)
+				.add(LocalItems.CIRCUIT_BOARD.get())
+				.add(LocalItems.CLOCKSPRING.get());
 	}
 }

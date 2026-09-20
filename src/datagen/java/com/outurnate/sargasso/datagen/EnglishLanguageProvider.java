@@ -168,7 +168,7 @@ public class EnglishLanguageProvider extends AbstractModonomiconLanguageProvider
 				LocalItems.STUDDED_LEATHER_UPGRADE_SMITHING_TEMPLATE,
 				"Studded Leather Upgrade Smithing Template");
 		this.addItem(LocalItems.AA_BATTERY, "Durable AA Battery Cell");
-		this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargable Durable AA Battery Cell");
+		this.addItem(LocalItems.RECHARGABLE_AA_BATTERY, "Rechargeable Durable AA Battery Cell");
 		this.addItem(LocalItems.REDSTONE_EMP, "Redstone Pulse Device");
 		this.addItem(LocalItems.FOX_EARS, "Fox Ears");
 		this.addItem(LocalItems.COMICALLY_TALL_FOX_EARS, "Comically Tall Fox Ears");

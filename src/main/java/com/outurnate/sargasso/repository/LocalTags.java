@@ -27,6 +27,12 @@ public class LocalTags {
 			.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "foods/bread"));
 	public static final TagKey<Item> EQUIPMENT = TagKey
 			.create(Registries.ITEM, SuperSargassoSea.ID("equipment"));
+	public static final TagKey<Item> COPPER_JUNK = TagKey
+			.create(Registries.ITEM, SuperSargassoSea.ID("copper_junk"));
+	public static final TagKey<Item> IRON_JUNK = TagKey
+			.create(Registries.ITEM, SuperSargassoSea.ID("iron_junk"));
+	public static final TagKey<Item> GOLD_JUNK = TagKey
+			.create(Registries.ITEM, SuperSargassoSea.ID("gold_junk"));
 	public static final TagKey<Biome> LOST_EQUIPMENT = TagKey
 			.create(Registries.BIOME, SuperSargassoSea.ID("lost_equipment"));
 	public static final TagKey<Biome> LOST_BLOCKS = TagKey
